@@ -1,609 +1,671 @@
-import sys
+# formulation.py
+# Modern Formulation Management Module
+
 from datetime import datetime
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-                             QPushButton, QTabWidget, QTableWidget, QTableWidgetItem,
-                             QHeaderView, QDateEdit, QAbstractItemView, QFrame,
-                             QComboBox, QTextEdit, QMessageBox, QFormLayout, QGroupBox,
-                             QGridLayout, QSpacerItem, QSizePolicy)
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
+                             QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
+                             QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QSpinBox,
+                             QDoubleSpinBox, QGridLayout, QGroupBox, QScrollArea, QFormLayout)
 from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtGui import QFont, QColor
-from sqlalchemy import text
+import qtawesome as fa
 
 
 class FormulationManagementPage(QWidget):
-    """Main formulation management page with two tabs."""
-
     def __init__(self, engine, username, log_audit_trail):
         super().__init__()
         self.engine = engine
         self.username = username
         self.log_audit_trail = log_audit_trail
-        self.current_date = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
-        self.formulation_data = []
-        self.detailed_data = {}
+        self.current_formulation_id = None
+        self.sample_formulations = [
+            ("0017080", "-", "OCTAPLAS INDUSTRIAL SERVICES", "II)YA17320E", "RED", 100.0, 1.0, "Admin"),
+            ("0017079", "-", "CRONICS, INC.", "YA17830E", "YELLOW", 100.0, 2.0, "Admin"),
+            ("0017078", "-", "MAGNATE FOOD AND DRINKS", "GA17829E", "GREEN", 100.0, 1.5, "Admin"),
+            ("0017077", "-", "SAN MIGUEL YAMAMURA PACKAGING", "BA17372E", "BLUE", 100.0, 2.0, "Admin"),
+        ]
+        self.sample_details = {
+            "0017080": [("W8", 8.0), ("Y121", 5.0), ("O51", 0.5), ("L37", 5.0), ("L28", 5.0), ("K907", 41.5), ("HIPS(POWDER)", 35.0)],
+            "0017079": [("A1", 10.0), ("B2", 15.0), ("C3", 20.0)],
+            "0017078": [("X1", 12.0), ("Y2", 18.0)],
+            "0017077": [("Z1", 25.0), ("Z2", 30.0)],
+        }
+        self.customers = ["OCTAPLAS INDUSTRIAL SERVICES", "CRONICS, INC.", "MAGNATE FOOD AND DRINKS", "SAN MIGUEL YAMAMURA PACKAGING"]
         self.setup_ui()
+        self.load_customers()
+        self.refresh_page()
 
     def setup_ui(self):
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
+        main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
         # Tab Widget
         self.tab_widget = QTabWidget()
-        self.tab_widget.setTabPosition(QTabWidget.TabPosition.North)
+        self.tab_widget.setObjectName("MainTabWidget")
 
         # Tab 1: Formulation Records
-        self.records_tab = FormulationRecordsTab(self.engine, self.username, self.log_audit_trail)
+        self.records_tab = self.create_records_tab()
         self.tab_widget.addTab(self.records_tab, "Formulation Records")
 
         # Tab 2: Formulation Entry
-        self.entry_tab = FormulationEntryTab(self.engine, self.username, self.log_audit_trail)
+        self.entry_tab = self.create_entry_tab()
         self.tab_widget.addTab(self.entry_tab, "Formulation Entry")
 
-        layout.addWidget(self.tab_widget)
+        main_layout.addWidget(self.tab_widget)
 
-    def refresh_page(self):
-        """Called when page is shown."""
-        current_index = self.tab_widget.currentIndex()
-        if current_index == 0:
-            self.records_tab.load_formulation_data()
-        elif current_index == 1:
-            self.entry_tab.refresh_data()
-
-
-class FormulationRecordsTab(QWidget):
-    """Tab for viewing formulation records."""
-
-    def __init__(self, engine, username, log_audit_trail):
-        super().__init__()
-        self.engine = engine
-        self.username = username
-        self.log_audit_trail = log_audit_trail
-        self.setup_ui()
-        self.load_formulation_data()
-
-    def setup_ui(self):
-        layout = QVBoxLayout(self)
+    def create_records_tab(self):
+        """Create the formulation records viewing tab."""
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(15)
 
-        # Search Card
-        search_card = self.create_search_card()
-        layout.addWidget(search_card)
+        # Header Card
+        header_card = QFrame()
+        header_card.setObjectName("HeaderCard")
+        header_layout = QHBoxLayout(header_card)
+        header_layout.setContentsMargins(20, 15, 20, 15)
 
-        # Main Formulation Table
-        form_card = self.create_formulation_table()
-        layout.addWidget(form_card, stretch=1)
+        self.selected_formulation_label = QLabel("INDEX REF. - FORMULATION NO.: No Selection")
+        self.selected_formulation_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
+        self.selected_formulation_label.setStyleSheet("color: #0078d4;")
+        header_layout.addWidget(self.selected_formulation_label)
 
-        # Detail Table
-        detail_card = self.create_detail_table()
-        layout.addWidget(detail_card, stretch=1)
+        header_layout.addStretch()
 
-        # Bottom Controls
-        controls = self.create_bottom_controls()
-        layout.addWidget(controls)
+        self.search_input = QLineEdit()
+        self.search_input.setPlaceholderText("Search formulations...")
+        self.search_input.setFixedWidth(250)
+        self.search_input.textChanged.connect(self.filter_formulations)
+        header_layout.addWidget(self.search_input)
 
-    def create_search_card(self):
-        card = QFrame()
-        card.setFrameShape(QFrame.Shape.StyledPanel)
-        layout = QHBoxLayout(card)
-        layout.setContentsMargins(15, 12, 15, 12)
+        search_btn = QPushButton("Search", objectName="PrimaryButton")
+        search_btn.setIcon(fa.icon('fa5s.search', color='white'))
+        search_btn.clicked.connect(self.filter_formulations)
+        header_layout.addWidget(search_btn)
 
-        # Index reference display
-        ref_label = QLabel("INDEX REF. - FORMULATION NO.:")
-        ref_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
-        layout.addWidget(ref_label)
+        layout.addWidget(header_card)
 
-        self.index_ref_value = QLabel("No Formulation Selected")
-        self.index_ref_value.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
-        self.index_ref_value.setStyleSheet("color: #0078d4;")
-        layout.addWidget(self.index_ref_value)
+        # Formulation Records Table
+        records_card = QFrame()
+        records_card.setObjectName("ContentCard")
+        records_layout = QVBoxLayout(records_card)
+        records_layout.setContentsMargins(20, 20, 20, 20)
 
-        layout.addStretch()
-
-        # Search field
-        self.search_edit = QLineEdit()
-        self.search_edit.setPlaceholderText("🔍 Search by Product Code, Customer, or Lot")
-        self.search_edit.setFixedWidth(300)
-        self.search_edit.returnPressed.connect(self.search_formulations)
-        layout.addWidget(self.search_edit)
-
-        search_btn = QPushButton("SEARCH", objectName="PrimaryButton")
-        search_btn.clicked.connect(self.search_formulations)
-        layout.addWidget(search_btn)
-
-        return card
-
-    def create_formulation_table(self):
-        card = QFrame()
-        card.setFrameShape(QFrame.Shape.StyledPanel)
-        layout = QVBoxLayout(card)
-        layout.setContentsMargins(15, 15, 15, 15)
-
-        header = QLabel("Formulation Records")
-        header.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
-        layout.addWidget(header)
+        table_label = QLabel("Formulation Records")
+        table_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        records_layout.addWidget(table_label)
 
         self.formulation_table = QTableWidget()
-        self.formulation_table.setColumnCount(7)
+        self.formulation_table.setColumnCount(8)
         self.formulation_table.setHorizontalHeaderLabels([
-            "SEQ. ID", "INDEX NO.", "CUSTOMER", "PRODUCT CODE",
-            "PRODUCT COLOR", "TOTAL CONS.", "DOSAGE"
+            "ID", "Index Ref", "Customer", "Product Code", "Product Color",
+            "Total Conc.", "Dosage", "Encoded By"
         ])
-
         self.formulation_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.formulation_table.verticalHeader().setVisible(False)
         self.formulation_table.setAlternatingRowColors(True)
         self.formulation_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.formulation_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
-        self.formulation_table.itemSelectionChanged.connect(self.on_selection_changed)
+        self.formulation_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.formulation_table.itemSelectionChanged.connect(self.on_formulation_selected)
+        records_layout.addWidget(self.formulation_table)
 
-        layout.addWidget(self.formulation_table)
-        return card
+        layout.addWidget(records_card)
 
-    def create_detail_table(self):
-        card = QFrame()
-        card.setFrameShape(QFrame.Shape.StyledPanel)
-        layout = QVBoxLayout(card)
-        layout.setContentsMargins(15, 15, 15, 15)
+        # Details Table
+        details_card = QFrame()
+        details_card.setObjectName("ContentCard")
+        details_layout = QVBoxLayout(details_card)
+        details_layout.setContentsMargins(20, 20, 20, 20)
 
-        header = QLabel("Formulation Details")
-        header.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
-        layout.addWidget(header)
+        details_label = QLabel("Formulation Details")
+        details_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        details_layout.addWidget(details_label)
 
-        self.detail_table = QTableWidget()
-        self.detail_table.setColumnCount(3)
-        self.detail_table.setHorizontalHeaderLabels(["MATERIAL CODE", "CONCENTRATION", ""])
+        self.details_table = QTableWidget()
+        self.details_table.setColumnCount(2)
+        self.details_table.setHorizontalHeaderLabels(["Material Code", "Concentration"])
+        self.details_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.details_table.verticalHeader().setVisible(False)
+        self.details_table.setAlternatingRowColors(True)
+        self.details_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        details_layout.addWidget(self.details_table)
 
-        self.detail_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.detail_table.verticalHeader().setVisible(False)
-        self.detail_table.setAlternatingRowColors(True)
+        layout.addWidget(details_card)
 
-        layout.addWidget(self.detail_table)
-        return card
+        # Bottom Controls
+        controls_layout = QHBoxLayout()
 
-    def create_bottom_controls(self):
-        panel = QFrame()
-        panel.setFrameShape(QFrame.Shape.StyledPanel)
-        layout = QHBoxLayout(panel)
-        layout.setContentsMargins(15, 10, 15, 10)
+        date_from_label = QLabel("Date From:")
+        controls_layout.addWidget(date_from_label)
+        self.date_from_filter = QDateEdit()
+        self.date_from_filter.setCalendarPopup(True)
+        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
+        controls_layout.addWidget(self.date_from_filter)
 
-        # Date filters
-        layout.addWidget(QLabel("DATE FROM:"))
-        self.date_from = QDateEdit()
-        self.date_from.setCalendarPopup(True)
-        self.date_from.setDate(QDate.currentDate().addMonths(-1))
-        layout.addWidget(self.date_from)
+        date_to_label = QLabel("Date To:")
+        controls_layout.addWidget(date_to_label)
+        self.date_to_filter = QDateEdit()
+        self.date_to_filter.setCalendarPopup(True)
+        self.date_to_filter.setDate(QDate.currentDate())
+        controls_layout.addWidget(self.date_to_filter)
 
-        layout.addWidget(QLabel("DATE TO:"))
-        self.date_to = QDateEdit()
-        self.date_to.setCalendarPopup(True)
-        self.date_to.setDate(QDate.currentDate())
-        layout.addWidget(self.date_to)
+        controls_layout.addStretch()
 
-        export_btn = QPushButton("EXPORT")
-        export_btn.clicked.connect(self.export_data)
-        layout.addWidget(export_btn)
+        refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
+        refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
+        refresh_btn.clicked.connect(self.refresh_formulations)
+        controls_layout.addWidget(refresh_btn)
 
-        layout.addStretch()
+        view_btn = QPushButton("View Details", objectName="PrimaryButton")
+        view_btn.setIcon(fa.icon('fa5s.eye', color='white'))
+        view_btn.clicked.connect(self.view_formulation_details)
+        controls_layout.addWidget(view_btn)
 
-        refresh_btn = QPushButton("REFRESH")
-        refresh_btn.clicked.connect(self.load_formulation_data)
-        layout.addWidget(refresh_btn)
+        edit_btn = QPushButton("Edit", objectName="SecondaryButton")
+        edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
+        edit_btn.clicked.connect(self.edit_formulation)
+        controls_layout.addWidget(edit_btn)
 
-        view_btn = QPushButton("VIEW", objectName="PrimaryButton")
-        view_btn.clicked.connect(self.view_formulation)
-        layout.addWidget(view_btn)
+        layout.addLayout(controls_layout)
 
-        return panel
+        return tab
 
-    def load_formulation_data(self):
-        """Load formulation data from database."""
-        try:
-            with self.engine.connect() as conn:
-                # Load main formulation records
-                query = text("""
-                    SELECT seq_id, index_no, customer, product_code, 
-                           product_color, total_concentration, dosage
-                    FROM formulation_records
-                    ORDER BY seq_id DESC
-                    LIMIT 100
-                """)
-                result = conn.execute(query)
-                rows = result.fetchall()
-
-                self.formulation_table.setRowCount(len(rows))
-                for row_idx, row in enumerate(rows):
-                    for col_idx, value in enumerate(row):
-                        item = QTableWidgetItem(str(value) if value is not None else "")
-                        self.formulation_table.setItem(row_idx, col_idx, item)
-
-        except Exception as e:
-            QMessageBox.warning(self, "Database Error", f"Could not load formulations: {e}")
-
-    def on_selection_changed(self):
-        """Update detail table when selection changes."""
-        selected_rows = self.formulation_table.selectionModel().selectedRows()
-        if not selected_rows:
-            self.detail_table.setRowCount(0)
-            self.index_ref_value.setText("No Formulation Selected")
-            return
-
-        row_idx = selected_rows[0].row()
-        seq_id = self.formulation_table.item(row_idx, 0).text()
-        index_no = self.formulation_table.item(row_idx, 1).text()
-        customer = self.formulation_table.item(row_idx, 2).text()
-
-        self.index_ref_value.setText(f"{index_no} - {customer}")
-        self.load_formulation_details(seq_id)
-
-    def load_formulation_details(self, seq_id):
-        """Load detail records for selected formulation."""
-        try:
-            with self.engine.connect() as conn:
-                query = text("""
-                    SELECT material_code, concentration
-                    FROM formulation_details
-                    WHERE formulation_seq_id = :seq_id
-                    ORDER BY id
-                """)
-                result = conn.execute(query, {"seq_id": seq_id})
-                rows = result.fetchall()
-
-                self.detail_table.setRowCount(len(rows))
-                for row_idx, row in enumerate(rows):
-                    for col_idx, value in enumerate(row):
-                        item = QTableWidgetItem(str(value) if value is not None else "")
-                        self.detail_table.setItem(row_idx, col_idx, item)
-                    # Empty third column
-                    self.detail_table.setItem(row_idx, 2, QTableWidgetItem(""))
-
-        except Exception as e:
-            QMessageBox.warning(self, "Database Error", f"Could not load details: {e}")
-
-    def search_formulations(self):
-        """Search formulations based on search text."""
-        search_text = self.search_edit.text().strip()
-        if not search_text:
-            self.load_formulation_data()
-            return
-
-        # Filter existing rows
-        for row in range(self.formulation_table.rowCount()):
-            match = False
-            for col in range(self.formulation_table.columnCount()):
-                item = self.formulation_table.item(row, col)
-                if item and search_text.lower() in item.text().lower():
-                    match = True
-                    break
-            self.formulation_table.setRowHidden(row, not match)
-
-    def view_formulation(self):
-        """View selected formulation details."""
-        selected_rows = self.formulation_table.selectionModel().selectedRows()
-        if not selected_rows:
-            QMessageBox.warning(self, "No Selection", "Please select a formulation to view.")
-            return
-
-        row_idx = selected_rows[0].row()
-        product_code = self.formulation_table.item(row_idx, 3).text()
-        QMessageBox.information(self, "View", f"Viewing formulation: {product_code}")
-
-    def export_data(self):
-        """Export formulation data."""
-        QMessageBox.information(self, "Export", "Export functionality will be implemented.")
-
-
-class FormulationEntryTab(QWidget):
-    """Tab for creating/editing formulation entries."""
-
-    def __init__(self, engine, username, log_audit_trail):
-        super().__init__()
-        self.engine = engine
-        self.username = username
-        self.log_audit_trail = log_audit_trail
-        self.current_date = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
-        self.setup_ui()
-
-    def setup_ui(self):
-        main_layout = QVBoxLayout(self)
+    def create_entry_tab(self):
+        """Create the formulation entry/edit tab with modern design."""
+        tab = QWidget()
+        main_layout = QVBoxLayout(tab)
         main_layout.setContentsMargins(20, 20, 20, 20)
         main_layout.setSpacing(15)
 
-        # Scrollable content
-        scroll_content = QWidget()
-        content_layout = QHBoxLayout(scroll_content)
-        content_layout.setSpacing(20)
+        # Scroll area for the form
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
 
-        # Left Panel
-        left_panel = self.create_left_panel()
-        content_layout.addWidget(left_panel, stretch=1)
+        scroll_widget = QWidget()
+        scroll_layout = QHBoxLayout(scroll_widget)
+        scroll_layout.setSpacing(20)
 
-        # Right Panel
-        right_panel = self.create_right_panel()
-        content_layout.addWidget(right_panel, stretch=1)
+        # Left Column
+        left_column = QVBoxLayout()
+        left_column.setSpacing(15)
 
-        main_layout.addWidget(scroll_content)
+        # Customer and Primary ID Info Card
+        customer_card = QGroupBox("Customer and Primary ID Info")
+        customer_layout = QFormLayout(customer_card)
+        customer_layout.setSpacing(12)
+        customer_layout.setContentsMargins(20, 25, 20, 20)
 
-    def create_left_panel(self):
-        """Create left panel with customer and formulation info."""
-        panel = QGroupBox("Customer and Primary ID Info")
-        layout = QFormLayout(panel)
-        layout.setSpacing(10)
-        layout.setContentsMargins(15, 20, 15, 15)
+        # Formulation ID
+        self.formulation_id_input = QLineEdit()
+        self.formulation_id_input.setPlaceholderText("Auto-generated")
+        customer_layout.addRow("Formulation ID:", self.formulation_id_input)
 
-        # Formulation ID (highlighted)
-        self.formulation_id = QLineEdit("0017080")
-        self.formulation_id.setStyleSheet("background-color: #fff9c4; font-weight: bold;")
-        layout.addRow("FORMULATION ID:", self.formulation_id)
+        # Customer Name
+        self.customer_input = QLineEdit()
+        customer_layout.addRow("Customer:", self.customer_input)
 
-        # Customer
-        self.customer_combo = QComboBox()
-        self.customer_combo.addItems([
-            "OCTAPLAS INDUSTRIAL SERVICES",
-            "CRONICS, INC.",
-            "MAGNATE FOOD AND DRINKS",
-            "SAN MIGUEL YAMAMURA PACKAGING"
-        ])
-        layout.addRow("CUSTOMER:", self.customer_combo)
+        left_column.addWidget(customer_card)
+
+        # Formulation Info Card
+        formula_card = QGroupBox("Formulation Info")
+        formula_layout = QFormLayout(formula_card)
+        formula_layout.setSpacing(12)
+        formula_layout.setContentsMargins(20, 25, 20, 20)
 
         # Index Ref No
-        self.index_ref = QLineEdit("-")
-        layout.addRow("INDEX REF. NO.:", self.index_ref)
+        self.index_ref_input = QLineEdit()
+        self.index_ref_input.setPlaceholderText("-")
+        formula_layout.addRow("Index Ref. No.:", self.index_ref_input)
 
-        # Product Code and Color
-        prod_layout = QHBoxLayout()
-        self.product_code = QLineEdit()
-        self.product_color = QLineEdit()
-        prod_layout.addWidget(QLabel("Product Code:"))
-        prod_layout.addWidget(self.product_code)
-        prod_layout.addWidget(QLabel("Color:"))
-        prod_layout.addWidget(self.product_color)
-        layout.addRow("", prod_layout)
+        # Product Code and Color (side by side)
+        product_layout = QHBoxLayout()
+        product_layout.setSpacing(10)
+        self.product_code_input = QLineEdit()
+        self.product_code_input.setPlaceholderText("Product code")
+        self.product_color_input = QLineEdit()
+        self.product_color_input.setPlaceholderText("Product color")
+        product_layout.addWidget(QLabel("Code:"))
+        product_layout.addWidget(self.product_code_input)
+        product_layout.addWidget(QLabel("Color:"))
+        product_layout.addWidget(self.product_color_input)
+        formula_layout.addRow("Product:", product_layout)
 
-        # Formulation Info Group
-        form_info = QGroupBox("Formulation Info")
-        form_layout = QFormLayout(form_info)
-        form_layout.setSpacing(8)
+        # Sum of Concentration
+        self.sum_conc_input = QLineEdit()
+        self.sum_conc_input.setReadOnly(True)
+        self.sum_conc_input.setStyleSheet("background-color: #e9ecef;")
+        self.sum_conc_input.setText("0.000000")
+        formula_layout.addRow("Sum of Concentration:", self.sum_conc_input)
 
-        self.dosage = QLineEdit("0.000000")
-        self.dosage.setStyleSheet("background-color: #fff9c4;")
-        form_layout.addRow("DOSAGE:", self.dosage)
+        # Dosage
+        self.dosage_input = QLineEdit()
+        self.dosage_input.setStyleSheet("background-color: #fff9c4;")
+        self.dosage_input.setText("0.000000")
+        formula_layout.addRow("Dosage:", self.dosage_input)
 
+        # Mixing Time
         mixing_layout = QHBoxLayout()
-        self.mixing_time = QLineEdit("5")
-        mixing_layout.addWidget(self.mixing_time)
-        mixing_layout.addWidget(QLabel("min"))
-        form_layout.addRow("MIXING TIME:", mixing_layout)
+        self.mixing_time_input = QSpinBox()
+        self.mixing_time_input.setMaximum(9999)
+        self.mixing_time_input.setValue(5)
+        mixing_layout.addWidget(self.mixing_time_input)
+        mixing_layout.addWidget(QLabel("minutes"))
+        mixing_layout.addStretch()
+        formula_layout.addRow("Mixing Time:", mixing_layout)
 
-        self.resin_used = QLineEdit()
-        form_layout.addRow("RESIN USED:", self.resin_used)
+        # Resin Used
+        self.resin_used_input = QLineEdit()
+        self.resin_used_input.setPlaceholderText("Enter resin type")
+        formula_layout.addRow("Resin Used:", self.resin_used_input)
 
-        self.application_no = QLineEdit()
-        form_layout.addRow("APPLICATION NO.:", self.application_no)
+        # Application No
+        self.application_no_input = QLineEdit()
+        self.application_no_input.setPlaceholderText("Application number")
+        formula_layout.addRow("Application No.:", self.application_no_input)
 
-        # Match Date
-        match_layout = QHBoxLayout()
-        self.match_date1 = QLineEdit("/")
-        self.match_date2 = QLineEdit("/")
-        match_layout.addWidget(self.match_date1)
-        match_layout.addWidget(self.match_date2)
-        form_layout.addRow("MATCH DATE:", match_layout)
+        # Matching No
+        self.matching_no_input = QLineEdit()
+        self.matching_no_input.setPlaceholderText("Matching number")
+        formula_layout.addRow("Matching No.:", self.matching_no_input)
 
-        layout.addRow(form_info)
+        # Date Matched
+        self.date_matched_input = QLineEdit()
+        self.date_matched_input.setPlaceholderText("MM/DD/YYYY")
+        formula_layout.addRow("Date Matched:", self.date_matched_input)
 
         # Notes
-        self.notes = QTextEdit()
-        self.notes.setMaximumHeight(80)
-        self.notes.setPlaceholderText("Enter any notes here...")
-        layout.addRow("NOTES:", self.notes)
+        self.notes_input = QTextEdit()
+        self.notes_input.setMaximumHeight(80)
+        self.notes_input.setPlaceholderText("Enter any additional notes...")
+        formula_layout.addRow("Notes:", self.notes_input)
 
-        return panel
+        # MB or DC
+        self.mb_dc_combo = QComboBox()
+        self.mb_dc_combo.addItems(["MB", "DC"])
+        formula_layout.addRow("MB or DC:", self.mb_dc_combo)
 
-    def create_right_panel(self):
-        """Create right panel with material composition."""
-        panel = QGroupBox("Material Composition")
-        layout = QVBoxLayout(panel)
-        layout.setContentsMargins(15, 20, 15, 15)
-        layout.setSpacing(10)
+        left_column.addWidget(formula_card)
+        left_column.addStretch()
 
-        # Matched by and concentration
-        top_row = QHBoxLayout()
-        top_row.addWidget(QLabel("Matched by:"))
-        self.matched_by = QComboBox()
-        self.matched_by.addItem("Material Code")
-        top_row.addWidget(self.matched_by)
-        top_row.addWidget(QLabel("Concentration:"))
-        self.concentration = QLineEdit("0.000000")
-        top_row.addWidget(self.concentration)
-        layout.addLayout(top_row)
+        scroll_layout.addLayout(left_column, stretch=1)
 
-        # Encoded by
-        encoded_row = QHBoxLayout()
-        encoded_row.addWidget(QLabel("Encoded by:"))
-        self.encoded_by = QLineEdit(self.username)
-        self.encoded_by.setReadOnly(True)
-        encoded_row.addWidget(self.encoded_by)
-        layout.addLayout(encoded_row)
+        # Right Column
+        right_column = QVBoxLayout()
+        right_column.setSpacing(15)
 
-        # Action buttons
-        btn_row = QHBoxLayout()
-        btn_row.addStretch()
-        add_btn = QPushButton("ADD", objectName="PrimaryButton")
-        add_btn.clicked.connect(self.add_material)
-        remove_btn = QPushButton("REMOVE")
-        remove_btn.clicked.connect(self.remove_material)
-        clear_btn = QPushButton("CLEAR")
-        clear_btn.clicked.connect(self.clear_materials)
-        btn_row.addWidget(add_btn)
-        btn_row.addWidget(remove_btn)
-        btn_row.addWidget(clear_btn)
-        layout.addLayout(btn_row)
+        # Material Composition Card
+        material_card = QGroupBox("Material Composition")
+        material_layout = QVBoxLayout(material_card)
+        material_layout.setContentsMargins(20, 25, 20, 20)
+        material_layout.setSpacing(12)
 
-        # Materials table
+        # Matched By Input
+        matched_by_layout = QHBoxLayout()
+        matched_by_layout.addWidget(QLabel("Matched by:"))
+        self.matched_by_input = QLineEdit()
+        matched_by_layout.addWidget(self.matched_by_input)
+        material_layout.addLayout(matched_by_layout)
+
+        # Material Code Input
+        material_input_layout = QHBoxLayout()
+        material_input_layout.addWidget(QLabel("Material Code:"))
+        self.material_code_input = QLineEdit()
+        self.material_code_input.setPlaceholderText("Enter material code")
+        material_input_layout.addWidget(self.material_code_input)
+        material_layout.addLayout(material_input_layout)
+
+        # Concentration Input
+        conc_input_layout = QHBoxLayout()
+        conc_input_layout.addWidget(QLabel("Concentration:"))
+        self.concentration_input = QLineEdit()
+        self.concentration_input.setPlaceholderText("0.000000")
+        conc_input_layout.addWidget(self.concentration_input)
+        material_layout.addLayout(conc_input_layout)
+
+        # Encoded By
+        encoded_layout = QHBoxLayout()
+        encoded_layout.addWidget(QLabel("Encoded by:"))
+        self.encoded_by_display = QLineEdit()
+        self.encoded_by_display.setReadOnly(True)
+        self.encoded_by_display.setText(self.username)
+        self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
+        encoded_layout.addWidget(self.encoded_by_display)
+        material_layout.addLayout(encoded_layout)
+
+        # Action Buttons
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+
+        add_material_btn = QPushButton("Add", objectName="PrimaryButton")
+        add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
+        add_material_btn.clicked.connect(self.add_material_row)
+        btn_layout.addWidget(add_material_btn)
+
+        remove_material_btn = QPushButton("Remove", objectName="SecondaryButton")
+        remove_material_btn.setIcon(fa.icon('fa5s.minus', color='white'))
+        remove_material_btn.clicked.connect(self.remove_material_row)
+        btn_layout.addWidget(remove_material_btn)
+
+        clear_materials_btn = QPushButton("Clear", objectName="SecondaryButton")
+        clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
+        clear_materials_btn.clicked.connect(self.clear_materials)
+        btn_layout.addWidget(clear_materials_btn)
+
+        material_layout.addLayout(btn_layout)
+
+        # Materials Table
         self.materials_table = QTableWidget()
-        self.materials_table.setRowCount(0)
         self.materials_table.setColumnCount(2)
-        self.materials_table.setHorizontalHeaderLabels(["MATERIAL CODE", "CONCENTRATION"])
+        self.materials_table.setHorizontalHeaderLabels(["Material Code", "Concentration"])
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
-        self.materials_table.setMinimumHeight(200)
-        layout.addWidget(self.materials_table)
+        self.materials_table.setMinimumHeight(250)
+        material_layout.addWidget(self.materials_table)
 
-        # Total sum
-        sum_row = QHBoxLayout()
-        sum_row.addStretch()
-        self.total_sum = QLabel("TOTAL SUM OF CONCENTRATION: 0.000000")
-        self.total_sum.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
-        self.total_sum.setStyleSheet("color: #0078d4;")
-        sum_row.addWidget(self.total_sum)
-        layout.addLayout(sum_row)
+        # Total concentration display
+        total_layout = QHBoxLayout()
+        total_layout.addStretch()
+        self.total_concentration_label = QLabel("Total Concentration: 0.000000")
+        self.total_concentration_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
+        self.total_concentration_label.setStyleSheet("color: #0078d4;")
+        total_layout.addWidget(self.total_concentration_label)
+        material_layout.addLayout(total_layout)
 
-        # MB or DC
-        mb_row = QHBoxLayout()
-        mb_row.addWidget(QLabel("MB or DC:"))
-        self.mb_dc = QComboBox()
-        self.mb_dc.addItems(["MB", "DC"])
-        mb_row.addWidget(self.mb_dc)
-        mb_row.addStretch()
-        layout.addLayout(mb_row)
+        right_column.addWidget(material_card)
 
-        # HTML Color
-        html_row = QHBoxLayout()
-        html_row.addWidget(QLabel("HTML:"))
-        self.html_color = QLineEdit()
-        self.html_color.setStyleSheet("background-color: #fff9c4;")
-        self.html_color.setPlaceholderText("#RRGGBB")
-        html_row.addWidget(self.html_color)
-        layout.addLayout(html_row)
+        # Color Information Card
+        color_card = QGroupBox("Color Information")
+        color_layout = QFormLayout(color_card)
+        color_layout.setSpacing(12)
+        color_layout.setContentsMargins(20, 25, 20, 20)
 
-        # CMYK
-        cmyk_group = QGroupBox("CMYK Values")
-        cmyk_layout = QGridLayout(cmyk_group)
+        # HTML Color Code
+        self.html_input = QLineEdit()
+        self.html_input.setPlaceholderText("#FFFFFF")
+        self.html_input.setStyleSheet("background-color: #fff9c4;")
+        color_layout.addRow("HTML Color:", self.html_input)
+
+        # CMYK Values in Grid
+        cmyk_widget = QWidget()
+        cmyk_layout = QGridLayout(cmyk_widget)
+        cmyk_layout.setSpacing(10)
+        cmyk_layout.setContentsMargins(0, 0, 0, 0)
+
         cmyk_layout.addWidget(QLabel("C:"), 0, 0)
-        self.c_value = QLineEdit()
-        self.c_value.setStyleSheet("background-color: #fff9c4;")
-        cmyk_layout.addWidget(self.c_value, 0, 1)
+        self.cyan_input = QLineEdit()
+        self.cyan_input.setStyleSheet("background-color: #fff9c4;")
+        self.cyan_input.setText("0.00")
+        cmyk_layout.addWidget(self.cyan_input, 0, 1)
 
         cmyk_layout.addWidget(QLabel("M:"), 0, 2)
-        self.m_value = QLineEdit()
-        self.m_value.setStyleSheet("background-color: #fff9c4;")
-        cmyk_layout.addWidget(self.m_value, 0, 3)
+        self.magenta_input = QLineEdit()
+        self.magenta_input.setStyleSheet("background-color: #fff9c4;")
+        self.magenta_input.setText("0.00")
+        cmyk_layout.addWidget(self.magenta_input, 0, 3)
 
         cmyk_layout.addWidget(QLabel("Y:"), 1, 0)
-        self.y_value = QLineEdit()
-        self.y_value.setStyleSheet("background-color: #fff9c4;")
-        cmyk_layout.addWidget(self.y_value, 1, 1)
+        self.yellow_input = QLineEdit()
+        self.yellow_input.setStyleSheet("background-color: #fff9c4;")
+        self.yellow_input.setText("0.00")
+        cmyk_layout.addWidget(self.yellow_input, 1, 1)
 
         cmyk_layout.addWidget(QLabel("K:"), 1, 2)
-        self.k_value = QLineEdit()
-        self.k_value.setStyleSheet("background-color: #fff9c4;")
-        cmyk_layout.addWidget(self.k_value, 1, 3)
+        self.key_black_input = QLineEdit()
+        self.key_black_input.setStyleSheet("background-color: #fff9c4;")
+        self.key_black_input.setText("0.00")
+        cmyk_layout.addWidget(self.key_black_input, 1, 3)
 
-        layout.addWidget(cmyk_group)
+        color_layout.addRow("CMYK Values:", cmyk_widget)
 
-        # Updated by and date
-        update_row = QHBoxLayout()
-        update_row.addWidget(QLabel("UPDATED BY:"))
-        self.updated_by = QLineEdit(self.username)
-        self.updated_by.setReadOnly(True)
-        update_row.addWidget(self.updated_by)
-        layout.addLayout(update_row)
+        # Updated By and Date/Time
+        self.updated_by_display = QLineEdit()
+        self.updated_by_display.setReadOnly(True)
+        self.updated_by_display.setText(self.username)
+        self.updated_by_display.setStyleSheet("background-color: #e9ecef;")
+        color_layout.addRow("Updated By:", self.updated_by_display)
 
-        date_row = QHBoxLayout()
-        date_row.addWidget(QLabel("DATE AND TIME:"))
-        self.date_time = QLineEdit(self.current_date)
-        self.date_time.setReadOnly(True)
-        date_row.addWidget(self.date_time)
-        layout.addLayout(date_row)
+        self.date_time_display = QLineEdit()
+        self.date_time_display.setReadOnly(True)
+        self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+        self.date_time_display.setStyleSheet("background-color: #e9ecef;")
+        color_layout.addRow("Date and Time:", self.date_time_display)
 
-        # Bottom buttons
-        bottom_btns = QHBoxLayout()
-        bottom_btns.addStretch()
-        preview_btn = QPushButton("PREVIEW")
-        pdf_btn = QPushButton("GENERATE PDF")
-        new_btn = QPushButton("NEW")
+        right_column.addWidget(color_card)
+
+        scroll_layout.addLayout(right_column, stretch=1)
+
+        scroll.setWidget(scroll_widget)
+        main_layout.addWidget(scroll)
+
+        # Bottom Action Buttons
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+
+        preview_btn = QPushButton("Preview", objectName="SecondaryButton")
+        preview_btn.setIcon(fa.icon('fa5s.eye', color='white'))
+        preview_btn.clicked.connect(self.preview_formulation)
+        button_layout.addWidget(preview_btn)
+
+        pdf_btn = QPushButton("Generate PDF", objectName="SecondaryButton")
+        pdf_btn.setIcon(fa.icon('fa5s.file-pdf', color='white'))
+        pdf_btn.clicked.connect(self.generate_pdf)
+        button_layout.addWidget(pdf_btn)
+
+        new_btn = QPushButton("New", objectName="SecondaryButton")
+        new_btn.setIcon(fa.icon('fa5s.file', color='white'))
         new_btn.clicked.connect(self.new_formulation)
-        save_btn = QPushButton("SAVE", objectName="PrimaryButton")
+        button_layout.addWidget(new_btn)
+
+        save_btn = QPushButton("Save", objectName="PrimaryButton")
+        save_btn.setIcon(fa.icon('fa5s.save', color='white'))
         save_btn.clicked.connect(self.save_formulation)
+        button_layout.addWidget(save_btn)
 
-        bottom_btns.addWidget(preview_btn)
-        bottom_btns.addWidget(pdf_btn)
-        bottom_btns.addWidget(new_btn)
-        bottom_btns.addWidget(save_btn)
+        main_layout.addLayout(button_layout)
 
-        layout.addLayout(bottom_btns)
+        return tab
 
-        return panel
+    def load_customers(self):
+        """Load hardcoded customers."""
+        self.customer_input.setPlaceholderText("Enter customer name (e.g., OCTAPLAS INDUSTRIAL SERVICES)")
 
-    def add_material(self):
-        """Add material to the table."""
-        material_code = self.matched_by.currentText()
-        concentration = self.concentration.text()
+    def refresh_page(self):
+        """Refresh the formulation records."""
+        self.refresh_formulations()
 
-        if not concentration or float(concentration) == 0:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a valid concentration.")
+    def refresh_formulations(self):
+        """Load sample formulations."""
+        self.formulation_table.setRowCount(0)
+        for row_data in self.sample_formulations:
+            row_position = self.formulation_table.rowCount()
+            self.formulation_table.insertRow(row_position)
+            for col, data in enumerate(row_data):
+                item = QTableWidgetItem(str(data) if data is not None else "")
+                self.formulation_table.setItem(row_position, col, item)
+
+    def filter_formulations(self):
+        """Filter formulations based on search text."""
+        search_text = self.search_input.text().lower()
+        for row in range(self.formulation_table.rowCount()):
+            show_row = False
+            for col in range(self.formulation_table.columnCount()):
+                item = self.formulation_table.item(row, col)
+                if item and search_text in item.text().lower():
+                    show_row = True
+                    break
+            self.formulation_table.setRowHidden(row, not show_row)
+
+    def on_formulation_selected(self):
+        """Handle formulation selection."""
+        selected_rows = self.formulation_table.selectionModel().selectedRows()
+        if selected_rows:
+            row = selected_rows[0].row()
+            formulation_id = self.formulation_table.item(row, 0).text()
+            index_ref = self.formulation_table.item(row, 1).text()
+            customer = self.formulation_table.item(row, 2).text()
+
+            self.current_formulation_id = formulation_id
+            self.selected_formulation_label.setText(
+                f"INDEX REF. - FORMULATION NO.: {index_ref} / {formulation_id} - {customer}")
+
+            self.load_formulation_details(formulation_id)
+
+    def load_formulation_details(self, formulation_id):
+        """Load sample detailed material list for selected formulation."""
+        details = self.sample_details.get(formulation_id, [])
+        self.details_table.setRowCount(0)
+        for row_data in details:
+            row_position = self.details_table.rowCount()
+            self.details_table.insertRow(row_position)
+            for col, data in enumerate(row_data):
+                item = QTableWidgetItem(str(data) if data is not None else "")
+                self.details_table.setItem(row_position, col, item)
+
+    def view_formulation_details(self):
+        """View full details of selected formulation."""
+        if not self.current_formulation_id:
+            QMessageBox.warning(self, "No Selection", "Please select a formulation to view.")
+            return
+
+        QMessageBox.information(self, "View Details", f"Viewing formulation: {self.current_formulation_id}")
+
+    def edit_formulation(self):
+        """Load selected formulation into entry tab for editing (sample data)."""
+        if not self.current_formulation_id:
+            QMessageBox.warning(self, "No Selection", "Please select a formulation to edit.")
+            return
+
+        # Find index in sample
+        idx = next((i for i, data in enumerate(self.sample_formulations) if data[0] == self.current_formulation_id), 0)
+        fid, iref, cust, pcode, pcolor, tconc, dos, enc = self.sample_formulations[idx]
+        self.formulation_id_input.setText(fid)
+        self.customer_input.setText(cust)
+        self.index_ref_input.setText(iref)
+        self.product_code_input.setText(pcode)
+        self.product_color_input.setText(pcolor)
+        self.sum_conc_input.setText(f"{tconc:.6f}")
+        self.dosage_input.setText(f"{dos:.6f}")
+        self.mixing_time_input.setValue(5)
+        self.resin_used_input.setText("HIPS")
+        self.application_no_input.setText("APP001")
+        self.matching_no_input.setText("MATCH001")
+        self.date_matched_input.setText("10/08/2025")
+        self.notes_input.setPlainText("Sample notes for editing")
+        self.mb_dc_combo.setCurrentText("MB")
+        self.html_input.setText("#FFFF00")
+        self.cyan_input.setText("0.00")
+        self.magenta_input.setText("0.00")
+        self.yellow_input.setText("100.00")
+        self.key_black_input.setText("0.00")
+        self.matched_by_input.setText("Admin")
+
+        # Load sample materials
+        materials = self.sample_details.get(fid, [])
+        self.materials_table.setRowCount(0)
+        for material in materials:
+            row_position = self.materials_table.rowCount()
+            self.materials_table.insertRow(row_position)
+            self.materials_table.setItem(row_position, 0, QTableWidgetItem(str(material[0])))
+            self.materials_table.setItem(row_position, 1, QTableWidgetItem(f"{material[1]:.6f}"))
+        self.update_total_concentration()
+
+        # Switch to entry tab
+        self.tab_widget.setCurrentWidget(self.entry_tab)
+        QMessageBox.information(self, "Edit Mode", "Sample formulation loaded for editing.")
+
+    def add_material_row(self):
+        """Add a new material row to the table."""
+        material_code = self.material_code_input.text().strip()
+        if not material_code:
+            QMessageBox.warning(self, "Invalid Input", "Please enter a material code.")
+            return
+
+        concentration_text = self.concentration_input.text().strip()
+        try:
+            concentration = float(concentration_text)
+            if concentration <= 0:
+                raise ValueError
+        except ValueError:
+            QMessageBox.warning(self, "Invalid Input", "Please enter a valid concentration greater than 0.")
             return
 
         row = self.materials_table.rowCount()
         self.materials_table.insertRow(row)
         self.materials_table.setItem(row, 0, QTableWidgetItem(material_code))
-        self.materials_table.setItem(row, 1, QTableWidgetItem(concentration))
+        self.materials_table.setItem(row, 1, QTableWidgetItem(f"{concentration:.6f}"))
 
-        self.update_total_sum()
-        self.concentration.clear()
+        self.material_code_input.clear()
+        self.concentration_input.clear()
+        self.update_total_concentration()
 
-    def remove_material(self):
-        """Remove selected material from table."""
+    def remove_material_row(self):
+        """Remove the selected material row."""
         current_row = self.materials_table.currentRow()
         if current_row >= 0:
             self.materials_table.removeRow(current_row)
-            self.update_total_sum()
+            self.update_total_concentration()
         else:
-            QMessageBox.warning(self, "No Selection", "Please select a material to remove.")
+            QMessageBox.warning(self, "No Selection", "Please select a row to remove.")
 
     def clear_materials(self):
-        """Clear all materials."""
+        """Clear all material rows."""
         self.materials_table.setRowCount(0)
-        self.update_total_sum()
+        self.update_total_concentration()
 
-    def update_total_sum(self):
-        """Calculate and update total concentration sum."""
+    def update_total_concentration(self):
+        """Update the total concentration display."""
         total = 0.0
         for row in range(self.materials_table.rowCount()):
             item = self.materials_table.item(row, 1)
             if item:
-                try:
-                    total += float(item.text())
-                except ValueError:
-                    pass
-        self.total_sum.setText(f"TOTAL SUM OF CONCENTRATION: {total:.6f}")
+                total += float(item.text())
+        self.total_concentration_label.setText(f"Total Concentration: {total:.6f}")
+        self.sum_conc_input.setText(f"{total:.6f}")
+
+    def preview_formulation(self):
+        """Preview the current formulation."""
+        QMessageBox.information(self, "Preview", "Preview functionality to be implemented.")
+
+    def generate_pdf(self):
+        """Generate PDF for the current formulation."""
+        QMessageBox.information(self, "PDF Generation", "PDF generation to be implemented.")
 
     def new_formulation(self):
-        """Clear form for new formulation."""
-        self.formulation_id.clear()
-        self.index_ref.setText("-")
-        self.product_code.clear()
-        self.product_color.clear()
-        self.dosage.setText("0.000000")
-        self.mixing_time.setText("5")
-        self.resin_used.clear()
-        self.application_no.clear()
-        self.match_date1.setText("/")
-        self.match_date2.setText("/")
-        self.notes.clear()
+        """Start a new formulation entry."""
+        self.formulation_id_input.setText(f"FRM-{datetime.now().strftime('%Y%m%d%H%M%S')}")
+        self.customer_input.setText("")
+        self.index_ref_input.setText("")
+        self.product_code_input.setText("")
+        self.product_color_input.setText("")
+        self.sum_conc_input.setText("0.000000")
+        self.dosage_input.setText("0.000000")
+        self.mixing_time_input.setValue(5)
+        self.resin_used_input.setText("")
+        self.application_no_input.setText("")
+        self.matching_no_input.setText("")
+        self.date_matched_input.setText("")
+        self.notes_input.clear()
+        self.mb_dc_combo.setCurrentIndex(0)
+        self.html_input.setText("")
+        self.cyan_input.setText("0.00")
+        self.magenta_input.setText("0.00")
+        self.yellow_input.setText("0.00")
+        self.key_black_input.setText("0.00")
+        self.matched_by_input.setText("")
+        self.concentration_input.setText("")
         self.materials_table.setRowCount(0)
-        self.html_color.clear()
-        self.c_value.clear()
-        self.m_value.clear()
-        self.y_value.clear()
-        self.k_value.clear()
-        self.update_total_sum()
+        self.update_total_concentration()
+        self.current_formulation_id = None
+        self.tab_widget.setCurrentWidget(self.entry_tab)
 
     def save_formulation(self):
-        """Save formulation to database."""
-        if not self.formulation_id.text():
+        """Save the current formulation (simulation)."""
+        if not self.formulation_id_input.text().strip():
             QMessageBox.warning(self, "Missing Data", "Formulation ID is required.")
             return
 
@@ -611,65 +673,7 @@ class FormulationEntryTab(QWidget):
             QMessageBox.warning(self, "Missing Data", "Please add at least one material.")
             return
 
-        try:
-            with self.engine.connect() as conn:
-                with conn.begin():
-                    # Insert main formulation record
-                    query = text("""
-                        INSERT INTO formulation_records 
-                        (formulation_id, customer, index_no, product_code, product_color,
-                         dosage, mixing_time, resin_used, application_no, match_date,
-                         notes, mb_dc, html_color, c_value, m_value, y_value, k_value,
-                         encoded_by, encoded_on)
-                        VALUES (:fid, :cust, :idx, :code, :color, :dos, :mix, :resin,
-                                :app, :match, :notes, :mb, :html, :c, :m, :y, :k, :enc, NOW())
-                        RETURNING seq_id
-                    """)
-
-                    result = conn.execute(query, {
-                        "fid": self.formulation_id.text(),
-                        "cust": self.customer_combo.currentText(),
-                        "idx": self.index_ref.text(),
-                        "code": self.product_code.text(),
-                        "color": self.product_color.text(),
-                        "dos": float(self.dosage.text()),
-                        "mix": int(self.mixing_time.text()),
-                        "resin": self.resin_used.text(),
-                        "app": self.application_no.text(),
-                        "match": f"{self.match_date1.text()}{self.match_date2.text()}",
-                        "notes": self.notes.toPlainText(),
-                        "mb": self.mb_dc.currentText(),
-                        "html": self.html_color.text(),
-                        "c": self.c_value.text(),
-                        "m": self.m_value.text(),
-                        "y": self.y_value.text(),
-                        "k": self.k_value.text(),
-                        "enc": self.username
-                    })
-
-                    seq_id = result.fetchone()[0]
-
-                    # Insert material details
-                    for row in range(self.materials_table.rowCount()):
-                        material = self.materials_table.item(row, 0).text()
-                        conc = float(self.materials_table.item(row, 1).text())
-
-                        detail_query = text("""
-                            INSERT INTO formulation_details 
-                            (formulation_seq_id, material_code, concentration)
-                            VALUES (:seq, :mat, :conc)
-                        """)
-                        conn.execute(detail_query, {"seq": seq_id, "mat": material, "conc": conc})
-
-                    self.log_audit_trail("FORMULATION_CREATED",
-                                         f"Created formulation {self.formulation_id.text()}")
-
-            QMessageBox.information(self, "Success", "Formulation saved successfully!")
-            self.new_formulation()
-
-        except Exception as e:
-            QMessageBox.critical(self, "Save Error", f"Could not save formulation: {e}")
-
-    def refresh_data(self):
-        """Refresh data when tab is shown."""
-        self.date_time.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+        fid = self.formulation_id_input.text()
+        QMessageBox.information(self, "Success", f"Formulation {fid} saved successfully (simulation)!")
+        self.refresh_formulations()
+        self.new_formulation()  # Reset form

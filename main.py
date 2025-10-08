@@ -183,10 +183,11 @@ def initialize_database():
                         product_color TEXT,
                         total_concentration NUMERIC(15, 6),
                         dosage NUMERIC(15, 6),
-                        mixing_time INTEGER,
+                        mixing_time TEXT,
                         resin_used TEXT,
                         application_no TEXT,
-                        match_date TEXT,
+                        matching_no TEXT,
+                        date_matched DATE,
                         notes TEXT,
                         mb_dc TEXT,
                         html_color TEXT,
@@ -194,6 +195,8 @@ def initialize_database():
                         m_value TEXT,
                         y_value TEXT,
                         k_value TEXT,
+                        matched_by TEXT,
+
                         encoded_by TEXT,
                         encoded_on TIMESTAMP,
                         updated_by TEXT,
@@ -209,12 +212,6 @@ def initialize_database():
                         concentration NUMERIC(15, 6)
                     );
                 """))
-
-                connection.execute(text(
-                    "CREATE INDEX IF NOT EXISTS idx_formulation_records_seq_id ON formulation_records (seq_id);"))
-                connection.execute(text(
-                    "CREATE INDEX IF NOT EXISTS idx_formulation_details_seq_id ON formulation_details (formulation_seq_id);"))
-
                 user_insert_query = text(
                     "INSERT INTO users (username, password, role) VALUES (:user, :pwd, :role) ON CONFLICT (username) DO NOTHING;")
                 connection.execute(user_insert_query, [{"user": "admin", "pwd": "itadmin", "role": "Admin"},
@@ -370,10 +367,13 @@ class ModernMainWindow(QMainWindow):
         main_layout.addWidget(self.stacked_widget)
 
         # --- UPDATED: Added FormulationManagementPage ---
-        self.formulation_page = FormulationManagementPage(engine, self.username, self.log_audit_trail)
-        self.fg_endorsement_page = FGEndorsementPage(engine, self.username, self.log_audit_trail)
-        self.audit_trail_page = AuditTrailPage(engine)
-        self.user_management_page = UserManagementPage(engine, self.username, self.log_audit_trail)
+        try:
+            self.formulation_page = FormulationManagementPage(engine, self.username, self.log_audit_trail)
+            self.fg_endorsement_page = FGEndorsementPage(engine, self.username, self.log_audit_trail)
+            self.audit_trail_page = AuditTrailPage(engine)
+            self.user_management_page = UserManagementPage(engine, self.username, self.log_audit_trail)
+        except Exception as e:
+            print(e)
 
         for page in [self.formulation_page, self.fg_endorsement_page, self.audit_trail_page, self.user_management_page]:
             self.stacked_widget.addWidget(page)
@@ -575,16 +575,19 @@ class ModernMainWindow(QMainWindow):
         self.login_window.close();
         event.accept()
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     initialize_database()
     login_window = LoginWindow()
     main_window = None
 
+
     def on_login_success(username, user_role):
         global main_window
         main_window = ModernMainWindow(username, user_role, login_window)
         main_window.showMaximized()
+
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()

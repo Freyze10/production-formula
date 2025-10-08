@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2be6d282-a762-403d-a5ae-082db3b321d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/formulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/formulation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/formulation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +38,8 @@
     "Python.fg_endorsement.executor": "Run",
     "Python.fgendorsement.executor": "Run",
     "Python.fgmain.executor": "Run",
+    "Python.formulation (1).executor": "Debug",
+    "Python.formulation.executor": "Run",
     "Python.main-2.executor": "Run",
     "Python.main.executor": "Run",
     "Python.view.executor": "Run",
@@ -53,6 +55,28 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
+    <configuration name="formulation (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FG-INV" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/formulation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -100,6 +124,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.formulation (1)" />
         <item itemvalue="Python.formulation" />
       </list>
     </recent_temporary>
@@ -132,5 +157,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="def __init__(self, engine, username, log_audit_trail):&#10;        super().__init__()&#10;        self.engine = engine&#10;        self.username = username&#10;        self.log_audit_trail = log_audit_trail&#10;        self.current_formulation_id = None&#10;        self.sample_formulations = [&#10;            (&quot;0017080&quot;, &quot;-&quot;, &quot;OCTAPLAS INDUSTRIAL SERVICES&quot;, &quot;II)YA17320E&quot;, &quot;RED&quot;, 100.0, 1.0, &quot;Admin&quot;),&#10;            (&quot;0017079&quot;, &quot;-&quot;, &quot;CRONICS, INC.&quot;, &quot;YA17830E&quot;, &quot;YELLOW&quot;, 100.0, 2.0, &quot;Admin&quot;),&#10;            (&quot;0017078&quot;, &quot;-&quot;, &quot;MAGNATE FOOD AND DRINKS&quot;, &quot;GA17829E&quot;, &quot;GREEN&quot;, 100.0, 1.5, &quot;Admin&quot;),&#10;            (&quot;0017077&quot;, &quot;-&quot;, &quot;SAN MIGUEL YAMAMURA PACKAGING&quot;, &quot;BA17372E&quot;, &quot;BLUE&quot;, 100.0, 2.0, &quot;Admin&quot;),&#10;        ]" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
