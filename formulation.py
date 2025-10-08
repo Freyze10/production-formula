@@ -10,6 +10,8 @@ from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtGui import QFont, QColor
 import qtawesome as fa
 
+from work_station import _get_workstation_info
+
 
 class FormulationManagementPage(QWidget):
     def __init__(self, engine, username, log_audit_trail):
@@ -17,6 +19,8 @@ class FormulationManagementPage(QWidget):
         self.engine = engine
         self.username = username
         self.log_audit_trail = log_audit_trail
+        workstation = _get_workstation_info()
+        self.work_station = workstation
         self.current_formulation_id = None
         self.sample_formulations = [
             ("0017080", "-", "OCTAPLAS INDUSTRIAL SERVICES", "II)YA17320E", "RED", 100.0, 1.0, "Admin"),
@@ -65,7 +69,7 @@ class FormulationManagementPage(QWidget):
         header_card = QFrame()
         header_card.setObjectName("HeaderCard")
         header_layout = QHBoxLayout(header_card)
-        header_layout.setContentsMargins(20, 15, 20, 15)
+        header_layout.setContentsMargins(20, 15, 0, 15)
 
         self.selected_formulation_label = QLabel("INDEX REF. - FORMULATION NO.: No Selection")
         self.selected_formulation_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
@@ -248,14 +252,8 @@ class FormulationManagementPage(QWidget):
         formula_layout.addRow("Dosage:", self.dosage_input)
 
         # Mixing Time
-        mixing_layout = QHBoxLayout()
-        self.mixing_time_input = QSpinBox()
-        self.mixing_time_input.setMaximum(9999)
-        self.mixing_time_input.setValue(5)
-        mixing_layout.addWidget(self.mixing_time_input)
-        mixing_layout.addWidget(QLabel("minutes"))
-        mixing_layout.addStretch()
-        formula_layout.addRow("Mixing Time:", mixing_layout)
+        self.mixing_time_input = QLineEdit("5 MIN")
+        formula_layout.addRow("Mixing Time:", self.mixing_time_input)
 
         # Resin Used
         self.resin_used_input = QLineEdit()
@@ -303,20 +301,17 @@ class FormulationManagementPage(QWidget):
         material_layout.setContentsMargins(20, 25, 20, 20)
         material_layout.setSpacing(12)
 
-        # Matched By Input
+        # Matched By and Material
         matched_by_layout = QHBoxLayout()
         matched_by_layout.addWidget(QLabel("Matched by:"))
         self.matched_by_input = QLineEdit()
         matched_by_layout.addWidget(self.matched_by_input)
-        material_layout.addLayout(matched_by_layout)
-
-        # Material Code Input
-        material_input_layout = QHBoxLayout()
-        material_input_layout.addWidget(QLabel("Material Code:"))
+        matched_by_layout.addWidget(QLabel("Material Code:"))
         self.material_code_input = QLineEdit()
         self.material_code_input.setPlaceholderText("Enter material code")
-        material_input_layout.addWidget(self.material_code_input)
-        material_layout.addLayout(material_input_layout)
+        matched_by_layout.addWidget(self.material_code_input)
+        material_layout.addLayout(matched_by_layout)
+
 
         # Concentration Input
         conc_input_layout = QHBoxLayout()
@@ -331,7 +326,7 @@ class FormulationManagementPage(QWidget):
         encoded_layout.addWidget(QLabel("Encoded by:"))
         self.encoded_by_display = QLineEdit()
         self.encoded_by_display.setReadOnly(True)
-        self.encoded_by_display.setText(self.username)
+        self.encoded_by_display.setText(self.work_station['u'])
         self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
         encoded_layout.addWidget(self.encoded_by_display)
         material_layout.addLayout(encoded_layout)
@@ -364,7 +359,7 @@ class FormulationManagementPage(QWidget):
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
-        self.materials_table.setMinimumHeight(250)
+        self.materials_table.setMinimumHeight(180)
         material_layout.addWidget(self.materials_table)
 
         # Total concentration display
@@ -425,7 +420,7 @@ class FormulationManagementPage(QWidget):
         # Updated By and Date/Time
         self.updated_by_display = QLineEdit()
         self.updated_by_display.setReadOnly(True)
-        self.updated_by_display.setText(self.username)
+        self.updated_by_display.setText(self.work_station['u'])
         self.updated_by_display.setStyleSheet("background-color: #e9ecef;")
         color_layout.addRow("Updated By:", self.updated_by_display)
 
@@ -591,13 +586,18 @@ class FormulationManagementPage(QWidget):
             if concentration <= 0:
                 raise ValueError
         except ValueError:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a valid concentration greater than 0.")
+            QMessageBox.warning(self, "Invalid Input", "Please enter a valid concentration.")
             return
+
+        rm_code = QTableWidgetItem(material_code)
+        concentration_value = QTableWidgetItem(f"{concentration:.6f}")
+        rm_code.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        concentration_value.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         row = self.materials_table.rowCount()
         self.materials_table.insertRow(row)
-        self.materials_table.setItem(row, 0, QTableWidgetItem(material_code))
-        self.materials_table.setItem(row, 1, QTableWidgetItem(f"{concentration:.6f}"))
+        self.materials_table.setItem(row, 0, rm_code)
+        self.materials_table.setItem(row, 1, concentration_value)
 
         self.material_code_input.clear()
         self.concentration_input.clear()

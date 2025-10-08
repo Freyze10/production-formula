@@ -1,6 +1,6 @@
 # main.py
 # FINAL VERIFIED VERSION WITH FORMULATION MODULE
-
+import getpass
 import sys
 import os
 import re
@@ -11,6 +11,9 @@ import dbfread
 import time
 
 from sqlalchemy import create_engine, text
+
+from formulation import FormulationManagementPage
+from work_station import _get_workstation_info
 
 try:
     import qtawesome as fa
@@ -29,7 +32,7 @@ from PyQt6.QtGui import QFont, QMovie
 from fg_endorsement import FGEndorsementPage
 from audit_trail import AuditTrailPage
 from user_management import UserManagementPage
-from formulation import FormulationManagementPage  # NEW IMPORT
+# from formulation import FormulationManagementPage  # NEW IMPORT
 
 # --- CONFIGURATION ---
 DB_CONFIG = {"host": "localhost", "port": 5433, "dbname": "db_formula", "user": "postgres", "password": "password"}
@@ -296,7 +299,7 @@ class LoginWindow(QMainWindow):
                             return
                         c.execute(text(
                             "INSERT INTO qc_audit_trail(timestamp, username, action_type, details, hostname, ip_address, mac_address) VALUES (NOW(), :u, 'LOGIN', 'User logged in.', :h, :i, :m)"),
-                            {"u": u, **self._get_workstation_info()})
+                            {"u": u, **_get_workstation_info()})
                         self.login_successful.emit(u, res[2]);
                         self.close()
                     else:
@@ -306,17 +309,6 @@ class LoginWindow(QMainWindow):
             print(f"Login Error: {e}")
         finally:
             self.login_btn.setEnabled(True)
-
-    def _get_workstation_info(self):
-        try:
-            h, i = socket.gethostname(), socket.gethostbyname(socket.gethostname())
-        except:
-            h, i = 'Unknown', 'N/A'
-        try:
-            m = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
-        except:
-            m = 'N/A'
-        return {"h": h, "i": i, "m": m}
 
 
 class ModernMainWindow(QMainWindow):
@@ -331,20 +323,9 @@ class ModernMainWindow(QMainWindow):
         self.setWindowIcon(fa.icon('fa5s.check-double', color='gray'))
         self.setMinimumSize(1280, 720);
         self.setGeometry(100, 100, 1366, 768)
-        self.workstation_info = self._get_workstation_info()
+        self.workstation_info = _get_workstation_info()
         self.animation = None
         self.init_ui()
-
-    def _get_workstation_info(self):
-        try:
-            h, i = socket.gethostname(), socket.gethostbyname(socket.gethostname())
-        except:
-            h, i = 'Unknown', 'N/A'
-        try:
-            m = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
-        except:
-            m = 'N/A'
-        return {"h": h, "i": i, "m": m}
 
     def log_audit_trail(self, action_type, details):
         try:
