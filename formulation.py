@@ -69,7 +69,7 @@ class FormulationManagementPage(QWidget):
         header_card = QFrame()
         header_card.setObjectName("HeaderCard")
         header_layout = QHBoxLayout(header_card)
-        header_layout.setContentsMargins(20, 15, 0, 15)
+        header_layout.setContentsMargins(20, 15, 20, 15)
 
         self.selected_formulation_label = QLabel("INDEX REF. - FORMULATION NO.: No Selection")
         self.selected_formulation_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
@@ -181,7 +181,7 @@ class FormulationManagementPage(QWidget):
         """Create the formulation entry/edit tab with modern design."""
         tab = QWidget()
         main_layout = QVBoxLayout(tab)
-        main_layout.setContentsMargins(20, 20, 20, 20)
+        main_layout.setContentsMargins(20, 20, 20, 0)
         main_layout.setSpacing(15)
 
         # Scroll area for the form
@@ -201,7 +201,7 @@ class FormulationManagementPage(QWidget):
         customer_card = QGroupBox("Customer and Primary ID Info")
         customer_layout = QFormLayout(customer_card)
         customer_layout.setSpacing(12)
-        customer_layout.setContentsMargins(20, 25, 20, 20)
+        customer_layout.setContentsMargins(10, 25, 20, 20)
 
         # Formulation ID
         self.formulation_id_input = QLineEdit()
