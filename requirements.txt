@@ -1,0 +1,57 @@
+# =============================================================================
+# Python Dependencies for the Consolidated Desktop Application
+#
+# To install all required packages, run the following command in your
+# terminal or command prompt from the project's root directory:
+#
+# pip install -r requirements.txt
+#
+# =============================================================================
+
+# -- Core Application & UI Framework --
+# PyQt6 is the library for creating the graphical user interface (GUI).
+PyQt6==6.7.0
+
+# qtawesome provides FontAwesome icons for use within the PyQt6 application,
+# making the UI more visually appealing and intuitive.
+qtawesome==1.3.1
+
+# -- Data Handling & Database --
+# SQLAlchemy is the primary Object-Relational Mapper (ORM) used for all
+# database interactions. It provides a high-level API to communicate with the DB.
+SQLAlchemy==2.0.29
+
+# pandas is used for data manipulation, particularly for the "Export to Excel"
+# functionality.
+pandas==2.2.2
+
+# openpyxl is a dependency for pandas that is required to write .xlsx files.
+# It is good practice to include it explicitly.
+openpyxl==3.1.2
+
+# -- Utilities --
+# python-dotenv is used to load environment variables from a .env file,
+# which stores sensitive configuration like database credentials.
+python-dotenv==1.0.1
+
+# =============================================================================
+# DATABASE DRIVER - IMPORTANT!
+#
+# The application requires a specific database driver to connect via SQLAlchemy.
+# The driver you need depends on the database server you are using (e.g.,
+# Microsoft SQL Server, PostgreSQL, MySQL).
+#
+# ** UNCOMMENT ONLY ONE of the lines below that matches your DB_DRIVER
+# ** setting in the .env file.
+# =============================================================================
+
+# For Microsoft SQL Server (a common choice for Windows desktop apps)
+# This requires the ODBC Driver for SQL Server to be installed on the system.
+# pyodbc==5.1.0
+
+# For PostgreSQL
+# psycopg2-binary==2.9.9
+
+# For MySQL
+# PyMySQL==1.1.0
+# mysql-connector-python==8.4.0
