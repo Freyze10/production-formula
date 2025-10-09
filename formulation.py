@@ -227,10 +227,12 @@ class FormulationManagementPage(QWidget):
         # Formulation ID
         self.formulation_id_input = QLineEdit()
         self.formulation_id_input.setPlaceholderText("Auto-generated")
+        self.formulation_id_input.setStyleSheet("background-color: #fff9c4;")
         customer_layout.addRow("Formulation ID:", self.formulation_id_input)
 
         # Customer Name
         self.customer_input = QLineEdit()
+        self.customer_input.setStyleSheet("background-color: #fff9c4;")
         customer_layout.addRow("Customer:", self.customer_input)
 
         left_column.addWidget(customer_card)
@@ -253,8 +255,10 @@ class FormulationManagementPage(QWidget):
         product_layout.setSpacing(8)
         self.product_code_input = QLineEdit()
         self.product_code_input.setPlaceholderText("Product code")
+        self.product_code_input.setStyleSheet("background-color: #fff9c4;")
         self.product_color_input = QLineEdit()
         self.product_color_input.setPlaceholderText("Product color")
+        self.product_color_input.setStyleSheet("background-color: #fff9c4;")
         product_layout.addWidget(QLabel("Code:"))
         product_layout.addWidget(self.product_code_input)
         product_layout.addWidget(QLabel("Color:"))
@@ -263,15 +267,14 @@ class FormulationManagementPage(QWidget):
 
         # Sum of Concentration
         self.sum_conc_input = QLineEdit()
-        self.sum_conc_input.setReadOnly(True)
-        self.sum_conc_input.setStyleSheet("background-color: #e9ecef;")
+        self.sum_conc_input.setStyleSheet("background-color: #fff9c4;")
         self.sum_conc_input.setText("0.000000")
         formula_layout.addRow("Sum of Concentration:", self.sum_conc_input)
 
         # Dosage
         self.dosage_input = QLineEdit()
-        self.dosage_input.setStyleSheet("background-color: #fff9c4;")
         self.dosage_input.setText("0.000000")
+        self.dosage_input.setStyleSheet("background-color: #fff9c4;")
         formula_layout.addRow("Dosage:", self.dosage_input)
 
         # Mixing Time
@@ -386,7 +389,21 @@ class FormulationManagementPage(QWidget):
 
         # Total concentration display
         total_layout = QHBoxLayout()
+
+        # Date Entry
+        date_entry_label = QLabel("Date Entry:")
+        date_entry_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
+        total_layout.addWidget(date_entry_label)
+
+        self.date_entry_display = QLineEdit()
+        self.date_entry_display.setReadOnly(True)
+        self.date_entry_display.setText(datetime.now().strftime("%m/%d/%Y"))
+        self.date_entry_display.setStyleSheet("background-color: #e9ecef;")
+        self.date_entry_display.setMaximumWidth(120)
+        total_layout.addWidget(self.date_entry_display)
+
         total_layout.addStretch()
+
         self.total_concentration_label = QLabel("Total Concentration: 0.000000")
         self.total_concentration_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
         self.total_concentration_label.setStyleSheet("color: #0078d4;")
