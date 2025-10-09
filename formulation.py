@@ -62,14 +62,14 @@ class FormulationManagementPage(QWidget):
         """Create the formulation records viewing tab."""
         tab = QWidget()
         layout = QVBoxLayout(tab)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(15)
+        layout.setContentsMargins(15, 10, 15, 15)
+        layout.setSpacing(10)
 
         # Header Card
         header_card = QFrame()
         header_card.setObjectName("HeaderCard")
         header_layout = QHBoxLayout(header_card)
-        header_layout.setContentsMargins(20, 15, 20, 15)
+        header_layout.setContentsMargins(15, 2, 15, 2)
 
         self.selected_formulation_label = QLabel("INDEX REF. - FORMULATION NO.: No Selection")
         self.selected_formulation_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
@@ -94,11 +94,20 @@ class FormulationManagementPage(QWidget):
         # Formulation Records Table
         records_card = QFrame()
         records_card.setObjectName("ContentCard")
+        records_card.setStyleSheet("""
+            QFrame#ContentCard {
+                background-color: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 6px;
+            }
+        """)
         records_layout = QVBoxLayout(records_card)
-        records_layout.setContentsMargins(20, 20, 20, 20)
+        records_layout.setContentsMargins(15, 15, 15, 15)
+        records_layout.setSpacing(10)
 
         table_label = QLabel("Formulation Records")
         table_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        table_label.setStyleSheet("color: #343a40; background-color: transparent; border: none;")
         records_layout.addWidget(table_label)
 
         self.formulation_table = QTableWidget()
@@ -114,18 +123,27 @@ class FormulationManagementPage(QWidget):
         self.formulation_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.formulation_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.formulation_table.itemSelectionChanged.connect(self.on_formulation_selected)
-        records_layout.addWidget(self.formulation_table)
+        records_layout.addWidget(self.formulation_table, stretch=1)
 
-        layout.addWidget(records_card)
+        layout.addWidget(records_card, stretch=3)
 
         # Details Table
         details_card = QFrame()
         details_card.setObjectName("ContentCard")
+        details_card.setStyleSheet("""
+            QFrame#ContentCard {
+                background-color: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 6px;
+            }
+        """)
         details_layout = QVBoxLayout(details_card)
-        details_layout.setContentsMargins(20, 20, 20, 20)
+        details_layout.setContentsMargins(15, 15, 15, 15)
+        details_layout.setSpacing(10)
 
         details_label = QLabel("Formulation Details")
         details_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        details_label.setStyleSheet("color: #343a40; background-color: transparent; border: none;")
         details_layout.addWidget(details_label)
 
         self.details_table = QTableWidget()
@@ -135,12 +153,13 @@ class FormulationManagementPage(QWidget):
         self.details_table.verticalHeader().setVisible(False)
         self.details_table.setAlternatingRowColors(True)
         self.details_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        details_layout.addWidget(self.details_table)
+        details_layout.addWidget(self.details_table, stretch=1)
 
-        layout.addWidget(details_card)
+        layout.addWidget(details_card, stretch=2)
 
         # Bottom Controls
         controls_layout = QHBoxLayout()
+        controls_layout.setSpacing(10)
 
         date_from_label = QLabel("Date From:")
         controls_layout.addWidget(date_from_label)
@@ -168,7 +187,7 @@ class FormulationManagementPage(QWidget):
         view_btn.clicked.connect(self.view_formulation_details)
         controls_layout.addWidget(view_btn)
 
-        edit_btn = QPushButton("Edit", objectName="SecondaryButton")
+        edit_btn = QPushButton("Edit", objectName="InfoButton")
         edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
         edit_btn.clicked.connect(self.edit_formulation)
         controls_layout.addWidget(edit_btn)
@@ -178,11 +197,11 @@ class FormulationManagementPage(QWidget):
         return tab
 
     def create_entry_tab(self):
-        """Create the formulation entry/edit tab with modern design."""
+        """Create the formulation entry/edit tab optimized for 1280x720."""
         tab = QWidget()
         main_layout = QVBoxLayout(tab)
-        main_layout.setContentsMargins(20, 20, 20, 0)
-        main_layout.setSpacing(15)
+        main_layout.setContentsMargins(10, 10, 10, 5)
+        main_layout.setSpacing(5)
 
         # Scroll area for the form
         scroll = QScrollArea()
@@ -191,17 +210,19 @@ class FormulationManagementPage(QWidget):
 
         scroll_widget = QWidget()
         scroll_layout = QHBoxLayout(scroll_widget)
-        scroll_layout.setSpacing(20)
+        scroll_layout.setSpacing(12)
 
         # Left Column
         left_column = QVBoxLayout()
-        left_column.setSpacing(15)
+        left_column.setSpacing(8)
 
         # Customer and Primary ID Info Card
         customer_card = QGroupBox("Customer and Primary ID Info")
+        customer_card.setSizePolicy(customer_card.sizePolicy().horizontalPolicy(),
+                                   customer_card.sizePolicy().Expanding)
         customer_layout = QFormLayout(customer_card)
-        customer_layout.setSpacing(12)
-        customer_layout.setContentsMargins(10, 25, 20, 20)
+        customer_layout.setSpacing(6)
+        customer_layout.setContentsMargins(10, 18, 10, 12)
 
         # Formulation ID
         self.formulation_id_input = QLineEdit()
@@ -216,9 +237,11 @@ class FormulationManagementPage(QWidget):
 
         # Formulation Info Card
         formula_card = QGroupBox("Formulation Info")
+        formula_card.setSizePolicy(formula_card.sizePolicy().horizontalPolicy(),
+                                   formula_card.sizePolicy().Expanding)
         formula_layout = QFormLayout(formula_card)
-        formula_layout.setSpacing(12)
-        formula_layout.setContentsMargins(20, 25, 20, 20)
+        formula_layout.setSpacing(6)
+        formula_layout.setContentsMargins(10, 18, 10, 12)
 
         # Index Ref No
         self.index_ref_input = QLineEdit()
@@ -227,7 +250,7 @@ class FormulationManagementPage(QWidget):
 
         # Product Code and Color (side by side)
         product_layout = QHBoxLayout()
-        product_layout.setSpacing(10)
+        product_layout.setSpacing(8)
         self.product_code_input = QLineEdit()
         self.product_code_input.setPlaceholderText("Product code")
         self.product_color_input = QLineEdit()
@@ -277,7 +300,7 @@ class FormulationManagementPage(QWidget):
 
         # Notes
         self.notes_input = QTextEdit()
-        self.notes_input.setMaximumHeight(80)
+        self.notes_input.setMaximumHeight(50)
         self.notes_input.setPlaceholderText("Enter any additional notes...")
         formula_layout.addRow("Notes:", self.notes_input)
 
@@ -286,32 +309,31 @@ class FormulationManagementPage(QWidget):
         self.mb_dc_combo.addItems(["MB", "DC"])
         formula_layout.addRow("MB or DC:", self.mb_dc_combo)
 
-        left_column.addWidget(formula_card)
-        left_column.addStretch()
+        left_column.addWidget(formula_card, stretch=1)
 
         scroll_layout.addLayout(left_column, stretch=1)
 
         # Right Column
         right_column = QVBoxLayout()
-        right_column.setSpacing(15)
+        right_column.setSpacing(8)
 
         # Material Composition Card
         material_card = QGroupBox("Material Composition")
         material_layout = QVBoxLayout(material_card)
-        material_layout.setContentsMargins(20, 25, 20, 20)
-        material_layout.setSpacing(12)
+        material_layout.setContentsMargins(10, 18, 10, 12)
+        material_layout.setSpacing(8)
 
         # Matched By and Material
         matched_by_layout = QHBoxLayout()
         matched_by_layout.addWidget(QLabel("Matched by:"))
-        self.matched_by_input = QLineEdit()
+        self.matched_by_input = QComboBox()
+        self.matched_by_input.addItems(["ANNA", "ERNIE", "JINKY", "ESA"])
         matched_by_layout.addWidget(self.matched_by_input)
         matched_by_layout.addWidget(QLabel("Material Code:"))
         self.material_code_input = QLineEdit()
         self.material_code_input.setPlaceholderText("Enter material code")
         matched_by_layout.addWidget(self.material_code_input)
         material_layout.addLayout(matched_by_layout)
-
 
         # Concentration Input
         conc_input_layout = QHBoxLayout()
@@ -335,17 +357,17 @@ class FormulationManagementPage(QWidget):
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
-        add_material_btn = QPushButton("Add", objectName="PrimaryButton")
+        add_material_btn = QPushButton("Add", objectName="SuccessButton")
         add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
         add_material_btn.clicked.connect(self.add_material_row)
         btn_layout.addWidget(add_material_btn)
 
-        remove_material_btn = QPushButton("Remove", objectName="SecondaryButton")
+        remove_material_btn = QPushButton("Remove", objectName="DangerButton")
         remove_material_btn.setIcon(fa.icon('fa5s.minus', color='white'))
         remove_material_btn.clicked.connect(self.remove_material_row)
         btn_layout.addWidget(remove_material_btn)
 
-        clear_materials_btn = QPushButton("Clear", objectName="SecondaryButton")
+        clear_materials_btn = QPushButton("Clear", objectName="WarningButton")
         clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
         clear_materials_btn.clicked.connect(self.clear_materials)
         btn_layout.addWidget(clear_materials_btn)
@@ -359,14 +381,14 @@ class FormulationManagementPage(QWidget):
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
-        self.materials_table.setMinimumHeight(180)
+        self.materials_table.setMinimumHeight(120)
         material_layout.addWidget(self.materials_table)
 
         # Total concentration display
         total_layout = QHBoxLayout()
         total_layout.addStretch()
         self.total_concentration_label = QLabel("Total Concentration: 0.000000")
-        self.total_concentration_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
+        self.total_concentration_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
         self.total_concentration_label.setStyleSheet("color: #0078d4;")
         total_layout.addWidget(self.total_concentration_label)
         material_layout.addLayout(total_layout)
@@ -376,8 +398,8 @@ class FormulationManagementPage(QWidget):
         # Color Information Card
         color_card = QGroupBox("Color Information")
         color_layout = QFormLayout(color_card)
-        color_layout.setSpacing(12)
-        color_layout.setContentsMargins(20, 25, 20, 20)
+        color_layout.setSpacing(6)
+        color_layout.setContentsMargins(10, 18, 10, 12)
 
         # HTML Color Code
         self.html_input = QLineEdit()
@@ -388,7 +410,7 @@ class FormulationManagementPage(QWidget):
         # CMYK Values in Grid
         cmyk_widget = QWidget()
         cmyk_layout = QGridLayout(cmyk_widget)
-        cmyk_layout.setSpacing(10)
+        cmyk_layout.setSpacing(6)
         cmyk_layout.setContentsMargins(0, 0, 0, 0)
 
         cmyk_layout.addWidget(QLabel("C:"), 0, 0)
@@ -441,7 +463,7 @@ class FormulationManagementPage(QWidget):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        preview_btn = QPushButton("Preview", objectName="SecondaryButton")
+        preview_btn = QPushButton("Preview", objectName="InfoButton")
         preview_btn.setIcon(fa.icon('fa5s.eye', color='white'))
         preview_btn.clicked.connect(self.preview_formulation)
         button_layout.addWidget(preview_btn)
@@ -545,7 +567,7 @@ class FormulationManagementPage(QWidget):
         self.product_color_input.setText(pcolor)
         self.sum_conc_input.setText(f"{tconc:.6f}")
         self.dosage_input.setText(f"{dos:.6f}")
-        self.mixing_time_input.setValue(5)
+        self.mixing_time_input.setText("5 MIN")
         self.resin_used_input.setText("HIPS")
         self.application_no_input.setText("APP001")
         self.matching_no_input.setText("MATCH001")
@@ -557,7 +579,7 @@ class FormulationManagementPage(QWidget):
         self.magenta_input.setText("0.00")
         self.yellow_input.setText("100.00")
         self.key_black_input.setText("0.00")
-        self.matched_by_input.setText("Admin")
+        self.matched_by_input.setCurrentText("ANNA")
 
         # Load sample materials
         materials = self.sample_details.get(fid, [])
@@ -644,7 +666,7 @@ class FormulationManagementPage(QWidget):
         self.product_color_input.setText("")
         self.sum_conc_input.setText("0.000000")
         self.dosage_input.setText("0.000000")
-        self.mixing_time_input.setValue(5)
+        self.mixing_time_input.setText("5 MIN")
         self.resin_used_input.setText("")
         self.application_no_input.setText("")
         self.matching_no_input.setText("")
@@ -656,7 +678,7 @@ class FormulationManagementPage(QWidget):
         self.magenta_input.setText("0.00")
         self.yellow_input.setText("0.00")
         self.key_black_input.setText("0.00")
-        self.matched_by_input.setText("")
+        self.matched_by_input.setCurrentIndex(0)
         self.concentration_input.setText("")
         self.materials_table.setRowCount(0)
         self.update_total_concentration()

@@ -82,6 +82,14 @@ class AppStyles:
         QPushButton#PrimaryButton:hover {{ background-color: {PRIMARY_COLOR_HOVER}; }}
         QPushButton#SecondaryButton {{ background-color: #6c757d; color: #ffffff; font-weight: bold; border: none; }}
         QPushButton#SecondaryButton:hover {{ background-color: #5a6268; }}
+        QPushButton#SuccessButton {{ background-color: #28a745; color: #ffffff; font-weight: bold; border: none; }}
+        QPushButton#SuccessButton:hover {{ background-color: #218838; }}
+        QPushButton#DangerButton {{ background-color: #dc3545; color: #ffffff; font-weight: bold; border: none; }}
+        QPushButton#DangerButton:hover {{ background-color: #c82333; }}
+        QPushButton#WarningButton {{ background-color: #ffc107; color: #212529; font-weight: bold; border: none; }}
+        QPushButton#WarningButton:hover {{ background-color: #e0a800; }}
+        QPushButton#InfoButton {{ background-color: #17a2b8; color: #ffffff; font-weight: bold; border: none; }}
+        QPushButton#InfoButton:hover {{ background-color: #138496; }}
         QTableWidget {{ border: 1px solid #dee2e6; gridline-color: #e9ecef; background-color: #ffffff; }}
         QHeaderView::section {{ background-color: #f1f3f5; padding: 6px; border: none; border-bottom: 1px solid #dee2e6; font-weight: bold; }}
         QTableWidget::item:selected {{ background-color: {PRIMARY_COLOR_HOVER}; color: white; }}
@@ -176,45 +184,45 @@ def initialize_database():
                     f"CREATE TABLE IF NOT EXISTS fg_endorsements_excess (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
 
                 # NEW: Formulation tables
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS formulation_records (
-                        seq_id SERIAL PRIMARY KEY,
-                        formulation_id TEXT NOT NULL,
-                        customer TEXT,
-                        index_no TEXT,
-                        product_code TEXT,
-                        product_color TEXT,
-                        total_concentration NUMERIC(15, 6),
-                        dosage NUMERIC(15, 6),
-                        mixing_time TEXT,
-                        resin_used TEXT,
-                        application_no TEXT,
-                        matching_no TEXT,
-                        date_matched DATE,
-                        notes TEXT,
-                        mb_dc TEXT,
-                        html_color TEXT,
-                        c_value TEXT,
-                        m_value TEXT,
-                        y_value TEXT,
-                        k_value TEXT,
-                        matched_by TEXT,
-
-                        encoded_by TEXT,
-                        encoded_on TIMESTAMP,
-                        updated_by TEXT,
-                        updated_on TIMESTAMP
-                    );
-                """))
-
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS formulation_details (
-                        id SERIAL PRIMARY KEY,
-                        formulation_seq_id INTEGER REFERENCES formulation_records(seq_id) ON DELETE CASCADE,
-                        material_code TEXT,
-                        concentration NUMERIC(15, 6)
-                    );
-                """))
+                # connection.execute(text("""
+                #     CREATE TABLE IF NOT EXISTS formulation_records (
+                #         seq_id SERIAL PRIMARY KEY,
+                #         formulation_id TEXT NOT NULL,
+                #         customer TEXT,
+                #         index_no TEXT,
+                #         product_code TEXT,
+                #         product_color TEXT,
+                #         total_concentration NUMERIC(15, 6),
+                #         dosage NUMERIC(15, 6),
+                #         mixing_time TEXT,
+                #         resin_used TEXT,
+                #         application_no TEXT,
+                #         matching_no TEXT,
+                #         date_matched DATE,
+                #         notes TEXT,
+                #         mb_dc TEXT,
+                #         html_color TEXT,
+                #         c_value TEXT,
+                #         m_value TEXT,
+                #         y_value TEXT,
+                #         k_value TEXT,
+                #         matched_by TEXT,
+                #
+                #         encoded_by TEXT,
+                #         encoded_on TIMESTAMP,
+                #         updated_by TEXT,
+                #         updated_on TIMESTAMP
+                #     );
+                # """))
+                #
+                # connection.execute(text("""
+                #     CREATE TABLE IF NOT EXISTS formulation_details (
+                #         id SERIAL PRIMARY KEY,
+                #         formulation_seq_id INTEGER REFERENCES formulation_records(seq_id) ON DELETE CASCADE,
+                #         material_code TEXT,
+                #         concentration NUMERIC(15, 6)
+                #     );
+                # """))
                 user_insert_query = text(
                     "INSERT INTO users (username, password, role) VALUES (:user, :pwd, :role) ON CONFLICT (username) DO NOTHING;")
                 connection.execute(user_insert_query, [{"user": "admin", "pwd": "itadmin", "role": "Admin"},
@@ -222,8 +230,8 @@ def initialize_database():
                 transaction.commit()
         print("Database initialized successfully.")
     except Exception as e:
-        QApplication(sys.argv);
-        QMessageBox.critical(None, "DB Init Error", f"Could not init DB: {e}");
+        QApplication(sys.argv)
+        QMessageBox.critical(None, "DB Init Error", f"Could not init DB: {e}")
         sys.exit(1)
 
 
