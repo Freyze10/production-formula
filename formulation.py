@@ -367,7 +367,7 @@ class FormulationManagementPage(QWidget):
         remove_material_btn.clicked.connect(self.remove_material_row)
         btn_layout.addWidget(remove_material_btn)
 
-        clear_materials_btn = QPushButton("Clear", objectName="WarningButton")
+        clear_materials_btn = QPushButton("Clear", objectName="InfoButton")
         clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
         clear_materials_btn.clicked.connect(self.clear_materials)
         btn_layout.addWidget(clear_materials_btn)
@@ -473,12 +473,12 @@ class FormulationManagementPage(QWidget):
         pdf_btn.clicked.connect(self.generate_pdf)
         button_layout.addWidget(pdf_btn)
 
-        new_btn = QPushButton("New", objectName="SecondaryButton")
+        new_btn = QPushButton("New", objectName="PrimaryButton")
         new_btn.setIcon(fa.icon('fa5s.file', color='white'))
         new_btn.clicked.connect(self.new_formulation)
         button_layout.addWidget(new_btn)
 
-        save_btn = QPushButton("Save", objectName="PrimaryButton")
+        save_btn = QPushButton("Save", objectName="SuccessButton")
         save_btn.setIcon(fa.icon('fa5s.save', color='white'))
         save_btn.clicked.connect(self.save_formulation)
         button_layout.addWidget(save_btn)
