@@ -6,10 +6,12 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdi
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QSpinBox,
                              QDoubleSpinBox, QGridLayout, QGroupBox, QScrollArea, QFormLayout)
-from PyQt6.QtCore import Qt, QDate
+from PyQt6.QtCore import Qt, QDate, QThread
 from PyQt6.QtGui import QFont, QColor
 import qtawesome as fa
 
+import db_call
+from sync_formula import SyncFormulaWorker, LoadingDialog
 from work_station import _get_workstation_info
 
 
@@ -22,12 +24,7 @@ class FormulationManagementPage(QWidget):
         workstation = _get_workstation_info()
         self.work_station = workstation
         self.current_formulation_id = None
-        self.sample_formulations = [
-            ("0017080", "-", "OCTAPLAS INDUSTRIAL SERVICES", "II)YA17320E", "RED", 100.0, 1.0, "Admin"),
-            ("0017079", "-", "CRONICS, INC.", "YA17830E", "YELLOW", 100.0, 2.0, "Admin"),
-            ("0017078", "-", "MAGNATE FOOD AND DRINKS", "GA17829E", "GREEN", 100.0, 1.5, "Admin"),
-            ("0017077", "-", "SAN MIGUEL YAMAMURA PACKAGING", "BA17372E", "BLUE", 100.0, 2.0, "Admin"),
-        ]
+        self.all_formula_data = db_call.get_formula_data()
         self.sample_details = {
             "0017080": [("W8", 8.0), ("Y121", 5.0), ("O51", 0.5), ("L37", 5.0), ("L28", 5.0), ("K907", 41.5), ("HIPS(POWDER)", 35.0)],
             "0017079": [("A1", 10.0), ("B2", 15.0), ("C3", 20.0)],
@@ -55,6 +52,7 @@ class FormulationManagementPage(QWidget):
         # Tab 2: Formulation Entry
         self.entry_tab = self.create_entry_tab()
         self.tab_widget.addTab(self.entry_tab, "Formulation Entry")
+        self.tab_widget.currentChanged.connect(self.sync_for_entry)
 
         main_layout.addWidget(self.tab_widget)
 
@@ -114,7 +112,7 @@ class FormulationManagementPage(QWidget):
         self.formulation_table.setColumnCount(8)
         self.formulation_table.setHorizontalHeaderLabels([
             "ID", "Index Ref", "Customer", "Product Code", "Product Color",
-            "Total Conc.", "Dosage", "Encoded By"
+            "Total Conc.", "Dosage"
         ])
         self.formulation_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.formulation_table.verticalHeader().setVisible(False)
@@ -515,11 +513,19 @@ class FormulationManagementPage(QWidget):
     def refresh_formulations(self):
         """Load sample formulations."""
         self.formulation_table.setRowCount(0)
-        for row_data in self.sample_formulations:
+
+        for row_data in self.all_formula_data:
             row_position = self.formulation_table.rowCount()
             self.formulation_table.insertRow(row_position)
+
             for col, data in enumerate(row_data):
-                item = QTableWidgetItem(str(data) if data is not None else "")
+                # If this is the 'formula_index' column (e.g., column 1), check if it's empty/None
+                if col == 1:  # <-- change index to match your formula_index column
+                    display_value = "-" if not data else str(data)
+                else:
+                    display_value = str(data) if data is not None else ""
+
+                item = QTableWidgetItem(display_value)
                 self.formulation_table.setItem(row_position, col, item)
 
     def filter_formulations(self):
@@ -575,8 +581,8 @@ class FormulationManagementPage(QWidget):
             return
 
         # Find index in sample
-        idx = next((i for i, data in enumerate(self.sample_formulations) if data[0] == self.current_formulation_id), 0)
-        fid, iref, cust, pcode, pcolor, tconc, dos, enc = self.sample_formulations[idx]
+        idx = next((i for i, data in enumerate(self.all_formula_data) if data[0] == self.current_formulation_id), 0)
+        fid, iref, cust, pcode, pcolor, tconc, dos, enc = self.all_formula_data[idx]
         self.formulation_id_input.setText(fid)
         self.customer_input.setText(cust)
         self.index_ref_input.setText(iref)
@@ -716,3 +722,42 @@ class FormulationManagementPage(QWidget):
         QMessageBox.information(self, "Success", f"Formulation {fid} saved successfully (simulation)!")
         self.refresh_formulations()
         self.new_formulation()  # Reset form
+
+    def sync_for_entry(self, index):
+        """Trigger sync when entering the entry tab."""
+        if self.tab_widget.widget(index) == self.entry_tab:
+            self.run_formula_sync()
+
+    def run_formula_sync(self):
+        # Create a thread and worker for the sync
+        thread = QThread()
+        worker = SyncFormulaWorker()
+        worker.moveToThread(thread)
+
+        # Optional: Show loading dialog (if you want progress feedback)
+        loading_dialog = LoadingDialog("Syncing Formula Data", self)
+
+        # Connect signals
+        worker.progress.connect(loading_dialog.update_progress)
+        worker.finished.connect(
+            lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog))
+        thread.started.connect(worker.run)
+
+        # Start the thread
+        thread.start()
+
+        # Show the dialog if desired
+        loading_dialog.exec()  # This blocks until closed; adjust if needed
+
+    def on_sync_finished(self, success, message, thread, loading_dialog):
+        if loading_dialog.isVisible():
+            loading_dialog.accept()
+
+        # Show QMessageBox based on success
+        if success:
+            QMessageBox.information(self, "Sync Result", f"Sync finished: {message}")
+        else:
+            QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}")
+
+        thread.quit()
+        thread.wait()

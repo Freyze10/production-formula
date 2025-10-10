@@ -182,47 +182,6 @@ def initialize_database():
                     f"CREATE TABLE IF NOT EXISTS fg_endorsements_secondary (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
                 connection.execute(text(
                     f"CREATE TABLE IF NOT EXISTS fg_endorsements_excess (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
-
-                # NEW: Formulation tables
-                # connection.execute(text("""
-                #     CREATE TABLE IF NOT EXISTS formulation_records (
-                #         seq_id SERIAL PRIMARY KEY,
-                #         formulation_id TEXT NOT NULL,
-                #         customer TEXT,
-                #         index_no TEXT,
-                #         product_code TEXT,
-                #         product_color TEXT,
-                #         total_concentration NUMERIC(15, 6),
-                #         dosage NUMERIC(15, 6),
-                #         mixing_time TEXT,
-                #         resin_used TEXT,
-                #         application_no TEXT,
-                #         matching_no TEXT,
-                #         date_matched DATE,
-                #         notes TEXT,
-                #         mb_dc TEXT,
-                #         html_color TEXT,
-                #         c_value TEXT,
-                #         m_value TEXT,
-                #         y_value TEXT,
-                #         k_value TEXT,
-                #         matched_by TEXT,
-                #
-                #         encoded_by TEXT,
-                #         encoded_on TIMESTAMP,
-                #         updated_by TEXT,
-                #         updated_on TIMESTAMP
-                #     );
-                # """))
-                #
-                # connection.execute(text("""
-                #     CREATE TABLE IF NOT EXISTS formulation_details (
-                #         id SERIAL PRIMARY KEY,
-                #         formulation_seq_id INTEGER REFERENCES formulation_records(seq_id) ON DELETE CASCADE,
-                #         material_code TEXT,
-                #         concentration NUMERIC(15, 6)
-                #     );
-                # """))
                 user_insert_query = text(
                     "INSERT INTO users (username, password, role) VALUES (:user, :pwd, :role) ON CONFLICT (username) DO NOTHING;")
                 connection.execute(user_insert_query, [{"user": "admin", "pwd": "itadmin", "role": "Admin"},

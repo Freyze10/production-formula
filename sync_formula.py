@@ -1,5 +1,5 @@
 # sync_tool.py
-# Standalone DBF to PostgreSQL Synchronization Tool for MBPI (v3 - Universal T_DELETED Skip, Incremental Sync)
+# Standalone DBF to PostgreSQL Synchronization Tool for MBPI (v3 - Universal T_DELETED Skip)
 
 import sys
 import os
@@ -72,33 +72,34 @@ class LoadingDialog(QDialog):
         self.setWindowTitle("Please Wait")
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setModal(True)
-        self.setMinimumSize(350, 150)
+        self.setMinimumSize(400, 200)
         self.frame = QFrame(self)
-        self.frame.setStyleSheet(
-            "QFrame { background-color: #ffffff; border-radius: 10px; border: 1px solid #d0d0d0; }")
+        self.frame.setObjectName("HeaderCard")
+        self.frame.setStyleSheet("""
+            QFrame#HeaderCard { 
+                background-color: #f8f9fa; 
+                border-radius: 10px; 
+                border: 1px solid #d0d0d0; 
+            }
+        """)
         main_layout = QVBoxLayout(self);
         main_layout.addWidget(self.frame)
         layout = QVBoxLayout(self.frame);
-        layout.setContentsMargins(20, 20, 20, 20);
-        layout.setSpacing(15)
+        layout.setContentsMargins(30, 30, 30, 30);
+        layout.setSpacing(20)
         self.title_label = QLabel(title_text);
-        self.title_label.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold));
+        self.title_label.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold));
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.animation_label = QLabel();
+        self.title_label.setStyleSheet("color: #0078d4; font-family: 'Segoe UI';")
+        self.animation_label = QLabel("Loading...");
         self.animation_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        gif_path = "loading.gif"
-        if os.path.exists(gif_path):
-            self.movie = QMovie(gif_path);
-            self.movie.setScaledSize(QSize(40, 40));
-            self.animation_label.setMovie(self.movie);
-            self.movie.start()
-        else:
-            print("WARNING: 'loading.gif' not found. Displaying fallback text.")
-            self.animation_label.setText("Loading...");
-            self.animation_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
+        self.animation_label.setFont(QFont("Segoe UI", 16, QFont.Weight.Bold))
+        self.animation_label.setStyleSheet("color: #0078d4; font-family: 'Segoe UI';")
         self.progress_label = QLabel("Initializing...");
         self.progress_label.setAlignment(Qt.AlignmentFlag.AlignCenter);
         self.progress_label.setWordWrap(True)
+        self.progress_label.setFont(QFont("Segoe UI", 11))
+        self.progress_label.setStyleSheet("color: #555; font-family: 'Segoe UI'; background-color: transparent;")
         layout.addWidget(self.title_label);
         layout.addWidget(self.animation_label);
         layout.addWidget(self.progress_label)
@@ -107,7 +108,6 @@ class LoadingDialog(QDialog):
         self.progress_label.setText(text)
 
     def closeEvent(self, event):
-        if hasattr(self, 'movie'): self.movie.stop()
         event.accept()
 
 
@@ -118,24 +118,19 @@ class SyncFormulaWorker(QObject):
 
     def run(self):
         try:
-            # Get max legacy_id already synced
             with engine.connect() as conn:
-                max_synced_legacy_id = conn.execute(text("""
-                    SELECT COALESCE(MAX(legacy_id), 0)
-                    FROM formula_primary
-                    WHERE legacy_id IS NOT NULL;
-                """)).scalar()
-            self.progress.emit(f"Max synced legacy_id in PostgreSQL: {max_synced_legacy_id}")
-
-            self.progress.emit("Phase 1/3: Reading formula items from tbl_formula02.dbf...")
+                max_uid = conn.execute(text("SELECT COALESCE(MAX(uid), 0) FROM formula_primary")).scalar()
+            self.progress.emit(f"Phase 1/3: Reading formula items from tbl_formula02.dbf (filtering UID > {max_uid})...")
             items_by_uid = collections.defaultdict(list)
+            new_uids = set()
             dbf_items = dbfread.DBF(FORMULA_ITEMS_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
             for item_rec in dbf_items:
                 ### CHANGE: Skip T_DELETED records ###
                 if bool(item_rec.get('T_DELETED', False)):
                     continue
                 uid = _to_int(item_rec.get('T_UID'))
-                if uid is None: continue
+                if uid is None or uid <= max_uid: continue
+                new_uids.add(uid)
                 items_by_uid[uid].append({
                     "uid": uid, "seq": _to_int(item_rec.get('T_SEQ')),
                     "material_code": str(item_rec.get('T_MATCODE', '') or '').strip(),
@@ -143,7 +138,7 @@ class SyncFormulaWorker(QObject):
                     "update_by": str(item_rec.get('T_UPDATEBY', '') or '').strip(),
                     "update_on_text": str(item_rec.get('T_UDATE', '') or '').strip()
                 })
-            self.progress.emit(f"Phase 1/3: Found items for {len(items_by_uid)} groups.")
+            self.progress.emit(f"Phase 1/3: Found {len(items_by_uid)} groups of new active items.")
 
             self.progress.emit("Phase 2/3: Reading primary formula data from tbl_formula01.dbf...")
             primary_recs = []
@@ -152,18 +147,15 @@ class SyncFormulaWorker(QObject):
                 ### CHANGE: Skip T_DELETED records ###
                 if bool(r.get('T_DELETED', False)):
                     continue
-                legacy_id = _to_int(r.get('T_ID'))
-                if legacy_id is None or legacy_id <= max_synced_legacy_id:
-                    continue
                 uid = _to_int(r.get('T_UID'))
-                if uid is None: continue
+                if uid is None or uid <= max_uid: continue
                 primary_recs.append({
                     "formula_index": str(r.get('T_INDEX', '') or '').strip(), "uid": uid,
                     "formula_date": r.get('T_DATE'),
                     "customer": str(r.get('T_CUSTOMER', '') or '').strip(),
                     "product_code": str(r.get('T_PRODCODE', '') or '').strip(),
                     "product_color": str(r.get('T_PRODCOLO', '') or '').strip(), "dosage": _to_float(r.get('T_DOSAGE')),
-                    "legacy_id": legacy_id,
+                    "legacy_id": _to_int(r.get('T_ID')),
                     "mix_type": str(r.get('T_MIX', '') or '').strip(), "resin": str(r.get('T_RESIN', '') or '').strip(),
                     "application": str(r.get('T_APP', '') or '').strip(),
                     "cm_num": str(r.get('T_CMNUM', '') or '').strip(), "cm_date": r.get('T_CMDATE'),
@@ -175,12 +167,13 @@ class SyncFormulaWorker(QObject):
                     "dbf_updated_on_text": str(r.get('T_UDATE', '') or '').strip(),
                 })
 
-            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new primary records (legacy_id > {max_synced_legacy_id}).")
-            if not primary_recs:
-                self.finished.emit(True, f"Sync Info: No new formula records (legacy_id > {max_synced_legacy_id}) found.")
-                return
+            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new valid primary records.")
+            if not primary_recs: self.finished.emit(True,
+                                                    f"Sync Info: No new formula records (UID > {max_uid}) found to sync."); return
 
-            self.progress.emit("Phase 3/3: Writing new data to PostgreSQL database...")
+            all_items_to_insert = [item for rec in primary_recs for item in items_by_uid.get(rec['uid'], [])]
+
+            self.progress.emit("Phase 3/3: Writing data to PostgreSQL database...")
             with engine.connect() as conn:
                 with conn.begin():
                     conn.execute(text("""
@@ -191,14 +184,13 @@ class SyncFormulaWorker(QObject):
                             mix_type = EXCLUDED.mix_type, resin = EXCLUDED.resin, application = EXCLUDED.application, cm_num = EXCLUDED.cm_num, cm_date = EXCLUDED.cm_date, matched_by = EXCLUDED.matched_by, encoded_by = EXCLUDED.encoded_by,
                             remarks = EXCLUDED.remarks, total_concentration = EXCLUDED.total_concentration, is_used = EXCLUDED.is_used, dbf_updated_by = EXCLUDED.dbf_updated_by, dbf_updated_on_text = EXCLUDED.dbf_updated_on_text, last_synced_on = NOW();
                     """), primary_recs)
-                    all_items_to_insert = [item for rec in primary_recs for item in items_by_uid.get(rec['uid'], [])]
                     if all_items_to_insert:
                         conn.execute(text("""
                             INSERT INTO formula_items (uid, seq, material_code, concentration, update_by, update_on_text)
                             VALUES (:uid, :seq, :material_code, :concentration, :update_by, :update_on_text);
                         """), all_items_to_insert)
             self.finished.emit(True,
-                               f"Formula sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} new items processed.")
+                               f"Formula sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} items processed.")
         except dbfread.DBFNotFound as e:
             self.finished.emit(False, f"File Not Found: A required formula DBF file is missing.\nDetails: {e}")
         except Exception as e:
@@ -220,16 +212,13 @@ class SyncDeliveryWorker(QObject):
 
     def run(self):
         try:
-            # Get max dr_no already synced
             with engine.connect() as conn:
-                max_synced_dr_no = conn.execute(text("""
+                max_dr_no = conn.execute(text("""
                     SELECT COALESCE(MAX(CAST(dr_no AS INTEGER)), 0)
                     FROM product_delivery_primary
                     WHERE dr_no ~ '^[0-9]+$';
                 """)).scalar()
-            self.progress.emit(f"Max synced DR_NO in PostgreSQL: {max_synced_dr_no}")
-
-            self.progress.emit("Phase 1/3: Reading delivery items from tbl_del02.dbf...")
+            self.progress.emit(f"Phase 1/3: Reading delivery items from tbl_del02.dbf (filtering DR_NO > {max_dr_no})...")
             items_by_dr = {}
             dbf_items = dbfread.DBF(DELIVERY_ITEMS_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
             for item_rec in dbf_items:
@@ -237,7 +226,7 @@ class SyncDeliveryWorker(QObject):
                 if bool(item_rec.get('T_DELETED', False)):
                     continue
                 dr_num = self._get_safe_dr_num(item_rec.get('T_DRNUM'))
-                if not dr_num: continue
+                if not dr_num or int(dr_num) <= max_dr_no: continue
                 if dr_num not in items_by_dr: items_by_dr[dr_num] = []
                 attachments = "\n".join(
                     filter(None, [str(item_rec.get(f'T_DESC{i}', '') or '').strip() for i in range(1, 5)]))
@@ -251,8 +240,6 @@ class SyncDeliveryWorker(QObject):
                     "lot_numbers": "", "attachments": attachments, "unit_price": None, "lot_no_1": None,
                     "lot_no_2": None, "lot_no_3": None, "mfg_date": None, "alias_code": None, "alias_desc": None
                 })
-            self.progress.emit(f"Phase 1/3: Found items for {len(items_by_dr)} DRs.")
-
             self.progress.emit("Phase 2/3: Reading primary delivery data from tbl_del01.dbf...")
             primary_recs = []
             dbf_primary = dbfread.DBF(DELIVERY_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
@@ -260,13 +247,8 @@ class SyncDeliveryWorker(QObject):
                 ### CHANGE: Skip T_DELETED records ###
                 if bool(r.get('T_DELETED', False)):
                     continue
-                dr_num_raw = r.get('T_DRNUM')
-                dr_num = self._get_safe_dr_num(dr_num_raw)
-                if not dr_num or not dr_num.isdigit():
-                    continue
-                dr_num_int = int(dr_num)
-                if dr_num_int <= max_synced_dr_no:
-                    continue
+                dr_num = self._get_safe_dr_num(r.get('T_DRNUM'))
+                if not dr_num or int(dr_num) <= max_dr_no: continue
                 address = (str(r.get('T_ADD1', '') or '').strip() + ' ' + str(
                     r.get('T_ADD2', '') or '').strip()).strip()
                 primary_recs.append({
@@ -278,13 +260,11 @@ class SyncDeliveryWorker(QObject):
                     "terms": str(r.get('T_REMARKS', '') or '').strip(),
                     "prepared_by": str(r.get('T_USERID', '') or '').strip(), "encoded_on": r.get('T_DENCODED')
                 })
-            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new primary records (DR_NO > {max_synced_dr_no}).")
-            if not primary_recs:
-                self.finished.emit(True, f"Sync Info: No new delivery records (DR_NO > {max_synced_dr_no}) found.")
-                return
+            if not primary_recs: self.finished.emit(True,
+                                                    f"Sync Info: No new delivery records (DR_NO > {max_dr_no}) found to sync."); return
             all_items_to_insert = [item for dr_num in [rec['dr_no'] for rec in primary_recs] if dr_num in items_by_dr
                                    for item in items_by_dr[dr_num]]
-            self.progress.emit("Phase 3/3: Writing new delivery data to PostgreSQL database...")
+            self.progress.emit("Phase 3/3: Writing delivery data to PostgreSQL database...")
             with engine.connect() as conn:
                 with conn.begin():
                     conn.execute(text("""
@@ -300,7 +280,7 @@ class SyncDeliveryWorker(QObject):
                             VALUES (:dr_no, :quantity, :unit, :product_code, :product_color, :no_of_packing, :weight_per_pack, :lot_numbers, :attachments, :unit_price, :lot_no_1, :lot_no_2, :lot_no_3, :mfg_date, :alias_code, :alias_desc)
                         """), all_items_to_insert)
             self.finished.emit(True,
-                               f"Delivery sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} new items processed.")
+                               f"Delivery sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} items processed.")
         except dbfread.DBFNotFound as e:
             self.finished.emit(False, f"File Not Found: A required delivery DBF file is missing.\nDetails: {e}")
         except Exception as e:
@@ -320,22 +300,19 @@ class SyncRRFWorker(QObject):
 
     def run(self):
         try:
-            # Get max rrf_no already synced
             with engine.connect() as conn:
-                max_synced_rrf_no = conn.execute(text("""
+                max_rrf_no = conn.execute(text("""
                     SELECT COALESCE(MAX(CAST(rrf_no AS INTEGER)), 0)
                     FROM rrf_primary
                     WHERE rrf_no ~ '^[0-9]+$';
                 """)).scalar()
-            self.progress.emit(f"Max synced RRF_NO in PostgreSQL: {max_synced_rrf_no}")
-
-            self.progress.emit("Phase 1/3: Reading RRF items from tbl_del02.dbf...")
+            self.progress.emit(f"Reading RRF items (filtering RRF_NO > {max_rrf_no})...")
             items_by_rrf = {}
             dbf_items = dbfread.DBF(RRF_ITEMS_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
             for item_rec in dbf_items:
                 # Assuming RRF items don't have a T_DELETED flag as per structure
                 rrf_num = self._get_safe_rrf_num(item_rec.get('T_DRNUM'));
-                if not rrf_num: continue
+                if not rrf_num or int(rrf_num) <= max_rrf_no: continue
                 if rrf_num not in items_by_rrf: items_by_rrf[rrf_num] = []
                 remarks = "\n".join(
                     filter(None, [str(item_rec.get(f'T_DESC{i}', '') or '').strip() for i in range(3, 5)]))
@@ -346,33 +323,23 @@ class SyncRRFWorker(QObject):
                     "lot_number": str(item_rec.get('T_DESC1', '') or '').strip(),
                     "reference_number": str(item_rec.get('T_DESC2', '') or '').strip(), "remarks": remarks
                 })
-            self.progress.emit(f"Phase 1/3: Found items for {len(items_by_rrf)} RRFs.")
-
-            self.progress.emit("Phase 2/3: Reading primary RRF data from tbl_del01.dbf...")
+            self.progress.emit("Reading primary RRF data...")
             primary_recs = []
             dbf_primary = dbfread.DBF(RRF_PRIMARY_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
             for r in dbf_primary:
                 ### CHANGE: Skip T_DELETED records ###
                 if bool(r.get('T_DELETED', False)):
                     continue
-                rrf_num_raw = r.get('T_DRNUM')
-                rrf_num = self._get_safe_rrf_num(rrf_num_raw)
-                if not rrf_num or not rrf_num.isdigit():
-                    continue
-                rrf_num_int = int(rrf_num)
-                if rrf_num_int <= max_synced_rrf_no:
-                    continue
+                rrf_num = self._get_safe_rrf_num(r.get('T_DRNUM'));
+                if not rrf_num or int(rrf_num) <= max_rrf_no: continue
                 primary_recs.append({
                     "rrf_no": rrf_num, "rrf_date": r.get('T_DRDATE'),
                     "customer_name": str(r.get('T_CUSTOMER', '') or '').strip(),
                     "material_type": str(r.get('T_DELTO', '') or '').strip(),
                     "prepared_by": str(r.get('T_USERID', '') or '').strip()
                 })
-            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new primary records (RRF_NO > {max_synced_rrf_no}).")
-            if not primary_recs:
-                self.finished.emit(True, f"Sync Info: No new RRF records (RRF_NO > {max_synced_rrf_no}) found.")
-                return
-            self.progress.emit("Phase 3/3: Writing new RRF data to database...")
+            if not primary_recs: self.finished.emit(True, f"Sync Info: No new RRF records (RRF_NO > {max_rrf_no}) found to sync."); return
+            self.progress.emit("Writing RRF data to database...")
             with engine.connect() as conn:
                 with conn.begin():
                     ### CHANGE: Simplified SQL to remove is_deleted ###
@@ -390,7 +357,7 @@ class SyncRRFWorker(QObject):
                             """INSERT INTO rrf_items (rrf_no, quantity, unit, product_code, lot_number, reference_number, remarks) VALUES (:rrf_no, :quantity, :unit, :product_code, :lot_number, :reference_number, :remarks)"""),
                                      all_items_to_insert)
             self.finished.emit(True,
-                               f"RRF sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} new items processed.")
+                               f"RRF sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} items processed.")
         except dbfread.DBFNotFound as e:
             self.finished.emit(False, f"File Not Found: A required RRF DBF file is missing.\nDetails: {e}")
         except Exception as e:
@@ -550,42 +517,8 @@ def initialize_sync_tool_db():
                     );"""))
                 connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_items_uid ON formula_items (uid);"))
 
-                # Schema for delivery tables (assuming they exist or create if needed)
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS product_delivery_primary (
-                        id SERIAL PRIMARY KEY, dr_no TEXT NOT NULL UNIQUE, delivery_date DATE, customer_name TEXT,
-                        deliver_to TEXT, address TEXT, po_no TEXT, order_form_no TEXT, terms TEXT,
-                        prepared_by TEXT, encoded_by TEXT, encoded_on TIMESTAMP, edited_by TEXT, edited_on TIMESTAMP
-                    );"""))
-                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_delivery_primary_dr_no ON product_delivery_primary (dr_no);"))
-
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS product_delivery_items (
-                        id SERIAL PRIMARY KEY, dr_no TEXT NOT NULL, quantity NUMERIC(15, 6), unit TEXT,
-                        product_code TEXT, product_color TEXT, no_of_packing NUMERIC(15, 2), weight_per_pack NUMERIC(15, 6),
-                        lot_numbers TEXT, attachments TEXT, unit_price NUMERIC(15, 6), lot_no_1 TEXT, lot_no_2 TEXT,
-                        lot_no_3 TEXT, mfg_date TEXT, alias_code TEXT, alias_desc TEXT,
-                        FOREIGN KEY (dr_no) REFERENCES product_delivery_primary (dr_no) ON DELETE CASCADE
-                    );"""))
-                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_delivery_items_dr_no ON product_delivery_items (dr_no);"))
-
                 # Schema for RRF tables (ensure is_deleted column is NOT there)
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS rrf_primary (
-                        id SERIAL PRIMARY KEY, rrf_no TEXT NOT NULL UNIQUE, rrf_date DATE, customer_name TEXT,
-                        material_type TEXT, prepared_by TEXT, encoded_by TEXT, encoded_on TIMESTAMP,
-                        edited_by TEXT, edited_on TIMESTAMP
-                    );"""))
-                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_rrf_primary_rrf_no ON rrf_primary (rrf_no);"))
                 connection.execute(text("ALTER TABLE rrf_primary DROP COLUMN IF EXISTS is_deleted;"))
-
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS rrf_items (
-                        id SERIAL PRIMARY KEY, rrf_no TEXT NOT NULL, quantity NUMERIC(15, 6), unit TEXT,
-                        product_code TEXT, lot_number TEXT, reference_number TEXT, remarks TEXT,
-                        FOREIGN KEY (rrf_no) REFERENCES rrf_primary (rrf_no) ON DELETE CASCADE
-                    );"""))
-                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_rrf_items_rrf_no ON rrf_items (rrf_no);"))
 
         print("Database schema check complete.")
         return True
