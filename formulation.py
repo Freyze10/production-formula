@@ -114,13 +114,26 @@ class FormulationManagementPage(QWidget):
             "ID", "Index Ref", "Customer", "Product Code", "Product Color",
             "Total Cons", "Dosage"
         ])
-        self.formulation_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        header = self.formulation_table.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Interactive)  # Allow manual resizing
+        header.resizeSection(2, 350)  # Set initial width to 400 pixels
+        header.setMinimumSectionSize(70)
+        # === Enable sorting by clicking on headers ===
+        self.formulation_table.setSortingEnabled(True)
+        # === Table appearance and behavior ===
         self.formulation_table.verticalHeader().setVisible(False)
         self.formulation_table.setAlternatingRowColors(True)
         self.formulation_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.formulation_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.formulation_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        # === Optional: sort indicator visual (arrow up/down) ===
+        header.setSortIndicatorShown(True)
+        header.setSectionsClickable(True)
+
+        # === Connect selection event ===
         self.formulation_table.itemSelectionChanged.connect(self.on_formulation_selected)
+
         records_layout.addWidget(self.formulation_table, stretch=1)
 
         layout.addWidget(records_card, stretch=3)
@@ -519,14 +532,24 @@ class FormulationManagementPage(QWidget):
             self.formulation_table.insertRow(row_position)
 
             for col, data in enumerate(row_data):
-                # If this is the 'formula_index' column (e.g., column 1), check if it's empty/None
-                if col == 1:  # <-- change index to match your formula_index column
+                # Format value
+                if col == 1:  # formula_index
                     display_value = "-" if not data else str(data)
                 else:
                     display_value = str(data) if data is not None else ""
 
                 item = QTableWidgetItem(display_value)
+
+                # === Align the last two columns (Total Cons & Dosage) to the right ===
+                if col in (0, 1):
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+                if col in (5, 6):
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+                else:
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+
                 self.formulation_table.setItem(row_position, col, item)
+
 
     def filter_formulations(self):
         """Filter formulations based on search text."""
@@ -563,6 +586,7 @@ class FormulationManagementPage(QWidget):
             self.details_table.insertRow(row_position)
             for col, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data) if data is not None else "")
+                item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.details_table.setItem(row_position, col, item)
 
     def view_formulation_details(self):
