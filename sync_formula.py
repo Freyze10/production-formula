@@ -528,12 +528,12 @@ def initialize_sync_tool_db():
 
 
 # --- Main Execution ---
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    if not initialize_sync_tool_db():
-        QMessageBox.critical(None, "Database Error",
-                             "Could not connect to or initialize the database.\nCheck console for details.")
-        sys.exit(1)
-    main_window = SyncToolWindow()
-    main_window.show()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     if not initialize_sync_tool_db():
+#         QMessageBox.critical(None, "Database Error",
+#                              "Could not connect to or initialize the database.\nCheck console for details.")
+#         sys.exit(1)
+#     main_window = SyncToolWindow()
+#     main_window.show()
+#     sys.exit(app.exec())

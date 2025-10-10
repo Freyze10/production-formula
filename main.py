@@ -71,6 +71,7 @@ class AppStyles:
         QFrame#Separator {{ background-color: #34495e; height: 1px; }}
         QFormLayout QLabel, QGridLayout QLabel, QGroupBox {{ font-weight: bold; color: #343a40; }}
         QLineEdit, QComboBox, QDateEdit {{ border: 1px solid #ced4da; padding: 6px; border-radius: 6px; background-color: #ffffff; min-height: 20px; }}
+        QDateEdit {{ min-width: 80px; }}
         QLineEdit:focus, QComboBox:focus, QDateEdit:focus {{ border: 1px solid {PRIMARY_COLOR}; }}
         QLineEdit:read-only {{ background-color: #e9ecef; color: #495057; }}
         QComboBox::drop-down {{ subcontrol-origin: padding; subcontrol-position: top right; width: 20px; border-left-width: 1px; border-left-color: #ced4da; border-left-style: solid; }}

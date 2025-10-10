@@ -24,7 +24,7 @@ class FormulationManagementPage(QWidget):
         workstation = _get_workstation_info()
         self.work_station = workstation
         self.current_formulation_id = None
-        self.all_formula_data = db_call.get_formula_data()
+        self.all_formula_data = []
         self.sample_details = {
             "0017080": [("W8", 8.0), ("Y121", 5.0), ("O51", 0.5), ("L37", 5.0), ("L28", 5.0), ("K907", 41.5), ("HIPS(POWDER)", 35.0)],
             "0017079": [("A1", 10.0), ("B2", 15.0), ("C3", 20.0)],
@@ -35,6 +35,7 @@ class FormulationManagementPage(QWidget):
         self.setup_ui()
         self.load_customers()
         self.refresh_page()
+        self.refresh_formulations()
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
@@ -176,21 +177,29 @@ class FormulationManagementPage(QWidget):
         controls_layout.addWidget(date_from_label)
         self.date_from_filter = QDateEdit()
         self.date_from_filter.setCalendarPopup(True)
-        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
         controls_layout.addWidget(self.date_from_filter)
 
         date_to_label = QLabel("Date To:")
         controls_layout.addWidget(date_to_label)
         self.date_to_filter = QDateEdit()
         self.date_to_filter.setCalendarPopup(True)
-        self.date_to_filter.setDate(QDate.currentDate())
         controls_layout.addWidget(self.date_to_filter)
+
+        earliest_date, latest_date = db_call.get_min_max_formula_date()
+
+        qdate_from = QDate(earliest_date.year, earliest_date.month, earliest_date.day)
+        qdate_to = QDate(latest_date.year, latest_date.month, latest_date.day)
+
+        self.date_from_filter.setDate(qdate_from)
+        self.date_to_filter.setDate(qdate_to)
+        self.date_from_filter.dateChanged.connect(self.refresh_formulations)
+        self.date_to_filter.dateChanged.connect(self.refresh_formulations)
 
         controls_layout.addStretch()
 
         refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        refresh_btn.clicked.connect(self.refresh_formulations)
+        refresh_btn.clicked.connect(self.refresh_page)
         controls_layout.addWidget(refresh_btn)
 
         view_btn = QPushButton("View Details", objectName="PrimaryButton")
@@ -521,11 +530,21 @@ class FormulationManagementPage(QWidget):
 
     def refresh_page(self):
         """Refresh the formulation records."""
-        self.refresh_formulations()
+        earliest_date, latest_date = db_call.get_min_max_formula_date()
+
+        qdate_from = QDate(earliest_date.year, earliest_date.month, earliest_date.day)
+        qdate_to = QDate(latest_date.year, latest_date.month, latest_date.day)
+
+        self.date_from_filter.setDate(qdate_from)
+        self.date_to_filter.setDate(qdate_to)
+
 
     def refresh_formulations(self):
         """Load sample formulations."""
+        early_date = self.date_from_filter.date().toPyDate()
+        late_date = self.date_to_filter.date().toPyDate()
         self.formulation_table.setRowCount(0)
+        self.all_formula_data = db_call.get_formula_data(early_date, late_date)
 
         for row_data in self.all_formula_data:
             row_position = self.formulation_table.rowCount()
