@@ -109,10 +109,10 @@ class FormulationManagementPage(QWidget):
         records_layout.addWidget(table_label)
 
         self.formulation_table = QTableWidget()
-        self.formulation_table.setColumnCount(8)
+        self.formulation_table.setColumnCount(7)
         self.formulation_table.setHorizontalHeaderLabels([
             "ID", "Index Ref", "Customer", "Product Code", "Product Color",
-            "Total Conc.", "Dosage"
+            "Total Cons", "Dosage"
         ])
         self.formulation_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.formulation_table.verticalHeader().setVisible(False)
@@ -546,18 +546,17 @@ class FormulationManagementPage(QWidget):
         if selected_rows:
             row = selected_rows[0].row()
             formulation_id = self.formulation_table.item(row, 0).text()
-            index_ref = self.formulation_table.item(row, 1).text()
             customer = self.formulation_table.item(row, 2).text()
 
             self.current_formulation_id = formulation_id
             self.selected_formulation_label.setText(
-                f"INDEX REF. - FORMULATION NO.: {index_ref} / {formulation_id} - {customer}")
+                f"-/ {formulation_id} - {customer}")
 
             self.load_formulation_details(formulation_id)
 
     def load_formulation_details(self, formulation_id):
         """Load sample detailed material list for selected formulation."""
-        details = self.sample_details.get(formulation_id, [])
+        details = db_call.get_formula_materials(formulation_id)
         self.details_table.setRowCount(0)
         for row_data in details:
             row_position = self.details_table.rowCount()
