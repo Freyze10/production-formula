@@ -730,7 +730,6 @@ class FormulationManagementPage(QWidget):
         self.tab_widget.setCurrentWidget(self.entry_tab)
         self.tab_widget.blockSignals(False)
 
-
     def add_material_row(self):
         """Add a new material row to the table."""
         material_code = self.material_code_input.text().strip()
