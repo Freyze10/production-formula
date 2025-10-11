@@ -659,50 +659,57 @@ class FormulationManagementPage(QWidget):
     def view_formulation_details(self):
         """View full details of selected formulation."""
         if not self.current_formulation_id:
-            QMessageBox.warning(self, "No Selection", "Please select a formulation to view.")
+            QMessageBox.warning(self, "No Selection", "Please select a formula to view.")
             return
+        self.tab_widget.blockSignals(True)
+        # Change the tab
+        self.tab_widget.setCurrentIndex(1)
+        result = db_call.get_specific_formula_data(self.current_formulation_id)
+        if not result:
+            QMessageBox.warning(self, "Error",
+                                f"Formulation ID {self.current_formulation_id} not found in database.")
+            self.tab_widget.blockSignals(False)
+            return
+        # Display all the data but disable the save button
 
-        QMessageBox.information(self, "View Details", f"Viewing formulation: {self.current_formulation_id}")
-
+        # Re-enable signals
+        self.tab_widget.blockSignals(False)
     def edit_formulation(self):
         """Load selected formulation into entry tab for editing (sample data)."""
         if not self.current_formulation_id:
             QMessageBox.warning(self, "No Selection", "Please select a formulation to edit.")
             return
-        # Find index in sample
-        # Using the current_formulation_id to find the corresponding data in all_formula_data
-        # Note: self.all_formula_data stores tuples, where data[0] is the ID.
-        found_data = None
-        for data in self.all_formula_data:
-            if str(data[0]) == self.current_formulation_id:
-                found_data = data
-                break
 
-        if not found_data:
+        self.tab_widget.blockSignals(True)
+        # Change the tab
+        self.tab_widget.setCurrentIndex(1)
+        result = db_call.get_specific_formula_data(self.current_formulation_id)
+        if not result:
             QMessageBox.warning(self, "Error",
-                                f"Formulation ID {self.current_formulation_id} not found in loaded data.")
+                                f"Formulation ID {self.current_formulation_id} not found in database.")
+            self.tab_widget.blockSignals(False)
             return
 
-        fid, iref, cust, pcode, pcolor, tconc, dos, enc = found_data
-        self.formulation_id_input.setText(str(fid))  # Ensure ID is string for display
-        self.customer_input.setText(cust)
-        self.index_ref_input.setText(iref)
-        self.product_code_input.setText(pcode)
-        self.product_color_input.setText(pcolor)
-        self.sum_conc_input.setText(f"{tconc:.6f}")
-        self.dosage_input.setText(f"{dos:.6f}")
-        self.mixing_time_input.setText("5 MIN")
-        self.resin_used_input.setText("HIPS")  # Example
-        self.application_no_input.setText("APP001")  # Example
-        self.matching_no_input.setText("MATCH001")  # Example
-        self.date_matched_input.setText("10/08/2025")  # Example
-        self.notes_input.setPlainText("Sample notes for editing")  # Example
-        self.mb_dc_combo.setCurrentText("MB")  # Example
+        # Re-enable signals
+        self.formulation_id_input.setText(str(result[2]))  # Ensure ID is string for display
+        self.customer_input.setText(str(result[4]))
+        self.index_ref_input.setText(str(result[1]))
+        self.product_code_input.setText(str(result[5]))
+        self.product_color_input.setText(str(result[6]))
+        self.sum_conc_input.setText(str(result[17]))
+        self.dosage_input.setText(str(result[7]))
+        self.mixing_time_input.setText(str(result[9]))
+        self.resin_used_input.setText(str(result[10]))  # Example
+        self.application_no_input.setText(str(result[11]))  # Example
+        self.matching_no_input.setText(str(result[12]))  # Example
+        self.date_matched_input.setText(str(result[2]))  # Example insert date
+        self.notes_input.setPlainText(str(result[2]))  # Example
+        self.mb_dc_combo.setCurrentText(str(result[2]))  # Example
         self.html_input.setText("#FFFF00")  # Example
-        self.cyan_input.setText("0.00")
-        self.magenta_input.setText("0.00")
-        self.yellow_input.setText("100.00")
-        self.key_black_input.setText("0.00")
+        self.cyan_input.setText("0")
+        self.magenta_input.setText("0")
+        self.yellow_input.setText("10")
+        self.key_black_input.setText("0")
         self.matched_by_input.setCurrentText("ANNA")  # Example
 
         # Load materials for the selected formulation from db_call
@@ -718,6 +725,9 @@ class FormulationManagementPage(QWidget):
         # Switch to entry tab
         self.tab_widget.setCurrentWidget(self.entry_tab)
         QMessageBox.information(self, "Edit Mode", f"Formulation {self.current_formulation_id} loaded for editing.")
+
+        self.tab_widget.blockSignals(False)
+
 
     def add_material_row(self):
         """Add a new material row to the table."""

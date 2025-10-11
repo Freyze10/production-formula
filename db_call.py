@@ -32,9 +32,22 @@ def get_formula_materials(uid):
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("SELECT material_code, concentration FROM public.formula_items WHERE uid = %s ORDER BY seq DESC",
+    cur.execute("SELECT material_code, concentration FROM formula_items WHERE uid = %s ORDER BY seq DESC",
                 (uid,))
     records = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    return records
+
+
+def get_specific_formula_data(uid):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM formula_primary WHERE uid = %s",
+                (uid,))
+    records = cur.fetchone()
 
     cur.close()
     conn.close()
