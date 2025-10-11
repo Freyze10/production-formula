@@ -59,7 +59,7 @@ def get_formula_latest_uid():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""SELECT MAX(uid) AS latest_date
+    cur.execute("""SELECT MAX(uid)
                     FROM formula_primary""")
     record = cur.fetchone()
 

@@ -32,7 +32,7 @@ class FormulationManagementPage(QWidget):
             "0017077": [("Z1", 25.0), ("Z2", 30.0)],
         }
         self.customers = ["OCTAPLAS INDUSTRIAL SERVICES", "CRONICS, INC.", "MAGNATE FOOD AND DRINKS", "SAN MIGUEL YAMAMURA PACKAGING"]
-        self.latest_formula_uid = None
+
         self.setup_ui()
         self.load_customers()
         self.refresh_page()
@@ -725,7 +725,7 @@ class FormulationManagementPage(QWidget):
 
     def new_formulation(self):
         """Start a new formulation entry."""
-        self.formulation_id_input.setText(f"FRM-{datetime.now().strftime('%Y%m%d%H%M%S')}")
+        self.sync_for_entry(1)
         self.customer_input.setText("")
         self.index_ref_input.setText("")
         self.product_code_input.setText("")
@@ -797,12 +797,13 @@ class FormulationManagementPage(QWidget):
             loading_dialog.accept()
 
         # Show QMessageBox based on success
-        # if success:
-        #     QMessageBox.information(self, "Sync Result", f"Sync finished: {message}")
+        if success:
+            latest_id = db_call.get_formula_latest_uid()
+            self.formulation_id_input.setText(str(int(latest_id[0]) + 1))
         # else:
         #     QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}")
 
         thread.quit()
         thread.wait()
-        self.latest_formula_uid = db_call.get_formula_latest_uid()
+
 
