@@ -15,6 +15,32 @@ from sync_formula import SyncFormulaWorker, LoadingDialog
 from work_station import _get_workstation_info
 
 
+# Custom QTableWidgetItem for numerical sorting
+class NumericTableWidgetItem(QTableWidgetItem):
+    def __init__(self, value, display_text=None, is_float=False):
+        # Store the actual numerical value for sorting
+        self.value = value
+        self.is_float = is_float
+
+        # Use display_text for the visual representation, or format value if not provided
+        if display_text is None:
+            if is_float:
+                display_text = f"{value:.6f}" if value is not None else ""
+            else:
+                display_text = str(value) if value is not None else ""
+
+        super().__init__(display_text)  # Pass the formatted string to the base QTableWidgetItem
+
+    def __lt__(self, other):
+        if isinstance(other, NumericTableWidgetItem):
+            # Ensure comparison is based on the actual numeric value, not the display string
+            if self.is_float:
+                return float(self.value) < float(other.value)
+            else:
+                return int(self.value) < int(other.value)
+        return super().__lt__(other)
+
+
 class FormulationManagementPage(QWidget):
     def __init__(self, engine, username, log_audit_trail):
         super().__init__()
@@ -26,12 +52,14 @@ class FormulationManagementPage(QWidget):
         self.current_formulation_id = None
         self.all_formula_data = []
         self.sample_details = {
-            "0017080": [("W8", 8.0), ("Y121", 5.0), ("O51", 0.5), ("L37", 5.0), ("L28", 5.0), ("K907", 41.5), ("HIPS(POWDER)", 35.0)],
+            "0017080": [("W8", 8.0), ("Y121", 5.0), ("O51", 0.5), ("L37", 5.0), ("L28", 5.0), ("K907", 41.5),
+                        ("HIPS(POWDER)", 35.0)],
             "0017079": [("A1", 10.0), ("B2", 15.0), ("C3", 20.0)],
             "0017078": [("X1", 12.0), ("Y2", 18.0)],
             "0017077": [("Z1", 25.0), ("Z2", 30.0)],
         }
-        self.customers = ["OCTAPLAS INDUSTRIAL SERVICES", "CRONICS, INC.", "MAGNATE FOOD AND DRINKS", "SAN MIGUEL YAMAMURA PACKAGING"]
+        self.customers = ["OCTAPLAS INDUSTRIAL SERVICES", "CRONICS, INC.", "MAGNATE FOOD AND DRINKS",
+                          "SAN MIGUEL YAMAMURA PACKAGING"]
 
         self.setup_ui()
         self.load_customers()
@@ -240,7 +268,7 @@ class FormulationManagementPage(QWidget):
         # Customer and Primary ID Info Card
         customer_card = QGroupBox("Customer and Primary ID Info")
         customer_card.setSizePolicy(customer_card.sizePolicy().horizontalPolicy(),
-                                   customer_card.sizePolicy().Expanding)
+                                    customer_card.sizePolicy().Expanding)
         customer_layout = QFormLayout(customer_card)
         customer_layout.setSpacing(6)
         customer_layout.setContentsMargins(10, 18, 10, 12)
@@ -539,37 +567,51 @@ class FormulationManagementPage(QWidget):
         self.date_from_filter.setDate(qdate_from)
         self.date_to_filter.setDate(qdate_to)
 
-
     def refresh_formulations(self):
-        """Load sample formulations."""
+        """Load formulations and preserve sort order if applicable."""
         early_date = self.date_from_filter.date().toPyDate()
         late_date = self.date_to_filter.date().toPyDate()
-        self.formulation_table.setRowCount(0)
-        self.all_formula_data = db_call.get_formula_data(early_date, late_date)
 
+        # Store current sort state
+        sort_column = self.formulation_table.horizontalHeader().sortIndicatorSection()
+        sort_order = self.formulation_table.horizontalHeader().sortIndicatorOrder()
+
+        # Disable sorting and clear table
+        self.formulation_table.setSortingEnabled(False)
+        self.formulation_table.clearContents()
+        self.formulation_table.setRowCount(0)
+
+        # Load and populate data
+        self.all_formula_data = db_call.get_formula_data(early_date, late_date)
         for row_data in self.all_formula_data:
             row_position = self.formulation_table.rowCount()
             self.formulation_table.insertRow(row_position)
-
             for col, data in enumerate(row_data):
-                # Format value
-                if col == 1:  # formula_index
+                item = None
+                display_value = str(data) if data is not None else ""
+                if col == 0:
+                    item = NumericTableWidgetItem(int(data)) if data is not None else QTableWidgetItem("")
+                elif col == 1:
                     display_value = "-" if not data else str(data)
+                    item = QTableWidgetItem(display_value)
+                elif col in (5, 6):
+                    float_value = float(data) if data is not None else 0.0
+                    formatted_text = f"{float_value:.6f}"
+                    item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
                 else:
-                    display_value = str(data) if data is not None else ""
-
-                item = QTableWidgetItem(display_value)
-
-                # === Align the last two columns (Total Cons & Dosage) to the right ===
+                    item = QTableWidgetItem(display_value)
                 if col in (0, 1):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-                if col in (5, 6):
+                elif col in (5, 6):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
                 else:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-
                 self.formulation_table.setItem(row_position, col, item)
 
+        # Restore sort state
+        self.formulation_table.setSortingEnabled(True)
+        if sort_column >= 0:  # Only reapply sort if a column was previously sorted
+            self.formulation_table.sortByColumn(sort_column, sort_order)
 
     def filter_formulations(self):
         """Filter formulations based on search text."""
@@ -588,14 +630,17 @@ class FormulationManagementPage(QWidget):
         selected_rows = self.formulation_table.selectionModel().selectedRows()
         if selected_rows:
             row = selected_rows[0].row()
-            formulation_id = self.formulation_table.item(row, 0).text()
+            # Retrieve the actual value from the custom item if it's numeric
+            formulation_id_item = self.formulation_table.item(row, 0)
+            formulation_id = formulation_id_item.value if isinstance(formulation_id_item,
+                                                                     NumericTableWidgetItem) else formulation_id_item.text()
             customer = self.formulation_table.item(row, 2).text()
 
-            self.current_formulation_id = formulation_id
+            self.current_formulation_id = str(formulation_id)  # Ensure it's a string for consistency
             self.selected_formulation_label.setText(
-                f"-/ {formulation_id} - {customer}")
+                f"-/ {self.current_formulation_id} - {customer}")
 
-            self.load_formulation_details(formulation_id)
+            self.load_formulation_details(str(formulation_id))  # Pass as string
 
     def load_formulation_details(self, formulation_id):
         """Load sample detailed material list for selected formulation."""
@@ -606,6 +651,8 @@ class FormulationManagementPage(QWidget):
             self.details_table.insertRow(row_position)
             for col, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data) if data is not None else "")
+                if col == 1:  # Concentration column in details table
+                    item = QTableWidgetItem(f"{float(data):.6f}" if data is not None else "")
                 item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.details_table.setItem(row_position, col, item)
 
@@ -622,11 +669,22 @@ class FormulationManagementPage(QWidget):
         if not self.current_formulation_id:
             QMessageBox.warning(self, "No Selection", "Please select a formulation to edit.")
             return
-
         # Find index in sample
-        idx = next((i for i, data in enumerate(self.all_formula_data) if data[0] == self.current_formulation_id), 0)
-        fid, iref, cust, pcode, pcolor, tconc, dos, enc = self.all_formula_data[idx]
-        self.formulation_id_input.setText(fid)
+        # Using the current_formulation_id to find the corresponding data in all_formula_data
+        # Note: self.all_formula_data stores tuples, where data[0] is the ID.
+        found_data = None
+        for data in self.all_formula_data:
+            if str(data[0]) == self.current_formulation_id:
+                found_data = data
+                break
+
+        if not found_data:
+            QMessageBox.warning(self, "Error",
+                                f"Formulation ID {self.current_formulation_id} not found in loaded data.")
+            return
+
+        fid, iref, cust, pcode, pcolor, tconc, dos, enc = found_data
+        self.formulation_id_input.setText(str(fid))  # Ensure ID is string for display
         self.customer_input.setText(cust)
         self.index_ref_input.setText(iref)
         self.product_code_input.setText(pcode)
@@ -634,32 +692,32 @@ class FormulationManagementPage(QWidget):
         self.sum_conc_input.setText(f"{tconc:.6f}")
         self.dosage_input.setText(f"{dos:.6f}")
         self.mixing_time_input.setText("5 MIN")
-        self.resin_used_input.setText("HIPS")
-        self.application_no_input.setText("APP001")
-        self.matching_no_input.setText("MATCH001")
-        self.date_matched_input.setText("10/08/2025")
-        self.notes_input.setPlainText("Sample notes for editing")
-        self.mb_dc_combo.setCurrentText("MB")
-        self.html_input.setText("#FFFF00")
+        self.resin_used_input.setText("HIPS")  # Example
+        self.application_no_input.setText("APP001")  # Example
+        self.matching_no_input.setText("MATCH001")  # Example
+        self.date_matched_input.setText("10/08/2025")  # Example
+        self.notes_input.setPlainText("Sample notes for editing")  # Example
+        self.mb_dc_combo.setCurrentText("MB")  # Example
+        self.html_input.setText("#FFFF00")  # Example
         self.cyan_input.setText("0.00")
         self.magenta_input.setText("0.00")
         self.yellow_input.setText("100.00")
         self.key_black_input.setText("0.00")
-        self.matched_by_input.setCurrentText("ANNA")
+        self.matched_by_input.setCurrentText("ANNA")  # Example
 
-        # Load sample materials
-        materials = self.sample_details.get(fid, [])
+        # Load materials for the selected formulation from db_call
+        materials = db_call.get_formula_materials(str(fid))  # Pass ID as string
         self.materials_table.setRowCount(0)
-        for material in materials:
+        for material_code, concentration in materials:
             row_position = self.materials_table.rowCount()
             self.materials_table.insertRow(row_position)
-            self.materials_table.setItem(row_position, 0, QTableWidgetItem(str(material[0])))
-            self.materials_table.setItem(row_position, 1, QTableWidgetItem(f"{material[1]:.6f}"))
+            self.materials_table.setItem(row_position, 0, QTableWidgetItem(str(material_code)))
+            self.materials_table.setItem(row_position, 1, QTableWidgetItem(f"{concentration:.6f}"))
         self.update_total_concentration()
 
         # Switch to entry tab
         self.tab_widget.setCurrentWidget(self.entry_tab)
-        QMessageBox.information(self, "Edit Mode", "Sample formulation loaded for editing.")
+        QMessageBox.information(self, "Edit Mode", f"Formulation {self.current_formulation_id} loaded for editing.")
 
     def add_material_row(self):
         """Add a new material row to the table."""
@@ -678,7 +736,8 @@ class FormulationManagementPage(QWidget):
             return
 
         rm_code = QTableWidgetItem(material_code)
-        concentration_value = QTableWidgetItem(f"{concentration:.6f}")
+        # Use NumericTableWidgetItem for concentration in the materials table as well
+        concentration_value = NumericTableWidgetItem(concentration, is_float=True)
         rm_code.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         concentration_value.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -711,7 +770,11 @@ class FormulationManagementPage(QWidget):
         for row in range(self.materials_table.rowCount()):
             item = self.materials_table.item(row, 1)
             if item:
-                total += float(item.text())
+                # If it's a NumericTableWidgetItem, get its actual value
+                if isinstance(item, NumericTableWidgetItem):
+                    total += float(item.value)
+                else:
+                    total += float(item.text())
         self.total_concentration_label.setText(f"Total Concentration: {total:.6f}")
         self.sum_conc_input.setText(f"{total:.6f}")
 
@@ -725,7 +788,7 @@ class FormulationManagementPage(QWidget):
 
     def new_formulation(self):
         """Start a new formulation entry."""
-        self.sync_for_entry(1)
+        self.sync_for_entry(1)  # Call sync to get a new ID, passing the index for the entry tab
         self.customer_input.setText("")
         self.index_ref_input.setText("")
         self.product_code_input.setText("")
@@ -749,27 +812,97 @@ class FormulationManagementPage(QWidget):
         self.materials_table.setRowCount(0)
         self.update_total_concentration()
         self.current_formulation_id = None
-        self.tab_widget.setCurrentWidget(self.entry_tab)
+        self.tab_widget.setCurrentWidget(self.entry_tab)  # Ensure we are on the entry tab
 
     def save_formulation(self):
         """Save the current formulation (simulation)."""
-        if not self.formulation_id_input.text().strip():
-            QMessageBox.warning(self, "Missing Data", "Formulation ID is required.")
+        # --- Basic Validation ---
+        formulation_id = self.formulation_id_input.text().strip()
+        customer_name = self.customer_input.text().strip()
+        product_code = self.product_code_input.text().strip()
+        product_color = self.product_color_input.text().strip()
+        dosage_text = self.dosage_input.text().strip()
+        sum_conc_text = self.sum_conc_input.text().strip()
+
+        if not all([formulation_id, customer_name, product_code, product_color, dosage_text, sum_conc_text]):
+            QMessageBox.warning(self, "Missing Data",
+                                "Please fill in all primary formulation details (Formulation ID, Customer, Product Code, Product Color, Sum of Concentration, Dosage).")
+            return
+
+        try:
+            dosage = float(dosage_text)
+            sum_conc = float(sum_conc_text)
+        except ValueError:
+            QMessageBox.warning(self, "Invalid Input", "Dosage and Sum of Concentration must be valid numbers.")
             return
 
         if self.materials_table.rowCount() == 0:
-            QMessageBox.warning(self, "Missing Data", "Please add at least one material.")
+            QMessageBox.warning(self, "Missing Data", "Please add at least one material to the composition.")
             return
 
-        fid = self.formulation_id_input.text()
-        QMessageBox.information(self, "Success", f"Formulation {fid} saved successfully (simulation)!")
-        self.refresh_formulations()
-        self.new_formulation()  # Reset form
+        # --- Gather data for saving ---
+        # Main formula data
+        formula_data = {
+            "id": formulation_id,
+            "index_ref": self.index_ref_input.text().strip() or None,
+            "customer": customer_name,
+            "product_code": product_code,
+            "product_color": product_color,
+            "total_concentration": sum_conc,
+            "dosage": dosage,
+            "mixing_time": self.mixing_time_input.text().strip() or None,
+            "resin_used": self.resin_used_input.text().strip() or None,
+            "application_no": self.application_no_input.text().strip() or None,
+            "matching_no": self.matching_no_input.text().strip() or None,
+            "date_matched": self.date_matched_input.text().strip() or None,
+            # Consider converting to QDate/datetime object
+            "notes": self.notes_input.toPlainText().strip() or None,
+            "mb_or_dc": self.mb_dc_combo.currentText(),
+            "html_color": self.html_input.text().strip() or None,
+            "cmyk_c": float(self.cyan_input.text().strip() or 0.0),
+            "cmyk_m": float(self.magenta_input.text().strip() or 0.0),
+            "cmyk_y": float(self.yellow_input.text().strip() or 0.0),
+            "cmyk_k": float(self.key_black_input.text().strip() or 0.0),
+            "matched_by": self.matched_by_input.currentText(),
+            "encoded_by": self.encoded_by_display.text().strip(),
+            "date_entry": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
+            # Convert to date object
+            "updated_by": self.updated_by_display.text().strip(),
+            "date_time_updated": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p"),
+            # Convert to datetime object
+        }
+
+        # Material composition data
+        material_composition = []
+        for row in range(self.materials_table.rowCount()):
+            material_code_item = self.materials_table.item(row, 0)
+            concentration_item = self.materials_table.item(row, 1)
+
+            if material_code_item and concentration_item:
+                material_composition.append({
+                    "material_code": material_code_item.text().strip(),
+                    "concentration": float(concentration_item.text().strip())
+                })
+
+        try:
+            db_call.save_or_update_formula(formula_data, material_composition)
+            self.log_audit_trail(self.username, self.work_station['i'], "Formulation",
+                                 f"Saved/Updated Formulation {formulation_id}")
+            QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
+            self.refresh_formulations()  # Refresh the records tab
+            self.new_formulation()  # Reset form for new entry
+        except Exception as e:
+            QMessageBox.critical(self, "Save Error", f"An error occurred while saving the formulation: {e}")
 
     def sync_for_entry(self, index):
         """Trigger sync when entering the entry tab."""
         if self.tab_widget.widget(index) == self.entry_tab:
             self.run_formula_sync()
+            # Also reset date and time displays to current values
+            self.date_entry_display.setText(datetime.now().strftime("%m/%d/%Y"))
+            self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+            self.encoded_by_display.setText(self.work_station['u'])
+            self.updated_by_display.setText(self.work_station['u'])
 
     def run_formula_sync(self):
         # Create a thread and worker for the sync
@@ -799,11 +932,20 @@ class FormulationManagementPage(QWidget):
         # Show QMessageBox based on success
         if success:
             latest_id = db_call.get_formula_latest_uid()
-            self.formulation_id_input.setText(str(int(latest_id[0]) + 1))
-        # else:
-        #     QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}")
+            # Assuming latest_id[0] is the current highest ID
+            # If it's a new database or no existing formulas, handle this case
+            if latest_id and latest_id[0] is not None:
+                next_id = int(latest_id[0]) + 1
+            else:
+                next_id = 1  # Start from 1 if no previous formulas
+            self.formulation_id_input.setText(str(next_id).zfill(7))  # Format as 7-digit string
+            self.formulation_id_input.setReadOnly(True)  # Make it read-only for auto-generated IDs
+            self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")  # Grey out for read-only
+        else:
+            QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}. Cannot generate new Formulation ID.")
+            self.formulation_id_input.setText("ERROR")
+            self.formulation_id_input.setReadOnly(True)
+            self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")  # Red background for error
 
         thread.quit()
         thread.wait()
-
-
