@@ -346,8 +346,8 @@ class FormulationManagementPage(QWidget):
         formula_layout.addRow("Matching No.:", self.matching_no_input)
 
         # Date Matched
-        self.date_matched_input = QLineEdit()
-        self.date_matched_input.setPlaceholderText("MM/DD/YYYY")
+        self.date_matched_input = QDateEdit()
+        self.date_matched_input.setCalendarPopup(True)
         formula_layout.addRow("Date Matched:", self.date_matched_input)
 
         # Notes
@@ -702,18 +702,22 @@ class FormulationManagementPage(QWidget):
         self.resin_used_input.setText(str(result[10]))  # Example
         self.application_no_input.setText(str(result[11]))  # Example
         self.matching_no_input.setText(str(result[12]))  # Example
-        self.date_matched_input.setText(str(result[2]))  # Example insert date
-        self.notes_input.setPlainText(str(result[2]))  # Example
-        self.mb_dc_combo.setCurrentText(str(result[2]))  # Example
-        self.html_input.setText("#FFFF00")  # Example
-        self.cyan_input.setText("0")
-        self.magenta_input.setText("0")
-        self.yellow_input.setText("10")
-        self.key_black_input.setText("0")
-        self.matched_by_input.setCurrentText("ANNA")  # Example
+        date_matched = QDate(result[13].year, result[13].month, result[13].day)
+        self.date_matched_input.setDate(date_matched)  # Example insert date
+        self.notes_input.setPlainText(str(result[14]))  # Example
+        self.mb_dc_combo.setCurrentText(str(result[22]))  # Example
+        self.html_input.setText(str(result[23]))  # Example
+        self.cyan_input.setText(str(result[24]))
+        self.magenta_input.setText(str(result[25]))
+        self.yellow_input.setText(str(result[26]))
+        self.key_black_input.setText(str(result[27]))
+        self.matched_by_input.setCurrentText(str(result[14]))  # Example
+        self.encoded_by_display.setText(str(result[15]))  # Example
+        self.updated_by_display.setText(str(result[19]))
+        self.date_time_display.setText(str(result[20]))
 
         # Load materials for the selected formulation from db_call
-        materials = db_call.get_formula_materials(str(fid))  # Pass ID as string
+        materials = db_call.get_formula_materials(self.current_formulation_id)  # Pass ID as string
         self.materials_table.setRowCount(0)
         for material_code, concentration in materials:
             row_position = self.materials_table.rowCount()
@@ -724,8 +728,6 @@ class FormulationManagementPage(QWidget):
 
         # Switch to entry tab
         self.tab_widget.setCurrentWidget(self.entry_tab)
-        QMessageBox.information(self, "Edit Mode", f"Formulation {self.current_formulation_id} loaded for editing.")
-
         self.tab_widget.blockSignals(False)
 
 
