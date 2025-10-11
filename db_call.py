@@ -48,9 +48,22 @@ def get_min_max_formula_date():
     cur.execute("""SELECT MIN(formula_date) AS earliest_date,
                             MAX(formula_date) AS latest_date
                     FROM formula_primary""")
-    records = cur.fetchone()
+    record = cur.fetchone()
 
     cur.close()
     conn.close()
-    return records
+    return record
+
+
+def get_formula_latest_uid():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""SELECT MAX(uid) AS latest_date
+                    FROM formula_primary""")
+    record = cur.fetchone()
+
+    cur.close()
+    conn.close()
+    return record
 

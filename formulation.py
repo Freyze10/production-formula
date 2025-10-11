@@ -32,6 +32,7 @@ class FormulationManagementPage(QWidget):
             "0017077": [("Z1", 25.0), ("Z2", 30.0)],
         }
         self.customers = ["OCTAPLAS INDUSTRIAL SERVICES", "CRONICS, INC.", "MAGNATE FOOD AND DRINKS", "SAN MIGUEL YAMAMURA PACKAGING"]
+        self.latest_formula_uid = None
         self.setup_ui()
         self.load_customers()
         self.refresh_page()
@@ -796,10 +797,12 @@ class FormulationManagementPage(QWidget):
             loading_dialog.accept()
 
         # Show QMessageBox based on success
-        if success:
-            QMessageBox.information(self, "Sync Result", f"Sync finished: {message}")
-        else:
-            QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}")
+        # if success:
+        #     QMessageBox.information(self, "Sync Result", f"Sync finished: {message}")
+        # else:
+        #     QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}")
 
         thread.quit()
         thread.wait()
+        self.latest_formula_uid = db_call.get_formula_latest_uid()
+

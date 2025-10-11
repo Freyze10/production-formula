@@ -8,8 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_call.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_call.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/formulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/formulation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sync_formula.py" beforeDir="false" afterPath="$PROJECT_DIR$/sync_formula.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +227,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/formulation.py</url>
-          <line>194</line>
+          <line>195</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
