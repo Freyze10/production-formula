@@ -409,20 +409,20 @@ class FormulationManagementPage(QWidget):
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
-        add_material_btn = QPushButton("Add", objectName="SuccessButton")
-        add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
-        add_material_btn.clicked.connect(self.add_material_row)
-        btn_layout.addWidget(add_material_btn)
+        self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
+        self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
+        self.add_material_btn.clicked.connect(self.add_material_row)
+        btn_layout.addWidget(self.add_material_btn)
 
-        remove_material_btn = QPushButton("Remove", objectName="DangerButton")
-        remove_material_btn.setIcon(fa.icon('fa5s.minus', color='white'))
-        remove_material_btn.clicked.connect(self.remove_material_row)
-        btn_layout.addWidget(remove_material_btn)
+        self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
+        self.remove_material_btn.setIcon(fa.icon('fa5s.minus', color='white'))
+        self.remove_material_btn.clicked.connect(self.remove_material_row)
+        btn_layout.addWidget(self.remove_material_btn)
 
-        clear_materials_btn = QPushButton("Clear", objectName="InfoButton")
-        clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
-        clear_materials_btn.clicked.connect(self.clear_materials)
-        btn_layout.addWidget(clear_materials_btn)
+        self.clear_materials_btn = QPushButton("Clear", objectName="InfoButton")
+        self.clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
+        self.clear_materials_btn.clicked.connect(self.clear_materials)
+        btn_layout.addWidget(self.clear_materials_btn)
 
         material_layout.addLayout(btn_layout)
 
@@ -544,10 +544,10 @@ class FormulationManagementPage(QWidget):
         new_btn.clicked.connect(self.new_formulation)
         button_layout.addWidget(new_btn)
 
-        save_btn = QPushButton("Save", objectName="SuccessButton")
-        save_btn.setIcon(fa.icon('fa5s.save', color='white'))
-        save_btn.clicked.connect(self.save_formulation)
-        button_layout.addWidget(save_btn)
+        self.save_btn = QPushButton("Save", objectName="SuccessButton")
+        self.save_btn.setIcon(fa.icon('fa5s.save', color='white'))
+        self.save_btn.clicked.connect(self.save_formulation)
+        button_layout.addWidget(self.save_btn)
 
         main_layout.addLayout(button_layout)
 
@@ -659,6 +659,7 @@ class FormulationManagementPage(QWidget):
     def view_formulation_details(self):
         """View full details of selected formulation."""
         self.edit_formulation()
+        self.enable_fields(enable=False)
 
     def edit_formulation(self):
         """Load selected formulation into entry tab for editing (sample data)."""
@@ -716,6 +717,26 @@ class FormulationManagementPage(QWidget):
         self.tab_widget.setCurrentWidget(self.entry_tab)
         self.tab_widget.blockSignals(False)
 
+    def enable_fields(self, enable=True):
+        """Enable or disable all input fields in the entry tab."""
+        fields = [
+            self.customer_input, self.index_ref_input,
+            self.product_code_input, self.product_color_input, self.sum_conc_input,
+            self.dosage_input, self.mixing_time_input, self.resin_used_input,
+            self.application_no_input, self.matching_no_input, self.date_matched_input,
+            self.notes_input, self.mb_dc_combo, self.html_input, self.cyan_input,
+            self.magenta_input, self.yellow_input, self.key_black_input,
+            self.matched_by_input, self.material_code_input, self.concentration_input,
+            self.materials_table,
+
+            self.add_material_btn,
+            self.remove_material_btn,
+            self.clear_materials_btn,
+
+            self.save_btn
+        ]
+        for field in fields:
+            field.setEnabled(enable)
     def add_material_row(self):
         """Add a new material row to the table."""
         material_code = self.material_code_input.text().strip()

@@ -50,7 +50,7 @@
     "Python.fg_endorsement.executor": "Run",
     "Python.fgendorsement.executor": "Run",
     "Python.fgmain.executor": "Run",
-    "Python.formulation (1).executor": "Debug",
+    "Python.formulation (1).executor": "Run",
     "Python.formulation.executor": "Run",
     "Python.main-2.executor": "Run",
     "Python.main.executor": "Run",
@@ -72,7 +72,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.dfr">
+  <component name="RunManager" selected="Python.main">
     <configuration name="dfr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -185,11 +185,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.dfr" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.formulation (1)" />
+        <item itemvalue="Python.dfr" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
-        <item itemvalue="Python.formulation (1)" />
       </list>
     </recent_temporary>
   </component>
