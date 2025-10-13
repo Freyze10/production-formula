@@ -806,7 +806,6 @@ class FormulationManagementPage(QWidget):
 
     def new_formulation(self):
         """Start a new formulation entry."""
-        self.sync_for_entry(1)  # Call sync to get a new ID, passing the index for the entry tab
         self.customer_input.setText("")
         self.index_ref_input.setText("")
         self.product_code_input.setText("")
@@ -819,7 +818,7 @@ class FormulationManagementPage(QWidget):
         self.resin_used_input.setText("")
         self.application_no_input.setText("")
         self.matching_no_input.setText("")
-        self.date_matched_input.setText("")
+        self.date_matched_input.setDate(QDate.currentDate())
         self.notes_input.clear()
         self.mb_dc_combo.setCurrentIndex(0)
         self.html_input.setText("")
@@ -832,8 +831,7 @@ class FormulationManagementPage(QWidget):
         self.concentration_input.setPlaceholderText("")
         self.materials_table.setRowCount(0)
         self.update_total_concentration()
-        self.current_formulation_id = None
-        self.tab_widget.setCurrentWidget(self.entry_tab)  # Ensure we are on the entry tab
+        self.current_formulation_id = None  # Ensure we are on the entry tab
 
     def save_formulation(self):
         """Save the current formulation (simulation)."""
@@ -917,13 +915,23 @@ class FormulationManagementPage(QWidget):
 
     def sync_for_entry(self, index):
         """Trigger sync when entering the entry tab."""
-        if self.tab_widget.widget(index) == self.entry_tab:
-            self.run_formula_sync()
-            # Also reset date and time displays to current values
-            self.date_entry_display.setText(datetime.now().strftime("%m/%d/%Y"))
-            self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
-            self.encoded_by_display.setText(self.work_station['u'])
-            self.updated_by_display.setText(self.work_station['u'])
+        try:
+
+            if self.tab_widget.widget(index) == self.entry_tab:
+                self.run_formula_sync()
+                # Also reset date and time displays to current values
+                self.new_formulation()
+                self.date_entry_display.setText(datetime.now().strftime("%m/%d/%Y"))
+                self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+                self.encoded_by_display.setText(self.work_station['u'])
+                self.updated_by_display.setText(self.work_station['u'])
+            if self.tab_widget.widget(index) == self.records_tab:
+                self.refresh_page()
+                self.enable_fields(enable=True)
+                self.new_formulation()
+        except Exception as e:
+            print(e)
+
 
     def run_formula_sync(self):
         # Create a thread and worker for the sync
