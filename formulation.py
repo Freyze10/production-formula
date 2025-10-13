@@ -847,7 +847,7 @@ class FormulationManagementPage(QWidget):
 
         if not all([formulation_id, customer_name, product_code, product_color, dosage_text, sum_conc_text]):
             QMessageBox.warning(self, "Missing Data",
-                                "Please fill in all primary formulation details (Formulation ID, Customer, Product Code, Product Color, Sum of Concentration, Dosage).")
+                                "Please fill in all primary formulation details.")
             return
 
         try:
@@ -864,32 +864,32 @@ class FormulationManagementPage(QWidget):
         # --- Gather data for saving ---
         # Main formula data
         formula_data = {
-            "id": formulation_id,
-            "index_ref": self.index_ref_input.text().strip() or None,
+            "uid": formulation_id,
+            "formula_index": self.index_ref_input.text().strip() or "-",
             "customer": customer_name,
             "product_code": product_code,
             "product_color": product_color,
             "total_concentration": sum_conc,
             "dosage": dosage,
-            "mixing_time": self.mixing_time_input.text().strip() or None,
-            "resin_used": self.resin_used_input.text().strip() or None,
-            "application_no": self.application_no_input.text().strip() or None,
-            "matching_no": self.matching_no_input.text().strip() or None,
-            "date_matched": self.date_matched_input.text().strip() or None,
+            "mix_type": self.mixing_time_input.text().strip() or "-",
+            "resin": self.resin_used_input.text().strip() or "-",
+            "application": self.application_no_input.text().strip() or "-",
+            "cm_num": self.matching_no_input.text().strip() or "-",
+            "cm_date": self.date_matched_input.date().toString("yyyy-MM-dd"),
             # Consider converting to QDate/datetime object
-            "notes": self.notes_input.toPlainText().strip() or None,
-            "mb_or_dc": self.mb_dc_combo.currentText(),
-            "html_color": self.html_input.text().strip() or None,
-            "cmyk_c": float(self.cyan_input.text().strip() or 0.0),
-            "cmyk_m": float(self.magenta_input.text().strip() or 0.0),
-            "cmyk_y": float(self.yellow_input.text().strip() or 0.0),
-            "cmyk_k": float(self.key_black_input.text().strip() or 0.0),
+            "remarks": self.notes_input.toPlainText().strip() or None,
+            "mb_dc": self.mb_dc_combo.currentText(),
+            "html_code": self.html_input.text().strip() or None,
+            "c": float(self.cyan_input.text().strip() or 0.0),
+            "m": float(self.magenta_input.text().strip() or 0.0),
+            "y": float(self.yellow_input.text().strip() or 0.0),
+            "k": float(self.key_black_input.text().strip() or 0.0),
             "matched_by": self.matched_by_input.currentText(),
             "encoded_by": self.encoded_by_display.text().strip(),
-            "date_entry": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
+            "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
             # Convert to date object
             "updated_by": self.updated_by_display.text().strip(),
-            "date_time_updated": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p"),
+            "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p"),
             # Convert to datetime object
         }
 
