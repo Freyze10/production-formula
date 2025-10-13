@@ -304,7 +304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760342815973</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="modified save function dbs">
+      <option name="closed" value="true" />
+      <created>1760343263945</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760343263945</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -337,7 +345,8 @@
     <MESSAGE value="added list of customers" />
     <MESSAGE value="auto format of concentration" />
     <MESSAGE value="added list of product code" />
-    <option name="LAST_COMMIT_MESSAGE" value="added list of product code" />
+    <MESSAGE value="modified save function dbs" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified save function dbs" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

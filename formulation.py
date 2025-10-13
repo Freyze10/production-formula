@@ -926,10 +926,10 @@ class FormulationManagementPage(QWidget):
             "remarks": self.notes_input.toPlainText().strip() or None,
             "mb_dc": self.mb_dc_combo.currentText(),
             "html_code": self.html_input.text().strip() or None,
-            "c": self.cyan_input.text().strip(),
-            "m": self.magenta_input.text().strip(),
-            "y": self.yellow_input.text().strip(),
-            "k": self.key_black_input.text().strip(),
+            "c": self.cyan_input.text().strip() or 0,
+            "m": self.magenta_input.text().strip() or 0,
+            "y": self.yellow_input.text().strip() or 0,
+            "k": self.key_black_input.text().strip() or 0,
             "matched_by": self.matched_by_input.currentText(),
             "encoded_by": self.encoded_by_display.text().strip(),
             "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
@@ -953,8 +953,8 @@ class FormulationManagementPage(QWidget):
 
         try:
             db_call.save_formula(formula_data, material_composition)
-            self.log_audit_trail(self.username, self.work_station['i'], "Formulation",
-                                 f"Saved Formulation {formulation_id}")
+            self.log_audit_trail("Data Entry",
+                                 f"Saved new Formula: {formulation_id}")
             QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
             self.refresh_formulations()  # Refresh the records tab
             self.new_formulation()  # Reset form for new entry
