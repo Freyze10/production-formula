@@ -566,6 +566,7 @@ class FormulationManagementPage(QWidget):
 
         self.date_from_filter.setDate(qdate_from)
         self.date_to_filter.setDate(qdate_to)
+        self.refresh_formulations()
 
     def refresh_formulations(self):
         """Load formulations and preserve sort order if applicable."""
