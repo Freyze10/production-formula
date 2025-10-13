@@ -288,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760340068914</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="auto format of concentration">
+      <option name="closed" value="true" />
+      <created>1760341113231</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1760341113231</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -319,7 +327,8 @@
     <MESSAGE value="added auto create database" />
     <MESSAGE value="added concentration validation" />
     <MESSAGE value="added list of customers" />
-    <option name="LAST_COMMIT_MESSAGE" value="added list of customers" />
+    <MESSAGE value="auto format of concentration" />
+    <option name="LAST_COMMIT_MESSAGE" value="auto format of concentration" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

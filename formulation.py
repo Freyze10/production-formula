@@ -483,25 +483,25 @@ class FormulationManagementPage(QWidget):
         cmyk_layout.addWidget(QLabel("C:"), 0, 0)
         self.cyan_input = QLineEdit()
         self.cyan_input.setStyleSheet("background-color: #fff9c4;")
-        self.cyan_input.setText("0.00")
+        self.cyan_input.setText("")
         cmyk_layout.addWidget(self.cyan_input, 0, 1)
 
         cmyk_layout.addWidget(QLabel("M:"), 0, 2)
         self.magenta_input = QLineEdit()
         self.magenta_input.setStyleSheet("background-color: #fff9c4;")
-        self.magenta_input.setText("0.00")
+        self.magenta_input.setText("")
         cmyk_layout.addWidget(self.magenta_input, 0, 3)
 
         cmyk_layout.addWidget(QLabel("Y:"), 1, 0)
         self.yellow_input = QLineEdit()
         self.yellow_input.setStyleSheet("background-color: #fff9c4;")
-        self.yellow_input.setText("0.00")
+        self.yellow_input.setText("")
         cmyk_layout.addWidget(self.yellow_input, 1, 1)
 
         cmyk_layout.addWidget(QLabel("K:"), 1, 2)
         self.key_black_input = QLineEdit()
         self.key_black_input.setStyleSheet("background-color: #fff9c4;")
-        self.key_black_input.setText("0.00")
+        self.key_black_input.setText("")
         cmyk_layout.addWidget(self.key_black_input, 1, 3)
 
         color_layout.addRow("CMYK Values:", cmyk_widget)
@@ -572,7 +572,7 @@ class FormulationManagementPage(QWidget):
 
     def load_customers(self):
         """Load hardcoded customers."""
-        self.customer_input.setPlaceholderText("Enter customer name (e.g., OCTAPLAS INDUSTRIAL SERVICES)")
+        self.customer_input.setPlaceholderText("Enter customer name")
 
     def refresh_page(self):
         """Refresh the formulation records."""
@@ -602,10 +602,17 @@ class FormulationManagementPage(QWidget):
         # Load and populate data
         self.all_formula_data = db_call.get_formula_data(early_date, late_date)
         self.customer_lists = list({row[3] for row in self.all_formula_data})
-        completer = QCompleter(self.customer_lists)
-        completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)  # Optional: makes it case-insensitive
-        self.customer_input.setCompleter(completer)  # completer for customer input
+        self.product_code_lists = list({row[4] for row in self.all_formula_data})
+
+        customer_completer = QCompleter(self.customer_lists)
+        customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        customer_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)  # Optional: makes it case-insensitive
+        self.customer_input.setCompleter(customer_completer)  # completer for customer input
+
+        pr_code_completer = QCompleter(self.product_code_lists)
+        pr_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        pr_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)  # Optional: makes it case-insensitive
+        self.product_code_input.setCompleter(pr_code_completer)  # completer for customer input
 
         for row_data in self.all_formula_data:
             row_position = self.formulation_table.rowCount()
@@ -790,6 +797,7 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.clear()
         self.concentration_input.clear()
+        self.material_code_input.setFocus()
         self.update_total_concentration()
 
     def remove_material_row(self):
@@ -918,10 +926,10 @@ class FormulationManagementPage(QWidget):
             "remarks": self.notes_input.toPlainText().strip() or None,
             "mb_dc": self.mb_dc_combo.currentText(),
             "html_code": self.html_input.text().strip() or None,
-            "c": float(self.cyan_input.text().strip() or 0.0),
-            "m": float(self.magenta_input.text().strip() or 0.0),
-            "y": float(self.yellow_input.text().strip() or 0.0),
-            "k": float(self.key_black_input.text().strip() or 0.0),
+            "c": self.cyan_input.text().strip(),
+            "m": self.magenta_input.text().strip(),
+            "y": self.yellow_input.text().strip(),
+            "k": self.key_black_input.text().strip(),
             "matched_by": self.matched_by_input.currentText(),
             "encoded_by": self.encoded_by_display.text().strip(),
             "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
