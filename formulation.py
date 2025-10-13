@@ -317,12 +317,10 @@ class FormulationManagementPage(QWidget):
         # Sum of Concentration
         self.sum_conc_input = QLineEdit()
         self.sum_conc_input.setStyleSheet("background-color: #fff9c4;")
-        self.sum_conc_input.setText("0.000000")
         formula_layout.addRow("Sum of Concentration:", self.sum_conc_input)
 
         # Dosage
         self.dosage_input = QLineEdit()
-        self.dosage_input.setText("0.000000")
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
         formula_layout.addRow("Dosage:", self.dosage_input)
 
@@ -785,17 +783,17 @@ class FormulationManagementPage(QWidget):
 
     def update_total_concentration(self):
         """Update the total concentration display."""
-        total = 0.0
+        self.total_material_concentration = 0.0
         for row in range(self.materials_table.rowCount()):
             item = self.materials_table.item(row, 1)
             if item:
                 # If it's a NumericTableWidgetItem, get its actual value
                 if isinstance(item, NumericTableWidgetItem):
-                    total += float(item.value)
+                    self.total_material_concentration += float(item.value)
                 else:
-                    total += float(item.text())
-        self.total_concentration_label.setText(f"Total Concentration: {total:.6f}")
-        self.sum_conc_input.setText(f"{total:.6f}")
+                    self.total_material_concentration += float(item.text())
+        self.total_concentration_label.setText(f"Total Concentration: {self.total_material_concentration:.6f}")
+        self.sum_conc_input.setText(f"{self.total_material_concentration:.6f}")
 
     def preview_formulation(self):
         """Preview the current formulation."""
@@ -859,6 +857,22 @@ class FormulationManagementPage(QWidget):
 
         if self.materials_table.rowCount() == 0:
             QMessageBox.warning(self, "Missing Data", "Please add at least one material to the composition.")
+            return
+
+            # --- Validate concentration match ---
+            # Get the calculated total from the label (which is always up-to-date)
+        calculated_total = float(self.total_material_concentration)
+
+        # Check if user manually edited the sum field
+        tolerance = 0.000001  # Allow for minor floating point differences
+        if abs(calculated_total - sum_conc) > tolerance:
+            QMessageBox.critical(
+                self,
+                "Concentration Mismatch",
+                f"The sum of material concentrations ({calculated_total:.6f}) does not match "
+                f"the specified Sum of Concentration ({sum_conc:.6f}).\n\n"
+                f"Please verify your material composition or click the Sum of Concentration field to recalculate."
+            )
             return
 
         # --- Gather data for saving ---

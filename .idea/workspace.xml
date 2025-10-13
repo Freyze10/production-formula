@@ -264,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760327011104</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added auto create database">
+      <option name="closed" value="true" />
+      <created>1760335134296</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760335134296</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -292,7 +300,8 @@
     <MESSAGE value="fixed refresh function" />
     <MESSAGE value="added raw data fetch" />
     <MESSAGE value="added save to database" />
-    <option name="LAST_COMMIT_MESSAGE" value="added save to database" />
+    <MESSAGE value="added auto create database" />
+    <option name="LAST_COMMIT_MESSAGE" value="added auto create database" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
