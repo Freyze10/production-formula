@@ -658,22 +658,8 @@ class FormulationManagementPage(QWidget):
 
     def view_formulation_details(self):
         """View full details of selected formulation."""
-        if not self.current_formulation_id:
-            QMessageBox.warning(self, "No Selection", "Please select a formula to view.")
-            return
-        self.tab_widget.blockSignals(True)
-        # Change the tab
-        self.tab_widget.setCurrentIndex(1)
-        result = db_call.get_specific_formula_data(self.current_formulation_id)
-        if not result:
-            QMessageBox.warning(self, "Error",
-                                f"Formulation ID {self.current_formulation_id} not found in database.")
-            self.tab_widget.blockSignals(False)
-            return
-        # Display all the data but disable the save button
+        self.edit_formulation()
 
-        # Re-enable signals
-        self.tab_widget.blockSignals(False)
     def edit_formulation(self):
         """Load selected formulation into entry tab for editing (sample data)."""
         if not self.current_formulation_id:
@@ -955,7 +941,7 @@ class FormulationManagementPage(QWidget):
         else:
             QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}. Cannot generate new Formulation ID.")
             self.formulation_id_input.setText("ERROR")
-            self.formulation_id_input.setReadOnly(True)
+            self.formulation_id_input.setReadOnly(False)
             self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")  # Red background for error
 
         thread.quit()
