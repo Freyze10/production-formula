@@ -5,7 +5,7 @@ from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QSpinBox,
-                             QDoubleSpinBox, QGridLayout, QGroupBox, QScrollArea, QFormLayout)
+                             QDoubleSpinBox, QGridLayout, QGroupBox, QScrollArea, QFormLayout, QCompleter)
 from PyQt6.QtCore import Qt, QDate, QThread
 from PyQt6.QtGui import QFont, QColor
 import qtawesome as fa
@@ -582,6 +582,12 @@ class FormulationManagementPage(QWidget):
 
         # Load and populate data
         self.all_formula_data = db_call.get_formula_data(early_date, late_date)
+        self.customer_lists = list({row[3] for row in self.all_formula_data})
+        completer = QCompleter(self.customer_lists)
+        completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)  # Optional: makes it case-insensitive
+        self.customer_input.setCompleter(completer)  # completer for customer input
+
         for row_data in self.all_formula_data:
             row_position = self.formulation_table.rowCount()
             self.formulation_table.insertRow(row_position)

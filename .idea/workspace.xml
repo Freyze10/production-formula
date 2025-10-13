@@ -193,8 +193,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.formulation (1)" />
         <item itemvalue="Python.dfr" />
+        <item itemvalue="Python.formulation (1)" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
       </list>
@@ -272,7 +272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760335134296</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added concentration validation">
+      <option name="closed" value="true" />
+      <created>1760336456524</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1760336456524</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -301,7 +309,8 @@
     <MESSAGE value="added raw data fetch" />
     <MESSAGE value="added save to database" />
     <MESSAGE value="added auto create database" />
-    <option name="LAST_COMMIT_MESSAGE" value="added auto create database" />
+    <MESSAGE value="added concentration validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added concentration validation" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
