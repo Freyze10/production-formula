@@ -317,11 +317,13 @@ class FormulationManagementPage(QWidget):
         # Sum of Concentration
         self.sum_conc_input = QLineEdit()
         self.sum_conc_input.setStyleSheet("background-color: #fff9c4;")
+        self.sum_conc_input.focusOutEvent = lambda event: self.format_to_float(event, self.sum_conc_input)
         formula_layout.addRow("Sum of Concentration:", self.sum_conc_input)
 
         # Dosage
         self.dosage_input = QLineEdit()
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
+        self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
         formula_layout.addRow("Dosage:", self.dosage_input)
 
         # Mixing Time
@@ -390,6 +392,7 @@ class FormulationManagementPage(QWidget):
         conc_input_layout.addWidget(QLabel("Concentration:"))
         self.concentration_input = QLineEdit()
         self.concentration_input.setPlaceholderText("0.000000")
+        self.concentration_input.returnPressed.connect(self.add_material_row)
         conc_input_layout.addWidget(self.concentration_input)
         material_layout.addLayout(conc_input_layout)
 
@@ -550,6 +553,22 @@ class FormulationManagementPage(QWidget):
         main_layout.addLayout(button_layout)
 
         return tab
+
+    def format_to_float(self, event, line_edit):
+        """Format the input to a float with 6 decimal places when focus is lost."""
+        text = line_edit.text().strip()
+        try:
+            if text:  # Only format if not empty
+                value = float(text)
+                line_edit.setText(f"{value:.6f}")
+        except ValueError:
+            # Optionally, clear or keep the text if not numeric
+            QMessageBox.warning(self, "Invalid Input", "Please enter a valid number.")
+            line_edit.setFocus()  # ✅ keep focus in the field
+            line_edit.selectAll()  # optional: highlight text for quick correction
+            return
+            # Call the base focusOutEvent to ensure normal behavior
+        QLineEdit.focusOutEvent(line_edit, event)
 
     def load_customers(self):
         """Load hardcoded customers."""
@@ -799,7 +818,6 @@ class FormulationManagementPage(QWidget):
                 else:
                     self.total_material_concentration += float(item.text())
         self.total_concentration_label.setText(f"Total Concentration: {self.total_material_concentration:.6f}")
-        self.sum_conc_input.setText(f"{self.total_material_concentration:.6f}")
 
     def preview_formulation(self):
         """Preview the current formulation."""
