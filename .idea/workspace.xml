@@ -256,7 +256,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760325451498</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added save to database">
+      <option name="closed" value="true" />
+      <created>1760327011104</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760327011104</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -283,7 +291,8 @@
     <MESSAGE value="modified clear flow" />
     <MESSAGE value="fixed refresh function" />
     <MESSAGE value="added raw data fetch" />
-    <option name="LAST_COMMIT_MESSAGE" value="added raw data fetch" />
+    <MESSAGE value="added save to database" />
+    <option name="LAST_COMMIT_MESSAGE" value="added save to database" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

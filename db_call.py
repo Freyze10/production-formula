@@ -16,7 +16,7 @@ def get_formula_data(early_date, late_date):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT uid, formula_index, customer, product_code, product_color, total_concentration, dosage
+        SELECT uid, formula_index, formula_date, customer, product_code, product_color, total_concentration, dosage
         FROM formula_primary
         WHERE formula_date BETWEEN %s AND %s
         ORDER BY uid DESC

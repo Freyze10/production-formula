@@ -139,15 +139,15 @@ class FormulationManagementPage(QWidget):
         records_layout.addWidget(table_label)
 
         self.formulation_table = QTableWidget()
-        self.formulation_table.setColumnCount(7)
+        self.formulation_table.setColumnCount(8)
         self.formulation_table.setHorizontalHeaderLabels([
-            "ID", "Index Ref", "Customer", "Product Code", "Product Color",
+            "ID", "Index Ref", "Date", "Customer", "Product Code", "Product Color",
             "Total Cons", "Dosage"
         ])
         header = self.formulation_table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Interactive)  # Allow manual resizing
-        header.resizeSection(2, 350)  # Set initial width to 400 pixels
+        header.setSectionResizeMode(3, QHeaderView.ResizeMode.Interactive)  # Allow manual resizing
+        header.resizeSection(3, 350)  # Set initial width to 400 pixels
         header.setMinimumSectionSize(70)
         # === Enable sorting by clicking on headers ===
         self.formulation_table.setSortingEnabled(True)
@@ -595,15 +595,15 @@ class FormulationManagementPage(QWidget):
                 elif col == 1:
                     display_value = "-" if not data else str(data)
                     item = QTableWidgetItem(display_value)
-                elif col in (5, 6):
+                elif col in (6, 7):
                     float_value = float(data) if data is not None else 0.0
                     formatted_text = f"{float_value:.6f}"
                     item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
                 else:
                     item = QTableWidgetItem(display_value)
-                if col in (0, 1):
+                if col in (0, 1, 2):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-                elif col in (5, 6):
+                elif col in (6, 7):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
                 else:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)

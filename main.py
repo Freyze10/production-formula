@@ -183,6 +183,40 @@ def initialize_database():
                     f"CREATE TABLE IF NOT EXISTS fg_endorsements_secondary (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
                 connection.execute(text(
                     f"CREATE TABLE IF NOT EXISTS fg_endorsements_excess (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
+                connection.execute(text("""
+                CREATE TABLE IF NOT EXISTS formula_primary (
+                    id SERIAL PRIMARY KEY,
+                    formula_index VARCHAR(20) NOT NULL UNIQUE,
+                    uid INTEGER,
+                    formula_date DATE,
+                    customer VARCHAR(100),
+                    product_code VARCHAR(50),
+                    product_color VARCHAR(50),
+                    dosage NUMERIC(15,6),
+                    legacy_id INTEGER,
+                    mix_type VARCHAR(50),
+                    resin VARCHAR(50),
+                    application VARCHAR(100),
+                    cm_num VARCHAR(20),
+                    cm_date DATE,
+                    matched_by VARCHAR(50),
+                    encoded_by VARCHAR(50),
+                    remarks TEXT,
+                    total_concentration NUMERIC(15,6),
+                    is_used BOOLEAN,
+                    dbf_updated_by VARCHAR(100),
+                    dbf_updated_on_text VARCHAR(100),
+                    last_synced_on TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+                    mb_dc VARCHAR(5) DEFAULT 'MB',
+                    html_code VARCHAR(10),
+                    c INTEGER,
+                    m INTEGER,
+                    y INTEGER,
+                    k INTEGER,
+                    created_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+                    is_deleted BOOLEAN DEFAULT FALSE
+                );
+                """))
                 user_insert_query = text(
                     "INSERT INTO users (username, password, role) VALUES (:user, :pwd, :role) ON CONFLICT (username) DO NOTHING;")
                 connection.execute(user_insert_query, [{"user": "admin", "pwd": "itadmin", "role": "Admin"},
