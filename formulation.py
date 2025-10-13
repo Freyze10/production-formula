@@ -906,9 +906,9 @@ class FormulationManagementPage(QWidget):
                 })
 
         try:
-            db_call.save_or_update_formula(formula_data, material_composition)
+            db_call.save_formula(formula_data, material_composition)
             self.log_audit_trail(self.username, self.work_station['i'], "Formulation",
-                                 f"Saved/Updated Formulation {formulation_id}")
+                                 f"Saved Formulation {formulation_id}")
             QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
             self.refresh_formulations()  # Refresh the records tab
             self.new_formulation()  # Reset form for new entry
