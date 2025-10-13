@@ -312,7 +312,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760343263945</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fixed audit trail entry">
+      <option name="closed" value="true" />
+      <created>1760344202857</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1760344202857</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -346,7 +354,8 @@
     <MESSAGE value="auto format of concentration" />
     <MESSAGE value="added list of product code" />
     <MESSAGE value="modified save function dbs" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified save function dbs" />
+    <MESSAGE value="fixed audit trail entry" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed audit trail entry" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
