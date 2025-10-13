@@ -934,7 +934,7 @@ class FormulationManagementPage(QWidget):
             "encoded_by": self.encoded_by_display.text().strip(),
             "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
             # Convert to date object
-            "updated_by": self.updated_by_display.text().strip(),
+            "dbf_updated_by": self.updated_by_display.text().strip(),
             "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p"),
             # Convert to datetime object
         }

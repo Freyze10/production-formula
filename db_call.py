@@ -92,8 +92,8 @@ def save_formula(primary_data, material_composition):
                 uid, formula_index, customer, product_code, product_color, 
                 total_concentration, dosage, mix_type, resin, application, 
                 cm_num, cm_date, remarks, mb_dc, html_code, c, m, y, k, 
-                matched_by, encoded_by, formula_date, updated_by, dbf_updated_on_text
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                matched_by, encoded_by, formula_date, dbf_updated_by, dbf_updated_on_text
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id;
         """, (
             primary_data["uid"],
@@ -118,7 +118,7 @@ def save_formula(primary_data, material_composition):
             primary_data["matched_by"],
             primary_data["encoded_by"],
             primary_data["formula_date"],
-            primary_data["updated_by"],
+            primary_data["dbf_updated_by"],
             primary_data["dbf_updated_on_text"]
         ))
 
