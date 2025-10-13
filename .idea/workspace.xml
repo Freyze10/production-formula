@@ -216,6 +216,15 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
+    <task id="LOCAL-00001" summary="added clear fields">
+      <option name="closed" value="true" />
+      <created>1760323353061</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760323353061</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -237,7 +246,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed predefined text" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="added clear fields" />
+    <option name="LAST_COMMIT_MESSAGE" value="added clear fields" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -967,7 +967,7 @@ class FormulationManagementPage(QWidget):
                 next_id = int(latest_id[0]) + 1
             else:
                 next_id = 1  # Start from 1 if no previous formulas
-            self.formulation_id_input.setText(str(next_id).zfill(7))  # Format as 7-digit string
+            self.formulation_id_input.setText(str(next_id))  # Format as 7-digit string
             self.formulation_id_input.setReadOnly(True)  # Make it read-only for auto-generated IDs
             self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")  # Grey out for read-only
         else:
