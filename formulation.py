@@ -541,7 +541,7 @@ class FormulationManagementPage(QWidget):
 
         new_btn = QPushButton("New", objectName="PrimaryButton")
         new_btn.setIcon(fa.icon('fa5s.file', color='white'))
-        new_btn.clicked.connect(self.new_formulation)
+        new_btn.clicked.connect(lambda: self.sync_for_entry(1))
         button_layout.addWidget(new_btn)
 
         self.save_btn = QPushButton("Save", objectName="SuccessButton")
@@ -832,6 +832,7 @@ class FormulationManagementPage(QWidget):
         self.materials_table.setRowCount(0)
         self.update_total_concentration()
         self.current_formulation_id = None  # Ensure we are on the entry tab
+        self.enable_fields(enable=True)
 
     def save_formulation(self):
         """Save the current formulation (simulation)."""
