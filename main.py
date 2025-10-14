@@ -203,7 +203,7 @@ def initialize_database():
                     encoded_by VARCHAR(50),
                     remarks TEXT,
                     total_concentration NUMERIC(15,6),
-                    is_used BOOLEAN,
+                    is_used BOOLEAN DEFAULT FALSE,
                     dbf_updated_by VARCHAR(100),
                     dbf_updated_on_text VARCHAR(100),
                     last_synced_on TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,

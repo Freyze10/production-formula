@@ -93,7 +93,8 @@ def save_formula(primary_data, material_composition):
                 total_concentration, dosage, mix_type, resin, application, 
                 cm_num, cm_date, remarks, mb_dc, html_code, c, m, y, k, 
                 matched_by, encoded_by, formula_date, dbf_updated_by, dbf_updated_on_text
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING uid;
         """, (
             primary_data["uid"],
             primary_data["formula_index"],

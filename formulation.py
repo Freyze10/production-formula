@@ -745,7 +745,6 @@ class FormulationManagementPage(QWidget):
         self.update_total_concentration()
 
         # Switch to entry tab
-        self.tab_widget.setCurrentWidget(self.entry_tab)
         self.tab_widget.blockSignals(False)
 
     def enable_fields(self, enable=True):
