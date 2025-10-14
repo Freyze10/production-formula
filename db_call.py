@@ -149,3 +149,93 @@ def save_formula(primary_data, material_composition):
         conn.close()
         raise e
 
+
+def update_formula(primary_data, material_composition):
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+
+        # --- Update formula_primary ---
+        cur.execute("""
+            UPDATE formula_primary
+            SET
+                formula_index = %s,
+                customer = %s,
+                product_code = %s,
+                product_color = %s,
+                total_concentration = %s,
+                dosage = %s,
+                mix_type = %s,
+                resin = %s,
+                application = %s,
+                cm_num = %s,
+                cm_date = %s,
+                remarks = %s,
+                mb_dc = %s,
+                html_code = %s,
+                c = %s,
+                m = %s,
+                y = %s,
+                k = %s,
+                matched_by = %s,
+                encoded_by = %s,
+                formula_date = %s,
+                dbf_updated_by = %s,
+                dbf_updated_on_text = %s
+            WHERE uid = %s;
+        """, (
+            primary_data["formula_index"],
+            primary_data["customer"],
+            primary_data["product_code"],
+            primary_data["product_color"],
+            primary_data["total_concentration"],
+            primary_data["dosage"],
+            primary_data["mix_type"],
+            primary_data["resin"],
+            primary_data["application"],
+            primary_data["cm_num"],
+            primary_data["cm_date"],
+            primary_data["remarks"],
+            primary_data["mb_dc"],
+            primary_data["html_code"],
+            primary_data["c"],
+            primary_data["m"],
+            primary_data["y"],
+            primary_data["k"],
+            primary_data["matched_by"],
+            primary_data["encoded_by"],
+            primary_data["formula_date"],
+            primary_data["dbf_updated_by"],
+            primary_data["dbf_updated_on_text"],
+            primary_data["uid"]  # used to locate which row to update
+        ))
+
+        # --- Replace material compositions ---
+        # Delete existing records for this uid
+        cur.execute("DELETE FROM formula_items WHERE uid = %s;", (primary_data["uid"],))
+
+        # Insert updated materials
+        for idx, material in enumerate(material_composition):
+            cur.execute("""
+                INSERT INTO formula_items (uid, seq, material_code, concentration)
+                VALUES (%s, %s, %s, %s);
+            """, (
+                primary_data["uid"],
+                idx + 1,
+                material["material_code"],
+                material["concentration"]
+            ))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+        return primary_data["uid"]
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        cur.close()
+        conn.close()
+        raise e
+

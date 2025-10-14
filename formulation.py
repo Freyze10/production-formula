@@ -278,6 +278,7 @@ class FormulationManagementPage(QWidget):
         self.formulation_id_input.setPlaceholderText("Auto-generated")
         self.formulation_id_input.setStyleSheet("background-color: #fff9c4;")
         customer_layout.addRow("Formulation ID:", self.formulation_id_input)
+        self.formulation_id_input.setReadOnly(True)
 
         # Customer Name
         self.customer_input = QLineEdit()
@@ -603,6 +604,7 @@ class FormulationManagementPage(QWidget):
         self.all_formula_data = db_call.get_formula_data(early_date, late_date)
         self.customer_lists = list({row[3] for row in self.all_formula_data})
         self.product_code_lists = list({row[4] for row in self.all_formula_data})
+        self.formula_uid_lists = list({str(row[0]) for row in self.all_formula_data})
 
         customer_completer = QCompleter(self.customer_lists)
         customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
@@ -732,8 +734,11 @@ class FormulationManagementPage(QWidget):
         self.matched_by_input.setCurrentText(str(result[14]))  # Example
         self.encoded_by_display.setText(str(result[15]))  # Example
         self.updated_by_display.setText(str(result[19]))
-        self.date_time_display.setText(str(result[20]))
-
+        try:
+            date_and_time = datetime.strptime(str(result[20]), "%m/%d/%y %I:%M:%S %p")
+            self.date_time_display.setText(date_and_time.strftime("%m/%d/%Y %I:%M:%S %p"))
+        except Exception as e:
+            print(e)
         # Load materials for the selected formulation from db_call
         materials = db_call.get_formula_materials(self.current_formulation_id)  # Pass ID as string
         self.materials_table.setRowCount(0)
@@ -862,6 +867,7 @@ class FormulationManagementPage(QWidget):
         self.materials_table.setRowCount(0)
         self.update_total_concentration()
         self.current_formulation_id = None  # Ensure we are on the entry tab
+
         self.enable_fields(enable=True)
 
     def save_formulation(self):
@@ -890,8 +896,8 @@ class FormulationManagementPage(QWidget):
             QMessageBox.warning(self, "Missing Data", "Please add at least one material to the composition.")
             return
 
-            # --- Validate concentration match ---
-            # Get the calculated total from the label (which is always up-to-date)
+        # --- Validate concentration match ---
+        # Get the calculated total from the label (which is always up-to-date)
         calculated_total = float(self.total_material_concentration)
 
         # Check if user manually edited the sum field
@@ -934,7 +940,7 @@ class FormulationManagementPage(QWidget):
             "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
             # Convert to date object
             "dbf_updated_by": self.updated_by_display.text().strip(),
-            "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p"),
+            "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p").strftime("%m/%d/%y %I:%M:%S %p"),
             # Convert to datetime object
         }
 
@@ -949,16 +955,22 @@ class FormulationManagementPage(QWidget):
                     "material_code": material_code_item.text().strip(),
                     "concentration": float(concentration_item.text().strip())
                 })
-
         try:
-            db_call.save_formula(formula_data, material_composition)
-            self.log_audit_trail("Data Entry",
-                                 f"Saved new Formula: {formulation_id}")
-            QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
+            if self.current_formulation_id:
+                # Existing formulation - perform update
+                db_call.update_formula(formula_data, material_composition)
+                self.log_audit_trail("Data Entry", f"Updated existing Formula: {formulation_id}")
+                QMessageBox.information(self, "Success", f"Formulation {formulation_id} updated successfully!")
+            else:
+                # New formulation - perform save
+                db_call.save_formula(formula_data, material_composition)
+                self.log_audit_trail("Data Entry", f"Saved new Formula: {formulation_id}")
+                QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
+
             self.refresh_formulations()  # Refresh the records tab
             self.new_formulation()  # Reset form for new entry
         except Exception as e:
-            QMessageBox.critical(self, "Save Error", f"An error occurred while saving the formulation: {e}")
+            QMessageBox.critical(self, "Save Error", f"An error occurred while saving the formulation:\n{e}")
 
     def sync_for_entry(self, index):
         """Trigger sync when entering the entry tab."""
@@ -1015,12 +1027,10 @@ class FormulationManagementPage(QWidget):
             else:
                 next_id = 1  # Start from 1 if no previous formulas
             self.formulation_id_input.setText(str(next_id))  # Format as 7-digit string
-            self.formulation_id_input.setReadOnly(True)  # Make it read-only for auto-generated IDs
             self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")  # Grey out for read-only
         else:
             QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}. Cannot generate new Formulation ID.")
             self.formulation_id_input.setText("ERROR")
-            self.formulation_id_input.setReadOnly(False)
             self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")  # Red background for error
 
         thread.quit()
