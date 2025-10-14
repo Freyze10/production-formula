@@ -469,13 +469,15 @@ class FormulationManagementPage(QWidget):
         color_layout.setSpacing(6)
         color_layout.setContentsMargins(10, 18, 10, 12)
 
-        # HTML Color Code
+        # HTML Color Code (hidden but functional)
         self.html_input = QLineEdit()
         self.html_input.setPlaceholderText("#FFFFFF")
         self.html_input.setStyleSheet("background-color: #fff9c4;")
+        self.html_input.setVisible(False)  # Hide from UI
+        # Uncomment next line to make visible in future:
         # color_layout.addRow("HTML Color:", self.html_input)
 
-        # CMYK Values in Grid
+        # CMYK Values in Grid (hidden but functional)
         cmyk_widget = QWidget()
         cmyk_layout = QGridLayout(cmyk_widget)
         cmyk_layout.setSpacing(6)
@@ -485,26 +487,28 @@ class FormulationManagementPage(QWidget):
         self.cyan_input = QLineEdit()
         self.cyan_input.setStyleSheet("background-color: #fff9c4;")
         self.cyan_input.setText("")
-        cmyk_layout.addWidget(self.cyan_input, 0, 1)
+        # cmyk_layout.addWidget(self.cyan_input, 0, 1)
 
         cmyk_layout.addWidget(QLabel("M:"), 0, 2)
         self.magenta_input = QLineEdit()
         self.magenta_input.setStyleSheet("background-color: #fff9c4;")
         self.magenta_input.setText("")
-        cmyk_layout.addWidget(self.magenta_input, 0, 3)
+        # cmyk_layout.addWidget(self.magenta_input, 0, 3)
 
         cmyk_layout.addWidget(QLabel("Y:"), 1, 0)
         self.yellow_input = QLineEdit()
         self.yellow_input.setStyleSheet("background-color: #fff9c4;")
         self.yellow_input.setText("")
-        cmyk_layout.addWidget(self.yellow_input, 1, 1)
+        # cmyk_layout.addWidget(self.yellow_input, 1, 1)
 
         cmyk_layout.addWidget(QLabel("K:"), 1, 2)
         self.key_black_input = QLineEdit()
         self.key_black_input.setStyleSheet("background-color: #fff9c4;")
         self.key_black_input.setText("")
-        cmyk_layout.addWidget(self.key_black_input, 1, 3)
+        # cmyk_layout.addWidget(self.key_black_input, 1, 3)
 
+        cmyk_widget.setVisible(False)  # Hide entire CMYK widget from UI
+        # Uncomment next line to make visible in future:
         # color_layout.addRow("CMYK Values:", cmyk_widget)
 
         # Updated By and Date/Time
@@ -709,32 +713,32 @@ class FormulationManagementPage(QWidget):
                                 f"Formulation ID {self.current_formulation_id} not found in database.")
             self.tab_widget.blockSignals(False)
             return
-
-        # Re-enable signals
-        self.formulation_id_input.setText(str(result[2]))  # Ensure ID is string for display
-        self.customer_input.setText(str(result[4]))
-        self.index_ref_input.setText(str(result[1]))
-        self.product_code_input.setText(str(result[5]))
-        self.product_color_input.setText(str(result[6]))
-        self.sum_conc_input.setText(str(result[17]))
-        self.dosage_input.setText(str(result[7]))
-        self.mixing_time_input.setText(str(result[9]))
-        self.resin_used_input.setText(str(result[10]))  # Example
-        self.application_no_input.setText(str(result[11]))  # Example
-        self.matching_no_input.setText(str(result[12]))  # Example
-        date_matched = QDate(result[13].year, result[13].month, result[13].day)
-        self.date_matched_input.setDate(date_matched)  # Example insert date
-        self.notes_input.setPlainText(str(result[14]))  # Example
-        self.mb_dc_combo.setCurrentText(str(result[22]))  # Example
-        # self.html_input.setText(str(result[23]))  # Example
-        # self.cyan_input.setText(str(result[24]))
-        # self.magenta_input.setText(str(result[25]))
-        # self.yellow_input.setText(str(result[26]))
-        # self.key_black_input.setText(str(result[27]))
-        self.matched_by_input.setCurrentText(str(result[14]))  # Example
-        self.encoded_by_display.setText(str(result[15]))  # Example
-        self.updated_by_display.setText(str(result[19]))
         try:
+            # Re-enable signals
+            self.formulation_id_input.setText(str(result[2]))  # Ensure ID is string for display
+            self.customer_input.setText(str(result[4]))
+            self.index_ref_input.setText(str(result[1]))
+            self.product_code_input.setText(str(result[5]))
+            self.product_color_input.setText(str(result[6]))
+            self.sum_conc_input.setText(str(result[17]))
+            self.dosage_input.setText(str(result[7]))
+            self.mixing_time_input.setText(str(result[9]))
+            self.resin_used_input.setText(str(result[10]))  # Example
+            self.application_no_input.setText(str(result[11]))  # Example
+            self.matching_no_input.setText(str(result[12]))  # Example
+            date_matched = QDate(result[13].year, result[13].month, result[13].day)
+            self.date_matched_input.setDate(date_matched)  # Example insert date
+            self.notes_input.setPlainText(str(result[14]))  # Example
+            self.mb_dc_combo.setCurrentText(str(result[22]))  # Example
+            self.html_input.setText(str(result[23]))  # Example
+            self.cyan_input.setText(str(result[24]))
+            self.magenta_input.setText(str(result[25]))
+            self.yellow_input.setText(str(result[26]))
+            self.key_black_input.setText(str(result[27]))
+            self.matched_by_input.setCurrentText(str(result[14]))  # Example
+            self.encoded_by_display.setText(str(result[15]))  # Example
+            self.updated_by_display.setText(str(result[19]))
+
             date_and_time = datetime.strptime(str(result[20]), "%m/%d/%y %I:%M:%S %p")
             self.date_time_display.setText(date_and_time.strftime("%m/%d/%Y %I:%M:%S %p"))
         except Exception as e:
