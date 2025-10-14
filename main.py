@@ -1,5 +1,5 @@
 # main.py
-# FINAL VERIFIED VERSION WITH FORMULATION MODULE
+# FINAL VERIFIED VERSION WITH FORMULATION MODULE - FIXED PAGE SWITCHING
 import getpass
 import sys
 import os
@@ -25,14 +25,13 @@ from PyQt6.QtCore import (Qt, pyqtSignal, QSize, QEvent, QTimer, QThread, QObjec
                           QAbstractAnimation)
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
                              QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget,
-                             QFrame, QStatusBar, QDialog)
+                             QFrame, QStatusBar, QDialog, QGraphicsOpacityEffect)
 from PyQt6.QtGui import QFont, QMovie
 
 # --- All page imports are correct ---
 from fg_endorsement import FGEndorsementPage
 from audit_trail import AuditTrailPage
 from user_management import UserManagementPage
-# from formulation import FormulationManagementPage  # NEW IMPORT
 
 # --- CONFIGURATION ---
 DB_CONFIG = {"host": "localhost", "port": 5433, "dbname": "db_formula", "user": "postgres", "password": "password"}
@@ -149,9 +148,10 @@ class SyncWorker(QObject):
                 self.finished.emit(True, "Sync Info: No new records found in DBF file to sync.")
                 return
             with engine.connect() as conn:
-                with conn.begin(): conn.execute(text(
-                    "INSERT INTO legacy_production(lot_number,prod_code,customer_name,formula_id,operator,supervisor,last_synced_on) VALUES(:lot,:code,:cust,:fid,:op,:sup,NOW()) ON CONFLICT(lot_number) DO UPDATE SET prod_code=EXCLUDED.prod_code, customer_name=EXCLUDED.customer_name, formula_id=EXCLUDED.formula_id, operator=EXCLUDED.operator, supervisor=EXCLUDED.supervisor, last_synced_on=NOW()"),
-                    recs)
+                with conn.begin():
+                    conn.execute(text(
+                        "INSERT INTO legacy_production(lot_number,prod_code,customer_name,formula_id,operator,supervisor,last_synced_on) VALUES(:lot,:code,:cust,:fid,:op,:sup,NOW()) ON CONFLICT(lot_number) DO UPDATE SET prod_code=EXCLUDED.prod_code, customer_name=EXCLUDED.customer_name, formula_id=EXCLUDED.formula_id, operator=EXCLUDED.operator, supervisor=EXCLUDED.supervisor, last_synced_on=NOW()"),
+                        recs)
             self.finished.emit(True, f"Production sync complete.\n{len(recs)} records processed.")
         except dbfread.DBFNotFound:
             self.finished.emit(False, f"File Not Found: Production DBF not found at:\n{PRODUCTION_DBF_PATH}")
@@ -273,22 +273,22 @@ class LoginWindow(QMainWindow):
         self.setStyleSheet(AppStyles.LOGIN_STYLESHEET)
 
     def _create_input_field(self, icon, placeholder):
-        c = QWidget(objectName="InputFrame");
-        l = QHBoxLayout(c);
-        l.setContentsMargins(5, 0, 5, 0);
-        l.setSpacing(10);
-        il = QLabel(pixmap=fa.icon(icon, color='#bdbdbd').pixmap(QSize(20, 20)));
-        le = QLineEdit(placeholderText=placeholder);
-        l.addWidget(il);
-        l.addWidget(le);
+        c = QWidget(objectName="InputFrame")
+        l = QHBoxLayout(c)
+        l.setContentsMargins(5, 0, 5, 0)
+        l.setSpacing(10)
+        il = QLabel(pixmap=fa.icon(icon, color='#bdbdbd').pixmap(QSize(20, 20)))
+        le = QLineEdit(placeholderText=placeholder)
+        l.addWidget(il)
+        l.addWidget(le)
         return c, le
 
     def login(self):
         u, p = self.username.text(), self.password.text()
         if not u or not p:
-            self.status_label.setText("Username and password are required.");
+            self.status_label.setText("Username and password are required.")
             return
-        self.login_btn.setEnabled(False);
+        self.login_btn.setEnabled(False)
         self.status_label.setText("Verifying...")
         try:
             with engine.connect() as c:
@@ -297,17 +297,17 @@ class LoginWindow(QMainWindow):
                                     {"u": u}).fetchone()
                     if res and res[0] == p:
                         if not res[1]:
-                            self.status_label.setText("This user does not have access.");
+                            self.status_label.setText("This user does not have access.")
                             return
                         c.execute(text(
                             "INSERT INTO qc_audit_trail(timestamp, username, action_type, details, hostname, ip_address, mac_address) VALUES (NOW(), :u, 'LOGIN', 'User logged in.', :h, :i, :m)"),
                             {"u": u, **_get_workstation_info()})
-                        self.login_successful.emit(u, res[2]);
+                        self.login_successful.emit(u, res[2])
                         self.close()
                     else:
                         self.status_label.setText("Invalid credentials.")
         except Exception as e:
-            self.status_label.setText("Database connection error.");
+            self.status_label.setText("Database connection error.")
             print(f"Login Error: {e}")
         finally:
             self.login_btn.setEnabled(True)
@@ -317,16 +317,16 @@ class ModernMainWindow(QMainWindow):
     def __init__(self, username, user_role, login_window):
         super().__init__()
         self.username, self.user_role, self.login_window = username, user_role, login_window
+        self.is_animating = False  # Flag to prevent animation overlaps
         self.icon_maximize, self.icon_restore = fa.icon('fa5s.expand-arrows-alt', color='#ecf0f1'), fa.icon(
             'fa5s.compress-arrows-alt', color='#ecf0f1')
         self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle',
                                                                                                     color='#D32F2F')
         self.setWindowTitle("Finished Goods Program")
         self.setWindowIcon(fa.icon('fa5s.check-double', color='gray'))
-        self.setMinimumSize(1280, 720);
+        self.setMinimumSize(1280, 720)
         self.setGeometry(100, 100, 1366, 768)
         self.workstation_info = _get_workstation_info()
-        self.animation = None
         self.init_ui()
 
     def log_audit_trail(self, action_type, details):
@@ -334,22 +334,22 @@ class ModernMainWindow(QMainWindow):
             log_query = text(
                 "INSERT INTO qc_audit_trail (timestamp, username, action_type, details, hostname, ip_address, mac_address) VALUES (NOW(), :u, :a, :d, :h, :i, :m)")
             with engine.connect() as connection:
-                with connection.begin(): connection.execute(log_query,
-                                                            {"u": self.username, "a": action_type, "d": details,
-                                                             **self.workstation_info})
+                with connection.begin():
+                    connection.execute(log_query,
+                                      {"u": self.username, "a": action_type, "d": details,
+                                       **self.workstation_info})
         except Exception as e:
             print(f"CRITICAL: Audit trail error: {e}")
 
     def init_ui(self):
-        main_widget = QWidget();
-        main_layout = QHBoxLayout(main_widget);
-        main_layout.setContentsMargins(0, 0, 0, 0);
+        main_widget = QWidget()
+        main_layout = QHBoxLayout(main_widget)
+        main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         main_layout.addWidget(self.create_side_menu())
-        self.stacked_widget = QStackedWidget();
+        self.stacked_widget = QStackedWidget()
         main_layout.addWidget(self.stacked_widget)
 
-        # --- UPDATED: Added FormulationManagementPage ---
         try:
             self.formulation_page = FormulationManagementPage(engine, self.username, self.log_audit_trail)
             self.fg_endorsement_page = FGEndorsementPage(engine, self.username, self.log_audit_trail)
@@ -361,131 +361,131 @@ class ModernMainWindow(QMainWindow):
         for page in [self.formulation_page, self.fg_endorsement_page, self.audit_trail_page, self.user_management_page]:
             self.stacked_widget.addWidget(page)
 
-        self.setCentralWidget(main_widget);
-        self.setup_status_bar();
+        self.setCentralWidget(main_widget)
+        self.setup_status_bar()
         self.apply_styles()
-        if self.user_role != 'Admin': self.btn_user_mgmt.hide()
-        self.update_maximize_button();
-        self.show_page(0, True);
-        self.btn_formulation.setChecked(True)  # Set formulation as default
+        if self.user_role != 'Admin':
+            self.btn_user_mgmt.hide()
+        self.update_maximize_button()
+        self.show_page(0, True)
+        self.btn_formulation.setChecked(True)
 
     def create_side_menu(self):
-        menu = QWidget(objectName="SideMenu");
-        layout = QVBoxLayout(menu);
-        layout.setContentsMargins(10, 20, 10, 10);
-        layout.setSpacing(5);
+        menu = QWidget(objectName="SideMenu")
+        layout = QVBoxLayout(menu)
+        layout.setContentsMargins(10, 20, 10, 10)
+        layout.setSpacing(5)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        profile = QWidget();
-        pl = QHBoxLayout(profile);
-        pl.setContentsMargins(5, 0, 0, 0);
+        profile = QWidget()
+        pl = QHBoxLayout(profile)
+        pl.setContentsMargins(5, 0, 0, 0)
         pl.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        pl.addWidget(QLabel(pixmap=fa.icon('fa5s.user-circle', color='#ecf0f1').pixmap(QSize(40, 40))));
+        pl.addWidget(QLabel(pixmap=fa.icon('fa5s.user-circle', color='#ecf0f1').pixmap(QSize(40, 40))))
         pl.addWidget(QLabel(f"<b>{self.username}</b><br><font color='#bdc3c7'>{self.user_role}</font>"))
-        sep = QFrame(frameShape=QFrame.Shape.HLine, objectName="Separator");
+        sep = QFrame(frameShape=QFrame.Shape.HLine, objectName="Separator")
         sep.setContentsMargins(0, 10, 0, 10)
 
-        # NEW: Formulation Management section (before FG Management)
-        self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
+        try:
+            self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
+            self.btn_fg_endorsement = self.create_menu_button("  FG Endorsement", 'fa5s.file-signature', 1)
+            self.btn_sync_prod = QPushButton("  Sync Production DB", icon=fa.icon('fa5s.sync-alt', color='#ecf0f1'))
+            self.btn_sync_prod.clicked.connect(self.start_sync_process)
+            self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
+            self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 3)
+            self.btn_maximize = QPushButton("  Maximize", icon=self.icon_maximize)
+            self.btn_maximize.clicked.connect(self.toggle_maximize)
+            self.btn_logout = QPushButton("  Logout", icon=fa.icon('fa5s.sign-out-alt', color='#ecf0f1'))
+            self.btn_logout.clicked.connect(self.logout)
 
-        self.btn_fg_endorsement = self.create_menu_button("  FG Endorsement", 'fa5s.file-signature', 1)
-        self.btn_sync_prod = QPushButton("  Sync Production DB", icon=fa.icon('fa5s.sync-alt', color='#ecf0f1'));
-        self.btn_sync_prod.clicked.connect(self.start_sync_process)
-        self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
-        self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 3)
-        self.btn_maximize = QPushButton("  Maximize", icon=self.icon_maximize);
-        self.btn_maximize.clicked.connect(self.toggle_maximize)
-        self.btn_logout = QPushButton("  Logout", icon=fa.icon('fa5s.sign-out-alt', color='#ecf0f1'));
-        self.btn_logout.clicked.connect(self.logout)
-
-        layout.addWidget(profile);
-        layout.addWidget(sep)
-
-        # NEW: Formulation section label and button
-        layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"));
-        layout.addWidget(self.btn_formulation);
-
-        layout.addWidget(QLabel("FG MANAGEMENT", objectName="MenuLabel"));
-        layout.addWidget(self.btn_fg_endorsement);
-        layout.addWidget(self.btn_sync_prod)
-        layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"));
-        layout.addWidget(self.btn_audit_trail);
-        layout.addWidget(self.btn_user_mgmt)
-        layout.addStretch(1);
-        layout.addWidget(self.btn_maximize);
-        layout.addWidget(self.btn_logout)
+            layout.addWidget(profile)
+            layout.addWidget(sep)
+            layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
+            layout.addWidget(self.btn_formulation)
+            layout.addWidget(QLabel("FG MANAGEMENT", objectName="MenuLabel"))
+            layout.addWidget(self.btn_fg_endorsement)
+            layout.addWidget(self.btn_sync_prod)
+            layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
+            layout.addWidget(self.btn_audit_trail)
+            layout.addWidget(self.btn_user_mgmt)
+            layout.addStretch(1)
+            layout.addWidget(self.btn_maximize)
+            layout.addWidget(self.btn_logout)
+        except Exception as e:
+            print(e)
         return menu
 
     def create_menu_button(self, text, icon, page_index):
         btn = QPushButton(text, icon=fa.icon(icon, color='#ecf0f1'), checkable=True, autoExclusive=True)
-        btn.clicked.connect(lambda: self.show_page(page_index));
+        btn.clicked.connect(lambda: self.show_page(page_index))
         return btn
 
     def setup_status_bar(self):
-        self.status_bar = QStatusBar();
-        self.setStatusBar(self.status_bar);
+        self.status_bar = QStatusBar()
+        self.setStatusBar(self.status_bar)
         self.status_bar.showMessage(f"Ready | Logged in as: {self.username}")
-        self.db_status_icon_label, self.db_status_text_label, self.time_label = QLabel(), QLabel(), QLabel();
+        self.db_status_icon_label, self.db_status_text_label, self.time_label = QLabel(), QLabel(), QLabel()
         self.db_status_icon_label.setFixedSize(QSize(20, 20))
         for w in [self.db_status_icon_label, self.db_status_text_label, self.time_label,
                   QLabel(f" | PC: {self.workstation_info['h']}"), QLabel(f" | IP: {self.workstation_info['i']}"),
-                  QLabel(f" | MAC: {self.workstation_info['m']}")]: self.status_bar.addPermanentWidget(w)
-        self.time_timer = QTimer(self, timeout=self.update_time);
-        self.time_timer.start(1000);
+                  QLabel(f" | MAC: {self.workstation_info['m']}")]:
+            self.status_bar.addPermanentWidget(w)
+        self.time_timer = QTimer(self, timeout=self.update_time)
+        self.time_timer.start(1000)
         self.update_time()
-        self.db_check_timer = QTimer(self, timeout=self.check_db_status);
-        self.db_check_timer.start(5000);
+        self.db_check_timer = QTimer(self, timeout=self.check_db_status)
+        self.db_check_timer.start(5000)
         self.check_db_status()
 
     def start_sync_process(self):
         reply = QMessageBox.question(self, "Confirm Sync",
                                      "This will sync with the legacy production database. This may take some time. Are you sure you want to proceed?",
                                      QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        if reply == QMessageBox.StandardButton.No: return
-        self.btn_sync_prod.setEnabled(False);
+        if reply == QMessageBox.StandardButton.No:
+            return
+        self.btn_sync_prod.setEnabled(False)
         self.loading_dialog = self._create_loading_dialog()
-        self.sync_thread = QThread();
-        self.sync_worker = SyncWorker();
+        self.sync_thread = QThread()
+        self.sync_worker = SyncWorker()
         self.sync_worker.moveToThread(self.sync_thread)
-        self.sync_thread.started.connect(self.sync_worker.run);
-        self.sync_worker.finished.connect(self.on_sync_finished);
-        self.sync_worker.finished.connect(self.sync_thread.quit);
-        self.sync_worker.finished.connect(self.sync_worker.deleteLater);
+        self.sync_thread.started.connect(self.sync_worker.run)
+        self.sync_worker.finished.connect(self.on_sync_finished)
+        self.sync_worker.finished.connect(self.sync_thread.quit)
+        self.sync_worker.finished.connect(self.sync_worker.deleteLater)
         self.sync_thread.finished.connect(self.sync_thread.deleteLater)
-        self.sync_thread.start();
+        self.sync_thread.start()
         self.loading_dialog.exec()
 
     def _create_loading_dialog(self):
-        dialog = QDialog(self);
-        dialog.setModal(True);
-        dialog.setWindowFlag(Qt.WindowType.FramelessWindowHint);
+        dialog = QDialog(self)
+        dialog.setModal(True)
+        dialog.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         dialog.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        layout = QVBoxLayout(dialog);
-        frame = QFrame();
-        frame.setStyleSheet("background-color: white; border-radius: 15px; padding: 20px;");
+        layout = QVBoxLayout(dialog)
+        frame = QFrame()
+        frame.setStyleSheet("background-color: white; border-radius: 15px; padding: 20px;")
         frame_layout = QVBoxLayout(frame)
-        loading_label = QLabel();
+        loading_label = QLabel()
         movie = QMovie("loading.gif")
         if not movie.isValid():
             loading_label.setText("Loading...")
         else:
-            loading_label.setMovie(movie);
+            loading_label.setMovie(movie)
             movie.start()
-        message_label = QLabel("Syncing... Please wait.");
+        message_label = QLabel("Syncing... Please wait.")
         message_label.setStyleSheet("font-size: 11pt;")
-        frame_layout.addWidget(loading_label, alignment=Qt.AlignmentFlag.AlignCenter);
-        frame_layout.addWidget(message_label, alignment=Qt.AlignmentFlag.AlignCenter);
+        frame_layout.addWidget(loading_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        frame_layout.addWidget(message_label, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(frame)
         return dialog
 
     def on_sync_finished(self, success, message):
-        self.loading_dialog.close();
+        self.loading_dialog.close()
         self.btn_sync_prod.setEnabled(True)
         if success:
-            QMessageBox.information(self, "Sync Result", message);
-            self.status_bar.showMessage(
-                "Production DB synchronized.", 5000)
+            QMessageBox.information(self, "Sync Result", message)
+            self.status_bar.showMessage("Production DB synchronized.", 5000)
         else:
-            QMessageBox.critical(self, "Sync Result", message);
+            QMessageBox.critical(self, "Sync Result", message)
             self.status_bar.showMessage("Sync failed.", 5000)
 
     def update_time(self):
@@ -495,41 +495,70 @@ class ModernMainWindow(QMainWindow):
         try:
             with engine.connect() as c:
                 c.execute(text("SELECT 1"))
-            self.db_status_icon_label.setPixmap(self.icon_db_ok.pixmap(QSize(16, 16)));
+            self.db_status_icon_label.setPixmap(self.icon_db_ok.pixmap(QSize(16, 16)))
             self.db_status_text_label.setText("DB Connected")
         except:
-            self.db_status_icon_label.setPixmap(
-                self.icon_db_fail.pixmap(QSize(16, 16)));
+            self.db_status_icon_label.setPixmap(self.icon_db_fail.pixmap(QSize(16, 16)))
             self.db_status_text_label.setText("DB Disconnected")
 
     def apply_styles(self):
         self.setStyleSheet(AppStyles.MAIN_WINDOW_STYLESHEET)
 
     def show_page(self, index, is_first_load=False):
-        if self.stacked_widget.currentIndex() == index: return
-        if is_first_load or self.animation and self.animation.state() == QAbstractAnimation.State.Running:
-            self._set_page_and_refresh(index);
+        """Switch to the page at the given index with smooth fade animation."""
+        if self.stacked_widget.currentIndex() == index:
             return
+
+        # Prevent multiple animations at once
+        if self.is_animating:
+            return
+
+        if is_first_load:
+            self._set_page_and_refresh(index)
+            return
+
+        self.is_animating = True
         current_widget = self.stacked_widget.currentWidget()
-        self.fade_out_animation = QPropertyAnimation(current_widget, b"windowOpacity");
-        self.fade_out_animation.setDuration(150);
-        self.fade_out_animation.setStartValue(1.0);
-        self.fade_out_animation.setEndValue(0.0);
+
+        # Create opacity effect for current widget
+        opacity_effect = QGraphicsOpacityEffect()
+        current_widget.setGraphicsEffect(opacity_effect)
+
+        # Fade out animation
+        self.fade_out_animation = QPropertyAnimation(opacity_effect, b"opacity")
+        self.fade_out_animation.setDuration(150)
+        self.fade_out_animation.setStartValue(1.0)
+        self.fade_out_animation.setEndValue(0.0)
         self.fade_out_animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
-        self.fade_out_animation.finished.connect(lambda: self._start_fade_in(index));
-        self.animation = self.fade_out_animation;
+        self.fade_out_animation.finished.connect(lambda: self._start_fade_in(index, current_widget))
         self.fade_out_animation.start(QAbstractAnimation.DeletionPolicy.DeleteWhenStopped)
 
-    def _start_fade_in(self, index):
+    def _start_fade_in(self, index, old_widget):
+        """Start fade in animation for new page."""
+        # Remove effect from old widget
+        old_widget.setGraphicsEffect(None)
+
+        # Switch to new page
         self._set_page_and_refresh(index)
         new_widget = self.stacked_widget.currentWidget()
-        self.fade_in_animation = QPropertyAnimation(new_widget, b"windowOpacity");
-        self.fade_in_animation.setDuration(200);
-        self.fade_in_animation.setStartValue(0.0);
-        self.fade_in_animation.setEndValue(1.0);
+
+        # Create opacity effect for new widget
+        opacity_effect = QGraphicsOpacityEffect()
+        new_widget.setGraphicsEffect(opacity_effect)
+
+        # Fade in animation
+        self.fade_in_animation = QPropertyAnimation(opacity_effect, b"opacity")
+        self.fade_in_animation.setDuration(200)
+        self.fade_in_animation.setStartValue(0.0)
+        self.fade_in_animation.setEndValue(1.0)
         self.fade_in_animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
-        self.animation = self.fade_in_animation;
+        self.fade_in_animation.finished.connect(lambda: self._cleanup_animation(new_widget))
         self.fade_in_animation.start(QAbstractAnimation.DeletionPolicy.DeleteWhenStopped)
+
+    def _cleanup_animation(self, widget):
+        """Clean up after animation completes."""
+        widget.setGraphicsEffect(None)
+        self.is_animating = False
 
     def _set_page_and_refresh(self, index):
         """Sets the current page and calls its refresh method if it exists."""
@@ -542,22 +571,21 @@ class ModernMainWindow(QMainWindow):
         self.showNormal() if self.isMaximized() else self.showMaximized()
 
     def update_maximize_button(self):
-        self.btn_maximize.setText("  Restore" if self.isMaximized() else "  Maximize");
-        self.btn_maximize.setIcon(
-            self.icon_restore if self.isMaximized() else self.icon_maximize)
+        self.btn_maximize.setText("  Restore" if self.isMaximized() else "  Maximize")
+        self.btn_maximize.setIcon(self.icon_restore if self.isMaximized() else self.icon_maximize)
 
     def changeEvent(self, event):
-        if event.type() == QEvent.Type.WindowStateChange: self.update_maximize_button()
+        if event.type() == QEvent.Type.WindowStateChange:
+            self.update_maximize_button()
         super().changeEvent(event)
 
     def logout(self):
-        self.close();
+        self.close()
         self.login_window.show()
 
     def closeEvent(self, event):
-        self.login_window.close();
+        self.login_window.close()
         event.accept()
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -565,12 +593,10 @@ if __name__ == "__main__":
     login_window = LoginWindow()
     main_window = None
 
-
     def on_login_success(username, user_role):
         global main_window
         main_window = ModernMainWindow(username, user_role, login_window)
         main_window.showMaximized()
-
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()
