@@ -360,7 +360,7 @@ class FormulationManagementPage(QWidget):
         # MB or DC
         self.mb_dc_combo = QComboBox()
         self.mb_dc_combo.addItems(["MB", "DC"])
-        formula_layout.addRow("MB or DC:", self.mb_dc_combo)
+        # formula_layout.addRow("MB or DC:", self.mb_dc_combo)
 
         left_column.addWidget(formula_card, stretch=1)
 
@@ -464,7 +464,7 @@ class FormulationManagementPage(QWidget):
         right_column.addWidget(material_card)
 
         # Color Information Card
-        color_card = QGroupBox("Color Information")
+        color_card = QGroupBox("Information")
         color_layout = QFormLayout(color_card)
         color_layout.setSpacing(6)
         color_layout.setContentsMargins(10, 18, 10, 12)
@@ -473,7 +473,7 @@ class FormulationManagementPage(QWidget):
         self.html_input = QLineEdit()
         self.html_input.setPlaceholderText("#FFFFFF")
         self.html_input.setStyleSheet("background-color: #fff9c4;")
-        color_layout.addRow("HTML Color:", self.html_input)
+        # color_layout.addRow("HTML Color:", self.html_input)
 
         # CMYK Values in Grid
         cmyk_widget = QWidget()
@@ -505,7 +505,7 @@ class FormulationManagementPage(QWidget):
         self.key_black_input.setText("")
         cmyk_layout.addWidget(self.key_black_input, 1, 3)
 
-        color_layout.addRow("CMYK Values:", cmyk_widget)
+        # color_layout.addRow("CMYK Values:", cmyk_widget)
 
         # Updated By and Date/Time
         self.updated_by_display = QLineEdit()
@@ -726,11 +726,11 @@ class FormulationManagementPage(QWidget):
         self.date_matched_input.setDate(date_matched)  # Example insert date
         self.notes_input.setPlainText(str(result[14]))  # Example
         self.mb_dc_combo.setCurrentText(str(result[22]))  # Example
-        self.html_input.setText(str(result[23]))  # Example
-        self.cyan_input.setText(str(result[24]))
-        self.magenta_input.setText(str(result[25]))
-        self.yellow_input.setText(str(result[26]))
-        self.key_black_input.setText(str(result[27]))
+        # self.html_input.setText(str(result[23]))  # Example
+        # self.cyan_input.setText(str(result[24]))
+        # self.magenta_input.setText(str(result[25]))
+        # self.yellow_input.setText(str(result[26]))
+        # self.key_black_input.setText(str(result[27]))
         self.matched_by_input.setCurrentText(str(result[14]))  # Example
         self.encoded_by_display.setText(str(result[15]))  # Example
         self.updated_by_display.setText(str(result[19]))
