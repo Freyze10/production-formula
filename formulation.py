@@ -671,7 +671,7 @@ class FormulationManagementPage(QWidget):
             formulation_id_item = self.formulation_table.item(row, 0)
             formulation_id = formulation_id_item.value if isinstance(formulation_id_item,
                                                                      NumericTableWidgetItem) else formulation_id_item.text()
-            customer = self.formulation_table.item(row, 2).text()
+            customer = self.formulation_table.item(row, 3).text()
 
             self.current_formulation_id = str(formulation_id)  # Ensure it's a string for consistency
             self.selected_formulation_label.setText(
