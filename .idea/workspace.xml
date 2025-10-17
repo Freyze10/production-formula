@@ -102,7 +102,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="formulation (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -115,7 +115,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/formulation.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\side_bar\formulation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -384,7 +384,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760659992050</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="changed the window name">
+      <option name="closed" value="true" />
+      <created>1760660671340</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1760660671340</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -427,7 +435,8 @@
     <MESSAGE value="fixed fade in animation" />
     <MESSAGE value="changed the display on selected" />
     <MESSAGE value="changed rm input to combobox" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed rm input to combobox" />
+    <MESSAGE value="changed the window name" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the window name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

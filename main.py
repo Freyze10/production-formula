@@ -1,18 +1,13 @@
 # main.py
 # FINAL VERIFIED VERSION WITH FORMULATION MODULE - FIXED PAGE SWITCHING
-import getpass
 import sys
 import os
-import re
 from datetime import datetime
-import socket
-import uuid
 import dbfread
-import time
 
 from sqlalchemy import create_engine, text
 
-from formulation import FormulationManagementPage
+from side_bar.formulation import FormulationManagementPage
 from work_station import _get_workstation_info
 
 try:
@@ -26,12 +21,11 @@ from PyQt6.QtCore import (Qt, pyqtSignal, QSize, QEvent, QTimer, QThread, QObjec
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
                              QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget,
                              QFrame, QStatusBar, QDialog, QGraphicsOpacityEffect)
-from PyQt6.QtGui import QFont, QMovie
+from PyQt6.QtGui import QMovie
 
 # --- All page imports are correct ---
-from fg_endorsement import FGEndorsementPage
-from audit_trail import AuditTrailPage
-from user_management import UserManagementPage
+from side_bar.audit_trail import AuditTrailPage
+from side_bar.user_management import UserManagementPage
 
 # --- CONFIGURATION ---
 DB_CONFIG = {"host": "localhost", "port": 5433, "dbname": "db_formula", "user": "postgres", "password": "password"}
@@ -172,17 +166,6 @@ def initialize_database():
                     "CREATE TABLE IF NOT EXISTS legacy_production (lot_number TEXT PRIMARY KEY, prod_code TEXT, customer_name TEXT, formula_id TEXT, operator TEXT, supervisor TEXT, last_synced_on TIMESTAMP);"))
                 connection.execute(text(
                     "CREATE INDEX IF NOT EXISTS idx_legacy_production_lot_number ON legacy_production (lot_number);"))
-                connection.execute(
-                    text("CREATE TABLE IF NOT EXISTS endorsers (id SERIAL PRIMARY KEY, name TEXT UNIQUE NOT NULL);"))
-                connection.execute(text(
-                    "CREATE TABLE IF NOT EXISTS endorsement_remarks (id SERIAL PRIMARY KEY, remark_text TEXT UNIQUE NOT NULL);"))
-                endorsement_columns = "system_ref_no TEXT NOT NULL, form_ref_no TEXT, date_endorsed DATE, category TEXT, product_code TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), weight_per_lot NUMERIC(15, 6), bag_no TEXT, status TEXT, endorsed_by TEXT, remarks TEXT, encoded_by TEXT, encoded_on TIMESTAMP, edited_by TEXT, edited_on TIMESTAMP"
-                connection.execute(text(
-                    f"CREATE TABLE IF NOT EXISTS fg_endorsements_primary (id SERIAL PRIMARY KEY, {endorsement_columns}, UNIQUE(system_ref_no));"))
-                connection.execute(text(
-                    f"CREATE TABLE IF NOT EXISTS fg_endorsements_secondary (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
-                connection.execute(text(
-                    f"CREATE TABLE IF NOT EXISTS fg_endorsements_excess (id SERIAL PRIMARY KEY, system_ref_no TEXT, lot_number TEXT, quantity_kg NUMERIC(15, 6), product_code TEXT, status TEXT, bag_no TEXT, endorsed_by TEXT);"))
                 connection.execute(text("""
                 CREATE TABLE IF NOT EXISTS formula_primary (
                     id SERIAL PRIMARY KEY,
