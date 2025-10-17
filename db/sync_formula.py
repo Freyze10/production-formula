@@ -409,7 +409,7 @@ class SyncRMWarehouseWorker(QObject):
                         INSERT INTO tbl_rm_warehouse (rm_code, ac, loss, last_synced_on)
                         VALUES (:rm_code, :ac, :loss, NOW())
                     """), warehouse_recs)
-
+                    print("completed")
             self.finished.emit(True,
                                f"RM Warehouse sync complete.\n{len(warehouse_recs)} records processed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.")
 

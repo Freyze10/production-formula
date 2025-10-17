@@ -483,7 +483,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760667731208</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="fixed rm code legacy">
+      <option name="closed" value="true" />
+      <created>1760668941678</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1760668941678</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -504,7 +512,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added list of customers" />
     <MESSAGE value="auto format of concentration" />
     <MESSAGE value="added list of product code" />
     <MESSAGE value="modified save function dbs" />
@@ -529,7 +536,8 @@
     <MESSAGE value="renamed legacy" />
     <MESSAGE value="refactor legacy" />
     <MESSAGE value="clear unnecessary legacy" />
-    <option name="LAST_COMMIT_MESSAGE" value="clear unnecessary legacy" />
+    <MESSAGE value="fixed rm code legacy" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed rm code legacy" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

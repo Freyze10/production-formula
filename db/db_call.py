@@ -81,6 +81,23 @@ def get_formula_latest_uid():
     return record
 
 
+def get_rm_code_lists():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""SELECT rm_code
+                    FROM tbl_rm_warehouse 
+                    ORDER BY rm_code ASC""")
+    records = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    if records:
+        return [row[0] for row in records]
+    else:
+        return []
+
+
 def save_formula(primary_data, material_composition):
     conn = get_connection()
     try:

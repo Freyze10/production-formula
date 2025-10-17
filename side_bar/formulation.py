@@ -384,7 +384,7 @@ class FormulationManagementPage(QWidget):
         matched_by_layout.addWidget(self.matched_by_input)
         matched_by_layout.addWidget(QLabel("Material Code:"))
 
-        self.rm_list = []
+        self.rm_list = db_call.get_rm_code_lists()
         self.material_code_input = QComboBox()
         self.material_code_input.addItems(self.rm_list)
         matched_by_layout.addWidget(self.material_code_input)
@@ -1001,77 +1001,73 @@ class FormulationManagementPage(QWidget):
         except Exception as e:
             print(e)
 
-
     def run_formula_sync(self):
-        # Create a thread and worker for the sync
         thread = QThread()
         worker = SyncFormulaWorker()
         worker.moveToThread(thread)
 
-        # Optional: Show loading dialog (if you want progress feedback)
         loading_dialog = LoadingDialog("Syncing Formula Data", self)
 
-        # Connect signals
+        # Safe connections
         worker.progress.connect(loading_dialog.update_progress)
         worker.finished.connect(
-            lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog))
+            lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog)
+        )
+
+        # --- Safe cleanup pattern ---
         thread.started.connect(worker.run)
+        worker.finished.connect(thread.quit)
+        thread.finished.connect(lambda: worker.deleteLater())
+        thread.finished.connect(thread.deleteLater)
 
-        # Start the thread
         thread.start()
-
-        # Show the dialog if desired
-        loading_dialog.exec()  # This blocks until closed; adjust if needed
+        loading_dialog.exec()
 
     def run_rm_warehouse_sync(self):
-        # Create a thread and worker for the RM warehouse sync
         try:
-            print("run1")
             thread = QThread()
             worker = SyncRMWarehouseWorker()
             worker.moveToThread(thread)
 
-            # Optional: Show loading dialog (if you want progress feedback)
             loading_dialog = LoadingDialog("Syncing RM Warehouse Data", self)
 
-            # Connect signals
             worker.progress.connect(loading_dialog.update_progress)
             worker.finished.connect(
-                lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog, "rm_warehouse"))
+                lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog, "rm_warehouse")
+            )
+
+            # --- Safe cleanup pattern ---
             thread.started.connect(worker.run)
+            worker.finished.connect(thread.quit)
+            thread.finished.connect(lambda: worker.deleteLater())
+            thread.finished.connect(thread.deleteLater)
 
-            # Start the thread
             thread.start()
+            loading_dialog.exec()
 
-            # Show the dialog if desired
-            loading_dialog.exec()  # This blocks until closed; adjust if needed
-            print("run2")
         except Exception as e:
             print(e)
-    def on_sync_finished(self, success, message, thread, loading_dialog):
+
+    def on_sync_finished(self, success, message, thread, loading_dialog, sync_type=None):
         try:
-            print("run3")
             if loading_dialog.isVisible():
                 loading_dialog.accept()
 
-            # Show QMessageBox based on success
             if success:
-                latest_id = db_call.get_formula_latest_uid()
-                # Assuming latest_id[0] is the current highest ID
-                # If it's a new database or no existing formulas, handle this case
-                if latest_id and latest_id[0] is not None:
-                    next_id = int(latest_id[0]) + 1
+                if sync_type == "rm_warehouse":
+                    QMessageBox.information(self, "Sync Complete", message)
                 else:
-                    next_id = 1  # Start from 1 if no previous formulas
-                self.formulation_id_input.setText(str(next_id))  # Format as 7-digit string
-                self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")  # Grey out for read-only
+                    latest_id = db_call.get_formula_latest_uid()
+                    if latest_id and latest_id[0] is not None:
+                        next_id = int(latest_id[0]) + 1
+                    else:
+                        next_id = 1
+                    self.formulation_id_input.setText(str(next_id))
+                    self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")
             else:
-                QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}. Cannot generate new Formulation ID.")
+                QMessageBox.critical(self, "Sync Error", message)
                 self.formulation_id_input.setText("ERROR")
-                self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")  # Red background for error
+                self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")
 
-            thread.quit()
-            thread.wait()
-            print("run4")
         except Exception as e:
-            print(e)
+            print(f"Error in on_sync_finished: {e}")
