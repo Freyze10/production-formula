@@ -726,7 +726,7 @@ class ModernMainWindow(QMainWindow):
         main_layout.addWidget(self.stacked_widget)
 
         try:
-            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.log_audit_trail)
+            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
             self.audit_trail_page = AuditTrailPage(self.engine)
             self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
         except Exception as e:
@@ -777,6 +777,7 @@ class ModernMainWindow(QMainWindow):
         layout.addWidget(sep)
         layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
         layout.addWidget(self.btn_formulation)
+
         layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
         layout.addWidget(self.btn_audit_trail)
         layout.addWidget(self.btn_user_mgmt)

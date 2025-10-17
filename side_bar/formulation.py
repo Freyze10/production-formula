@@ -43,10 +43,11 @@ class NumericTableWidgetItem(QTableWidgetItem):
 
 
 class FormulationManagementPage(QWidget):
-    def __init__(self, engine, username, log_audit_trail):
+    def __init__(self, engine, username, user_role, log_audit_trail):
         super().__init__()
         self.engine = engine
         self.username = username
+        self.user_role = user_role
         self.log_audit_trail = log_audit_trail
         workstation = _get_workstation_info()
         self.work_station = workstation
@@ -66,6 +67,7 @@ class FormulationManagementPage(QWidget):
         self.load_customers()
         self.refresh_page()
         self.refresh_formulations()
+        self.user_access(self.user_role)
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
@@ -86,6 +88,10 @@ class FormulationManagementPage(QWidget):
         self.tab_widget.currentChanged.connect(self.sync_for_entry)
 
         main_layout.addWidget(self.tab_widget)
+
+    def user_access(self, user_role):
+        if user_role == 'Viewer':
+            self.edit_btn.setEnabled(False)
 
     def create_records_tab(self):
         """Create the formulation records viewing tab."""
@@ -634,6 +640,7 @@ class FormulationManagementPage(QWidget):
         self.customer_input.setPlaceholderText("Enter customer name")
 
     def refresh_page(self):
+        self.formulation_table.setRowCount(0)
         """Refresh the formulation records."""
         earliest_date, latest_date = db_call.get_min_max_formula_date()
 
@@ -700,9 +707,11 @@ class FormulationManagementPage(QWidget):
                 self.formulation_table.setItem(row_position, col, item)
 
         # Restore sort state
+        header = self.formulation_table.horizontalHeader()
+        header.setSortIndicator(-1, Qt.SortOrder.AscendingOrder)
         self.formulation_table.setSortingEnabled(True)
-        if sort_column >= 0:  # Only reapply sort if a column was previously sorted
-            self.formulation_table.sortByColumn(sort_column, sort_order)
+        # Clear sort indicator to show no sorting is applied
+        self.formulation_table.scrollToTop()
 
     def filter_formulations(self):
         """Filter formulations based on search text."""

@@ -531,7 +531,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760679761962</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="added role">
+      <option name="closed" value="true" />
+      <created>1760680685662</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1760680685662</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -552,7 +560,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified database" />
     <MESSAGE value="fixed the datetime error on view_save" />
     <MESSAGE value="removed colors fields" />
     <MESSAGE value="fixed line object deteled" />
@@ -577,7 +584,8 @@
     <MESSAGE value="modified design" />
     <MESSAGE value="fixed sync message" />
     <MESSAGE value="modified layout audit usermgt" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified layout audit usermgt" />
+    <MESSAGE value="added role" />
+    <option name="LAST_COMMIT_MESSAGE" value="added role" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
