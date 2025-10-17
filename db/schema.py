@@ -33,25 +33,6 @@ def initialize_database(engine):
                     );
                 """))
 
-                # Legacy production table
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS legacy_production (
-                        lot_number TEXT PRIMARY KEY, 
-                        prod_code TEXT, 
-                        customer_name TEXT, 
-                        formula_id TEXT, 
-                        operator TEXT, 
-                        supervisor TEXT, 
-                        last_synced_on TIMESTAMP
-                    );
-                """))
-
-                # Index for legacy production
-                connection.execute(text("""
-                    CREATE INDEX IF NOT EXISTS idx_legacy_production_lot_number 
-                    ON legacy_production (lot_number);
-                """))
-
                 # Formula primary table
                 connection.execute(text("""
                     CREATE TABLE IF NOT EXISTS formula_primary (
@@ -87,6 +68,35 @@ def initialize_database(engine):
                         is_deleted BOOLEAN DEFAULT FALSE
                     );
                 """))
+
+                connection.execute(text("""
+                    CREATE TABLE IF NOT EXISTS formula_primary (
+                        id SERIAL PRIMARY KEY, formula_index VARCHAR(20) UNIQUE NOT NULL, uid INTEGER, formula_date DATE, customer VARCHAR(100), product_code VARCHAR(50), product_color VARCHAR(50), dosage NUMERIC(15, 6),
+                        legacy_id INTEGER, mix_type VARCHAR(50), resin VARCHAR(50), application VARCHAR(100), cm_num VARCHAR(20), cm_date DATE, matched_by VARCHAR(50), encoded_by VARCHAR(50), remarks TEXT,
+                        total_concentration NUMERIC(15, 6), is_used BOOLEAN, dbf_updated_by VARCHAR(100), dbf_updated_on_text VARCHAR(100), last_synced_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                    );
+                """))
+                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_primary_uid ON formula_primary (uid);"))
+                connection.execute(
+                    text("CREATE INDEX IF NOT EXISTS idx_formula_primary_prod_code ON formula_primary (product_code);"))
+                connection.execute(text("""
+                    CREATE TABLE IF NOT EXISTS formula_items (
+                        id SERIAL PRIMARY KEY, uid INTEGER NOT NULL, seq INTEGER, material_code VARCHAR(50), concentration NUMERIC(15, 6), update_by VARCHAR(100), update_on_text VARCHAR(100)
+                    );
+                """))
+                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_items_uid ON formula_items (uid);"))
+                # Schema for RM Warehouse table
+                connection.execute(text("""
+                    CREATE TABLE IF NOT EXISTS tbl_rm_warehouse (
+                        id SERIAL PRIMARY KEY,
+                        rm_code VARCHAR(50) UNIQUE NOT NULL,
+                        ac NUMERIC(15, 6),
+                        loss NUMERIC(15, 6),
+                        last_synced_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                    );
+                """))
+                connection.execute(
+                    text("CREATE INDEX IF NOT EXISTS idx_rm_warehouse_rm_code ON tbl_rm_warehouse (rm_code);"))
 
                 # Insert default users
                 default_users = [

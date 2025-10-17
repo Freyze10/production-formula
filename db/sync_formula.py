@@ -30,6 +30,7 @@ RRF_PRIMARY_DBF_PATH = os.path.join(RRF_DBF_PATH, 'tbl_del01.dbf')
 RRF_ITEMS_DBF_PATH = os.path.join(RRF_DBF_PATH, 'tbl_del02.dbf')
 FORMULA_PRIMARY_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_formula01.dbf')
 FORMULA_ITEMS_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_formula02.dbf')
+RM_WH = os.path.join(DBF_BASE_PATH, 'tbl_rm_wh.dbf')
 
 try:
     db_url = f"postgresql+psycopg2://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}"
@@ -364,6 +365,56 @@ class SyncRRFWorker(QObject):
             self.finished.emit(False, f"An unexpected error occurred during RRF sync:\n{e}")
 
 
+class SyncRMWarehouseWorker(QObject):
+    finished = pyqtSignal(bool, str)
+    progress = pyqtSignal(str)
+
+    def run(self):
+        try:
+            self.progress.emit("Phase 1/2: Reading warehouse data from tbl_rm_wh.dbf...")
+            warehouse_recs = []
+            dbf_warehouse = dbfread.DBF(RM_WH, encoding='latin1', char_decode_errors='ignore')
+
+            for r in dbf_warehouse:
+                if bool(r.get('T_DELETED', False)):
+                    continue
+
+                rm_code = str(r.get('T_RMCODE', '') or '').strip()  # Assuming T_RMCODE is the field name for rm_code
+                if not rm_code:
+                    continue
+
+                warehouse_recs.append({
+                    "rm_code": rm_code,
+                    "ac": _to_float(r.get('T_AC', 0.0)),  # Assuming T_AC is the field name for ac
+                    "loss": _to_float(r.get('T_LOSS', 0.0))  # Assuming T_LOSS is the field name for loss
+                })
+
+            self.progress.emit(f"Phase 1/2: Found {len(warehouse_recs)} valid warehouse records.")
+            if not warehouse_recs:
+                self.finished.emit(True, "Sync Info: No valid warehouse records found to sync.")
+                return
+
+            self.progress.emit("Phase 2/2: Writing warehouse data to PostgreSQL database...")
+            with engine.connect() as conn:
+                with conn.begin():
+                    # Truncate the table first to ensure a full sync, then insert all records
+                    conn.execute(text("TRUNCATE TABLE tbl_rm_warehouse RESTART IDENTITY"))
+                    conn.execute(text("""
+                        INSERT INTO tbl_rm_warehouse (rm_code, ac, loss, last_synced_on)
+                        VALUES (:rm_code, :ac, :loss, NOW())
+                    """), warehouse_recs)
+
+            self.finished.emit(True,
+                               f"RM Warehouse sync complete.\n{len(warehouse_recs)} records processed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.")
+        except dbfread.DBFNotFound as e:
+            self.finished.emit(False, f"File Not Found: tbl_rm_wh.dbf is missing.\nDetails: {e}")
+        except Exception as e:
+            self.finished.emit(False, f"An unexpected error occurred during RM Warehouse sync:\n{e}")
+
+
+
+
+
 # --- Main Application Window ---
 class SyncToolWindow(QWidget):
     def __init__(self):
@@ -493,38 +544,6 @@ class SyncToolWindow(QWidget):
                 event.ignore()
         else:
             event.accept()
-
-
-# --- Database Initialization ---
-def initialize_sync_tool_db():
-    print("Checking database schema for sync tool...")
-    try:
-        with engine.connect() as connection:
-            with connection.begin():
-                # Schema for formula tables
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS formula_primary (
-                        id SERIAL PRIMARY KEY, formula_index VARCHAR(20) UNIQUE NOT NULL, uid INTEGER, formula_date DATE, customer VARCHAR(100), product_code VARCHAR(50), product_color VARCHAR(50), dosage NUMERIC(15, 6),
-                        legacy_id INTEGER, mix_type VARCHAR(50), resin VARCHAR(50), application VARCHAR(100), cm_num VARCHAR(20), cm_date DATE, matched_by VARCHAR(50), encoded_by VARCHAR(50), remarks TEXT,
-                        total_concentration NUMERIC(15, 6), is_used BOOLEAN, dbf_updated_by VARCHAR(100), dbf_updated_on_text VARCHAR(100), last_synced_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-                    );"""))
-                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_primary_uid ON formula_primary (uid);"))
-                connection.execute(
-                    text("CREATE INDEX IF NOT EXISTS idx_formula_primary_prod_code ON formula_primary (product_code);"))
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS formula_items (
-                        id SERIAL PRIMARY KEY, uid INTEGER NOT NULL, seq INTEGER, material_code VARCHAR(50), concentration NUMERIC(15, 6), update_by VARCHAR(100), update_on_text VARCHAR(100)
-                    );"""))
-                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_items_uid ON formula_items (uid);"))
-
-                # Schema for RRF tables (ensure is_deleted column is NOT there)
-                connection.execute(text("ALTER TABLE rrf_primary DROP COLUMN IF EXISTS is_deleted;"))
-
-        print("Database schema check complete.")
-        return True
-    except Exception as e:
-        print(f"CRITICAL ERROR during database initialization: {e}")
-        return False
 
 
 # --- Main Execution ---

@@ -11,7 +11,7 @@ import qtawesome as fa
 
 from db import db_call
 from db.schema import log_audit_trail
-from db.sync_formula import SyncFormulaWorker, LoadingDialog
+from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from utils.work_station import _get_workstation_info
 
 
@@ -383,10 +383,15 @@ class FormulationManagementPage(QWidget):
         self.matched_by_input.addItems(["ANNA", "ERNIE", "JINKY", "ESA"])
         matched_by_layout.addWidget(self.matched_by_input)
         matched_by_layout.addWidget(QLabel("Material Code:"))
+
         self.rm_list = []
         self.material_code_input = QComboBox()
         self.material_code_input.addItems(self.rm_list)
         matched_by_layout.addWidget(self.material_code_input)
+        self.rm_code_sync_button = QPushButton("Sync RM Warehouse")
+        self.rm_code_sync_button.clicked.connect(self.run_rm_warehouse_sync)
+        matched_by_layout.addWidget(self.rm_code_sync_button)
+
         material_layout.addLayout(matched_by_layout)
 
         # Concentration Input
@@ -1010,6 +1015,27 @@ class FormulationManagementPage(QWidget):
         worker.progress.connect(loading_dialog.update_progress)
         worker.finished.connect(
             lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog))
+        thread.started.connect(worker.run)
+
+        # Start the thread
+        thread.start()
+
+        # Show the dialog if desired
+        loading_dialog.exec()  # This blocks until closed; adjust if needed
+
+    def run_rm_warehouse_sync(self):
+        # Create a thread and worker for the RM warehouse sync
+        thread = QThread()
+        worker = SyncRMWarehouseWorker()
+        worker.moveToThread(thread)
+
+        # Optional: Show loading dialog (if you want progress feedback)
+        loading_dialog = LoadingDialog("Syncing RM Warehouse Data", self)
+
+        # Connect signals
+        worker.progress.connect(loading_dialog.update_progress)
+        worker.finished.connect(
+            lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog, "rm_warehouse"))
         thread.started.connect(worker.run)
 
         # Start the thread
