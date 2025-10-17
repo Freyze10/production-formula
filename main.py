@@ -24,7 +24,7 @@ from side_bar.formulation import FormulationManagementPage
 from utils.work_station import _get_workstation_info
 
 # --- Database imports ---
-from db.legacy_sync import create_engine_connection
+from db.engine_conn import create_engine_connection
 from db.schema import (initialize_database, get_user_credentials, log_audit_trail, test_database_connection)
 
 

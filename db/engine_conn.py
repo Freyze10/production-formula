@@ -1,4 +1,4 @@
-# database/legacy_sync.py - Enhanced version
+# database/engine_conn.py - Enhanced version
 import os
 import dbfread
 import logging
@@ -31,7 +31,6 @@ def create_engine_connection():
     """Creates and returns a SQLAlchemy engine."""
     db_url = get_database_url()
     engine = create_engine(db_url, pool_pre_ping=True, pool_recycle=3600)
-    logger.info(f"Database engine created for {DB_CONFIG['dbname']}")
     return engine
 
 
