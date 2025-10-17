@@ -102,7 +102,7 @@ class LoadingDialog(QDialog):
         self.progress_label.setAlignment(Qt.AlignmentFlag.AlignCenter);
         self.progress_label.setWordWrap(True)
         self.progress_label.setFont(QFont("Segoe UI", 11))
-        self.progress_label.setStyleSheet("color: #555; font-family: 'Segoe UI'; background-color: transparent;")
+        self.progress_label.setStyleSheet("color: #555; font-family: 'Segoe UI'; background-color: transparent; min-height:34px;")
         layout.addWidget(self.title_label);
         layout.addWidget(self.animation_label);
         layout.addWidget(self.progress_label)
@@ -123,7 +123,7 @@ class SyncFormulaWorker(QObject):
         try:
             with engine.connect() as conn:
                 max_uid = conn.execute(text("SELECT COALESCE(MAX(uid), 0) FROM formula_primary")).scalar()
-            self.progress.emit(f"Phase 1/3: Reading formula items from tbl_formula02.dbf (filtering UID > {max_uid})...")
+            self.progress.emit(f"Phase 1/3: Reading local formula items (filtering UID > {max_uid})...")
             items_by_uid = collections.defaultdict(list)
             new_uids = set()
             dbf_items = dbfread.DBF(FORMULA_ITEMS_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
@@ -143,7 +143,7 @@ class SyncFormulaWorker(QObject):
                 })
             self.progress.emit(f"Phase 1/3: Found {len(items_by_uid)} groups of new active items.")
 
-            self.progress.emit("Phase 2/3: Reading primary formula data from tbl_formula01.dbf...")
+            self.progress.emit("Phase 2/3: Reading primary formula data...")
             primary_recs = []
             dbf_primary = dbfread.DBF(FORMULA_PRIMARY_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
             for r in dbf_primary:
@@ -176,7 +176,7 @@ class SyncFormulaWorker(QObject):
 
             all_items_to_insert = [item for rec in primary_recs for item in items_by_uid.get(rec['uid'], [])]
 
-            self.progress.emit("Phase 3/3: Writing data to PostgreSQL database...")
+            self.progress.emit("Phase 3/3: Writing data to database...")
             with engine.connect() as conn:
                 with conn.begin():
                     conn.execute(text("""
@@ -373,9 +373,7 @@ class SyncRMWarehouseWorker(QObject):
 
     def run(self):
         try:
-            print("rm")
             self.progress.emit("Phase 1/2: Reading warehouse data from tbl_rm_wh.dbf...")
-            print(f"Attempting to open DBF file at: {RM_WH}")  # Debug: Print file path
             warehouse_recs = []
             dbf_warehouse = dbfread.DBF(RM_WH, encoding='latin1', char_decode_errors='ignore')
 
@@ -393,23 +391,19 @@ class SyncRMWarehouseWorker(QObject):
                     "loss": _to_float(r.get('T_LOSS', 0.0))
                 })
 
-            self.progress.emit(f"Phase 1/2: Found {len(warehouse_recs)} valid warehouse records.")
+            self.progress.emit(f"Phase 1/2: Found {len(warehouse_recs)} valid records.")
             if not warehouse_recs:
                 self.finished.emit(True, "Sync Info: No valid warehouse records found to sync.")
                 return
 
-            self.progress.emit("Phase 2/2: Writing warehouse data to PostgreSQL database...")
+            self.progress.emit("Phase 2/2: Writing warehouse data to database...")
             with engine.connect() as conn:
-                print(f"Connected to database: {DB_CONFIG['dbname']}")  # Debug: Confirm connection
                 with conn.begin():
-                    print("Executing TRUNCATE TABLE tbl_rm_warehouse...")  # Debug: Track SQL execution
                     conn.execute(text("TRUNCATE TABLE tbl_rm_warehouse RESTART IDENTITY"))
-                    print(f"Inserting {len(warehouse_recs)} records into tbl_rm_warehouse...")  # Debug: Record count
                     conn.execute(text("""
                         INSERT INTO tbl_rm_warehouse (rm_code, ac, loss, last_synced_on)
                         VALUES (:rm_code, :ac, :loss, NOW())
                     """), warehouse_recs)
-                    print("completed")
             self.finished.emit(True,
                                f"RM Warehouse sync complete.\n{len(warehouse_recs)} records processed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.")
 

@@ -507,7 +507,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760671810168</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="modified design">
+      <option name="closed" value="true" />
+      <created>1760673955966</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1760673955966</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -528,7 +536,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified save function dbs" />
     <MESSAGE value="fixed audit trail entry" />
     <MESSAGE value="modified" />
     <MESSAGE value="modified database" />
@@ -553,7 +560,8 @@
     <MESSAGE value="fixed rm code legacy" />
     <MESSAGE value="added sync button rm legacy" />
     <MESSAGE value="added auto fill combo box" />
-    <option name="LAST_COMMIT_MESSAGE" value="added auto fill combo box" />
+    <MESSAGE value="modified design" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
