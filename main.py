@@ -704,7 +704,7 @@ class ModernMainWindow(QMainWindow):
                                                                                                     color='#D32F2F')
         self.setWindowTitle("Production Formulation Program")
         self.setWindowIcon(fa.icon('fa5s.check-double', color='gray'))
-        self.setMinimumSize(1280, 720)
+        self.setMinimumSize(1400, 720)
         self.setGeometry(100, 100, 1366, 768)
         self.workstation_info = _get_workstation_info()
 
