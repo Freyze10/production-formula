@@ -1025,44 +1025,53 @@ class FormulationManagementPage(QWidget):
 
     def run_rm_warehouse_sync(self):
         # Create a thread and worker for the RM warehouse sync
-        thread = QThread()
-        worker = SyncRMWarehouseWorker()
-        worker.moveToThread(thread)
+        try:
+            print("run1")
+            thread = QThread()
+            worker = SyncRMWarehouseWorker()
+            worker.moveToThread(thread)
 
-        # Optional: Show loading dialog (if you want progress feedback)
-        loading_dialog = LoadingDialog("Syncing RM Warehouse Data", self)
+            # Optional: Show loading dialog (if you want progress feedback)
+            loading_dialog = LoadingDialog("Syncing RM Warehouse Data", self)
 
-        # Connect signals
-        worker.progress.connect(loading_dialog.update_progress)
-        worker.finished.connect(
-            lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog, "rm_warehouse"))
-        thread.started.connect(worker.run)
+            # Connect signals
+            worker.progress.connect(loading_dialog.update_progress)
+            worker.finished.connect(
+                lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog, "rm_warehouse"))
+            thread.started.connect(worker.run)
 
-        # Start the thread
-        thread.start()
+            # Start the thread
+            thread.start()
 
-        # Show the dialog if desired
-        loading_dialog.exec()  # This blocks until closed; adjust if needed
-
+            # Show the dialog if desired
+            loading_dialog.exec()  # This blocks until closed; adjust if needed
+            print("run2")
+        except Exception as e:
+            print(e)
     def on_sync_finished(self, success, message, thread, loading_dialog):
-        if loading_dialog.isVisible():
-            loading_dialog.accept()
+        try:
+            print("run3")
+            if loading_dialog.isVisible():
+                loading_dialog.accept()
 
-        # Show QMessageBox based on success
-        if success:
-            latest_id = db_call.get_formula_latest_uid()
-            # Assuming latest_id[0] is the current highest ID
-            # If it's a new database or no existing formulas, handle this case
-            if latest_id and latest_id[0] is not None:
-                next_id = int(latest_id[0]) + 1
+            # Show QMessageBox based on success
+            if success:
+                latest_id = db_call.get_formula_latest_uid()
+                # Assuming latest_id[0] is the current highest ID
+                # If it's a new database or no existing formulas, handle this case
+                if latest_id and latest_id[0] is not None:
+                    next_id = int(latest_id[0]) + 1
+                else:
+                    next_id = 1  # Start from 1 if no previous formulas
+                self.formulation_id_input.setText(str(next_id))  # Format as 7-digit string
+                self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")  # Grey out for read-only
             else:
-                next_id = 1  # Start from 1 if no previous formulas
-            self.formulation_id_input.setText(str(next_id))  # Format as 7-digit string
-            self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")  # Grey out for read-only
-        else:
-            QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}. Cannot generate new Formulation ID.")
-            self.formulation_id_input.setText("ERROR")
-            self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")  # Red background for error
+                QMessageBox.critical(self, "Sync Error", f"Sync finished: {message}. Cannot generate new Formulation ID.")
+                self.formulation_id_input.setText("ERROR")
+                self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")  # Red background for error
 
-        thread.quit()
-        thread.wait()
+            thread.quit()
+            thread.wait()
+            print("run4")
+        except Exception as e:
+            print(e)

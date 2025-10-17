@@ -7,6 +7,8 @@ import traceback
 import collections
 from datetime import datetime
 
+import sqlalchemy
+
 # --- Required Libraries ---
 try:
     import dbfread
@@ -371,7 +373,9 @@ class SyncRMWarehouseWorker(QObject):
 
     def run(self):
         try:
+            print("rm")
             self.progress.emit("Phase 1/2: Reading warehouse data from tbl_rm_wh.dbf...")
+            print(f"Attempting to open DBF file at: {RM_WH}")  # Debug: Print file path
             warehouse_recs = []
             dbf_warehouse = dbfread.DBF(RM_WH, encoding='latin1', char_decode_errors='ignore')
 
@@ -379,14 +383,14 @@ class SyncRMWarehouseWorker(QObject):
                 if bool(r.get('T_DELETED', False)):
                     continue
 
-                rm_code = str(r.get('T_RMCODE', '') or '').strip()  # Assuming T_RMCODE is the field name for rm_code
+                rm_code = str(r.get('T_MATCODE', '') or '').strip()
                 if not rm_code:
                     continue
 
                 warehouse_recs.append({
                     "rm_code": rm_code,
-                    "ac": _to_float(r.get('T_AC', 0.0)),  # Assuming T_AC is the field name for ac
-                    "loss": _to_float(r.get('T_LOSS', 0.0))  # Assuming T_LOSS is the field name for loss
+                    "ac": _to_float(r.get('T_AC', 0.0)),
+                    "loss": _to_float(r.get('T_LOSS', 0.0))
                 })
 
             self.progress.emit(f"Phase 1/2: Found {len(warehouse_recs)} valid warehouse records.")
@@ -396,9 +400,11 @@ class SyncRMWarehouseWorker(QObject):
 
             self.progress.emit("Phase 2/2: Writing warehouse data to PostgreSQL database...")
             with engine.connect() as conn:
+                print(f"Connected to database: {DB_CONFIG['dbname']}")  # Debug: Confirm connection
                 with conn.begin():
-                    # Truncate the table first to ensure a full sync, then insert all records
+                    print("Executing TRUNCATE TABLE tbl_rm_warehouse...")  # Debug: Track SQL execution
                     conn.execute(text("TRUNCATE TABLE tbl_rm_warehouse RESTART IDENTITY"))
+                    print(f"Inserting {len(warehouse_recs)} records into tbl_rm_warehouse...")  # Debug: Record count
                     conn.execute(text("""
                         INSERT INTO tbl_rm_warehouse (rm_code, ac, loss, last_synced_on)
                         VALUES (:rm_code, :ac, :loss, NOW())
@@ -406,13 +412,20 @@ class SyncRMWarehouseWorker(QObject):
 
             self.finished.emit(True,
                                f"RM Warehouse sync complete.\n{len(warehouse_recs)} records processed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.")
+
         except dbfread.DBFNotFound as e:
-            self.finished.emit(False, f"File Not Found: tbl_rm_wh.dbf is missing.\nDetails: {e}")
+            error_msg = f"File Not Found: tbl_rm_wh.dbf is missing.\nDetails: {e}"
+            print(error_msg)  # Debug: Log the error
+            self.finished.emit(False, error_msg)
+        except sqlalchemy.exc.SQLAlchemyError as e:
+            error_msg = f"Database Error: Failed to execute SQL operation.\nDetails: {str(e)}"
+            print(error_msg)  # Debug: Log the database error
+            self.finished.emit(False, error_msg)
         except Exception as e:
-            self.finished.emit(False, f"An unexpected error occurred during RM Warehouse sync:\n{e}")
-
-
-
+            error_msg = f"An unexpected error occurred during RM Warehouse sync:\n{str(e)}"
+            print(error_msg)  # Debug: Log the unexpected error
+            traceback.print_exc()  # Debug: Print full stack trace
+            self.finished.emit(False, error_msg)
 
 
 # --- Main Application Window ---
