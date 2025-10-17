@@ -4,7 +4,8 @@
 from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
-                             QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox, QScrollArea, QFormLayout, QCompleter)
+                             QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
+                             QScrollArea, QFormLayout, QCompleter, QSizePolicy)
 from PyQt6.QtCore import Qt, QDate, QThread
 from PyQt6.QtGui import QFont
 import qtawesome as fa
@@ -378,22 +379,56 @@ class FormulationManagementPage(QWidget):
 
         # Matched By and Material
         matched_by_layout = QHBoxLayout()
-        matched_by_layout.addWidget(QLabel("Matched by:"))
+        matched_by_label = QLabel("Matched by:")
+        matched_by_layout.addWidget(matched_by_label)
+
+        self.matched_by_items = ["ANNA", "ERNIE", "JINKY", "ESA"]
         self.matched_by_input = QComboBox()
-        self.matched_by_input.addItems(["ANNA", "ERNIE", "JINKY", "ESA"])
-        matched_by_layout.addWidget(self.matched_by_input)
-        matched_by_layout.addWidget(QLabel("Material Code:"))
+        self.matched_by_input.addItems(self.matched_by_items)
+        self.matched_by_input.setEditable(True)  # ✅ Allow typing
+        self.matched_by_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.matched_by_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+        # ✅ Enable smart autocomplete
+        matched_by_model = self.matched_by_items
+        matched_by_completer = QCompleter(matched_by_model, self.matched_by_input)
+        matched_by_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+        matched_by_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.matched_by_input.setCompleter(matched_by_completer)
+
+        self.matched_by_input.editTextChanged.connect(lambda: None)  # ensures typing updates completer
+        self.matched_by_input.lineEdit().editingFinished.connect(self.validate_matched_by)
+
+        matched_by_layout.addWidget(self.matched_by_input, stretch=1)
+
+        # --- Material Code ---
+        material_label = QLabel("Material Code:")
+        matched_by_layout.addWidget(material_label)
 
         self.rm_list = db_call.get_rm_code_lists()
         self.material_code_input = QComboBox()
         self.material_code_input.addItems(self.rm_list)
-        matched_by_layout.addWidget(self.material_code_input)
-        self.rm_code_sync_button = QPushButton("Sync RM Warehouse")
+        self.material_code_input.setEditable(True)
+        self.material_code_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.material_code_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+        # ✅ Real-time filter + dropdown completer
+        rm_model = self.rm_list
+        rm_completer = QCompleter(rm_model, self.material_code_input)
+        rm_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+        rm_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.material_code_input.setCompleter(rm_completer)
+
+        self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
+
+        matched_by_layout.addWidget(self.material_code_input, stretch=2)
+
+        # --- Sync Button ---
+        self.rm_code_sync_button = QPushButton("Sync RM Code", objectName="SecondaryButton")
         self.rm_code_sync_button.clicked.connect(self.run_rm_warehouse_sync)
         matched_by_layout.addWidget(self.rm_code_sync_button)
 
         material_layout.addLayout(matched_by_layout)
-
         # Concentration Input
         conc_input_layout = QHBoxLayout()
         conc_input_layout.addWidget(QLabel("Concentration:"))
@@ -564,6 +599,18 @@ class FormulationManagementPage(QWidget):
         main_layout.addLayout(button_layout)
 
         return tab
+
+    # ✅ Prevent invalid entry (revert to last valid)
+    def validate_matched_by(self):
+        current_text = self.matched_by_input.currentText()
+        if current_text not in self.matched_by_items:
+            self.matched_by_input.setCurrentIndex(0)  # reset to default
+
+    # ✅ Prevent invalid input
+    def validate_rm_code(self):
+        current_text = self.material_code_input.currentText()
+        if current_text not in self.rm_list:
+            self.material_code_input.setCurrentIndex(0)
 
     def format_to_float(self, event, line_edit):
         """Format the input to a float with 6 decimal places when focus is lost."""
@@ -784,7 +831,7 @@ class FormulationManagementPage(QWidget):
             field.setEnabled(enable)
     def add_material_row(self):
         """Add a new material row to the table."""
-        material_code = self.material_code_input.text().strip()
+        material_code = self.material_code_input.currentText()
         if not material_code:
             QMessageBox.warning(self, "Invalid Input", "Please enter a material code.")
             return
