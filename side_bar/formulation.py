@@ -4,15 +4,14 @@
 from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
-                             QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QSpinBox,
-                             QDoubleSpinBox, QGridLayout, QGroupBox, QScrollArea, QFormLayout, QCompleter)
+                             QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox, QScrollArea, QFormLayout, QCompleter)
 from PyQt6.QtCore import Qt, QDate, QThread
-from PyQt6.QtGui import QFont, QColor
+from PyQt6.QtGui import QFont
 import qtawesome as fa
 
-import db_call
-from sync_formula import SyncFormulaWorker, LoadingDialog
-from work_station import _get_workstation_info
+from db import db_call
+from db.sync_formula import SyncFormulaWorker, LoadingDialog
+from utils.work_station import _get_workstation_info
 
 
 # Custom QTableWidgetItem for numerical sorting

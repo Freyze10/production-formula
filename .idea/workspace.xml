@@ -75,6 +75,9 @@
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
+      <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\db" />
+      <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\side_bar" />
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV" />
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
@@ -146,7 +149,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sync_formula (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="sync_formula" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -159,7 +162,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sync_formula.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\db\sync_formula.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -181,7 +184,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\sync_formula.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\db\sync_formula.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -392,7 +395,39 @@
       <option name="project" value="LOCAL" />
       <updated>1760660671340</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="deleted finished goods">
+      <option name="closed" value="true" />
+      <created>1760661213030</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1760661213030</updated>
+    </task>
+    <task id="LOCAL-00024" summary="refactor sidebar">
+      <option name="closed" value="true" />
+      <created>1760661364462</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1760661364462</updated>
+    </task>
+    <task id="LOCAL-00025" summary="refactor db">
+      <option name="closed" value="true" />
+      <created>1760661479654</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1760661479654</updated>
+    </task>
+    <task id="LOCAL-00026" summary="added utility">
+      <option name="closed" value="true" />
+      <created>1760661523823</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1760661523823</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -413,8 +448,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed predefined text" />
-    <MESSAGE value="added clear fields" />
     <MESSAGE value="removed 7 digit string" />
     <MESSAGE value="modified clear flow" />
     <MESSAGE value="fixed refresh function" />
@@ -436,7 +469,11 @@
     <MESSAGE value="changed the display on selected" />
     <MESSAGE value="changed rm input to combobox" />
     <MESSAGE value="changed the window name" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the window name" />
+    <MESSAGE value="deleted finished goods" />
+    <MESSAGE value="refactor sidebar" />
+    <MESSAGE value="refactor db" />
+    <MESSAGE value="added utility" />
+    <option name="LAST_COMMIT_MESSAGE" value="added utility" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

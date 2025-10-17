@@ -8,7 +8,7 @@ import dbfread
 from sqlalchemy import create_engine, text
 
 from side_bar.formulation import FormulationManagementPage
-from work_station import _get_workstation_info
+from utils.work_station import _get_workstation_info
 
 try:
     import qtawesome as fa

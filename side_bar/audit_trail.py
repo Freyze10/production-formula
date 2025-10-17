@@ -41,11 +41,13 @@ class AuditTrailPage(QWidget):
         self.export_btn = QPushButton("Export to CSV")
 
         date_range_layout = QHBoxLayout()
+        date_range_layout.addStretch()
+        date_range_layout.addWidget(QLabel("Date Range:"))
         date_range_layout.addWidget(self.start_date_edit)
         date_range_layout.addWidget(QLabel("to"))
         date_range_layout.addWidget(self.end_date_edit)
 
-        filter_layout.addRow("Date Range:", date_range_layout)
+        filter_layout.addRow(date_range_layout)
         filter_layout.addRow("Username:", self.username_filter)
         filter_layout.addRow("Action Type:", self.action_filter)
         filter_layout.addRow("Details Search:", self.details_filter)
