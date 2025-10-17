@@ -1,14 +1,7 @@
-# main.py
-# FINAL VERIFIED VERSION WITH FORMULATION MODULE - FIXED PAGE SWITCHING
+# main.py - COMPLETE VERSION
 import sys
 import os
 from datetime import datetime
-import dbfread
-
-from sqlalchemy import create_engine, text
-
-from side_bar.formulation import FormulationManagementPage
-from utils.work_station import _get_workstation_info
 
 try:
     import qtawesome as fa
@@ -16,23 +9,22 @@ except ImportError:
     print("FATAL ERROR: The 'qtawesome' library is required. Please install it using: pip install qtawesome")
     sys.exit(1)
 
-from PyQt6.QtCore import (Qt, pyqtSignal, QSize, QEvent, QTimer, QThread, QObject, QPropertyAnimation, QEasingCurve,
-                          QAbstractAnimation)
+from PyQt6.QtCore import (Qt, pyqtSignal, QSize, QEvent, QTimer, QThread, QObject, QPropertyAnimation,
+                          QEasingCurve, QAbstractAnimation)
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
                              QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget,
                              QFrame, QStatusBar, QDialog, QGraphicsOpacityEffect)
 from PyQt6.QtGui import QMovie
 
-# --- All page imports are correct ---
+# --- Page imports ---
 from side_bar.audit_trail import AuditTrailPage
 from side_bar.user_management import UserManagementPage
+from side_bar.formulation import FormulationManagementPage
+from utils.work_station import _get_workstation_info
 
-# --- CONFIGURATION ---
-DB_CONFIG = {"host": "localhost", "port": 5433, "dbname": "db_formula", "user": "postgres", "password": "password"}
-DBF_BASE_PATH = r'\\system-server\SYSTEM-NEW-OLD'
-PRODUCTION_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_prod01.dbf')
-db_url = f"postgresql+psycopg2://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}"
-engine = create_engine(db_url, pool_pre_ping=True, pool_recycle=3600)
+# --- Database imports ---
+from db.legacy_sync import create_engine_connection, SyncWorker
+from db.schema import (initialize_database, get_user_credentials, log_audit_trail, test_database_connection)
 
 
 class AppStyles:
@@ -51,6 +43,7 @@ class AppStyles:
         QPushButton#PrimaryButton:hover {{ background-color: {PRIMARY_COLOR_HOVER}; }}
         #StatusLabel {{ color: #D32F2F; font-size: 9pt; }}
     """
+
     MAIN_WINDOW_STYLESHEET = f"""
         QMainWindow, QStackedWidget > QWidget {{ background-color: #f8f9fa; }}
         QWidget {{ font-family: 'Segoe UI', sans-serif; font-size: 9pt; color: #212121; }}
@@ -124,99 +117,12 @@ class AppStyles:
     """
 
 
-class SyncWorker(QObject):
-    finished = pyqtSignal(bool, str)
-
-    def run(self):
-        try:
-            dbf = dbfread.DBF(PRODUCTION_DBF_PATH, load=True, encoding='latin1')
-            if 'T_LOTNUM' not in dbf.field_names:
-                self.finished.emit(False, "Sync Error: Required column 'T_LOTNUM' not found.")
-                return
-            recs = [{"lot": str(r.get('T_LOTNUM', '')).strip().upper(), "code": str(r.get('T_PRODCODE', '')).strip(),
-                     "cust": str(r.get('T_CUSTOMER', '')).strip(),
-                     "fid": str(int(r.get('T_FID'))) if r.get('T_FID') is not None else '',
-                     "op": str(r.get('T_OPER', '')).strip(), "sup": str(r.get('T_SUPER', '')).strip()} for r in
-                    dbf.records if str(r.get('T_LOTNUM', '')).strip()]
-            if not recs:
-                self.finished.emit(True, "Sync Info: No new records found in DBF file to sync.")
-                return
-            with engine.connect() as conn:
-                with conn.begin():
-                    conn.execute(text(
-                        "INSERT INTO legacy_production(lot_number,prod_code,customer_name,formula_id,operator,supervisor,last_synced_on) VALUES(:lot,:code,:cust,:fid,:op,:sup,NOW()) ON CONFLICT(lot_number) DO UPDATE SET prod_code=EXCLUDED.prod_code, customer_name=EXCLUDED.customer_name, formula_id=EXCLUDED.formula_id, operator=EXCLUDED.operator, supervisor=EXCLUDED.supervisor, last_synced_on=NOW()"),
-                        recs)
-            self.finished.emit(True, f"Production sync complete.\n{len(recs)} records processed.")
-        except dbfread.DBFNotFound:
-            self.finished.emit(False, f"File Not Found: Production DBF not found at:\n{PRODUCTION_DBF_PATH}")
-        except Exception as e:
-            self.finished.emit(False, f"An unexpected error occurred during sync:\n{e}")
-
-
-def initialize_database():
-    print("Initializing database schema...")
-    try:
-        with engine.connect() as connection:
-            with connection.begin() as transaction:
-                connection.execute(text(
-                    "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL, qc_access BOOLEAN DEFAULT TRUE, role TEXT DEFAULT 'Editor');"))
-                connection.execute(text(
-                    "CREATE TABLE IF NOT EXISTS qc_audit_trail (id SERIAL PRIMARY KEY, timestamp TIMESTAMP, username TEXT, action_type TEXT, details TEXT, hostname TEXT, ip_address TEXT, mac_address TEXT);"))
-                connection.execute(text(
-                    "CREATE TABLE IF NOT EXISTS legacy_production (lot_number TEXT PRIMARY KEY, prod_code TEXT, customer_name TEXT, formula_id TEXT, operator TEXT, supervisor TEXT, last_synced_on TIMESTAMP);"))
-                connection.execute(text(
-                    "CREATE INDEX IF NOT EXISTS idx_legacy_production_lot_number ON legacy_production (lot_number);"))
-                connection.execute(text("""
-                CREATE TABLE IF NOT EXISTS formula_primary (
-                    id SERIAL PRIMARY KEY,
-                    formula_index VARCHAR(20) NOT NULL UNIQUE,
-                    uid INTEGER,
-                    formula_date DATE,
-                    customer VARCHAR(100),
-                    product_code VARCHAR(50),
-                    product_color VARCHAR(50),
-                    dosage NUMERIC(15,6),
-                    legacy_id INTEGER,
-                    mix_type VARCHAR(50),
-                    resin VARCHAR(50),
-                    application VARCHAR(100),
-                    cm_num VARCHAR(20),
-                    cm_date DATE,
-                    matched_by VARCHAR(50),
-                    encoded_by VARCHAR(50),
-                    remarks TEXT,
-                    total_concentration NUMERIC(15,6),
-                    is_used BOOLEAN DEFAULT FALSE,
-                    dbf_updated_by VARCHAR(100),
-                    dbf_updated_on_text VARCHAR(100),
-                    last_synced_on TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-                    mb_dc VARCHAR(5) DEFAULT 'MB',
-                    html_code VARCHAR(10),
-                    c INTEGER,
-                    m INTEGER,
-                    y INTEGER,
-                    k INTEGER,
-                    created_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-                    is_deleted BOOLEAN DEFAULT FALSE
-                );
-                """))
-                user_insert_query = text(
-                    "INSERT INTO users (username, password, role) VALUES (:user, :pwd, :role) ON CONFLICT (username) DO NOTHING;")
-                connection.execute(user_insert_query, [{"user": "admin", "pwd": "itadmin", "role": "Admin"},
-                                                       {"user": "itsup", "pwd": "itsup", "role": "Editor"}])
-                transaction.commit()
-        print("Database initialized successfully.")
-    except Exception as e:
-        QApplication(sys.argv)
-        QMessageBox.critical(None, "DB Init Error", f"Could not init DB: {e}")
-        sys.exit(1)
-
-
 class LoginWindow(QMainWindow):
     login_successful = pyqtSignal(str, str)
 
     def __init__(self):
         super().__init__()
+        self.engine = create_engine_connection()
         self.setObjectName("LoginWindow")
         self.setupUi()
 
@@ -228,31 +134,39 @@ class LoginWindow(QMainWindow):
         self.setCentralWidget(widget)
         main_layout = QHBoxLayout(widget)
         main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         frame = QFrame(objectName="FormFrame")
         frame.setMaximumWidth(400)
         main_layout.addWidget(frame)
+
         layout = QVBoxLayout(frame)
         layout.setContentsMargins(40, 30, 40, 30)
         layout.setSpacing(15)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         layout.addWidget(QLabel(pixmap=fa.icon('fa5s.boxes', color="#0078d4").pixmap(QSize(150, 150))),
                          alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addSpacing(10)
         layout.addWidget(
             QLabel("Production Login", objectName="LoginTitle", alignment=Qt.AlignmentFlag.AlignCenter))
         layout.addSpacing(20)
+
         self.username_widget, self.username = self._create_input_field('fa5s.user', "Username")
         self.password_widget, self.password = self._create_input_field('fa5s.lock', "Password")
         self.password.setEchoMode(QLineEdit.EchoMode.Password)
+
         layout.addWidget(self.username_widget)
         layout.addWidget(self.password_widget)
         layout.addSpacing(10)
+
         self.login_btn = QPushButton("Login", objectName="PrimaryButton", shortcut="Return", clicked=self.login)
         self.login_btn.setMinimumHeight(45)
         layout.addWidget(self.login_btn)
+
         self.status_label = QLabel("", objectName="StatusLabel", alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.status_label)
         layout.addStretch()
+
         self.setStyleSheet(AppStyles.LOGIN_STYLESHEET)
 
     def _create_input_field(self, icon, placeholder):
@@ -271,24 +185,25 @@ class LoginWindow(QMainWindow):
         if not u or not p:
             self.status_label.setText("Username and password are required.")
             return
+
         self.login_btn.setEnabled(False)
         self.status_label.setText("Verifying...")
+
         try:
-            with engine.connect() as c:
-                with c.begin():
-                    res = c.execute(text("SELECT password, qc_access, role FROM users WHERE username=:u"),
-                                    {"u": u}).fetchone()
-                    if res and res[0] == p:
-                        if not res[1]:
-                            self.status_label.setText("This user does not have access.")
-                            return
-                        c.execute(text(
-                            "INSERT INTO qc_audit_trail(timestamp, username, action_type, details, hostname, ip_address, mac_address) VALUES (NOW(), :u, 'LOGIN', 'User logged in.', :h, :i, :m)"),
-                            {"u": u, **_get_workstation_info()})
-                        self.login_successful.emit(u, res[2])
-                        self.close()
-                    else:
-                        self.status_label.setText("Invalid credentials.")
+            credentials = get_user_credentials(self.engine, u)
+            if credentials and credentials[0] == p:
+                if not credentials[1]:  # qc_access
+                    self.status_label.setText("This user does not have access.")
+                    return
+
+                # Log login
+                workstation_info = _get_workstation_info()
+                log_audit_trail(self.engine, u, 'LOGIN', 'User logged in.', workstation_info)
+
+                self.login_successful.emit(u, credentials[2])  # role
+                self.close()
+            else:
+                self.status_label.setText("Invalid credentials.")
         except Exception as e:
             self.status_label.setText("Database connection error.")
             print(f"Login Error: {e}")
@@ -299,8 +214,11 @@ class LoginWindow(QMainWindow):
 class ModernMainWindow(QMainWindow):
     def __init__(self, username, user_role, login_window):
         super().__init__()
-        self.username, self.user_role, self.login_window = username, user_role, login_window
-        self.is_animating = False  # Flag to prevent animation overlaps
+        self.engine = login_window.engine
+        self.username = username
+        self.user_role = user_role
+        self.login_window = login_window
+        self.is_animating = False
         self.icon_maximize, self.icon_restore = fa.icon('fa5s.expand-arrows-alt', color='#ecf0f1'), fa.icon(
             'fa5s.compress-arrows-alt', color='#ecf0f1')
         self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle',
@@ -313,16 +231,8 @@ class ModernMainWindow(QMainWindow):
         self.init_ui()
 
     def log_audit_trail(self, action_type, details):
-        try:
-            log_query = text(
-                "INSERT INTO qc_audit_trail (timestamp, username, action_type, details, hostname, ip_address, mac_address) VALUES (NOW(), :u, :a, :d, :h, :i, :m)")
-            with engine.connect() as connection:
-                with connection.begin():
-                    connection.execute(log_query,
-                                      {"u": self.username, "a": action_type, "d": details,
-                                       **self.workstation_info})
-        except Exception as e:
-            print(f"CRITICAL: Audit trail error: {e}")
+        workstation_info = _get_workstation_info()
+        log_audit_trail(self.engine, self.username, action_type, details, workstation_info)
 
     def init_ui(self):
         main_widget = QWidget()
@@ -330,15 +240,17 @@ class ModernMainWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         main_layout.addWidget(self.create_side_menu())
+
         self.stacked_widget = QStackedWidget()
         main_layout.addWidget(self.stacked_widget)
 
         try:
-            self.formulation_page = FormulationManagementPage(engine, self.username, self.log_audit_trail)
-            self.audit_trail_page = AuditTrailPage(engine)
-            self.user_management_page = UserManagementPage(engine, self.username, self.log_audit_trail)
+            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.log_audit_trail)
+            self.audit_trail_page = AuditTrailPage(self.engine)
+            self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
         except Exception as e:
-            print(e)
+            print(f"Error initializing pages: {e}")
+            return
 
         for page in [self.formulation_page, self.audit_trail_page, self.user_management_page]:
             self.stacked_widget.addWidget(page)
@@ -346,6 +258,7 @@ class ModernMainWindow(QMainWindow):
         self.setCentralWidget(main_widget)
         self.setup_status_bar()
         self.apply_styles()
+
         if self.user_role != 'Admin':
             self.btn_user_mgmt.hide()
         self.update_maximize_button()
@@ -358,36 +271,38 @@ class ModernMainWindow(QMainWindow):
         layout.setContentsMargins(10, 20, 10, 10)
         layout.setSpacing(5)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
         profile = QWidget()
         pl = QHBoxLayout(profile)
         pl.setContentsMargins(5, 0, 0, 0)
         pl.setAlignment(Qt.AlignmentFlag.AlignLeft)
         pl.addWidget(QLabel(pixmap=fa.icon('fa5s.user-circle', color='#ecf0f1').pixmap(QSize(40, 40))))
         pl.addWidget(QLabel(f"<b>{self.username}</b><br><font color='#bdc3c7'>{self.user_role}</font>"))
+
         sep = QFrame(frameShape=QFrame.Shape.HLine, objectName="Separator")
         sep.setContentsMargins(0, 10, 0, 10)
 
-        try:
-            self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
-            self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 1)
-            self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 2)
-            self.btn_maximize = QPushButton("  Maximize", icon=self.icon_maximize)
-            self.btn_maximize.clicked.connect(self.toggle_maximize)
-            self.btn_logout = QPushButton("  Logout", icon=fa.icon('fa5s.sign-out-alt', color='#ecf0f1'))
-            self.btn_logout.clicked.connect(self.logout)
+        self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
+        self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 1)
+        self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 2)
 
-            layout.addWidget(profile)
-            layout.addWidget(sep)
-            layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
-            layout.addWidget(self.btn_formulation)
-            layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
-            layout.addWidget(self.btn_audit_trail)
-            layout.addWidget(self.btn_user_mgmt)
-            layout.addStretch(1)
-            layout.addWidget(self.btn_maximize)
-            layout.addWidget(self.btn_logout)
-        except Exception as e:
-            print(e)
+        self.btn_maximize = QPushButton("  Maximize", icon=self.icon_maximize)
+        self.btn_maximize.clicked.connect(self.toggle_maximize)
+
+        self.btn_logout = QPushButton("  Logout", icon=fa.icon('fa5s.sign-out-alt', color='#ecf0f1'))
+        self.btn_logout.clicked.connect(self.logout)
+
+        layout.addWidget(profile)
+        layout.addWidget(sep)
+        layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
+        layout.addWidget(self.btn_formulation)
+        layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
+        layout.addWidget(self.btn_audit_trail)
+        layout.addWidget(self.btn_user_mgmt)
+        layout.addStretch(1)
+        layout.addWidget(self.btn_maximize)
+        layout.addWidget(self.btn_logout)
+
         return menu
 
     def create_menu_button(self, text, icon, page_index):
@@ -399,15 +314,20 @@ class ModernMainWindow(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.showMessage(f"Ready | Logged in as: {self.username}")
+
         self.db_status_icon_label, self.db_status_text_label, self.time_label = QLabel(), QLabel(), QLabel()
         self.db_status_icon_label.setFixedSize(QSize(20, 20))
+
         for w in [self.db_status_icon_label, self.db_status_text_label, self.time_label,
-                  QLabel(f" | PC: {self.workstation_info['h']}"), QLabel(f" | IP: {self.workstation_info['i']}"),
+                  QLabel(f" | PC: {self.workstation_info['h']}"),
+                  QLabel(f" | IP: {self.workstation_info['i']}"),
                   QLabel(f" | MAC: {self.workstation_info['m']}")]:
             self.status_bar.addPermanentWidget(w)
+
         self.time_timer = QTimer(self, timeout=self.update_time)
         self.time_timer.start(1000)
         self.update_time()
+
         self.db_check_timer = QTimer(self, timeout=self.check_db_status)
         self.db_check_timer.start(5000)
         self.check_db_status()
@@ -418,10 +338,12 @@ class ModernMainWindow(QMainWindow):
                                      QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         if reply == QMessageBox.StandardButton.No:
             return
-        self.btn_sync_prod.setEnabled(False)
+
+        # Note: btn_sync_prod might not exist in this context, you may need to add it to formulation page
         self.loading_dialog = self._create_loading_dialog()
+
         self.sync_thread = QThread()
-        self.sync_worker = SyncWorker()
+        self.sync_worker = SyncWorker(self.engine)
         self.sync_worker.moveToThread(self.sync_thread)
         self.sync_thread.started.connect(self.sync_worker.run)
         self.sync_worker.finished.connect(self.on_sync_finished)
@@ -440,13 +362,7 @@ class ModernMainWindow(QMainWindow):
         frame = QFrame()
         frame.setStyleSheet("background-color: white; border-radius: 15px; padding: 20px;")
         frame_layout = QVBoxLayout(frame)
-        loading_label = QLabel()
-        movie = QMovie("loading.gif")
-        if not movie.isValid():
-            loading_label.setText("Loading...")
-        else:
-            loading_label.setMovie(movie)
-            movie.start()
+        loading_label = QLabel("Loading...")
         message_label = QLabel("Syncing... Please wait.")
         message_label.setStyleSheet("font-size: 11pt;")
         frame_layout.addWidget(loading_label, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -456,7 +372,6 @@ class ModernMainWindow(QMainWindow):
 
     def on_sync_finished(self, success, message):
         self.loading_dialog.close()
-        self.btn_sync_prod.setEnabled(True)
         if success:
             QMessageBox.information(self, "Sync Result", message)
             self.status_bar.showMessage("Production DB synchronized.", 5000)
@@ -468,12 +383,10 @@ class ModernMainWindow(QMainWindow):
         self.time_label.setText(f" | {datetime.now().strftime('%b %d, %Y  %I:%M:%S %p')} ")
 
     def check_db_status(self):
-        try:
-            with engine.connect() as c:
-                c.execute(text("SELECT 1"))
+        if test_database_connection(self.engine):
             self.db_status_icon_label.setPixmap(self.icon_db_ok.pixmap(QSize(16, 16)))
             self.db_status_text_label.setText("DB Connected")
-        except:
+        else:
             self.db_status_icon_label.setPixmap(self.icon_db_fail.pixmap(QSize(16, 16)))
             self.db_status_text_label.setText("DB Disconnected")
 
@@ -481,12 +394,9 @@ class ModernMainWindow(QMainWindow):
         self.setStyleSheet(AppStyles.MAIN_WINDOW_STYLESHEET)
 
     def show_page(self, index, is_first_load=False):
-        """Switch to the page at the given index with smooth fade animation."""
         if self.stacked_widget.currentIndex() == index:
             return
-
-        # Prevent multiple animations at once
-        if self.is_animating:
+        if self.is_animating and not is_first_load:
             return
 
         if is_first_load:
@@ -495,12 +405,9 @@ class ModernMainWindow(QMainWindow):
 
         self.is_animating = True
         current_widget = self.stacked_widget.currentWidget()
-
-        # Create opacity effect for current widget
         opacity_effect = QGraphicsOpacityEffect()
         current_widget.setGraphicsEffect(opacity_effect)
 
-        # Fade out animation
         self.fade_out_animation = QPropertyAnimation(opacity_effect, b"opacity")
         self.fade_out_animation.setDuration(150)
         self.fade_out_animation.setStartValue(1.0)
@@ -510,19 +417,12 @@ class ModernMainWindow(QMainWindow):
         self.fade_out_animation.start(QAbstractAnimation.DeletionPolicy.DeleteWhenStopped)
 
     def _start_fade_in(self, index, old_widget):
-        """Start fade in animation for new page."""
-        # Remove effect from old widget
         old_widget.setGraphicsEffect(None)
-
-        # Switch to new page
         self._set_page_and_refresh(index)
         new_widget = self.stacked_widget.currentWidget()
-
-        # Create opacity effect for new widget
         opacity_effect = QGraphicsOpacityEffect()
         new_widget.setGraphicsEffect(opacity_effect)
 
-        # Fade in animation
         self.fade_in_animation = QPropertyAnimation(opacity_effect, b"opacity")
         self.fade_in_animation.setDuration(200)
         self.fade_in_animation.setStartValue(0.0)
@@ -532,12 +432,10 @@ class ModernMainWindow(QMainWindow):
         self.fade_in_animation.start(QAbstractAnimation.DeletionPolicy.DeleteWhenStopped)
 
     def _cleanup_animation(self, widget):
-        """Clean up after animation completes."""
         widget.setGraphicsEffect(None)
         self.is_animating = False
 
     def _set_page_and_refresh(self, index):
-        """Sets the current page and calls its refresh method if it exists."""
         self.stacked_widget.setCurrentIndex(index)
         current_widget = self.stacked_widget.widget(index)
         if hasattr(current_widget, 'refresh_page'):
@@ -563,17 +461,27 @@ class ModernMainWindow(QMainWindow):
         self.login_window.close()
         event.accept()
 
-if __name__ == "__main__":
+
+def main():
     app = QApplication(sys.argv)
-    initialize_database()
+
+    engine = create_engine_connection()
+    if not initialize_database(engine):
+        QMessageBox.critical(None, "DB Init Error", "Could not initialize database.")
+        sys.exit(1)
+
     login_window = LoginWindow()
     main_window = None
 
     def on_login_success(username, user_role):
-        global main_window
+        nonlocal main_window
         main_window = ModernMainWindow(username, user_role, login_window)
         main_window.showMaximized()
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

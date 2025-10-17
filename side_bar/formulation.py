@@ -10,6 +10,7 @@ from PyQt6.QtGui import QFont
 import qtawesome as fa
 
 from db import db_call
+from db.schema import log_audit_trail
 from db.sync_formula import SyncFormulaWorker, LoadingDialog
 from utils.work_station import _get_workstation_info
 
@@ -963,12 +964,12 @@ class FormulationManagementPage(QWidget):
             if self.current_formulation_id:
                 # Existing formulation - perform update
                 db_call.update_formula(formula_data, material_composition)
-                self.log_audit_trail("Data Entry", f"Updated existing Formula: {formulation_id}")
+                log_audit_trail("Data Entry", f"Updated existing Formula: {formulation_id}")
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} updated successfully!")
             else:
                 # New formulation - perform save
                 db_call.save_formula(formula_data, material_composition)
-                self.log_audit_trail("Data Entry", f"Saved new Formula: {formulation_id}")
+                log_audit_trail("Data Entry", f"Saved new Formula: {formulation_id}")
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
 
             self.refresh_formulations()  # Refresh the records tab
