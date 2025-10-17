@@ -443,7 +443,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760662537830</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="fixed audit">
+      <option name="closed" value="true" />
+      <created>1760662968810</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1760662968810</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -464,7 +472,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed refresh function" />
     <MESSAGE value="added raw data fetch" />
     <MESSAGE value="added save to database" />
     <MESSAGE value="added auto create database" />
@@ -489,7 +496,8 @@
     <MESSAGE value="added utility" />
     <MESSAGE value="modified des" />
     <MESSAGE value="refactor main databse" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor main databse" />
+    <MESSAGE value="fixed audit" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed audit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

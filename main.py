@@ -1,7 +1,8 @@
-# main.py - COMPLETE VERSION
+# main.py - COMPLETE VERSION WITH SILENT BACKGROUND LEGACY SYNC
 import sys
 import os
 from datetime import datetime
+from PyQt6.QtCore import QTimer
 
 try:
     import qtawesome as fa
@@ -23,7 +24,7 @@ from side_bar.formulation import FormulationManagementPage
 from utils.work_station import _get_workstation_info
 
 # --- Database imports ---
-from db.legacy_sync import create_engine_connection, SyncWorker
+from db.legacy_sync import create_engine_connection
 from db.schema import (initialize_database, get_user_credentials, log_audit_trail, test_database_connection)
 
 
@@ -228,6 +229,8 @@ class ModernMainWindow(QMainWindow):
         self.setMinimumSize(1280, 720)
         self.setGeometry(100, 100, 1366, 768)
         self.workstation_info = _get_workstation_info()
+
+        # Initialize UI first
         self.init_ui()
 
     def log_audit_trail(self, action_type, details):
@@ -307,7 +310,8 @@ class ModernMainWindow(QMainWindow):
 
     def create_menu_button(self, text, icon, page_index):
         btn = QPushButton(text, icon=fa.icon(icon, color='#ecf0f1'), checkable=True, autoExclusive=True)
-        btn.clicked.connect(lambda: self.show_page(page_index))
+        if page_index is not None:
+            btn.clicked.connect(lambda: self.show_page(page_index))
         return btn
 
     def setup_status_bar(self):
@@ -317,6 +321,10 @@ class ModernMainWindow(QMainWindow):
 
         self.db_status_icon_label, self.db_status_text_label, self.time_label = QLabel(), QLabel(), QLabel()
         self.db_status_icon_label.setFixedSize(QSize(20, 20))
+
+        # Add sync status label
+        self.sync_status_label = QLabel("🔄 Legacy sync: Ready")
+        self.status_bar.addPermanentWidget(self.sync_status_label)
 
         for w in [self.db_status_icon_label, self.db_status_text_label, self.time_label,
                   QLabel(f" | PC: {self.workstation_info['h']}"),
@@ -331,53 +339,6 @@ class ModernMainWindow(QMainWindow):
         self.db_check_timer = QTimer(self, timeout=self.check_db_status)
         self.db_check_timer.start(5000)
         self.check_db_status()
-
-    def start_sync_process(self):
-        reply = QMessageBox.question(self, "Confirm Sync",
-                                     "This will sync with the legacy production database. This may take some time. Are you sure you want to proceed?",
-                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        if reply == QMessageBox.StandardButton.No:
-            return
-
-        # Note: btn_sync_prod might not exist in this context, you may need to add it to formulation page
-        self.loading_dialog = self._create_loading_dialog()
-
-        self.sync_thread = QThread()
-        self.sync_worker = SyncWorker(self.engine)
-        self.sync_worker.moveToThread(self.sync_thread)
-        self.sync_thread.started.connect(self.sync_worker.run)
-        self.sync_worker.finished.connect(self.on_sync_finished)
-        self.sync_worker.finished.connect(self.sync_thread.quit)
-        self.sync_worker.finished.connect(self.sync_worker.deleteLater)
-        self.sync_thread.finished.connect(self.sync_thread.deleteLater)
-        self.sync_thread.start()
-        self.loading_dialog.exec()
-
-    def _create_loading_dialog(self):
-        dialog = QDialog(self)
-        dialog.setModal(True)
-        dialog.setWindowFlag(Qt.WindowType.FramelessWindowHint)
-        dialog.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        layout = QVBoxLayout(dialog)
-        frame = QFrame()
-        frame.setStyleSheet("background-color: white; border-radius: 15px; padding: 20px;")
-        frame_layout = QVBoxLayout(frame)
-        loading_label = QLabel("Loading...")
-        message_label = QLabel("Syncing... Please wait.")
-        message_label.setStyleSheet("font-size: 11pt;")
-        frame_layout.addWidget(loading_label, alignment=Qt.AlignmentFlag.AlignCenter)
-        frame_layout.addWidget(message_label, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(frame)
-        return dialog
-
-    def on_sync_finished(self, success, message):
-        self.loading_dialog.close()
-        if success:
-            QMessageBox.information(self, "Sync Result", message)
-            self.status_bar.showMessage("Production DB synchronized.", 5000)
-        else:
-            QMessageBox.critical(self, "Sync Result", message)
-            self.status_bar.showMessage("Sync failed.", 5000)
 
     def update_time(self):
         self.time_label.setText(f" | {datetime.now().strftime('%b %d, %Y  %I:%M:%S %p')} ")
@@ -458,6 +419,10 @@ class ModernMainWindow(QMainWindow):
         self.login_window.show()
 
     def closeEvent(self, event):
+        # Stop any running sync threads
+        if hasattr(self, 'sync_thread') and self.sync_thread.isRunning():
+            self.sync_thread.quit()
+            self.sync_thread.wait(3000)  # Wait up to 3 seconds
         self.login_window.close()
         event.accept()
 
