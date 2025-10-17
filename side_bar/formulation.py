@@ -227,20 +227,21 @@ class FormulationManagementPage(QWidget):
 
         controls_layout.addStretch()
 
-        refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
-        refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        refresh_btn.clicked.connect(self.refresh_page)
-        controls_layout.addWidget(refresh_btn)
+        self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
+        self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
+        self.refresh_btn.clicked.connect(self.refresh_page)
+        controls_layout.addWidget(self.refresh_btn)
 
-        view_btn = QPushButton("View Details", objectName="PrimaryButton")
-        view_btn.setIcon(fa.icon('fa5s.eye', color='white'))
-        view_btn.clicked.connect(self.view_formulation_details)
-        controls_layout.addWidget(view_btn)
+        self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
+        self.view_btn.setIcon(fa.icon('fa5s.eye', color='white'))
+        self.view_btn.clicked.connect(self.view_formulation_details)
+        controls_layout.addWidget(self.view_btn)
 
-        edit_btn = QPushButton("Edit", objectName="InfoButton")
-        edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
-        edit_btn.clicked.connect(self.edit_formulation)
-        controls_layout.addWidget(edit_btn)
+        self.edit_btn = QPushButton("Edit", objectName="InfoButton")
+        self.edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
+        self.edit_btn.clicked.connect(self.edit_formulation)
+            
+        controls_layout.addWidget(self.edit_btn)
 
         layout.addLayout(controls_layout)
 

@@ -159,7 +159,7 @@ class UserManagementPage(QWidget):
         grid_layout.addWidget(role_label, 2, 0)
 
         self.role_combo = QComboBox()
-        self.role_combo.addItems(["Editor", "Admin", "User"])
+        self.role_combo.addItems(["Editor", "Admin", "Viewer"])
         grid_layout.addWidget(self.role_combo, 2, 1)
 
         # QC Access Checkbox
