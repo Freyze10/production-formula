@@ -399,7 +399,7 @@ class FormulationManagementPage(QWidget):
         self.matched_by_input.editTextChanged.connect(lambda: None)  # ensures typing updates completer
         self.matched_by_input.lineEdit().editingFinished.connect(self.validate_matched_by)
 
-        matched_by_layout.addWidget(self.matched_by_input, stretch=1)
+        matched_by_layout.addWidget(self.matched_by_input, stretch=2)
 
         # --- Material Code ---
         material_label = QLabel("Material Code:")
@@ -421,7 +421,7 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
 
-        matched_by_layout.addWidget(self.material_code_input, stretch=2)
+        matched_by_layout.addWidget(self.material_code_input)
 
         # --- Sync Button ---
         self.rm_code_sync_button = QPushButton("Sync RM Code", objectName="SecondaryButton")
