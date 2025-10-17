@@ -238,7 +238,7 @@ class LoginWindow(QMainWindow):
         self.setupUi()
 
     def setupUi(self):
-        self.setWindowTitle("Finished Goods Program - Login")
+        self.setWindowTitle("Production Formulation Program - Login")
         self.setWindowIcon(fa.icon('fa5s.box-open'))
         self.resize(500, 600)
         widget = QWidget()
@@ -256,7 +256,7 @@ class LoginWindow(QMainWindow):
                          alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addSpacing(10)
         layout.addWidget(
-            QLabel("Finished Goods Login", objectName="LoginTitle", alignment=Qt.AlignmentFlag.AlignCenter))
+            QLabel("Production Login", objectName="LoginTitle", alignment=Qt.AlignmentFlag.AlignCenter))
         layout.addSpacing(20)
         self.username_widget, self.username = self._create_input_field('fa5s.user', "Username")
         self.password_widget, self.password = self._create_input_field('fa5s.lock', "Password")
@@ -322,7 +322,7 @@ class ModernMainWindow(QMainWindow):
             'fa5s.compress-arrows-alt', color='#ecf0f1')
         self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle',
                                                                                                     color='#D32F2F')
-        self.setWindowTitle("Finished Goods Program")
+        self.setWindowTitle("Production Formulation Program")
         self.setWindowIcon(fa.icon('fa5s.check-double', color='gray'))
         self.setMinimumSize(1280, 720)
         self.setGeometry(100, 100, 1366, 768)
@@ -352,13 +352,12 @@ class ModernMainWindow(QMainWindow):
 
         try:
             self.formulation_page = FormulationManagementPage(engine, self.username, self.log_audit_trail)
-            self.fg_endorsement_page = FGEndorsementPage(engine, self.username, self.log_audit_trail)
             self.audit_trail_page = AuditTrailPage(engine)
             self.user_management_page = UserManagementPage(engine, self.username, self.log_audit_trail)
         except Exception as e:
             print(e)
 
-        for page in [self.formulation_page, self.fg_endorsement_page, self.audit_trail_page, self.user_management_page]:
+        for page in [self.formulation_page, self.audit_trail_page, self.user_management_page]:
             self.stacked_widget.addWidget(page)
 
         self.setCentralWidget(main_widget)
@@ -387,11 +386,8 @@ class ModernMainWindow(QMainWindow):
 
         try:
             self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
-            self.btn_fg_endorsement = self.create_menu_button("  FG Endorsement", 'fa5s.file-signature', 1)
-            self.btn_sync_prod = QPushButton("  Sync Production DB", icon=fa.icon('fa5s.sync-alt', color='#ecf0f1'))
-            self.btn_sync_prod.clicked.connect(self.start_sync_process)
-            self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
-            self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 3)
+            self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 1)
+            self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 2)
             self.btn_maximize = QPushButton("  Maximize", icon=self.icon_maximize)
             self.btn_maximize.clicked.connect(self.toggle_maximize)
             self.btn_logout = QPushButton("  Logout", icon=fa.icon('fa5s.sign-out-alt', color='#ecf0f1'))
@@ -401,9 +397,6 @@ class ModernMainWindow(QMainWindow):
             layout.addWidget(sep)
             layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
             layout.addWidget(self.btn_formulation)
-            layout.addWidget(QLabel("FG MANAGEMENT", objectName="MenuLabel"))
-            layout.addWidget(self.btn_fg_endorsement)
-            layout.addWidget(self.btn_sync_prod)
             layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
             layout.addWidget(self.btn_audit_trail)
             layout.addWidget(self.btn_user_mgmt)
