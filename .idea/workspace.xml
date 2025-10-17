@@ -368,7 +368,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760425342366</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="changed the display on selected">
+      <option name="closed" value="true" />
+      <created>1760604657312</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1760604657312</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -409,7 +417,8 @@
     <MESSAGE value="removed colors fields" />
     <MESSAGE value="fixed line object deteled" />
     <MESSAGE value="fixed fade in animation" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed fade in animation" />
+    <MESSAGE value="changed the display on selected" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the display on selected" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -383,8 +383,9 @@ class FormulationManagementPage(QWidget):
         self.matched_by_input.addItems(["ANNA", "ERNIE", "JINKY", "ESA"])
         matched_by_layout.addWidget(self.matched_by_input)
         matched_by_layout.addWidget(QLabel("Material Code:"))
-        self.material_code_input = QLineEdit()
-        self.material_code_input.setPlaceholderText("Enter material code")
+        self.rm_list = []
+        self.material_code_input = QComboBox()
+        self.material_code_input.addItems(self.rm_list)
         matched_by_layout.addWidget(self.material_code_input)
         material_layout.addLayout(matched_by_layout)
 
