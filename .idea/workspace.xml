@@ -577,7 +577,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760755332239</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="added production widget">
+      <option name="closed" value="true" />
+      <created>1760757180516</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1760757180516</updated>
+    </task>
+    <task id="LOCAL-00047" summary="added production widget">
+      <option name="closed" value="true" />
+      <created>1760757183221</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1760757183221</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -598,7 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed rm input to combobox" />
     <MESSAGE value="changed the window name" />
     <MESSAGE value="deleted finished goods" />
     <MESSAGE value="refactor sidebar" />
@@ -623,7 +638,8 @@
     <MESSAGE value="fixed audit trail insert" />
     <MESSAGE value="added export to excel" />
     <MESSAGE value="fixed db_status icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed db_status icon" />
+    <MESSAGE value="added production widget" />
+    <option name="LAST_COMMIT_MESSAGE" value="added production widget" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

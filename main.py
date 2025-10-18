@@ -4,6 +4,8 @@ import os
 from datetime import datetime
 from PyQt6.QtCore import QTimer
 
+from side_bar.production import ProductionManagementPage
+
 try:
     import qtawesome as fa
 except ImportError:
@@ -727,13 +729,14 @@ class ModernMainWindow(QMainWindow):
 
         try:
             self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
+            self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
             self.audit_trail_page = AuditTrailPage(self.engine)
             self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
         except Exception as e:
             print(f"Error initializing pages: {e}")
             return
 
-        for page in [self.formulation_page, self.audit_trail_page, self.user_management_page]:
+        for page in [self.formulation_page, self.production_page, self.audit_trail_page, self.user_management_page]:
             self.stacked_widget.addWidget(page)
 
         self.setCentralWidget(main_widget)
@@ -764,8 +767,9 @@ class ModernMainWindow(QMainWindow):
         sep.setContentsMargins(0, 10, 0, 10)
 
         self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
-        self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 1)
-        self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 2)
+        self.btn_production = self.create_menu_button("  Production", 'fa5s.flask', 1)
+        self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
+        self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 3)
 
         self.btn_maximize = QPushButton("  Maximize", icon=self.icon_maximize)
         self.btn_maximize.clicked.connect(self.toggle_maximize)
@@ -777,6 +781,8 @@ class ModernMainWindow(QMainWindow):
         layout.addWidget(sep)
         layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
         layout.addWidget(self.btn_formulation)
+        layout.addWidget(QLabel("PRODUCTION", objectName="MenuLabel"))
+        layout.addWidget(self.btn_production)
 
         layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
         layout.addWidget(self.btn_audit_trail)
