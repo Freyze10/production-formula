@@ -569,7 +569,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760754437209</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="fixed db_status icon">
+      <option name="closed" value="true" />
+      <created>1760755332239</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1760755332239</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -590,7 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed the display on selected" />
     <MESSAGE value="changed rm input to combobox" />
     <MESSAGE value="changed the window name" />
     <MESSAGE value="deleted finished goods" />
@@ -615,7 +622,8 @@
     <MESSAGE value="modified" />
     <MESSAGE value="fixed audit trail insert" />
     <MESSAGE value="added export to excel" />
-    <option name="LAST_COMMIT_MESSAGE" value="added export to excel" />
+    <MESSAGE value="fixed db_status icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed db_status icon" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
