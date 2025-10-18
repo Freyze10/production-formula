@@ -5,10 +5,11 @@ from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
-                             QScrollArea, QFormLayout, QCompleter, QSizePolicy)
+                             QScrollArea, QFormLayout, QCompleter, QSizePolicy, QFileDialog)
 from PyQt6.QtCore import Qt, QDate, QThread
 from PyQt6.QtGui import QFont
 import qtawesome as fa
+import pandas as pd
 
 from db import db_call
 from db.schema import log_audit_trail
@@ -48,7 +49,6 @@ class FormulationManagementPage(QWidget):
         self.engine = engine
         self.username = username
         self.user_role = user_role
-        self.log_audit_trail = log_audit_trail
         workstation = _get_workstation_info()
         self.work_station = workstation
         self.current_formulation_id = None
@@ -221,6 +221,12 @@ class FormulationManagementPage(QWidget):
         self.date_to_filter.setCalendarPopup(True)
         controls_layout.addWidget(self.date_to_filter)
 
+        # Add Export Button
+        self.export_btn = QPushButton("Export", objectName="SecondaryButton")
+        self.export_btn.setIcon(fa.icon('fa5s.file-export', color='white'))
+        self.export_btn.clicked.connect(self.export_to_excel)
+        controls_layout.addWidget(self.export_btn)
+
         earliest_date, latest_date = db_call.get_min_max_formula_date()
 
         qdate_from = QDate(earliest_date.year, earliest_date.month, earliest_date.day)
@@ -246,7 +252,7 @@ class FormulationManagementPage(QWidget):
         self.edit_btn = QPushButton("Edit", objectName="InfoButton")
         self.edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
         self.edit_btn.clicked.connect(self.edit_formulation)
-            
+
         controls_layout.addWidget(self.edit_btn)
 
         layout.addLayout(controls_layout)
@@ -635,6 +641,44 @@ class FormulationManagementPage(QWidget):
             # Call the base focusOutEvent to ensure normal behavior
         QLineEdit.focusOutEvent(line_edit, event)
 
+    def export_to_excel(self):
+        """Export the formulation table to an Excel file."""
+        # Open QFileDialog to select save location
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Excel File",
+            "",
+            "Excel Files (*.xlsx)"
+        )
+
+        if not file_path:
+            return  # User canceled the dialog
+
+        # Collect table data
+        headers = ["ID", "Index Ref", "Date", "Customer", "Product Code", "Product Color", "Total Cons", "Dosage"]
+        data = []
+        for row in range(self.formulation_table.rowCount()):
+            if not self.formulation_table.isRowHidden(row):  # Only include visible rows (filtered data)
+                row_data = []
+                for col in range(self.formulation_table.columnCount()):
+                    item = self.formulation_table.item(row, col)
+                    if isinstance(item, NumericTableWidgetItem):
+                        row_data.append(item.value)  # Use the actual numerical value
+                    else:
+                        row_data.append(item.text() if item else "")
+                data.append(row_data)
+
+        # Create DataFrame
+        df = pd.DataFrame(data, columns=headers)
+
+        try:
+            # Save to Excel
+            df.to_excel(file_path, index=False)
+            QMessageBox.information(self, "Export Successful", f"Table data exported to {file_path}")
+            log_audit_trail(self.engine, self.username, "Data Export", f"Exported formulation table to {file_path}", self.work_station)
+        except Exception as e:
+            QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
+
     def load_customers(self):
         """Load hardcoded customers."""
         self.customer_input.setPlaceholderText("Enter customer name")
@@ -839,6 +883,7 @@ class FormulationManagementPage(QWidget):
         ]
         for field in fields:
             field.setEnabled(enable)
+
     def add_material_row(self):
         """Add a new material row to the table."""
         material_code = self.material_code_input.currentText()
@@ -1007,7 +1052,8 @@ class FormulationManagementPage(QWidget):
             "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
             # Convert to date object
             "dbf_updated_by": self.updated_by_display.text().strip(),
-            "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(), "%m/%d/%Y %I:%M:%S %p").strftime("%m/%d/%y %I:%M:%S %p"),
+            "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(),
+                                                     "%m/%d/%Y %I:%M:%S %p").strftime("%m/%d/%y %I:%M:%S %p"),
             # Convert to datetime object
         }
 
@@ -1026,12 +1072,12 @@ class FormulationManagementPage(QWidget):
             if self.current_formulation_id:
                 # Existing formulation - perform update
                 db_call.update_formula(formula_data, material_composition)
-                log_audit_trail("Data Entry", f"Updated existing Formula: {formulation_id}")
+                log_audit_trail(self.engine, self.username, "Data Entry", f"Updated existing Formula: {formulation_id}", self.work_station)
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} updated successfully!")
             else:
                 # New formulation - perform save
                 db_call.save_formula(formula_data, material_composition)
-                log_audit_trail("Data Entry", f"Saved new Formula: {formulation_id}")
+                log_audit_trail(self.engine, self.username,"Data Entry", f"Saved new Formula: {formulation_id}", self.work_station)
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
 
             self.refresh_formulations()  # Refresh the records tab
