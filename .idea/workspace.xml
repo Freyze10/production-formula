@@ -601,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760757458758</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="fixing production tab">
+      <option name="closed" value="true" />
+      <created>1760759869914</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1760759869914</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -622,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="deleted finished goods" />
     <MESSAGE value="refactor sidebar" />
     <MESSAGE value="refactor db" />
     <MESSAGE value="added utility" />
@@ -647,7 +654,8 @@
     <MESSAGE value="fixed db_status icon" />
     <MESSAGE value="added production widget" />
     <MESSAGE value="added sided bar for production" />
-    <option name="LAST_COMMIT_MESSAGE" value="added sided bar for production" />
+    <MESSAGE value="fixing production tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing production tab" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
