@@ -799,7 +799,8 @@ class ModernMainWindow(QMainWindow):
         self.status_bar.showMessage(f"Ready | Logged in as: {self.username}")
 
         self.db_status_icon_label, self.db_status_text_label, self.time_label = QLabel(), QLabel(), QLabel()
-        self.db_status_icon_label.setFixedSize(QSize(20, 20))
+        self.db_status_icon_label.setFixedSize(QSize(36, 30))
+        self.db_status_icon_label.setScaledContents(True)
 
         # Add sync status label
         self.sync_status_label = QLabel("🔄 Legacy sync: Ready")
@@ -824,10 +825,10 @@ class ModernMainWindow(QMainWindow):
 
     def check_db_status(self):
         if test_database_connection(self.engine):
-            self.db_status_icon_label.setPixmap(self.icon_db_ok.pixmap(QSize(16, 16)))
+            self.db_status_icon_label.setPixmap(self.icon_db_ok.pixmap(QSize(30, 30)))
             self.db_status_text_label.setText("DB Connected")
         else:
-            self.db_status_icon_label.setPixmap(self.icon_db_fail.pixmap(QSize(16, 16)))
+            self.db_status_icon_label.setPixmap(self.icon_db_fail.pixmap(QSize(30, 30)))
             self.db_status_text_label.setText("DB Disconnected")
 
     def apply_styles(self):
