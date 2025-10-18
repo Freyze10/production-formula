@@ -12,7 +12,6 @@ import qtawesome as fa
 import pandas as pd
 
 from db import db_call
-from db.schema import log_audit_trail
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from utils.work_station import _get_workstation_info
 
@@ -49,22 +48,11 @@ class FormulationManagementPage(QWidget):
         self.engine = engine
         self.username = username
         self.user_role = user_role
-        workstation = _get_workstation_info()
-        self.work_station = workstation
+        self.log_audit_trail = log_audit_trail
+        self.work_station = _get_workstation_info()
         self.current_formulation_id = None
         self.all_formula_data = []
-        self.sample_details = {
-            "0017080": [("W8", 8.0), ("Y121", 5.0), ("O51", 0.5), ("L37", 5.0), ("L28", 5.0), ("K907", 41.5),
-                        ("HIPS(POWDER)", 35.0)],
-            "0017079": [("A1", 10.0), ("B2", 15.0), ("C3", 20.0)],
-            "0017078": [("X1", 12.0), ("Y2", 18.0)],
-            "0017077": [("Z1", 25.0), ("Z2", 30.0)],
-        }
-        self.customers = ["OCTAPLAS INDUSTRIAL SERVICES", "CRONICS, INC.", "MAGNATE FOOD AND DRINKS",
-                          "SAN MIGUEL YAMAMURA PACKAGING"]
-
         self.setup_ui()
-        self.load_customers()
         self.refresh_page()
         self.refresh_formulations()
         self.user_access(self.user_role)
@@ -296,6 +284,7 @@ class FormulationManagementPage(QWidget):
 
         # Customer Name
         self.customer_input = QLineEdit()
+        self.customer_input.setPlaceholderText("Enter customer name")
         self.customer_input.setStyleSheet("background-color: #fff9c4;")
         customer_layout.addRow("Customer:", self.customer_input)
 
@@ -643,11 +632,16 @@ class FormulationManagementPage(QWidget):
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file."""
+        # Get date range for filename
+        date_from = self.date_from_filter.date().toString("yyyyMMdd")
+        date_to = self.date_to_filter.date().toString("yyyyMMdd")
+        default_filename = f"formulation_records_{date_from}_to_{date_to}.xlsx"
+
         # Open QFileDialog to select save location
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Excel File",
-            "",
+            default_filename,
             "Excel Files (*.xlsx)"
         )
 
@@ -675,13 +669,10 @@ class FormulationManagementPage(QWidget):
             # Save to Excel
             df.to_excel(file_path, index=False)
             QMessageBox.information(self, "Export Successful", f"Table data exported to {file_path}")
-            log_audit_trail(self.engine, self.username, "Data Export", f"Exported formulation table to {file_path}", self.work_station)
+            self.log_audit_trail("Data Export", f"Exported formulation table to {file_path}")
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
 
-    def load_customers(self):
-        """Load hardcoded customers."""
-        self.customer_input.setPlaceholderText("Enter customer name")
 
     def refresh_page(self):
         self.formulation_table.setRowCount(0)
@@ -1072,12 +1063,12 @@ class FormulationManagementPage(QWidget):
             if self.current_formulation_id:
                 # Existing formulation - perform update
                 db_call.update_formula(formula_data, material_composition)
-                log_audit_trail(self.engine, self.username, "Data Entry", f"Updated existing Formula: {formulation_id}", self.work_station)
+                self.log_audit_trail("Data Entry", f"Updated existing Formula: {formulation_id}")
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} updated successfully!")
             else:
                 # New formulation - perform save
                 db_call.save_formula(formula_data, material_composition)
-                log_audit_trail(self.engine, self.username,"Data Entry", f"Saved new Formula: {formulation_id}", self.work_station)
+                self.log_audit_trail("Data Entry", f"Saved new Formula: {formulation_id}")
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
 
             self.refresh_formulations()  # Refresh the records tab
