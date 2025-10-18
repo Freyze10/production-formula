@@ -233,64 +233,50 @@ class ProductionManagementPage(QWidget):
         left_column.setSpacing(8)
 
         primary_card = QGroupBox("Production Information")
-        primary_card.setSizePolicy(primary_card.sizePolicy().horizontalPolicy(),
-                                   primary_card.sizePolicy().Expanding)
         primary_layout = QFormLayout(primary_card)
         primary_layout.setSpacing(6)
         primary_layout.setContentsMargins(10, 18, 10, 12)
 
         self.production_id_input = QLineEdit()
-        self.production_id_input.setPlaceholderText("0")
-        self.production_id_input.setStyleSheet("background-color: #e9ecef;")
+        self.production_id_input.setPlaceholderText("0098886")
         self.production_id_input.setReadOnly(True)
         primary_layout.addRow("Production ID:", self.production_id_input)
 
-        form_type_layout = QHBoxLayout()
         self.form_type_combo = QComboBox()
-        self.form_type_combo.addItems(["STANDARD", "RUSH", "SAMPLE"])
-        self.form_type_combo.setStyleSheet("background-color: #fff9c4;")
-        form_type_layout.addWidget(self.form_type_combo)
-        primary_layout.addRow("Form Type:", form_type_layout)
+        self.form_type_combo.addItems(["LARGE SCALE"])
+        primary_layout.addRow("Form Type:", self.form_type_combo)
 
         self.product_code_input = QLineEdit()
         self.product_code_input.setPlaceholderText("Enter product code")
-        self.product_code_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addRow("Product Code:", self.product_code_input)
 
         self.product_color_input = QLineEdit()
         self.product_color_input.setPlaceholderText("Enter product color")
-        self.product_color_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addRow("Product Color:", self.product_color_input)
 
         dosage_layout = QHBoxLayout()
         self.dosage_input = QLineEdit()
         self.dosage_input.setPlaceholderText("0.00000")
-        self.dosage_input.setStyleSheet("background-color: #fff9c4;")
-        self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input, 5)
         dosage_layout.addWidget(self.dosage_input)
         dosage_layout.addWidget(QLabel("LD (%)"))
         self.dosage_percent_input = QLineEdit()
         self.dosage_percent_input.setPlaceholderText("0.00000")
         self.dosage_percent_input.setReadOnly(True)
-        self.dosage_percent_input.setStyleSheet("background-color: #e9ecef;")
         dosage_layout.addWidget(self.dosage_percent_input)
         primary_layout.addRow("Dosage:", dosage_layout)
 
         self.customer_input = QLineEdit()
         self.customer_input.setPlaceholderText("Enter customer name")
-        self.customer_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addRow("Customer:", self.customer_input)
 
         self.lot_no_input = QLineEdit()
         self.lot_no_input.setPlaceholderText("Enter lot number")
-        self.lot_no_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addRow("Lot No.:", self.lot_no_input)
 
         prod_date_layout = QHBoxLayout()
         self.production_date_input = QDateEdit()
         self.production_date_input.setCalendarPopup(True)
         self.production_date_input.setDate(QDate.currentDate())
-        self.production_date_input.setStyleSheet("background-color: #fff9c4;")
         prod_date_layout.addWidget(self.production_date_input)
         primary_layout.addRow("Tentative Production Date:", prod_date_layout)
 
@@ -304,141 +290,69 @@ class ProductionManagementPage(QWidget):
 
         self.order_form_no_combo = QComboBox()
         self.order_form_no_combo.setEditable(True)
-        self.order_form_no_combo.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addRow("Order Form No.:", self.order_form_no_combo)
-
-        left_column.addWidget(primary_card)
-
-        additional_card = QGroupBox("Additional Details")
-        additional_card.setSizePolicy(additional_card.sizePolicy().horizontalPolicy(),
-                                      additional_card.sizePolicy().Expanding)
-        additional_layout = QFormLayout(additional_card)
-        additional_layout.setSpacing(6)
-        additional_layout.setContentsMargins(10, 18, 10, 12)
 
         self.colormatch_no_input = QLineEdit()
         self.colormatch_no_input.setPlaceholderText("Enter colormatch number")
-        additional_layout.addRow("Colormatch No.:", self.colormatch_no_input)
+        primary_layout.addRow("Colormatch No.:", self.colormatch_no_input)
 
         self.matched_date_input = QDateEdit()
         self.matched_date_input.setCalendarPopup(True)
         self.matched_date_input.setDate(QDate.currentDate())
-        additional_layout.addRow("Matched Date:", self.matched_date_input)
+        primary_layout.addRow("Matched Date:", self.matched_date_input)
 
         self.formulation_id_input = QLineEdit()
         self.formulation_id_input.setPlaceholderText("0")
         self.formulation_id_input.setReadOnly(True)
-        self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")
-        additional_layout.addRow("Formulation ID:", self.formulation_id_input)
+        primary_layout.addRow("Formulation ID:", self.formulation_id_input)
 
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
-        additional_layout.addRow("Mixing Time:", self.mixing_time_input)
+        primary_layout.addRow("Mixing Time:", self.mixing_time_input)
 
         self.machine_no_input = QLineEdit()
         self.machine_no_input.setPlaceholderText("Enter machine number")
-        additional_layout.addRow("Machine No.:", self.machine_no_input)
+        primary_layout.addRow("Machine No.:", self.machine_no_input)
 
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.000000")
-        self.qty_required_input.setStyleSheet("background-color: #fff9c4;")
-        self.qty_required_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_required_input, 6)
-        additional_layout.addRow("Qty. Required:", self.qty_required_input)
+        primary_layout.addRow("Qty. Req.:", self.qty_required_input)
 
         self.qty_per_batch_input = QLineEdit()
         self.qty_per_batch_input.setPlaceholderText("0.000000")
-        self.qty_per_batch_input.setStyleSheet("background-color: #fff9c4;")
-        self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input, 6)
-        additional_layout.addRow("Qty. Per Batch:", self.qty_per_batch_input)
+        primary_layout.addRow("Qty. Per Batch:", self.qty_per_batch_input)
 
         self.prepared_by_input = QLineEdit()
         self.prepared_by_input.setPlaceholderText("Enter preparer name")
-        self.prepared_by_input.setStyleSheet("background-color: #fff9c4;")
-        additional_layout.addRow("Prepared By:", self.prepared_by_input)
+        primary_layout.addRow("Prepared By:", self.prepared_by_input)
 
         self.notes_input = QTextEdit()
         self.notes_input.setMaximumHeight(60)
         self.notes_input.setPlaceholderText("Enter any notes...")
-        additional_layout.addRow("Notes:", self.notes_input)
+        primary_layout.addRow("Notes:", self.notes_input)
 
-        left_column.addWidget(additional_card, stretch=1)
-        scroll_layout.addLayout(left_column, stretch=1)
+        left_column.addWidget(primary_card)
 
-        right_column = QVBoxLayout()
-        right_column.setSpacing(8)
-
-        material_card = QGroupBox("Material Composition")
-        material_layout = QVBoxLayout(material_card)
-        material_layout.setContentsMargins(10, 18, 10, 12)
-        material_layout.setSpacing(8)
-
-        material_input_layout = QHBoxLayout()
-        material_input_layout.addWidget(QLabel("Material Name:"))
-
-        self.material_name_input = QComboBox()
-        self.material_name_input.setEditable(True)
-        self.material_name_input.setPlaceholderText("Select or enter material")
-        material_input_layout.addWidget(self.material_name_input)
-        material_layout.addLayout(material_input_layout)
-
-        scales_layout = QGridLayout()
-        scales_layout.setSpacing(6)
-
-        scales_layout.addWidget(QLabel("Large Scale (KG):"), 0, 0)
-        self.large_scale_input = QLineEdit()
-        self.large_scale_input.setPlaceholderText("0.000000")
-        scales_layout.addWidget(self.large_scale_input, 0, 1)
-
-        scales_layout.addWidget(QLabel("Small Scale (G):"), 0, 2)
-        self.small_scale_input = QLineEdit()
-        self.small_scale_input.setPlaceholderText("0.000000")
-        scales_layout.addWidget(self.small_scale_input, 0, 3)
-
-        scales_layout.addWidget(QLabel("Total Weight (KG):"), 1, 0)
-        self.total_weight_input = QLineEdit()
-        self.total_weight_input.setPlaceholderText("0.000000")
-        self.total_weight_input.setReadOnly(True)
-        self.total_weight_input.setStyleSheet("background-color: #e9ecef;")
-        scales_layout.addWidget(self.total_weight_input, 1, 1)
-
-        material_layout.addLayout(scales_layout)
-
-        btn_layout = QHBoxLayout()
-        btn_layout.addStretch()
-
-        self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
-        self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
-        self.add_material_btn.clicked.connect(self.add_material_row)
-        btn_layout.addWidget(self.add_material_btn)
-
-        self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
-        self.remove_material_btn.setIcon(fa.icon('fa5s.minus', color='white'))
-        self.remove_material_btn.clicked.connect(self.remove_material_row)
-        btn_layout.addWidget(self.remove_material_btn)
-
-        self.clear_materials_btn = QPushButton("Clear", objectName="InfoButton")
-        self.clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
-        self.clear_materials_btn.clicked.connect(self.clear_materials)
-        btn_layout.addWidget(self.clear_materials_btn)
-
-        material_layout.addLayout(btn_layout)
+        additional_card = QGroupBox("Material Composition")
+        additional_layout = QVBoxLayout(additional_card)
+        additional_layout.setContentsMargins(10, 18, 10, 12)
+        additional_layout.setSpacing(8)
 
         self.materials_table = QTableWidget()
-        self.materials_table.setColumnCount(5)
+        self.materials_table.setColumnCount(4)
         self.materials_table.setHorizontalHeaderLabels([
-            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Notes"
+            "MATERIAL NAME", "LARGE SCALE (KG)", "SMALL SCALE (G)", "TOTAL WEIGHT (KG)"
         ])
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
         self.materials_table.setMinimumHeight(200)
-        material_layout.addWidget(self.materials_table)
+        additional_layout.addWidget(self.materials_table)
 
         total_layout = QHBoxLayout()
         total_layout.addWidget(QLabel("No. of Items:"))
         self.no_items_label = QLabel("0")
         self.no_items_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
-        self.no_items_label.setStyleSheet("color: #0078d4;")
         total_layout.addWidget(self.no_items_label)
 
         total_layout.addStretch()
@@ -446,11 +360,15 @@ class ProductionManagementPage(QWidget):
         total_layout.addWidget(QLabel("Total Weight:"))
         self.total_weight_label = QLabel("0.000000")
         self.total_weight_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
-        self.total_weight_label.setStyleSheet("color: #0078d4;")
         total_layout.addWidget(self.total_weight_label)
 
-        material_layout.addLayout(total_layout)
-        right_column.addWidget(material_card)
+        additional_layout.addLayout(total_layout)
+        left_column.addWidget(additional_card)
+
+        scroll_layout.addLayout(left_column, stretch=1)
+
+        right_column = QVBoxLayout()
+        right_column.setSpacing(8)
 
         encoding_card = QGroupBox("Encoding Information")
         encoding_layout = QFormLayout(encoding_card)
@@ -459,20 +377,16 @@ class ProductionManagementPage(QWidget):
 
         self.encoded_by_display = QLineEdit()
         self.encoded_by_display.setReadOnly(True)
-        self.encoded_by_display.setText(self.work_station['u'])
-        self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
         encoding_layout.addRow("Encoded By:", self.encoded_by_display)
 
         conf_layout = QHBoxLayout()
         self.production_confirmation_display = QLineEdit()
         self.production_confirmation_display.setReadOnly(True)
-        self.production_confirmation_display.setStyleSheet("background-color: #e9ecef;")
         conf_layout.addWidget(self.production_confirmation_display)
         encoding_layout.addRow("Production Confirmation Encoded On:", conf_layout)
 
         self.production_encoded_display = QLineEdit()
         self.production_encoded_display.setReadOnly(True)
-        self.production_encoded_display.setStyleSheet("background-color: #e9ecef;")
         encoding_layout.addRow("Production Encoded On:", self.production_encoded_display)
 
         right_column.addWidget(encoding_card)
@@ -484,33 +398,27 @@ class ProductionManagementPage(QWidget):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        generate_btn = QPushButton("Generate", objectName="InfoButton")
-        generate_btn.setIcon(fa.icon('fa5s.cog', color='white'))
+        generate_btn = QPushButton("Generate")
         generate_btn.clicked.connect(self.generate_production)
         button_layout.addWidget(generate_btn)
 
-        tumbler_btn = QPushButton("Tumbler", objectName="SecondaryButton")
-        tumbler_btn.setIcon(fa.icon('fa5s.sync', color='white'))
+        tumbler_btn = QPushButton("Tumbler")
         tumbler_btn.clicked.connect(self.tumbler_function)
         button_layout.addWidget(tumbler_btn)
 
-        generate_advance_btn = QPushButton("Generate Advance", objectName="InfoButton")
-        generate_advance_btn.setIcon(fa.icon('fa5s.forward', color='white'))
+        generate_advance_btn = QPushButton("Generate Advance")
         generate_advance_btn.clicked.connect(self.generate_advance)
         button_layout.addWidget(generate_advance_btn)
 
-        print_btn = QPushButton("Print", objectName="SecondaryButton")
-        print_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        print_btn = QPushButton("Print")
         print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
 
-        new_btn = QPushButton("New", objectName="PrimaryButton")
-        new_btn.setIcon(fa.icon('fa5s.file', color='white'))
+        new_btn = QPushButton("New")
         new_btn.clicked.connect(lambda: self.sync_for_entry(1))
         button_layout.addWidget(new_btn)
 
-        close_btn = QPushButton("Close", objectName="DangerButton")
-        close_btn.setIcon(fa.icon('fa5s.times', color='white'))
+        close_btn = QPushButton("Close")
         close_btn.clicked.connect(self.close_production)
         button_layout.addWidget(close_btn)
 
