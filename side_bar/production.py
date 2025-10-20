@@ -46,7 +46,7 @@ class ProductionManagementPage(QWidget):
         self.current_production_id = None
         self.all_production_data = []
         self.setup_ui()
-        # self.refresh_page()
+        self.refresh_page()
         self.user_access(self.user_role)
 
     def setup_ui(self):
@@ -62,7 +62,7 @@ class ProductionManagementPage(QWidget):
 
         self.entry_tab = self.create_entry_tab()
         self.tab_widget.addTab(self.entry_tab, "Production Entry")
-        # self.tab_widget.currentChanged.connect(self.sync_for_entry)
+        self.tab_widget.currentChanged.connect(self.sync_for_entry)
 
         main_layout.addWidget(self.tab_widget)
 
@@ -81,7 +81,7 @@ class ProductionManagementPage(QWidget):
         header_layout = QHBoxLayout(header_card)
         header_layout.setContentsMargins(15, 2, 15, 2)
 
-        self.selected_production_label = QLabel("PRODUCTION ID: No Selection")
+        self.selected_production_label = QLabel("LOT NO: No Selection")
         self.selected_production_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
         self.selected_production_label.setStyleSheet("color: #0078d4;")
         header_layout.addWidget(self.selected_production_label)
@@ -90,12 +90,12 @@ class ProductionManagementPage(QWidget):
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("Search productions...")
         self.search_input.setFixedWidth(250)
-        # self.search_input.textChanged.connect(self.filter_productions)
+        self.search_input.textChanged.connect(self.filter_productions)
         header_layout.addWidget(self.search_input)
 
         search_btn = QPushButton("Search", objectName="PrimaryButton")
         search_btn.setIcon(fa.icon('fa5s.search', color='white'))
-        # search_btn.clicked.connect(self.filter_productions)
+        search_btn.clicked.connect(self.filter_productions)
         header_layout.addWidget(search_btn)
         layout.addWidget(header_card)
 
@@ -135,7 +135,7 @@ class ProductionManagementPage(QWidget):
         self.production_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         header.setSortIndicatorShown(True)
         header.setSectionsClickable(True)
-        # self.production_table.itemSelectionChanged.connect(self.on_production_selected)
+        self.production_table.itemSelectionChanged.connect(self.on_production_selected)
         records_layout.addWidget(self.production_table, stretch=1)
         layout.addWidget(records_card, stretch=3)
 
@@ -149,18 +149,19 @@ class ProductionManagementPage(QWidget):
             }
         """)
         details_layout = QVBoxLayout(details_card)
-        details_layout.setContentsMargins(0, 0, 0, 0)
+        details_layout.setContentsMargins(15, 15, 15, 15)
         details_layout.setSpacing(10)
 
-        # details_label = QLabel("Production Materials Details")
-        # details_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
-        # details_label.setStyleSheet("color: #343a40; background-color: transparent; border: none;")
-        # details_layout.addWidget(details_label)
+        details_label = QLabel("Production Materials Details")
+        details_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        details_label.setStyleSheet("color: #343a40; background-color: transparent; border: none;")
+        details_layout.addWidget(details_label)
 
         self.details_table = QTableWidget()
         self.details_table.setColumnCount(6)
         self.details_table.setHorizontalHeaderLabels([
-            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)", "Total Consumption (KG)"
+            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)",
+            "Total Consumption (KG)"
         ])
         self.details_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.details_table.verticalHeader().setVisible(False)
@@ -186,29 +187,29 @@ class ProductionManagementPage(QWidget):
 
         self.export_btn = QPushButton("Export", objectName="SecondaryButton")
         self.export_btn.setIcon(fa.icon('fa5s.file-export', color='white'))
-        # self.export_btn.clicked.connect(self.export_to_excel)
+        self.export_btn.clicked.connect(self.export_to_excel)
         controls_layout.addWidget(self.export_btn)
 
         self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
         self.date_to_filter.setDate(QDate.currentDate())
-        # self.date_from_filter.dateChanged.connect(self.refresh_productions)
-        # self.date_to_filter.dateChanged.connect(self.refresh_productions)
+        self.date_from_filter.dateChanged.connect(self.refresh_productions)
+        self.date_to_filter.dateChanged.connect(self.refresh_productions)
 
         controls_layout.addStretch()
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        # self.refresh_btn.clicked.connect(self.refresh_page)
+        self.refresh_btn.clicked.connect(self.refresh_page)
         controls_layout.addWidget(self.refresh_btn)
 
         self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
         self.view_btn.setIcon(fa.icon('fa5s.eye', color='white'))
-        # self.view_btn.clicked.connect(self.view_production_details)
+        self.view_btn.clicked.connect(self.view_production_details)
         controls_layout.addWidget(self.view_btn)
 
         self.edit_btn = QPushButton("Edit", objectName="InfoButton")
         self.edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
-        # self.edit_btn.clicked.connect(self.edit_production)
+        self.edit_btn.clicked.connect(self.edit_production)
         controls_layout.addWidget(self.edit_btn)
 
         layout.addLayout(controls_layout)
@@ -261,20 +262,22 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(self.product_code_input, 0, 1)
 
         self.product_color_input = QLineEdit()
-        self.product_color_input.setPlaceholderText("0.00000")
+        self.product_color_input.setPlaceholderText("Enter product color")
         self.product_color_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Product Color:"), 1, 0)
         primary_layout.addWidget(self.product_color_input, 1, 1)
 
         dosage_layout = QHBoxLayout()
         self.dosage_input = QLineEdit()
-        self.dosage_input.setPlaceholderText("0.00000")
+        self.dosage_input.setPlaceholderText("0.000000")
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
+        self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
         dosage_layout.addWidget(self.dosage_input)
         dosage_layout.addWidget(QLabel("LD (%)"))
         self.dosage_percent_input = QLineEdit()
-        self.dosage_percent_input.setPlaceholderText("0.00000")
+        self.dosage_percent_input.setPlaceholderText("0.000000")
         self.dosage_percent_input.setStyleSheet("background-color: #e9ecef;")
+        self.dosage_percent_input.setReadOnly(True)
         dosage_layout.addWidget(self.dosage_percent_input)
         primary_layout.addWidget(QLabel("Dosage:"), 2, 0)
         primary_layout.addLayout(dosage_layout, 2, 1)
@@ -326,6 +329,7 @@ class ProductionManagementPage(QWidget):
         self.formulation_id_input = QLineEdit()
         self.formulation_id_input.setPlaceholderText("0")
         self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")
+        self.formulation_id_input.setReadOnly(True)
         primary_layout.addWidget(QLabel("Formulation ID:"), 10, 0)
         primary_layout.addWidget(self.formulation_id_input, 10, 1)
 
@@ -344,12 +348,14 @@ class ProductionManagementPage(QWidget):
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.000000")
         self.qty_required_input.setStyleSheet("background-color: #fff9c4;")
+        self.qty_required_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_required_input)
         primary_layout.addWidget(QLabel("Qty. Req:"), 13, 0)
         primary_layout.addWidget(self.qty_required_input, 13, 1)
 
         self.qty_per_batch_input = QLineEdit()
         self.qty_per_batch_input.setPlaceholderText("0.000000")
         self.qty_per_batch_input.setStyleSheet("background-color: #fff9c4;")
+        self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
         primary_layout.addWidget(QLabel("Qty. Per Batch:"), 14, 0)
         primary_layout.addWidget(self.qty_per_batch_input, 14, 1)
 
@@ -389,7 +395,8 @@ class ProductionManagementPage(QWidget):
         self.materials_table = QTableWidget()
         self.materials_table.setColumnCount(6)
         self.materials_table.setHorizontalHeaderLabels([
-            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)", "Total Consumption (KG)"
+            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)",
+            "Total Consumption (KG)"
         ])
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.verticalHeader().setVisible(False)
@@ -432,6 +439,7 @@ class ProductionManagementPage(QWidget):
         self.encoded_by_display = QLineEdit()
         self.encoded_by_display.setReadOnly(True)
         self.encoded_by_display.setText(self.work_station['u'])
+        self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
 
         encoding_layout.addWidget(QLabel("Encoded By:"), 0, 0)
         encoding_layout.addWidget(self.encoded_by_display, 0, 1)
@@ -445,6 +453,7 @@ class ProductionManagementPage(QWidget):
         self.production_encoded_display = QLineEdit()
         self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
         self.production_encoded_display.setReadOnly(True)
+        self.production_encoded_display.setStyleSheet("background-color: #e9ecef;")
         encoding_layout.addWidget(QLabel("Production Encoded On:"), 2, 0)
         encoding_layout.addWidget(self.production_encoded_display, 2, 1)
 
@@ -458,27 +467,485 @@ class ProductionManagementPage(QWidget):
 
         button_layout = QHBoxLayout()
         button_layout.addStretch()
-        generate_btn = QPushButton("Generate")
-        # generate_btn.clicked.connect(self.generate_production)
+
+        generate_btn = QPushButton("Generate", objectName="SuccessButton")
+        generate_btn.setIcon(fa.icon('fa5s.cogs', color='white'))
+        generate_btn.clicked.connect(self.generate_production)
         button_layout.addWidget(generate_btn)
-        tumbler_btn = QPushButton("Tumbler")
-        # tumbler_btn.clicked.connect(self.tumbler_function)
+
+        tumbler_btn = QPushButton("Tumbler", objectName="InfoButton")
+        tumbler_btn.setIcon(fa.icon('fa5s.recycle', color='white'))
+        tumbler_btn.clicked.connect(self.tumbler_function)
         button_layout.addWidget(tumbler_btn)
-        generate_advance_btn = QPushButton("Generate Advance")
-        # generate_advance_btn.clicked.connect(self.generate_advance)
+
+        generate_advance_btn = QPushButton("Generate Advance", objectName="PrimaryButton")
+        generate_advance_btn.setIcon(fa.icon('fa5s.forward', color='white'))
+        generate_advance_btn.clicked.connect(self.generate_advance)
         button_layout.addWidget(generate_advance_btn)
-        print_btn = QPushButton("Print")
-        # print_btn.clicked.connect(self.print_production)
+
+        print_btn = QPushButton("Print", objectName="SecondaryButton")
+        print_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
-        new_btn = QPushButton("New")
-        # new_btn.clicked.connect(self.new_production)
+
+        new_btn = QPushButton("New", objectName="PrimaryButton")
+        new_btn.setIcon(fa.icon('fa5s.file', color='white'))
+        new_btn.clicked.connect(self.new_production)
         button_layout.addWidget(new_btn)
-        close_btn = QPushButton("Close")
-        # close_btn.clicked.connect(self.close_production)
+
+        self.save_btn = QPushButton("Save", objectName="SuccessButton")
+        self.save_btn.setIcon(fa.icon('fa5s.save', color='white'))
+        self.save_btn.clicked.connect(self.save_production)
+        button_layout.addWidget(self.save_btn)
+
+        close_btn = QPushButton("Close", objectName="DangerButton")
+        close_btn.setIcon(fa.icon('fa5s.times', color='white'))
+        close_btn.clicked.connect(self.close_production)
         button_layout.addWidget(close_btn)
+
         main_layout.addLayout(button_layout)
 
         return tab
+
+    def format_to_float(self, event, line_edit):
+        """Format the input to a float with 6 decimal places when focus is lost."""
+        text = line_edit.text().strip()
+        try:
+            if text:
+                value = float(text)
+                line_edit.setText(f"{value:.6f}")
+        except ValueError:
+            QMessageBox.warning(self, "Invalid Input", "Please enter a valid number.")
+            line_edit.setFocus()
+            line_edit.selectAll()
+            return
+        QLineEdit.focusOutEvent(line_edit, event)
+
+    def refresh_page(self):
+        """Refresh the production records."""
+        self.production_table.setRowCount(0)
+
+        # Set date range to last month by default
+        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
+        self.date_to_filter.setDate(QDate.currentDate())
+        self.refresh_productions()
+
+    def refresh_productions(self):
+        """Load productions and preserve sort order if applicable."""
+        date_from = self.date_from_filter.date().toPyDate()
+        date_to = self.date_to_filter.date().toPyDate()
+
+        # Store current sort state
+        sort_column = self.production_table.horizontalHeader().sortIndicatorSection()
+        sort_order = self.production_table.horizontalHeader().sortIndicatorOrder()
+
+        # Disable sorting and clear table
+        self.production_table.setSortingEnabled(False)
+        self.production_table.clearContents()
+        self.production_table.setRowCount(0)
+
+        # Load data from database
+        # TODO: Replace with actual db_call function
+        # self.all_production_data = db_call.get_production_data(date_from, date_to)
+
+        # Sample data for now
+        self.all_production_data = [
+            (datetime(2024, 1, 15).date(), "Plastimer Inc.", "BA10056E", "LIGHT BLUE", "LOT001", 150.5),
+            (datetime(2024, 1, 16).date(), "Color Masters", "CM50032", "RED", "LOT002", 200.75),
+            (datetime(2024, 1, 17).date(), "Rainbow Plastics", "RP80045", "GREEN", "LOT003", 175.25),
+        ]
+
+        # Populate table
+        for row_data in self.all_production_data:
+            row_position = self.production_table.rowCount()
+            self.production_table.insertRow(row_position)
+            for col, data in enumerate(row_data):
+                if col == 5:  # Qty. Produced column
+                    float_value = float(data) if data is not None else 0.0
+                    formatted_text = f"{float_value:.6f}"
+                    item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+                else:
+                    display_value = str(data) if data is not None else ""
+                    item = QTableWidgetItem(display_value)
+                    if col == 0:  # Date column
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+                    else:
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+
+                self.production_table.setItem(row_position, col, item)
+
+        # Restore sort state
+        header = self.production_table.horizontalHeader()
+        header.setSortIndicator(-1, Qt.SortOrder.AscendingOrder)
+        self.production_table.setSortingEnabled(True)
+        self.production_table.scrollToTop()
+
+    def filter_productions(self):
+        """Filter productions based on search text."""
+        search_text = self.search_input.text().lower()
+        for row in range(self.production_table.rowCount()):
+            show_row = False
+            for col in range(self.production_table.columnCount()):
+                item = self.production_table.item(row, col)
+                if item and search_text in item.text().lower():
+                    show_row = True
+                    break
+            self.production_table.setRowHidden(row, not show_row)
+
+    def on_production_selected(self):
+        """Handle production selection."""
+        selected_rows = self.production_table.selectionModel().selectedRows()
+        if selected_rows:
+            row = selected_rows[0].row()
+            lot_no = self.production_table.item(row, 4).text()
+            customer = self.production_table.item(row, 1).text()
+
+            self.current_production_id = lot_no
+            self.selected_production_label.setText(f"LOT NO: {lot_no} - {customer}")
+
+            self.load_production_details(lot_no)
+
+    def load_production_details(self, lot_no):
+        """Load material details for selected production."""
+        # TODO: Replace with actual db_call function
+        # details = db_call.get_production_materials(lot_no)
+
+        # Sample data
+        details = [
+            ("W8 - White Base", 5.500, 200.0, 5.700, 0.100, 5.600),
+            ("B37 - Blue Pigment", 0.450, 50.0, 0.500, 0.020, 0.480),
+            ("L19 - UV Stabilizer", 3.000, 100.0, 3.100, 0.050, 3.050),
+            ("PP4 - Polymer Base", 60.000, 500.0, 60.500, 0.300, 60.200),
+        ]
+
+        self.details_table.setRowCount(0)
+        for row_data in details:
+            row_position = self.details_table.rowCount()
+            self.details_table.insertRow(row_position)
+            for col, data in enumerate(row_data):
+                if col == 0:  # Material Name
+                    item = QTableWidgetItem(str(data))
+                else:  # Numeric columns
+                    float_value = float(data) if data is not None else 0.0
+                    item = NumericTableWidgetItem(float_value, is_float=True)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+                self.details_table.setItem(row_position, col, item)
+
+    def export_to_excel(self):
+        """Export the production table to an Excel file."""
+        date_from = self.date_from_filter.date().toString("yyyyMMdd")
+        date_to = self.date_to_filter.date().toString("yyyyMMdd")
+        default_filename = f"production_records_{date_from}_to_{date_to}.xlsx"
+
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Excel File",
+            default_filename,
+            "Excel Files (*.xlsx)"
+        )
+
+        if not file_path:
+            return
+
+        headers = ["Date", "Customer", "Product Code", "Product Color", "Lot No.", "Qty. Produced"]
+        data = []
+        for row in range(self.production_table.rowCount()):
+            if not self.production_table.isRowHidden(row):
+                row_data = []
+                for col in range(self.production_table.columnCount()):
+                    item = self.production_table.item(row, col)
+                    if isinstance(item, NumericTableWidgetItem):
+                        row_data.append(item.value)
+                    else:
+                        row_data.append(item.text() if item else "")
+                data.append(row_data)
+
+        df = pd.DataFrame(data, columns=headers)
+
+        try:
+            df.to_excel(file_path, index=False)
+            QMessageBox.information(self, "Export Successful", f"Table data exported to {file_path}")
+            self.log_audit_trail("Data Export", f"Exported production table to {file_path}")
+        except Exception as e:
+            QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
+
+    def view_production_details(self):
+        """View full details of selected production."""
+        if not self.current_production_id:
+            QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
+            return
+
+        self.edit_production()
+        self.enable_fields(enable=False)
+
+    def edit_production(self):
+        """Load selected production into entry tab for editing."""
+        if not self.current_production_id:
+            QMessageBox.warning(self, "No Selection", "Please select a production record to edit.")
+            return
+
+        self.tab_widget.blockSignals(True)
+        self.tab_widget.setCurrentIndex(1)
+
+        # TODO: Replace with actual db_call function
+        # result = db_call.get_specific_production_data(self.current_production_id)
+
+        # Sample data for now
+        result = {
+            'production_id': '0098886',
+            'form_type': 'New',
+            'product_code': 'BA10056E',
+            'product_color': 'LIGHT BLUE',
+            'dosage': 100.000000,
+            'dosage_percent': 6.000000,
+            'customer': 'Plastimer Inc.',
+            'lot_no': 'LOT001',
+            'production_date': QDate(2024, 1, 15),
+            'confirmation_date': QDate(2024, 1, 15),
+            'order_form_no': 'OF-2024-001',
+            'colormatch_no': 'CM-001',
+            'matched_date': QDate(2024, 1, 10),
+            'formulation_id': '10361',
+            'mixing_time': '5 MIN',
+            'machine_no': 'M-01',
+            'qty_required': 150.000000,
+            'qty_per_batch': 50.000000,
+            'prepared_by': 'John Doe',
+            'notes': 'Rush order',
+            'encoded_by': self.work_station['u'],
+            'production_confirmation': '',
+            'production_encoded': datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+        }
+
+        try:
+            self.production_id_input.setText(str(result['production_id']))
+            self.form_type_combo.setCurrentText(str(result['form_type']))
+            self.product_code_input.setText(str(result['product_code']))
+            self.product_color_input.setText(str(result['product_color']))
+            self.dosage_input.setText(f"{result['dosage']:.6f}")
+            self.dosage_percent_input.setText(f"{result['dosage_percent']:.6f}")
+            self.customer_input.setText(str(result['customer']))
+            self.lot_no_input.setText(str(result['lot_no']))
+            self.production_date_input.setDate(result['production_date'])
+            self.confirmation_date_input.setDate(result['confirmation_date'])
+            self.order_form_no_combo.setCurrentText(str(result['order_form_no']))
+            self.colormatch_no_input.setText(str(result['colormatch_no']))
+            self.matched_date_input.setDate(result['matched_date'])
+            self.formulation_id_input.setText(str(result['formulation_id']))
+            self.mixing_time_input.setText(str(result['mixing_time']))
+            self.machine_no_input.setText(str(result['machine_no']))
+            self.qty_required_input.setText(f"{result['qty_required']:.6f}")
+            self.qty_per_batch_input.setText(f"{result['qty_per_batch']:.6f}")
+            self.prepared_by_input.setText(str(result['prepared_by']))
+            self.notes_input.setPlainText(str(result['notes']))
+            self.encoded_by_display.setText(str(result['encoded_by']))
+            self.production_confirmation_display.setText(str(result['production_confirmation']))
+            self.production_encoded_display.setText(str(result['production_encoded']))
+
+        except Exception as e:
+            print(f"Error loading production: {e}")
+            QMessageBox.critical(self, "Error", f"Failed to load production data: {str(e)}")
+
+        # Load materials
+        # TODO: Replace with actual db_call function
+        # materials = db_call.get_production_materials(self.current_production_id)
+
+        # Sample materials
+        materials = [
+            ("W8 - White Base", 5.500, 200.0, 5.700, 0.100, 5.600),
+            ("B37 - Blue Pigment", 0.450, 50.0, 0.500, 0.020, 0.480),
+            ("L19 - UV Stabilizer", 3.000, 100.0, 3.100, 0.050, 3.050),
+            ("PP4 - Polymer Base", 60.000, 500.0, 60.500, 0.300, 60.200),
+        ]
+
+        self.materials_table.setRowCount(0)
+        for material_data in materials:
+            row_position = self.materials_table.rowCount()
+            self.materials_table.insertRow(row_position)
+            for col, value in enumerate(material_data):
+                if col == 0:
+                    item = QTableWidgetItem(str(value))
+                else:
+                    item = NumericTableWidgetItem(float(value), is_float=True)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+                self.materials_table.setItem(row_position, col, item)
+
+        self.update_totals()
+        self.tab_widget.blockSignals(False)
+
+    def enable_fields(self, enable=True):
+        """Enable or disable all input fields in the entry tab."""
+        fields = [
+            self.production_id_input, self.form_type_combo, self.product_code_input,
+            self.product_color_input, self.dosage_input, self.customer_input,
+            self.lot_no_input, self.production_date_input, self.confirmation_date_input,
+            self.order_form_no_combo, self.colormatch_no_input, self.matched_date_input,
+            self.formulation_id_input, self.mixing_time_input, self.machine_no_input,
+            self.qty_required_input, self.qty_per_batch_input, self.prepared_by_input,
+            self.notes_input, self.materials_table, self.select_formula_btn,
+            self.save_btn
+        ]
+        for field in fields:
+            field.setEnabled(enable)
+
+    def new_production(self):
+        """Start a new production entry."""
+        self.production_id_input.clear()
+        self.form_type_combo.setCurrentIndex(0)
+        self.product_code_input.clear()
+        self.product_color_input.clear()
+        self.dosage_input.clear()
+        self.dosage_percent_input.clear()
+        self.customer_input.clear()
+        self.lot_no_input.clear()
+        self.production_date_input.setDate(QDate.currentDate())
+        self.confirmation_date_input.setDate(QDate.currentDate())
+        self.order_form_no_combo.clearEditText()
+        self.colormatch_no_input.clear()
+        self.matched_date_input.setDate(QDate.currentDate())
+        self.formulation_id_input.clear()
+        self.mixing_time_input.clear()
+        self.machine_no_input.clear()
+        self.qty_required_input.clear()
+        self.qty_per_batch_input.clear()
+        self.prepared_by_input.clear()
+        self.notes_input.clear()
+        self.materials_table.setRowCount(0)
+        self.production_confirmation_display.clear()
+        self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+        self.encoded_by_display.setText(self.work_station['u'])
+
+        self.current_production_id = None
+        self.update_totals()
+        self.enable_fields(enable=True)
+
+    def save_production(self):
+        """Save the current production record."""
+        # Basic validation
+        production_id = self.production_id_input.text().strip()
+        product_code = self.product_code_input.text().strip()
+        product_color = self.product_color_input.text().strip()
+        customer = self.customer_input.text().strip()
+        lot_no = self.lot_no_input.text().strip()
+
+        if not all([production_id, product_code, product_color, customer, lot_no]):
+            QMessageBox.warning(self, "Missing Data", "Please fill in all required fields.")
+            return
+
+        # Validate numeric fields
+        try:
+            dosage = float(self.dosage_input.text().strip()) if self.dosage_input.text().strip() else 0.0
+            qty_required = float(
+                self.qty_required_input.text().strip()) if self.qty_required_input.text().strip() else 0.0
+            qty_per_batch = float(
+                self.qty_per_batch_input.text().strip()) if self.qty_per_batch_input.text().strip() else 0.0
+        except ValueError:
+            QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for dosage and quantities.")
+            return
+
+        if self.materials_table.rowCount() == 0:
+            QMessageBox.warning(self, "Missing Data", "Please add at least one material.")
+            return
+
+        # Gather production data
+        production_data = {
+            'production_id': production_id,
+            'form_type': self.form_type_combo.currentText(),
+            'product_code': product_code,
+            'product_color': product_color,
+            'dosage': dosage,
+            'dosage_percent': float(
+                self.dosage_percent_input.text().strip()) if self.dosage_percent_input.text().strip() else 0.0,
+            'customer': customer,
+            'lot_no': lot_no,
+            'production_date': self.production_date_input.date().toPyDate(),
+            'confirmation_date': self.confirmation_date_input.date().toPyDate(),
+            'order_form_no': self.order_form_no_combo.currentText(),
+            'colormatch_no': self.colormatch_no_input.text().strip(),
+            'matched_date': self.matched_date_input.date().toPyDate(),
+            'formulation_id': self.formulation_id_input.text().strip(),
+            'mixing_time': self.mixing_time_input.text().strip(),
+            'machine_no': self.machine_no_input.text().strip(),
+            'qty_required': qty_required,
+            'qty_per_batch': qty_per_batch,
+            'prepared_by': self.prepared_by_input.text().strip(),
+            'notes': self.notes_input.toPlainText().strip(),
+            'encoded_by': self.encoded_by_display.text().strip(),
+            'production_confirmation': self.production_confirmation_display.text().strip(),
+            'production_encoded': datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+        }
+
+        # Gather material data
+        material_data = []
+        for row in range(self.materials_table.rowCount()):
+            material_name = self.materials_table.item(row, 0).text() if self.materials_table.item(row, 0) else ""
+            large_scale = float(self.materials_table.item(row, 1).text()) if self.materials_table.item(row, 1) else 0.0
+            small_scale = float(self.materials_table.item(row, 2).text()) if self.materials_table.item(row, 2) else 0.0
+            total_weight = float(self.materials_table.item(row, 3).text()) if self.materials_table.item(row, 3) else 0.0
+            total_loss = float(self.materials_table.item(row, 4).text()) if self.materials_table.item(row, 4) else 0.0
+            total_consumption = float(self.materials_table.item(row, 5).text()) if self.materials_table.item(row,
+                                                                                                             5) else 0.0
+
+            material_data.append({
+                'material_name': material_name,
+                'large_scale': large_scale,
+                'small_scale': small_scale,
+                'total_weight': total_weight,
+                'total_loss': total_loss,
+                'total_consumption': total_consumption
+            })
+
+        try:
+            if self.current_production_id:
+                # Update existing production
+                # TODO: Replace with actual db_call function
+                # db_call.update_production(production_data, material_data)
+                self.log_audit_trail("Data Entry", f"Updated production: {production_id}")
+                QMessageBox.information(self, "Success", f"Production {production_id} updated successfully!")
+            else:
+                # Save new production
+                # TODO: Replace with actual db_call function
+                # db_call.save_production(production_data, material_data)
+                self.log_audit_trail("Data Entry", f"Saved new production: {production_id}")
+                QMessageBox.information(self, "Success", f"Production {production_id} saved successfully!")
+
+            self.refresh_productions()
+            self.new_production()
+        except Exception as e:
+            QMessageBox.critical(self, "Save Error", f"An error occurred while saving: {str(e)}")
+
+    def update_totals(self):
+        """Update the total weight and item count displays."""
+        total_weight = 0.0
+        item_count = self.materials_table.rowCount()
+
+        for row in range(item_count):
+            item = self.materials_table.item(row, 3)  # Total Weight column
+            if item:
+                if isinstance(item, NumericTableWidgetItem):
+                    total_weight += float(item.value)
+                else:
+                    try:
+                        total_weight += float(item.text())
+                    except ValueError:
+                        pass
+
+        self.no_items_label.setText(str(item_count))
+        self.total_weight_label.setText(f"{total_weight:.6f}")
+
+    def sync_for_entry(self, index):
+        """Trigger sync when entering the entry tab."""
+        try:
+            if self.tab_widget.widget(index) == self.entry_tab:
+                self.new_production()
+                self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+                self.encoded_by_display.setText(self.work_station['u'])
+            elif self.tab_widget.widget(index) == self.records_tab:
+                self.refresh_page()
+                self.enable_fields(enable=True)
+        except Exception as e:
+            print(f"Error in sync_for_entry: {e}")
 
     def show_formulation_selector(self):
         """Show dialog to select formulation and populate materials"""
@@ -502,7 +969,7 @@ class ProductionManagementPage(QWidget):
         ])
         formula_table.setRowCount(3)
 
-        # Sample data
+        # Sample data - TODO: Replace with actual database query
         sample_data = [
             ["1700779", "10361", "Plastimer", "BA10056E", "LIGHT BLUE", "100.000000", "6.000000"],
             ["1700779", "10253", "Plastimer", "BA10056E", "LIGHT BLUE", "100.000000", "6.000000"],
@@ -512,7 +979,7 @@ class ProductionManagementPage(QWidget):
         for row, data in enumerate(sample_data):
             for col, value in enumerate(data):
                 item = QTableWidgetItem(value)
-                if row == 2:  # Highlight selected row
+                if row == 2:
                     item.setBackground(Qt.GlobalColor.cyan)
                 formula_table.setItem(row, col, item)
 
@@ -532,7 +999,7 @@ class ProductionManagementPage(QWidget):
         materials_table.setHorizontalHeaderLabels(["Material Code", "Concentration"])
         materials_table.setRowCount(6)
 
-        # Sample materials
+        # Sample materials - TODO: Replace with actual database query
         sample_materials = [
             ["W8", "6.000000"],
             ["B37", "0.450000"],
@@ -566,3 +1033,83 @@ class ProductionManagementPage(QWidget):
         layout.addLayout(btn_layout)
 
         dialog.exec()
+
+    def load_selected_formula(self, dialog, formula_table, materials_table):
+        """Load the selected formula into the production form."""
+        selected_rows = formula_table.selectionModel().selectedRows()
+        if not selected_rows:
+            QMessageBox.warning(dialog, "No Selection", "Please select a formula.")
+            return
+
+        row = selected_rows[0].row()
+
+        # Load formula data into form
+        self.formulation_id_input.setText(formula_table.item(row, 1).text())
+        self.customer_input.setText(formula_table.item(row, 2).text())
+        self.product_code_input.setText(formula_table.item(row, 3).text())
+        self.product_color_input.setText(formula_table.item(row, 4).text())
+        self.dosage_input.setText(formula_table.item(row, 5).text())
+        self.dosage_percent_input.setText(formula_table.item(row, 6).text())
+
+        # Load materials into production materials table
+        self.materials_table.setRowCount(0)
+        for mat_row in range(materials_table.rowCount()):
+            material_code = materials_table.item(mat_row, 0).text()
+            concentration = float(materials_table.item(mat_row, 1).text())
+
+            # Calculate production quantities (example calculation)
+            large_scale = concentration * 0.1  # Example conversion
+            small_scale = concentration * 10  # Example conversion
+            total_weight = large_scale + (small_scale / 1000)
+            total_loss = total_weight * 0.02  # 2% loss
+            total_consumption = total_weight + total_loss
+
+            row_position = self.materials_table.rowCount()
+            self.materials_table.insertRow(row_position)
+            self.materials_table.setItem(row_position, 0, QTableWidgetItem(material_code))
+            self.materials_table.setItem(row_position, 1, NumericTableWidgetItem(large_scale, is_float=True))
+            self.materials_table.setItem(row_position, 2, NumericTableWidgetItem(small_scale, is_float=True))
+            self.materials_table.setItem(row_position, 3, NumericTableWidgetItem(total_weight, is_float=True))
+            self.materials_table.setItem(row_position, 4, NumericTableWidgetItem(total_loss, is_float=True))
+            self.materials_table.setItem(row_position, 5, NumericTableWidgetItem(total_consumption, is_float=True))
+
+        self.update_totals()
+        dialog.close()
+        QMessageBox.information(self, "Success", "Formula loaded successfully!")
+
+    def generate_production(self):
+        """Generate production calculations."""
+        QMessageBox.information(self, "Generate", "Production generation functionality to be implemented.")
+        self.log_audit_trail("Production Action", "Generated production calculations")
+
+    def tumbler_function(self):
+        """Tumbler function."""
+        QMessageBox.information(self, "Tumbler", "Tumbler functionality to be implemented.")
+        self.log_audit_trail("Production Action", "Tumbler function executed")
+
+    def generate_advance(self):
+        """Generate advance production."""
+        QMessageBox.information(self, "Generate Advance", "Advanced generation functionality to be implemented.")
+        self.log_audit_trail("Production Action", "Generated advance production")
+
+    def print_production(self):
+        """Print production record."""
+        if not self.production_id_input.text().strip():
+            QMessageBox.warning(self, "No Data", "Please load or create a production record first.")
+            return
+
+        QMessageBox.information(self, "Print", "Print functionality to be implemented.")
+        self.log_audit_trail("Production Action", f"Printed production: {self.production_id_input.text()}")
+
+    def close_production(self):
+        """Close the production form."""
+        reply = QMessageBox.question(
+            self,
+            "Close Production",
+            "Are you sure you want to close? Any unsaved changes will be lost.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if reply == QMessageBox.StandardButton.Yes:
+            self.new_production()
+            self.tab_widget.setCurrentIndex(0)
