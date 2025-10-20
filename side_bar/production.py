@@ -388,9 +388,9 @@ class ProductionManagementPage(QWidget):
         material_layout.addLayout(header_layout)
 
         self.materials_table = QTableWidget()
-        self.materials_table.setColumnCount(5)
+        self.materials_table.setColumnCount(6)
         self.materials_table.setHorizontalHeaderLabels([
-            "Material Code", "Concentration", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)"
+            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)", "Total Consumption (KG)"
         ])
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.verticalHeader().setVisible(False)
@@ -431,8 +431,9 @@ class ProductionManagementPage(QWidget):
         encoding_layout.setSpacing(6)
 
         self.encoded_by_display = QLineEdit()
-        self.encoded_by_display.setPlaceholderText("Enter encoded by")
-        self.encoded_by_display.setStyleSheet("background-color: #fff9c4;")
+        self.encoded_by_display.setReadOnly(True)
+        self.encoded_by_display.setText(self.work_station['u'])
+
         encoding_layout.addWidget(QLabel("Encoded By:"), 0, 0)
         encoding_layout.addWidget(self.encoded_by_display, 0, 1)
 
@@ -443,8 +444,8 @@ class ProductionManagementPage(QWidget):
         encoding_layout.addWidget(self.production_confirmation_display, 1, 1)
 
         self.production_encoded_display = QLineEdit()
-        self.production_encoded_display.setPlaceholderText("Enter production encoded on")
-        self.production_encoded_display.setStyleSheet("background-color: #fff9c4;")
+        self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+        self.production_encoded_display.setReadOnly(True)
         encoding_layout.addWidget(QLabel("Production Encoded On:"), 2, 0)
         encoding_layout.addWidget(self.production_encoded_display, 2, 1)
 
@@ -552,11 +553,6 @@ class ProductionManagementPage(QWidget):
         # Buttons
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
-
-        generate_btn = QPushButton("Generate")
-        generate_btn.setObjectName("PrimaryButton")
-        generate_btn.clicked.connect(lambda: self.load_selected_formula(dialog, formula_table, materials_table))
-        btn_layout.addWidget(generate_btn)
 
         ok_btn = QPushButton("OK")
         ok_btn.setObjectName("SuccessButton")
