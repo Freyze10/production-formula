@@ -217,14 +217,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00003" summary="modified clear flow">
-      <option name="closed" value="true" />
-      <created>1760323990534</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1760323990534</updated>
-    </task>
     <task id="LOCAL-00004" summary="fixed refresh function">
       <option name="closed" value="true" />
       <created>1760324514278</created>
@@ -609,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760778424860</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="changed headers">
+      <option name="closed" value="true" />
+      <created>1760940459743</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1760940459743</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor db" />
     <MESSAGE value="added utility" />
     <MESSAGE value="modified des" />
     <MESSAGE value="refactor main databse" />
@@ -655,7 +654,8 @@
     <MESSAGE value="added sided bar for production" />
     <MESSAGE value="fixing production tab" />
     <MESSAGE value="fixing production tabu" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing production tabu" />
+    <MESSAGE value="changed headers" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed headers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -118,15 +118,14 @@ class ProductionManagementPage(QWidget):
         records_layout.addWidget(table_label)
 
         self.production_table = QTableWidget()
-        self.production_table.setColumnCount(10)
+        self.production_table.setColumnCount(6)
         self.production_table.setHorizontalHeaderLabels([
-            "Production ID", "Product Code", "Product Color", "Customer", "Lot No.",
-            "Production Date", "Qty Required", "Qty Per Batch", "Total Weight", "Form Type"
+            "Date", "Customer", "Product Code", "Product Color", "Lot No.", "Qty. Produced"
         ])
         header = self.production_table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        header.setSectionResizeMode(3, QHeaderView.ResizeMode.Interactive)
-        header.resizeSection(3, 300)
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Interactive)
+        header.resizeSection(1, 300)
         header.setMinimumSectionSize(70)
         self.production_table.setSortingEnabled(True)
         self.production_table.verticalHeader().setVisible(False)
@@ -150,18 +149,18 @@ class ProductionManagementPage(QWidget):
             }
         """)
         details_layout = QVBoxLayout(details_card)
-        details_layout.setContentsMargins(15, 15, 15, 15)
+        details_layout.setContentsMargins(0, 0, 0, 0)
         details_layout.setSpacing(10)
 
-        details_label = QLabel("Production Materials Details")
-        details_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
-        details_label.setStyleSheet("color: #343a40; background-color: transparent; border: none;")
-        details_layout.addWidget(details_label)
+        # details_label = QLabel("Production Materials Details")
+        # details_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        # details_label.setStyleSheet("color: #343a40; background-color: transparent; border: none;")
+        # details_layout.addWidget(details_label)
 
         self.details_table = QTableWidget()
-        self.details_table.setColumnCount(5)
+        self.details_table.setColumnCount(6)
         self.details_table.setHorizontalHeaderLabels([
-            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Notes"
+            "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)", "Total Consumption (KG)"
         ])
         self.details_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.details_table.verticalHeader().setVisible(False)

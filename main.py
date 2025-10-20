@@ -417,7 +417,7 @@ class AppStyles:
 
         QHeaderView::section {{ 
             background-color: {BG_TERTIARY}; 
-            padding: 10px 8px; 
+            padding: 6px 4px; 
             border: none; 
             border-bottom: 2px solid {BORDER_COLOR}; 
             border-right: 1px solid {BORDER_COLOR};
