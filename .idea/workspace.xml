@@ -217,14 +217,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00013" summary="fixed audit trail entry">
-      <option name="closed" value="true" />
-      <created>1760344202857</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1760344202857</updated>
-    </task>
     <task id="LOCAL-00014" summary="modified">
       <option name="closed" value="true" />
       <created>1760346058716</created>
@@ -609,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761027984726</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="added sync production">
+      <option name="closed" value="true" />
+      <created>1761033393332</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1761033393332</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added sync button rm legacy" />
     <MESSAGE value="added auto fill combo box" />
     <MESSAGE value="modified design" />
     <MESSAGE value="fixed sync message" />
@@ -655,7 +654,8 @@
     <MESSAGE value="updated ld in db conn" />
     <MESSAGE value="fixed display  of data with ld" />
     <MESSAGE value="modified required fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified required fields" />
+    <MESSAGE value="added sync production" />
+    <option name="LAST_COMMIT_MESSAGE" value="added sync production" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

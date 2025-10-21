@@ -12,6 +12,7 @@ import qtawesome as fa
 import pandas as pd
 
 from db import db_call
+from db.sync_formula import SyncProductionWorker, LoadingDialog
 from utils.work_station import _get_workstation_info
 
 
@@ -1170,3 +1171,25 @@ class ProductionManagementPage(QWidget):
         if reply == QMessageBox.StandardButton.Yes:
             self.new_production()
             self.tab_widget.setCurrentIndex(0)
+
+    def run_production_sync(self):
+        thread = QThread()
+        worker = SyncProductionWorker()
+        worker.moveToThread(thread)
+
+        loading_dialog = LoadingDialog("Syncing Formula Data", self)
+
+        # Safe connections
+        worker.progress.connect(loading_dialog.update_progress)
+        worker.finished.connect(
+            lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog)
+        )
+
+        # --- Safe cleanup pattern ---
+        thread.started.connect(worker.run)
+        worker.finished.connect(thread.quit)
+        thread.finished.connect(lambda: worker.deleteLater())
+        thread.finished.connect(thread.deleteLater)
+
+        thread.start()
+        loading_dialog.exec()
