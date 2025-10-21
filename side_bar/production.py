@@ -263,7 +263,6 @@ class ProductionManagementPage(QWidget):
 
         self.product_color_input = QLineEdit()
         self.product_color_input.setPlaceholderText("Enter product color")
-        self.product_color_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Product Color:"), 1, 0)
         primary_layout.addWidget(self.product_color_input, 1, 1)
 
@@ -276,8 +275,6 @@ class ProductionManagementPage(QWidget):
         dosage_layout.addWidget(QLabel("LD (%)"))
         self.dosage_percent_input = QLineEdit()
         self.dosage_percent_input.setPlaceholderText("0.000000")
-        self.dosage_percent_input.setStyleSheet("background-color: #e9ecef;")
-        self.dosage_percent_input.setReadOnly(True)
         dosage_layout.addWidget(self.dosage_percent_input)
         primary_layout.addWidget(QLabel("Dosage:"), 2, 0)
         primary_layout.addLayout(dosage_layout, 2, 1)
@@ -316,7 +313,6 @@ class ProductionManagementPage(QWidget):
 
         self.colormatch_no_input = QLineEdit()
         self.colormatch_no_input.setPlaceholderText("Enter colormatch number")
-        self.colormatch_no_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Colormatch No:"), 8, 0)
         primary_layout.addWidget(self.colormatch_no_input, 8, 1)
 
@@ -335,13 +331,11 @@ class ProductionManagementPage(QWidget):
 
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
-        self.mixing_time_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Mixing Time:"), 11, 0)
         primary_layout.addWidget(self.mixing_time_input, 11, 1)
 
         self.machine_no_input = QLineEdit()
         self.machine_no_input.setPlaceholderText("Enter machine number")
-        self.machine_no_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Machine No:"), 12, 0)
         primary_layout.addWidget(self.machine_no_input, 12, 1)
 
@@ -367,7 +361,6 @@ class ProductionManagementPage(QWidget):
 
         self.notes_input = QTextEdit()
         self.notes_input.setPlaceholderText("Enter any notes...")
-        self.notes_input.setStyleSheet("background-color: #fff9c4;")
         self.notes_input.setMaximumHeight(60)
         primary_layout.addWidget(QLabel("Notes:"), 16, 0)
         primary_layout.addWidget(self.notes_input, 16, 1)
@@ -405,7 +398,7 @@ class ProductionManagementPage(QWidget):
         self.materials_table.setAlternatingRowColors(True)
         self.materials_table.setMinimumHeight(300)
         self.materials_table.setStyleSheet("""
-            color: #343a40; background-color: transparent; border: none;
+            color: #343a40; background-color: transparent;
         """)
         self.materials_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.materials_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
