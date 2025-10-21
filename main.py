@@ -422,7 +422,6 @@ class AppStyles:
             border-bottom: 2px solid {BORDER_COLOR}; 
             border-right: 1px solid {BORDER_COLOR};
             font-weight: 600;
-            color: {TEXT_SECONDARY};
             text-transform: uppercase;
             font-size: 8.5pt;
             letter-spacing: 0.5px;
@@ -440,6 +439,7 @@ class AppStyles:
         QTableWidget::item {{ 
             padding: 8px;
             border: none;
+            color: {TEXT_SECONDARY};
         }}
 
         QTableWidget::item:selected {{ 

@@ -398,22 +398,17 @@ class ProductionManagementPage(QWidget):
             "Material Name", "Large Scale (KG)", "Small Scale (G)", "Total Weight (KG)", "Total Loss (KG)",
             "Total Consumption (KG)"
         ])
-        self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.materials_table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.materials_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
         self.materials_table.setMinimumHeight(300)
         self.materials_table.setStyleSheet("""
-            QTableWidget {
-                background-color: #e3f2fd;
-                gridline-color: #90caf9;
-            }
-            QHeaderView::section {
-                background-color: #42a5f5;
-                color: white;
-                font-weight: bold;
-                padding: 4px;
-            }
+            color: #343a40; background-color: transparent; border: none;
         """)
+        self.materials_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.materials_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         material_layout.addWidget(self.materials_table)
 
         total_layout = QHBoxLayout()

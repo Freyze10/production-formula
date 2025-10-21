@@ -217,14 +217,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00005" summary="added raw data fetch">
-      <option name="closed" value="true" />
-      <created>1760325451498</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1760325451498</updated>
-    </task>
     <task id="LOCAL-00006" summary="added save to database">
       <option name="closed" value="true" />
       <created>1760327011104</created>
@@ -609,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760941490901</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="updated functions">
+      <option name="closed" value="true" />
+      <created>1760943459541</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1760943459541</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified des" />
     <MESSAGE value="refactor main databse" />
     <MESSAGE value="fixed audit" />
     <MESSAGE value="removed the tbl prod_legacy" />
@@ -655,7 +654,8 @@
     <MESSAGE value="fixing production tabu" />
     <MESSAGE value="changed headers" />
     <MESSAGE value="change headers" />
-    <option name="LAST_COMMIT_MESSAGE" value="change headers" />
+    <MESSAGE value="updated functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated functions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
