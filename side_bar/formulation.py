@@ -818,8 +818,8 @@ class FormulationManagementPage(QWidget):
             self.index_ref_input.setText(str(result[1]))
             self.product_code_input.setText(str(result[5]))
             self.product_color_input.setText(str(result[6]))
-            self.sum_conc_input.setText(str(result[17]))
-            self.dosage_input.setText(str(result[7]))
+            self.sum_conc_input.setText(str(result[7]))
+            self.dosage_input.setText(str(result[8]))
             self.mixing_time_input.setText(str(result[9]))
             self.resin_used_input.setText(str(result[10]))  # Example
             self.application_no_input.setText(str(result[11]))  # Example
@@ -989,8 +989,8 @@ class FormulationManagementPage(QWidget):
             return
 
         try:
-            dosage = float(dosage_text)
             sum_conc = float(sum_conc_text)
+            dosage = float(dosage_text)
         except ValueError:
             QMessageBox.warning(self, "Invalid Input", "Dosage and Sum of Concentration must be valid numbers.")
             return
@@ -1023,8 +1023,8 @@ class FormulationManagementPage(QWidget):
             "customer": customer_name,
             "product_code": product_code,
             "product_color": product_color,
-            "total_concentration": sum_conc,
-            "dosage": dosage,
+            "dosage": sum_conc,
+            "ld": dosage,
             "mix_type": self.mixing_time_input.text().strip() or "-",
             "resin": self.resin_used_input.text().strip() or "-",
             "application": self.application_no_input.text().strip() or "-",
@@ -1032,6 +1032,7 @@ class FormulationManagementPage(QWidget):
             "cm_date": self.date_matched_input.date().toString("yyyy-MM-dd"),
             # Consider converting to QDate/datetime object
             "remarks": self.notes_input.toPlainText().strip() or None,
+            "total_concentration": calculated_total,
             "mb_dc": self.mb_dc_combo.currentText(),
             "html_code": self.html_input.text().strip() or None,
             "c": self.cyan_input.text().strip() or 0,

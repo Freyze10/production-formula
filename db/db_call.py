@@ -16,7 +16,7 @@ def get_formula_data(early_date, late_date):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT uid, formula_index, formula_date, customer, product_code, product_color, total_concentration, dosage
+        SELECT uid, formula_index, formula_date, customer, product_code, product_color, dosage, ld
         FROM formula_primary
         WHERE formula_date BETWEEN %s AND %s
         ORDER BY uid DESC
@@ -33,7 +33,7 @@ def get_formula_select(product_code):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT formula_index, uid, customer, product_code, product_color, total_concentration, dosage
+        SELECT formula_index, uid, customer, product_code, product_color, dosage, ld
         FROM formula_primary
         WHERE product_code = %s 
         ORDER BY uid DESC
@@ -124,10 +124,10 @@ def save_formula(primary_data, material_composition):
         cur.execute("""
             INSERT INTO formula_primary (
                 uid, formula_index, customer, product_code, product_color, 
-                total_concentration, dosage, mix_type, resin, application, 
-                cm_num, cm_date, remarks, mb_dc, html_code, c, m, y, k, 
+                dosage, ld, mix_type, resin, application, 
+                cm_num, cm_date, remarks, total_concentration, mb_dc, html_code, c, m, y, k, 
                 matched_by, encoded_by, formula_date, dbf_updated_by, dbf_updated_on_text
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING uid;
         """, (
             primary_data["uid"],
@@ -135,14 +135,15 @@ def save_formula(primary_data, material_composition):
             primary_data["customer"],
             primary_data["product_code"],
             primary_data["product_color"],
-            primary_data["total_concentration"],
             primary_data["dosage"],
+            primary_data["ld"],
             primary_data["mix_type"],
             primary_data["resin"],
             primary_data["application"],
             primary_data["cm_num"],
             primary_data["cm_date"],
             primary_data["remarks"],
+            primary_data["total_concentration"],
             primary_data["mb_dc"],
             primary_data["html_code"],
             primary_data["c"],
@@ -199,6 +200,7 @@ def update_formula(primary_data, material_composition):
                 product_color = %s,
                 total_concentration = %s,
                 dosage = %s,
+                ld = %s,
                 mix_type = %s,
                 resin = %s,
                 application = %s,
@@ -224,6 +226,7 @@ def update_formula(primary_data, material_composition):
             primary_data["product_color"],
             primary_data["total_concentration"],
             primary_data["dosage"],
+            primary_data["ld"],
             primary_data["mix_type"],
             primary_data["resin"],
             primary_data["application"],
