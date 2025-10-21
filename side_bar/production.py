@@ -200,7 +200,7 @@ class ProductionManagementPage(QWidget):
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        self.refresh_btn.clicked.connect(self.refresh_page)
+        self.refresh_btn.clicked.connect(self.run_production_sync)
         controls_layout.addWidget(self.refresh_btn)
 
         self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
