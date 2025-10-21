@@ -400,6 +400,7 @@ class ProductionManagementPage(QWidget):
         ])
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
         self.materials_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.materials_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
         self.materials_table.setMinimumHeight(300)
@@ -942,135 +943,204 @@ class ProductionManagementPage(QWidget):
             print(f"Error in sync_for_entry: {e}")
 
     def show_formulation_selector(self):
-        """Show dialog to select formulation and populate materials"""
+        """Show dialog to select a formulation and populate its materials."""
+        if not self.product_code_input.text().strip():
+            QMessageBox.warning(self, "No Product Code",
+                                "Please enter a product code and try again.")
+            return
+
         dialog = QDialog(self)
         dialog.setWindowTitle("Select Formula")
         dialog.setMinimumSize(900, 500)
 
         layout = QVBoxLayout(dialog)
 
-        # Header
-        header_label = QLabel("Index No: 1700779 - BA10056E")
-        header_label.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
-        header_label.setStyleSheet("color: #0078d4; background-color: #e3f2fd; padding: 8px;")
-        layout.addWidget(header_label)
+        # ----- Header ---------------------------------------------------- #
+        product_code = self.product_code_input.text().strip()
+        header = QLabel(f"Product Code: {product_code}")
+        header.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
+        header.setStyleSheet(
+            "color: #0078d4; background-color: #e3f2fd; padding: 8px;")
+        layout.addWidget(header)
 
-        # Formulation table
-        formula_table = QTableWidget()
-        formula_table.setColumnCount(7)
-        formula_table.setHorizontalHeaderLabels([
-            "Index No.", "Formula No.", "Customer", "Product Code", "Product Color", "Dosage", "LD (%)"
+        # ----- Formula table --------------------------------------------- #
+        self.formula_table = QTableWidget()
+        self.formula_table.setColumnCount(7)
+        self.formula_table.setHorizontalHeaderLabels([
+            "Index No.", "Formula No.", "Customer", "Product Code",
+            "Product Color", "Dosage", "LD (%)"
         ])
-        formula_table.setRowCount(3)
 
-        # Sample data - TODO: Replace with actual database query
-        sample_data = [
-            ["1700779", "10361", "Plastimer", "BA10056E", "LIGHT BLUE", "100.000000", "6.000000"],
-            ["1700779", "10253", "Plastimer", "BA10056E", "LIGHT BLUE", "100.000000", "6.000000"],
-            ["1700779", "10230", "Plastimer", "BA10056E", "LIGHT BLUE", "100.000000", "6.000000"],
-        ]
+        # fetch formulas for the product code
+        try:
+            formula_data = db_call.get_formula_select(product_code)
+        except Exception as e:
+            QMessageBox.critical(
+                self, "Database Error",
+                f"Failed to fetch formulas: {e}")
+            return
 
-        for row, data in enumerate(sample_data):
-            for col, value in enumerate(data):
-                item = QTableWidgetItem(value)
-                if row == 2:
+        self.formula_table.setRowCount(len(formula_data))
+
+        for r, row in enumerate(formula_data):
+            # pad short rows with empty strings
+            row = list(row) + [""] * (7 - len(row))
+            for c, value in enumerate(row[:7]):
+                item = QTableWidgetItem(str(value))
+                if r == 2:  # keep original highlight
                     item.setBackground(Qt.GlobalColor.cyan)
-                formula_table.setItem(row, col, item)
+                self.formula_table.setItem(r, c, item)
 
-        formula_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        formula_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        formula_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
-        formula_table.selectRow(2)
-        layout.addWidget(formula_table)
+        self.formula_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch)
+        self.formula_table.setSelectionBehavior(
+            QAbstractItemView.SelectionBehavior.SelectRows)
+        self.formula_table.setSelectionMode(
+            QAbstractItemView.SelectionMode.SingleSelection)
 
-        # Materials section
-        materials_label = QLabel("Materials:")
-        materials_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
-        layout.addWidget(materials_label)
+        # connect **once** – populate materials when a row is selected
+        self.formula_table.itemSelectionChanged.connect(
+            self.show_formulation_selected)
 
-        materials_table = QTableWidget()
-        materials_table.setColumnCount(2)
-        materials_table.setHorizontalHeaderLabels(["Material Code", "Concentration"])
-        materials_table.setRowCount(6)
+        layout.addWidget(self.formula_table)
 
-        # Sample materials - TODO: Replace with actual database query
-        sample_materials = [
-            ["W8", "6.000000"],
-            ["B37", "0.450000"],
-            ["L19", "5.000000"],
-            ["L28", "5.000000"],
-            ["K907", "20.000000"],
-            ["PP4", "63.550000"],
-        ]
+        # ----- Materials section ------------------------------------------ #
+        materials_lbl = QLabel("Materials:")
+        materials_lbl.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
+        layout.addWidget(materials_lbl)
 
-        for row, data in enumerate(sample_materials):
-            for col, value in enumerate(data):
-                materials_table.setItem(row, col, QTableWidgetItem(value))
+        self.materials_table_selector = QTableWidget()
+        self.materials_table_selector.setColumnCount(2)
+        self.materials_table_selector.setHorizontalHeaderLabels(
+            ["Material Code", "Concentration"])
+        self.materials_table_selector.setRowCount(0)
+        self.materials_table_selector.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch)
+        layout.addWidget(self.materials_table_selector)
 
-        materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        layout.addWidget(materials_table)
-
-        # Buttons
+        # ----- Buttons ---------------------------------------------------- #
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
         ok_btn = QPushButton("OK")
         ok_btn.setObjectName("SuccessButton")
-        ok_btn.clicked.connect(lambda: self.load_selected_formula(dialog, formula_table, materials_table))
+        ok_btn.clicked.connect(
+            lambda: self.load_selected_formula(
+                dialog, self.formula_table, self.materials_table_selector))
         btn_layout.addWidget(ok_btn)
 
         cancel_btn = QPushButton("CANCEL")
         cancel_btn.setObjectName("DangerButton")
-        cancel_btn.clicked.connect(dialog.close)
+        cancel_btn.clicked.connect(dialog.reject)
         btn_layout.addWidget(cancel_btn)
 
         layout.addLayout(btn_layout)
 
+        # pre-select first row (if any) so materials appear immediately
+        if formula_data:
+            self.formula_table.selectRow(0)
+
         dialog.exec()
 
-    def load_selected_formula(self, dialog, formula_table, materials_table):
-        """Load the selected formula into the production form."""
-        selected_rows = formula_table.selectionModel().selectedRows()
-        if not selected_rows:
-            QMessageBox.warning(dialog, "No Selection", "Please select a formula.")
+    # --------------------------------------------------------------------- #
+    def show_formulation_selected(self):
+        """Fill the materials table for the currently selected formula."""
+        rows = self.formula_table.selectionModel().selectedRows()
+        if not rows:
             return
 
-        row = selected_rows[0].row()
+        row_idx = rows[0].row()
+        # Column 1 = "Formula No."  (the unique identifier for the formula)
+        formula_no_item = self.formula_table.item(row_idx, 1)
+        if not formula_no_item:
+            return
+        formula_no = formula_no_item.text().strip()
 
-        # Load formula data into form
-        self.formulation_id_input.setText(formula_table.item(row, 1).text())
-        self.customer_input.setText(formula_table.item(row, 2).text())
-        self.product_code_input.setText(formula_table.item(row, 3).text())
-        self.product_color_input.setText(formula_table.item(row, 4).text())
-        self.dosage_input.setText(formula_table.item(row, 5).text())
-        self.dosage_percent_input.setText(formula_table.item(row, 6).text())
+        # ---- fetch materials ------------------------------------------------
+        try:
+            materials = db_call.get_formula_materials(formula_no)
+        except Exception as e:
+            QMessageBox.critical(
+                self, "Database Error",
+                f"Could not load materials for formula {formula_no}: {e}")
+            materials = []
 
-        # Load materials into production materials table
-        self.materials_table.setRowCount(0)
+        # ---- populate materials table ---------------------------------------
+        self.materials_table_selector.setRowCount(len(materials))
+        for r, (mat_code, conc) in enumerate(materials):
+            self.materials_table_selector.setItem(
+                r, 0, QTableWidgetItem(str(mat_code)))
+            self.materials_table_selector.setItem(
+                r, 1, QTableWidgetItem(str(conc)))
+
+    # --------------------------------------------------------------------- #
+    def load_selected_formula(self, dialog, formula_table, materials_table):
+        """Copy the selected formula + materials into the main production form."""
+        sel = formula_table.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(dialog, "No Selection",
+                                "Please select a formula first.")
+            return
+
+        row = sel[0].row()
+
+        # ---- copy formula fields --------------------------------------------
+        self.formulation_id_input.setText(
+            formula_table.item(row, 1).text())  # Formula No.
+        self.customer_input.setText(
+            formula_table.item(row, 2).text())
+        self.product_code_input.setText(
+            formula_table.item(row, 3).text())
+        self.product_color_input.setText(
+            formula_table.item(row, 4).text())
+        self.dosage_input.setText(
+            formula_table.item(row, 5).text())
+        self.dosage_percent_input.setText(
+            formula_table.item(row, 6).text())
+
+        # ---- copy materials into the *main* materials table -----------------
+        self.materials_table.setRowCount(0)  # clear old rows
+
         for mat_row in range(materials_table.rowCount()):
-            material_code = materials_table.item(mat_row, 0).text()
-            concentration = float(materials_table.item(mat_row, 1).text())
+            mat_code = materials_table.item(mat_row, 0).text()
+            conc_str = materials_table.item(mat_row, 1).text()
+            try:
+                concentration = float(conc_str.replace("%", "").strip())
+            except ValueError:
+                concentration = 0.0
 
-            # Calculate production quantities (example calculation)
-            large_scale = concentration * 0.1  # Example conversion
-            small_scale = concentration * 10  # Example conversion
+            # ---- example calculations (adjust to your real logic) ----------
+            large_scale = concentration * 0.1  # e.g. kg per 100 kg base
+            small_scale = concentration * 10  # e.g. g per 100 kg base
             total_weight = large_scale + (small_scale / 1000)
-            total_loss = total_weight * 0.02  # 2% loss
+            total_loss = total_weight * 0.02  # 2 % loss
             total_consumption = total_weight + total_loss
 
-            row_position = self.materials_table.rowCount()
-            self.materials_table.insertRow(row_position)
-            self.materials_table.setItem(row_position, 0, QTableWidgetItem(material_code))
-            self.materials_table.setItem(row_position, 1, NumericTableWidgetItem(large_scale, is_float=True))
-            self.materials_table.setItem(row_position, 2, NumericTableWidgetItem(small_scale, is_float=True))
-            self.materials_table.setItem(row_position, 3, NumericTableWidgetItem(total_weight, is_float=True))
-            self.materials_table.setItem(row_position, 4, NumericTableWidgetItem(total_loss, is_float=True))
-            self.materials_table.setItem(row_position, 5, NumericTableWidgetItem(total_consumption, is_float=True))
+            new_row = self.materials_table.rowCount()
+            self.materials_table.insertRow(new_row)
+
+            self.materials_table.setItem(
+                new_row, 0, QTableWidgetItem(mat_code))
+            self.materials_table.setItem(
+                new_row, 1,
+                NumericTableWidgetItem(large_scale, is_float=True))
+            self.materials_table.setItem(
+                new_row, 2,
+                NumericTableWidgetItem(small_scale, is_float=True))
+            self.materials_table.setItem(
+                new_row, 3,
+                NumericTableWidgetItem(total_weight, is_float=True))
+            self.materials_table.setItem(
+                new_row, 4,
+                NumericTableWidgetItem(total_loss, is_float=True))
+            self.materials_table.setItem(
+                new_row, 5,
+                NumericTableWidgetItem(total_consumption, is_float=True))
 
         self.update_totals()
-        dialog.close()
-        QMessageBox.information(self, "Success", "Formula loaded successfully!")
-
+        dialog.accept()
+        QMessageBox.information(self, "Success",
+                                "Formula loaded successfully!")
     def generate_production(self):
         """Generate production calculations."""
         QMessageBox.information(self, "Generate", "Production generation functionality to be implemented.")
