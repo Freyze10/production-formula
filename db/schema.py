@@ -89,6 +89,60 @@ def initialize_database(engine):
                 """))
                 connection.execute(
                     text("CREATE INDEX IF NOT EXISTS idx_rm_warehouse_rm_code ON tbl_rm_warehouse (rm_code);"))
+                connection.execute(
+                    text("""CREATE TABLE IF NOT EXISTS production_primary (
+                            prod_id INTEGER PRIMARY KEY,
+                            production_date DATE,
+                            customer VARCHAR(100),
+                            formulation_id INTEGER,
+                            formula_index VARCHAR(20),
+                            product_code VARCHAR(30),
+                            product_color VARCHAR(50),
+                            dosage NUMERIC(10, 5),
+                            ld_percent NUMERIC(10, 5),
+                            lot_number VARCHAR(30),
+                            order_form_no VARCHAR(50),
+                            colormatch_no VARCHAR(30),
+                            colormatch_date DATE,
+                            mixing_time VARCHAR(20),
+                            machine_no VARCHAR(30),
+                            qty_required NUMERIC(15, 7),
+                            qty_per_batch NUMERIC(15, 7),
+                            qty_produced NUMERIC(15, 7),
+                            remarks VARCHAR(100),
+                            notes TEXT,
+                            user_id VARCHAR(50),
+                            prepared_by VARCHAR(50),
+                            encoded_by VARCHAR(50),
+                            encoded_on TIMESTAMP,
+                            job_done VARCHAR(20),
+                            confirmation_date DATE,
+                            scheduled_date TIMESTAMP,
+                            form_type VARCHAR(100),
+                            last_synced_on TIMESTAMP DEFAULT NOW()
+                        );"""))
+                connection.execute(
+                    text("""CREATE TABLE IF NOT EXISTS production_items (
+                                id SERIAL PRIMARY KEY,
+                                prod_id INTEGER REFERENCES production_primary(prod_id) ON DELETE CASCADE,
+                                lot_num VARCHAR(30),
+                                confirmation_date DATE,
+                                production_date DATE,
+                                seq INTEGER,
+                                material_code VARCHAR(30),
+                                large_scale NUMERIC(15, 6),
+                                small_scale NUMERIC(15, 6),
+                                total_weight NUMERIC(15, 7),
+                                total_loss NUMERIC(15, 6),
+                                total_consumption NUMERIC(15, 6)
+                        );"""))
+                connection.execute(
+                    text("""CREATE INDEX IF NOT EXISTS idx_production_primary_date ON production_primary(production_date);
+                                CREATE INDEX IF NOT EXISTS idx_production_primary_customer ON production_primary(customer);
+                                CREATE INDEX IF NOT EXISTS idx_production_primary_lot ON production_primary(lot_number);
+                                CREATE INDEX IF NOT EXISTS idx_production_items_prod_id ON production_items(prod_id);
+                                CREATE INDEX IF NOT EXISTS idx_production_items_material ON production_items(material_code);
+                        );"""))
 
                 # Insert default users
                 default_users = [

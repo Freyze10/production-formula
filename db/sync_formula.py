@@ -32,6 +32,8 @@ RRF_PRIMARY_DBF_PATH = os.path.join(RRF_DBF_PATH, 'tbl_del01.dbf')
 RRF_ITEMS_DBF_PATH = os.path.join(RRF_DBF_PATH, 'tbl_del02.dbf')
 FORMULA_PRIMARY_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_formula01.dbf')
 FORMULA_ITEMS_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_formula02.dbf')
+PRODUCTION_PRIMARY_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_prod01.dbf')
+PRODUCTION_ITEMS_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_prod02.dbf')
 RM_WH = os.path.join(DBF_BASE_PATH, 'tbl_rm_wh.dbf')
 
 try:
@@ -201,6 +203,211 @@ class SyncFormulaWorker(QObject):
             print(f"FORMULA SYNC CRITICAL ERROR: {e}\n{trace_info}")
             self.finished.emit(False, f"An unexpected error occurred during formula sync:\n{e}")
 
+
+class SyncProductionWorker(QObject):
+    """
+    Synchronizes production data from legacy DBF files (tbl_prod01, tbl_prod02)
+    to PostgreSQL database tables (production_primary, production_items).
+
+    Skips records where t_deleted = True.
+    Excludes t_prodb and t_labb columns from tbl_prod02.
+    """
+    finished = pyqtSignal(bool, str)
+    progress = pyqtSignal(str)
+
+    def run(self):
+        try:
+            # Get the maximum production ID already synced
+            with engine.connect() as conn:
+                max_prod_id = conn.execute(
+                    text("SELECT COALESCE(MAX(prod_id), 0) FROM production_primary")
+                ).scalar()
+
+            self.progress.emit(f"Phase 1/3: Reading production items (filtering PROD_ID > {max_prod_id})...")
+
+            # Read production items from tbl_prod02.dbf
+            items_by_prod_id = collections.defaultdict(list)
+            new_prod_ids = set()
+
+            dbf_items = dbfread.DBF(PRODUCTION_ITEMS_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
+
+            for item_rec in dbf_items:
+                # Skip deleted records
+                if bool(item_rec.get('T_DELETED', False)):
+                    continue
+
+                prod_id = _to_int(item_rec.get('T_PRODID'))
+                if prod_id is None or prod_id <= max_prod_id:
+                    continue
+
+                new_prod_ids.add(prod_id)
+
+                # Extract item data (excluding t_prodb and t_labb as requested)
+                items_by_prod_id[prod_id].append({
+                    "prod_id": prod_id,
+                    "lot_num": str(item_rec.get('T_LOTNUM', '') or '').strip(),
+                    "confirmation_date": item_rec.get('T_CDATE'),  # confirmation date
+                    "production_date": item_rec.get('T_PRODDATE'),  # production date
+                    "seq": _to_int(item_rec.get('T_SEQ')),
+                    "material_code": str(item_rec.get('T_MATCODE', '') or '').strip(),
+                    "large_scale": _to_float(item_rec.get('T_PRODA')),  # Large scale (KG)
+                    "small_scale": _to_float(item_rec.get('T_LABA')),  # Small scale (G)
+                    # t_prodb and t_labb are intentionally excluded
+                    "total_weight": _to_float(item_rec.get('T_WT')),  # Total weight
+                    "total_loss": _to_float(item_rec.get('T_LOSS')),  # Total loss
+                    "total_consumption": _to_float(item_rec.get('T_CONS'))  # Total consumption
+                })
+
+            self.progress.emit(f"Phase 1/3: Found {len(items_by_prod_id)} groups of new active items.")
+
+            # Read primary production data from tbl_prod01.dbf
+            self.progress.emit("Phase 2/3: Reading primary production data...")
+            primary_recs = []
+
+            dbf_primary = dbfread.DBF(PRODUCTION_PRIMARY_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
+
+            for r in dbf_primary:
+                # Skip deleted records
+                if bool(r.get('T_DELETED', False)):
+                    continue
+
+                prod_id = _to_int(r.get('T_PRODID'))
+                if prod_id is None or prod_id <= max_prod_id:
+                    continue
+
+                primary_recs.append({
+                    "prod_id": prod_id,
+                    "production_date": r.get('T_PRODDATE'),
+                    "customer": str(r.get('T_CUSTOMER', '') or '').strip(),
+                    "formulation_id": _to_int(r.get('T_FID')),
+                    "formula_index": str(r.get('T_INDEX', '') or '').strip(),
+                    "product_code": str(r.get('T_PRODCODE', '') or '').strip(),
+                    "product_color": str(r.get('T_PRODCOLO', '') or '').strip(),
+                    "dosage": _to_float(r.get('T_DOSAGE')),
+                    "ld_percent": _to_float(r.get('T_LD')),
+                    "lot_number": str(r.get('T_LOTNUM', '') or '').strip(),
+                    "order_form_no": str(r.get('T_ORDERNUM', '') or '').strip(),
+                    "colormatch_no": str(r.get('T_CMNUM', '') or '').strip(),
+                    "colormatch_date": r.get('T_CMDATE'),
+                    "mixing_time": str(r.get('T_MIXTIME', '') or '').strip(),
+                    "machine_no": str(r.get('T_MACHINE', '') or '').strip(),
+                    "qty_required": _to_float(r.get('T_QTYREQ')),
+                    "qty_per_batch": _to_float(r.get('T_QTYBATCH')),
+                    "qty_produced": _to_float(r.get('T_QTYPROD')),
+                    "remarks": str(r.get('T_REMARKS', '') or '').strip(),
+                    "notes": str(r.get('T_NOTE', '') or '').strip(),
+                    "user_id": str(r.get('T_USERID', '') or '').strip(),
+                    "prepared_by": str(r.get('T_PREPARED', '') or '').strip(),
+                    "encoded_by": str(r.get('T_ENCODEDB', '') or '').strip(),
+                    "encoded_on": r.get('T_ENCODEDO'),
+                    "job_done": str(r.get('T_JDONE', '') or '').strip(),
+                    "confirmation_date": r.get('T_CDATE'),
+                    "scheduled_date": r.get('T_SDATE'),
+                    "form_type": str(r.get('T_FTYPE', '') or '').strip()
+                })
+
+            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new valid primary records.")
+
+            if not primary_recs:
+                self.finished.emit(
+                    True,
+                    f"Sync Info: No new production records (PROD_ID > {max_prod_id}) found to sync."
+                )
+                return
+
+            # Collect all items to insert
+            all_items_to_insert = [
+                item
+                for rec in primary_recs
+                for item in items_by_prod_id.get(rec['prod_id'], [])
+            ]
+
+            # Write to database
+            self.progress.emit("Phase 3/3: Writing data to database...")
+
+            with engine.connect() as conn:
+                with conn.begin():
+                    # Insert/Update primary production records
+                    conn.execute(text("""
+                        INSERT INTO production_primary (
+                            prod_id, production_date, customer, formulation_id, formula_index,
+                            product_code, product_color, dosage, ld_percent, lot_number,
+                            order_form_no, colormatch_no, colormatch_date, mixing_time, machine_no,
+                            qty_required, qty_per_batch, qty_produced, remarks, notes,
+                            user_id, prepared_by, encoded_by, encoded_on, job_done,
+                            confirmation_date, scheduled_date, form_type, last_synced_on
+                        )
+                        VALUES (
+                            :prod_id, :production_date, :customer, :formulation_id, :formula_index,
+                            :product_code, :product_color, :dosage, :ld_percent, :lot_number,
+                            :order_form_no, :colormatch_no, :colormatch_date, :mixing_time, :machine_no,
+                            :qty_required, :qty_per_batch, :qty_produced, :remarks, :notes,
+                            :user_id, :prepared_by, :encoded_by, :encoded_on, :job_done,
+                            :confirmation_date, :scheduled_date, :form_type, NOW()
+                        )
+                        ON CONFLICT (prod_id) DO UPDATE SET
+                            production_date = EXCLUDED.production_date,
+                            customer = EXCLUDED.customer,
+                            formulation_id = EXCLUDED.formulation_id,
+                            formula_index = EXCLUDED.formula_index,
+                            product_code = EXCLUDED.product_code,
+                            product_color = EXCLUDED.product_color,
+                            dosage = EXCLUDED.dosage,
+                            ld_percent = EXCLUDED.ld_percent,
+                            lot_number = EXCLUDED.lot_number,
+                            order_form_no = EXCLUDED.order_form_no,
+                            colormatch_no = EXCLUDED.colormatch_no,
+                            colormatch_date = EXCLUDED.colormatch_date,
+                            mixing_time = EXCLUDED.mixing_time,
+                            machine_no = EXCLUDED.machine_no,
+                            qty_required = EXCLUDED.qty_required,
+                            qty_per_batch = EXCLUDED.qty_per_batch,
+                            qty_produced = EXCLUDED.qty_produced,
+                            remarks = EXCLUDED.remarks,
+                            notes = EXCLUDED.notes,
+                            user_id = EXCLUDED.user_id,
+                            prepared_by = EXCLUDED.prepared_by,
+                            encoded_by = EXCLUDED.encoded_by,
+                            encoded_on = EXCLUDED.encoded_on,
+                            job_done = EXCLUDED.job_done,
+                            confirmation_date = EXCLUDED.confirmation_date,
+                            scheduled_date = EXCLUDED.scheduled_date,
+                            form_type = EXCLUDED.form_type,
+                            last_synced_on = NOW();
+                    """), primary_recs)
+
+                    # Insert production items (materials)
+                    if all_items_to_insert:
+                        conn.execute(text("""
+                            INSERT INTO production_items (
+                                prod_id, lot_num, confirmation_date, production_date, seq,
+                                material_code, large_scale, small_scale, total_weight,
+                                total_loss, total_consumption
+                            )
+                            VALUES (
+                                :prod_id, :lot_num, :confirmation_date, :production_date, :seq,
+                                :material_code, :large_scale, :small_scale, :total_weight,
+                                :total_loss, :total_consumption
+                            );
+                        """), all_items_to_insert)
+
+            self.finished.emit(
+                True,
+                f"Production sync complete.\n{len(primary_recs)} new primary records and {len(all_items_to_insert)} items processed."
+            )
+
+        except dbfread.DBFNotFound as e:
+            self.finished.emit(
+                False,
+                f"File Not Found: A required production DBF file is missing.\nDetails: {e}"
+            )
+        except Exception as e:
+            trace_info = traceback.format_exc()
+            print(f"PRODUCTION SYNC CRITICAL ERROR: {e}\n{trace_info}")
+            self.finished.emit(
+                False,
+                f"An unexpected error occurred during production sync:\n{e}"
+            )
 
 class SyncDeliveryWorker(QObject):
     finished = pyqtSignal(bool, str)
