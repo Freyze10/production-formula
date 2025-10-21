@@ -28,6 +28,23 @@ def get_formula_data(early_date, late_date):
     return records
 
 
+def get_formula_select(product_code):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT formula_index, uid, customer, product_code, product_color, total_concentration, dosage
+        FROM formula_primary
+        WHERE product_code = %s 
+        ORDER BY uid DESC
+    """, (product_code,))
+
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return records
+
+
 def get_formula_materials(uid):
     conn = get_connection()
     cur = conn.cursor()

@@ -217,14 +217,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00006" summary="added save to database">
-      <option name="closed" value="true" />
-      <created>1760327011104</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1760327011104</updated>
-    </task>
     <task id="LOCAL-00007" summary="added auto create database">
       <option name="closed" value="true" />
       <created>1760335134296</created>
@@ -609,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760943459541</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="fixed table design">
+      <option name="closed" value="true" />
+      <created>1761010100493</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1761010100493</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor main databse" />
     <MESSAGE value="fixed audit" />
     <MESSAGE value="removed the tbl prod_legacy" />
     <MESSAGE value="renamed legacy" />
@@ -655,7 +654,8 @@
     <MESSAGE value="changed headers" />
     <MESSAGE value="change headers" />
     <MESSAGE value="updated functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated functions" />
+    <MESSAGE value="fixed table design" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed table design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

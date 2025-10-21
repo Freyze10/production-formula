@@ -399,7 +399,6 @@ class ProductionManagementPage(QWidget):
             "Total Consumption (KG)"
         ])
         self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
-        self.materials_table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.materials_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.materials_table.verticalHeader().setVisible(False)
         self.materials_table.setAlternatingRowColors(True)
