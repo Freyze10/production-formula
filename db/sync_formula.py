@@ -158,7 +158,7 @@ class SyncFormulaWorker(QObject):
                     "customer": str(r.get('T_CUSTOMER', '') or '').strip(),
                     "product_code": str(r.get('T_PRODCODE', '') or '').strip(),
                     "product_color": str(r.get('T_PRODCOLO', '') or '').strip(), "dosage": _to_float(r.get('T_DOSAGE')),
-                    "legacy_id": _to_int(r.get('T_ID')),
+                    "ld": _to_float(r.get('T_LD')),
                     "mix_type": str(r.get('T_MIX', '') or '').strip(), "resin": str(r.get('T_RESIN', '') or '').strip(),
                     "application": str(r.get('T_APP', '') or '').strip(),
                     "cm_num": str(r.get('T_CMNUM', '') or '').strip(), "cm_date": r.get('T_CMDATE'),
@@ -180,10 +180,10 @@ class SyncFormulaWorker(QObject):
             with engine.connect() as conn:
                 with conn.begin():
                     conn.execute(text("""
-                        INSERT INTO formula_primary (formula_index, uid, formula_date, customer, product_code, product_color, dosage, legacy_id, mix_type, resin, application, cm_num, cm_date, matched_by, encoded_by, remarks, total_concentration, is_used, dbf_updated_by, dbf_updated_on_text, last_synced_on)
-                        VALUES (:formula_index, :uid, :formula_date, :customer, :product_code, :product_color, :dosage, :legacy_id, :mix_type, :resin, :application, :cm_num, :cm_date, :matched_by, :encoded_by, :remarks, :total_concentration, :is_used, :dbf_updated_by, :dbf_updated_on_text, NOW())
+                        INSERT INTO formula_primary (formula_index, uid, formula_date, customer, product_code, product_color, dosage, ld, mix_type, resin, application, cm_num, cm_date, matched_by, encoded_by, remarks, total_concentration, is_used, dbf_updated_by, dbf_updated_on_text, last_synced_on)
+                        VALUES (:formula_index, :uid, :formula_date, :customer, :product_code, :product_color, :dosage, :ld, :mix_type, :resin, :application, :cm_num, :cm_date, :matched_by, :encoded_by, :remarks, :total_concentration, :is_used, :dbf_updated_by, :dbf_updated_on_text, NOW())
                         ON CONFLICT (formula_index) DO UPDATE SET
-                            uid = EXCLUDED.uid, formula_date = EXCLUDED.formula_date, customer = EXCLUDED.customer, product_code = EXCLUDED.product_code, product_color = EXCLUDED.product_color, dosage = EXCLUDED.dosage, legacy_id = EXCLUDED.legacy_id,
+                            uid = EXCLUDED.uid, formula_date = EXCLUDED.formula_date, customer = EXCLUDED.customer, product_code = EXCLUDED.product_code, product_color = EXCLUDED.product_color, dosage = EXCLUDED.dosage, ld = EXCLUDED.ld,
                             mix_type = EXCLUDED.mix_type, resin = EXCLUDED.resin, application = EXCLUDED.application, cm_num = EXCLUDED.cm_num, cm_date = EXCLUDED.cm_date, matched_by = EXCLUDED.matched_by, encoded_by = EXCLUDED.encoded_by,
                             remarks = EXCLUDED.remarks, total_concentration = EXCLUDED.total_concentration, is_used = EXCLUDED.is_used, dbf_updated_by = EXCLUDED.dbf_updated_by, dbf_updated_on_text = EXCLUDED.dbf_updated_on_text, last_synced_on = NOW();
                     """), primary_recs)

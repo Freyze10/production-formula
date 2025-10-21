@@ -44,7 +44,7 @@ def initialize_database(engine):
                         product_code VARCHAR(50),
                         product_color VARCHAR(50),
                         dosage NUMERIC(15,6),
-                        legacy_id INTEGER,
+                        ld NUMERIC(15,6),
                         mix_type VARCHAR(50),
                         resin VARCHAR(50),
                         application VARCHAR(100),
@@ -66,14 +66,6 @@ def initialize_database(engine):
                         k INTEGER,
                         created_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
                         is_deleted BOOLEAN DEFAULT FALSE
-                    );
-                """))
-
-                connection.execute(text("""
-                    CREATE TABLE IF NOT EXISTS formula_primary (
-                        id SERIAL PRIMARY KEY, formula_index VARCHAR(20) UNIQUE NOT NULL, uid INTEGER, formula_date DATE, customer VARCHAR(100), product_code VARCHAR(50), product_color VARCHAR(50), dosage NUMERIC(15, 6),
-                        legacy_id INTEGER, mix_type VARCHAR(50), resin VARCHAR(50), application VARCHAR(100), cm_num VARCHAR(20), cm_date DATE, matched_by VARCHAR(50), encoded_by VARCHAR(50), remarks TEXT,
-                        total_concentration NUMERIC(15, 6), is_used BOOLEAN, dbf_updated_by VARCHAR(100), dbf_updated_on_text VARCHAR(100), last_synced_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
                     );
                 """))
                 connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_primary_uid ON formula_primary (uid);"))
