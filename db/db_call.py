@@ -82,7 +82,9 @@ def get_min_max_formula_date():
 
     cur.close()
     conn.close()
-    return record
+    if record and record[0] is not None:
+        return record[0], record[1]
+    return None, None
 
 
 def get_formula_latest_uid():

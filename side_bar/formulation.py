@@ -215,13 +215,6 @@ class FormulationManagementPage(QWidget):
         self.export_btn.clicked.connect(self.export_to_excel)
         controls_layout.addWidget(self.export_btn)
 
-        earliest_date, latest_date = db_call.get_min_max_formula_date()
-
-        qdate_from = QDate(earliest_date.year, earliest_date.month, earliest_date.day)
-        qdate_to = QDate(latest_date.year, latest_date.month, latest_date.day)
-
-        self.date_from_filter.setDate(qdate_from)
-        self.date_to_filter.setDate(qdate_to)
         self.date_from_filter.dateChanged.connect(self.refresh_formulations)
         self.date_to_filter.dateChanged.connect(self.refresh_formulations)
 
@@ -673,35 +666,67 @@ class FormulationManagementPage(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
 
-
     def refresh_page(self):
         self.formulation_table.setRowCount(0)
         """Refresh the formulation records."""
-        earliest_date, latest_date = db_call.get_min_max_formula_date()
-
-        qdate_from = QDate(earliest_date.year, earliest_date.month, earliest_date.day)
-        qdate_to = QDate(latest_date.year, latest_date.month, latest_date.day)
-
-        self.date_from_filter.setDate(qdate_from)
-        self.date_to_filter.setDate(qdate_to)
+        self.set_date_range_or_no_data()
         self.refresh_formulations()
+
+    def set_date_range_or_no_data(self):
+        """Enable/disable date filters based on DB content."""
+        try:
+            earliest, latest = db_call.get_min_max_formula_date()
+        except Exception:
+            earliest = latest = None
+
+        if earliest is None or latest is None:
+            self.date_from_filter.setEnabled(False)
+            self.date_to_filter.setEnabled(False)
+            return
+
+        self.date_from_filter.setEnabled(True)
+        self.date_to_filter.setEnabled(True)
+
+        q_from = QDate(earliest.year, earliest.month, earliest.day)
+        q_to = QDate(latest.year, latest.month, latest.day)
+
+        self.date_from_filter.setDate(q_from)
+        self.date_to_filter.setDate(q_to)
 
     def refresh_formulations(self):
         """Load formulations and preserve sort order if applicable."""
         early_date = self.date_from_filter.date().toPyDate()
         late_date = self.date_to_filter.date().toPyDate()
 
-        # Store current sort state
+        # ---- Store sort state (optional) ----
         sort_column = self.formulation_table.horizontalHeader().sortIndicatorSection()
         sort_order = self.formulation_table.horizontalHeader().sortIndicatorOrder()
 
-        # Disable sorting and clear table
+        # ---- Clear everything (including any previous “No data” row) ----
         self.formulation_table.setSortingEnabled(False)
         self.formulation_table.clearContents()
         self.formulation_table.setRowCount(0)
 
-        # Load and populate data
-        self.all_formula_data = db_call.get_formula_data(early_date, late_date)
+        # ---- Try to fetch data -------------------------------------------------
+        try:
+            self.all_formula_data = db_call.get_formula_data(early_date, late_date)
+        except Exception as e:
+            self.all_formula_data = []
+            print(f"Error loading formula data: {e}")
+
+        # ---- No rows at all? ---------------------------------------------------
+        if not self.all_formula_data:
+            # show a single centered “No data” row
+            self.formulation_table.setRowCount(1)
+            no_item = QTableWidgetItem("No formulation data available")
+            no_item.setTextAlignment(
+                Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            no_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # not selectable
+            self.formulation_table.setItem(0, 0, no_item)
+            self.formulation_table.setSpan(0, 0, 1,
+                                           self.formulation_table.columnCount())
+            self.formulation_table.setSortingEnabled(True)
+            return
         self.customer_lists = list({row[3] for row in self.all_formula_data})
         self.product_code_lists = list({row[4] for row in self.all_formula_data})
         self.formula_uid_lists = list({str(row[0]) for row in self.all_formula_data})
