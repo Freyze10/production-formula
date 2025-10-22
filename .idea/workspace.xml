@@ -241,14 +241,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00026" summary="added utility">
-      <option name="closed" value="true" />
-      <created>1760661523823</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1760661523823</updated>
-    </task>
     <task id="LOCAL-00027" summary="modified des">
       <option name="closed" value="true" />
       <created>1760662382270</created>
@@ -633,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761117039993</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="tried changing tablerowsize">
+      <option name="closed" value="true" />
+      <created>1761118381789</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1761118381789</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing production tab" />
     <MESSAGE value="fixing production tabu" />
     <MESSAGE value="changed headers" />
     <MESSAGE value="change headers" />
@@ -679,10 +678,18 @@
     <MESSAGE value="fixed display of selected data" />
     <MESSAGE value="updated legacy database" />
     <MESSAGE value="change size formula selection" />
-    <option name="LAST_COMMIT_MESSAGE" value="change size formula selection" />
+    <MESSAGE value="tried changing tablerowsize" />
+    <option name="LAST_COMMIT_MESSAGE" value="tried changing tablerowsize" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>599</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" log-message="true" type="python-exception">
           <properties notifyOnlyOnFirst="true" exception="BaseException">

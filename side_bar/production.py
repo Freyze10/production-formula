@@ -694,7 +694,7 @@ class ProductionManagementPage(QWidget):
             self.encoded_by_display.setText(str(result['encoded_by']))
             self.production_confirmation_display.setText(str(result['scheduled_date']))
             self.production_encoded_display.setText(str(result['encoded_on']))
-            print("prod2")
+
         except Exception as e:
             print(f"Error loading production: {e}")
             QMessageBox.critical(self, "Error", f"Failed to load production data: {str(e)}")
