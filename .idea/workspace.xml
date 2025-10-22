@@ -217,14 +217,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00016" summary="fixed the datetime error on view_save">
-      <option name="closed" value="true" />
-      <created>1760413509057</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1760413509057</updated>
-    </task>
     <task id="LOCAL-00017" summary="removed colors fields">
       <option name="closed" value="true" />
       <created>1760422204960</created>
@@ -609,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761036808262</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="added sync on finished func">
+      <option name="closed" value="true" />
+      <created>1761094344115</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1761094344115</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed sync message" />
     <MESSAGE value="modified layout audit usermgt" />
     <MESSAGE value="added role" />
     <MESSAGE value="fixed role access" />
@@ -655,7 +654,8 @@
     <MESSAGE value="added sync production" />
     <MESSAGE value="added production sync func" />
     <MESSAGE value="connected to prod refresh sync" />
-    <option name="LAST_COMMIT_MESSAGE" value="connected to prod refresh sync" />
+    <MESSAGE value="added sync on finished func" />
+    <option name="LAST_COMMIT_MESSAGE" value="added sync on finished func" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

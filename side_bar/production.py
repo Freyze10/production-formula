@@ -521,35 +521,24 @@ class ProductionManagementPage(QWidget):
 
     def refresh_productions(self):
         """Load productions and preserve sort order if applicable."""
-        date_from = self.date_from_filter.date().toPyDate()
-        date_to = self.date_to_filter.date().toPyDate()
-
-        # Store current sort state
-        sort_column = self.production_table.horizontalHeader().sortIndicatorSection()
-        sort_order = self.production_table.horizontalHeader().sortIndicatorOrder()
-
         # Disable sorting and clear table
         self.production_table.setSortingEnabled(False)
         self.production_table.clearContents()
         self.production_table.setRowCount(0)
 
         # Load data from database
-        # TODO: Replace with actual db_call function
-        # self.all_production_data = db_call.get_production_data(date_from, date_to)
-
-        # Sample data for now
-        self.all_production_data = [
-            (datetime(2024, 1, 15).date(), "Plastimer Inc.", "BA10056E", "LIGHT BLUE", "LOT001", 150.5),
-            (datetime(2024, 1, 16).date(), "Color Masters", "CM50032", "RED", "LOT002", 200.75),
-            (datetime(2024, 1, 17).date(), "Rainbow Plastics", "RP80045", "GREEN", "LOT003", 175.25),
-        ]
+        self.all_production_data = db_call.get_all_production_data()
 
         # Populate table
         for row_data in self.all_production_data:
             row_position = self.production_table.rowCount()
             self.production_table.insertRow(row_position)
-            for col, data in enumerate(row_data):
-                if col == 5:  # Qty. Produced column
+
+            hidden_id = row_data[0]  # store hidden foreign key (e.g., primary ID)
+
+            # Iterate through visible columns only (skip ID column)
+            for col, data in enumerate(row_data[1:], start=0):
+                if col == 5:  # Qty. Produced column (adjusted index after skipping ID)
                     float_value = float(data) if data is not None else 0.0
                     formatted_text = f"{float_value:.6f}"
                     item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
@@ -562,6 +551,8 @@ class ProductionManagementPage(QWidget):
                     else:
                         item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
+                # Store hidden ID in UserRole
+                item.setData(Qt.ItemDataRole.UserRole, hidden_id)
                 self.production_table.setItem(row_position, col, item)
 
         # Restore sort state
@@ -1194,26 +1185,13 @@ class ProductionManagementPage(QWidget):
         thread.start()
         loading_dialog.exec()
 
-    def on_sync_finished(self, success, message, thread, loading_dialog, sync_type=None):
+    def on_sync_finished(self, success, message, thread, loading_dialog):
         try:
             if loading_dialog.isVisible():
                 loading_dialog.accept()
 
             if success:
-                if sync_type == "rm_warehouse":
-                    QMessageBox.information(self, "Sync Complete", message)
-                else:
-                    latest_id = db_call.get_formula_latest_uid()
-                    if latest_id and latest_id[0] is not None:
-                        next_id = int(latest_id[0]) + 1
-                    else:
-                        next_id = 1
-                    self.formulation_id_input.setText(str(next_id))
-                    self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")
-            else:
-                QMessageBox.critical(self, "Sync Error", message)
-                self.formulation_id_input.setText("ERROR")
-                self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")
+                QMessageBox.information(self, "Sync Complete", message)
 
         except Exception as e:
             print(f"Error in on_sync_finished: {e}")

@@ -28,23 +28,6 @@ def get_formula_data(early_date, late_date):
     return records
 
 
-def get_formula_select(product_code):
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT formula_index, uid, customer, product_code, product_color, dosage, ld
-        FROM formula_primary
-        WHERE product_code = %s 
-        ORDER BY uid DESC
-    """, (product_code,))
-
-    records = cur.fetchall()
-    cur.close()
-    conn.close()
-    return records
-
-
 def get_formula_materials(uid):
     conn = get_connection()
     cur = conn.cursor()
@@ -278,3 +261,38 @@ def update_formula(primary_data, material_composition):
         conn.close()
         raise e
 
+
+# Production calls
+
+
+def get_formula_select(product_code):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT formula_index, uid, customer, product_code, product_color, dosage, ld
+        FROM formula_primary
+        WHERE product_code = %s 
+        ORDER BY uid DESC
+    """, (product_code,))
+
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return records
+
+
+def get_all_production_data():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT prod_id, production_date, customer, product_code, product_color, lot_number, qty_produced 
+        FROM production_primary
+        ORDER BY prod_id DESC
+    """)
+
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return records
