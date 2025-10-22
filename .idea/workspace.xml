@@ -218,14 +218,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00021" summary="changed rm input to combobox">
-      <option name="closed" value="true" />
-      <created>1760659992050</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1760659992050</updated>
-    </task>
     <task id="LOCAL-00022" summary="changed the window name">
       <option name="closed" value="true" />
       <created>1760660671340</created>
@@ -610,7 +602,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761103602430</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="modified load data">
+      <option name="closed" value="true" />
+      <created>1761105308759</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1761105308759</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed audit trail insert" />
     <MESSAGE value="added export to excel" />
     <MESSAGE value="fixed db_status icon" />
     <MESSAGE value="added production widget" />
@@ -656,7 +655,8 @@
     <MESSAGE value="fixed loading display on sync" />
     <MESSAGE value="fixed var naming" />
     <MESSAGE value="added single data database call" />
-    <option name="LAST_COMMIT_MESSAGE" value="added single data database call" />
+    <MESSAGE value="modified load data" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified load data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

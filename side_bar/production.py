@@ -646,12 +646,15 @@ class ProductionManagementPage(QWidget):
 
     def view_production_details(self):
         """View full details of selected production."""
+        print(self.current_production_id)
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
             return
-
-        self.edit_production()
-        self.enable_fields(enable=False)
+        try:
+            self.edit_production()
+            self.enable_fields(enable=False)
+        except Exception as e:
+            print(e)
 
     def edit_production(self):
         """Load selected production into entry tab for editing."""
@@ -663,6 +666,7 @@ class ProductionManagementPage(QWidget):
         self.tab_widget.setCurrentIndex(1)
 
         result = db_call.get_single_production_data(self.current_production_id)
+        print("prod1")
 
         try:
             self.production_id_input.setText(str(result['prod_id']))
@@ -692,7 +696,7 @@ class ProductionManagementPage(QWidget):
             self.encoded_by_display.setText(str(result['encoded_by']))
             self.production_confirmation_display.setText(str(result['scheduled_date']))
             self.production_encoded_display.setText(str(result['encoded_on']))
-
+            print("prod2")
         except Exception as e:
             print(f"Error loading production: {e}")
             QMessageBox.critical(self, "Error", f"Failed to load production data: {str(e)}")

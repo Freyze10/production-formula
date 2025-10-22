@@ -286,7 +286,7 @@ def get_formula_select(product_code):
 def get_single_production_data(prod_id):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
-    cur.execute("SELECT * FROM formula_primary WHERE prod_id = %s", (prod_id,))
+    cur.execute("SELECT * FROM production_primary WHERE prod_id = %s", (prod_id,))
     record = cur.fetchone()
     cur.close()
     conn.close()
