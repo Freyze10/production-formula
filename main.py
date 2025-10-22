@@ -446,7 +446,6 @@ class AppStyles:
             background-color: {PRIMARY_COLOR_LIGHT}; 
             color: {TEXT_PRIMARY};
         }}
-
         QTableWidget::item:hover {{
             background-color: rgba(79, 70, 229, 0.08);
         }}

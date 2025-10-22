@@ -241,14 +241,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00025" summary="refactor db">
-      <option name="closed" value="true" />
-      <created>1760661479654</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1760661479654</updated>
-    </task>
     <task id="LOCAL-00026" summary="added utility">
       <option name="closed" value="true" />
       <created>1760661523823</created>
@@ -633,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761116845834</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="change size formula selection">
+      <option name="closed" value="true" />
+      <created>1761117039993</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1761117039993</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added sided bar for production" />
     <MESSAGE value="fixing production tab" />
     <MESSAGE value="fixing production tabu" />
     <MESSAGE value="changed headers" />
@@ -679,7 +678,8 @@
     <MESSAGE value="debug edit button" />
     <MESSAGE value="fixed display of selected data" />
     <MESSAGE value="updated legacy database" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated legacy database" />
+    <MESSAGE value="change size formula selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="change size formula selection" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -692,7 +692,7 @@
       </default-breakpoints>
     </breakpoint-manager>
     <watches-manager>
-      <inline-watch fileUrl="file://$PROJECT_DIR$/main.py" line="927">
+      <inline-watch fileUrl="file://$PROJECT_DIR$/main.py" line="926">
         <watch expression="    def on_login_success(username, user_role):&#10;        nonlocal main_window&#10;        main_window = ModernMainWindow(username, user_role, login_window)&#10;        main_window.showMaximized()" />
       </inline-watch>
     </watches-manager>
