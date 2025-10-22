@@ -125,7 +125,7 @@ class SyncFormulaWorker(QObject):
         try:
             with engine.connect() as conn:
                 max_uid = conn.execute(text("SELECT COALESCE(MAX(uid), 0) FROM formula_primary")).scalar()
-            self.progress.emit(f"Phase 1/3: Reading local formula items (filtering UID > {max_uid})...")
+            self.progress.emit(f"Phase 1/3: Reading local formula items...")
             items_by_uid = collections.defaultdict(list)
             new_uids = set()
             dbf_items = dbfread.DBF(FORMULA_ITEMS_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
@@ -145,7 +145,7 @@ class SyncFormulaWorker(QObject):
                 })
             self.progress.emit(f"Phase 1/3: Found {len(items_by_uid)} groups of new active items.")
 
-            self.progress.emit("Phase 2/3: Reading primary formula data...")
+            self.progress.emit("Phase 2/3: Reading Formula data...")
             primary_recs = []
             dbf_primary = dbfread.DBF(FORMULA_PRIMARY_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
             for r in dbf_primary:
@@ -172,13 +172,13 @@ class SyncFormulaWorker(QObject):
                     "dbf_updated_on_text": str(r.get('T_UDATE', '') or '').strip(),
                 })
 
-            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new valid primary records.")
+            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new valid records.")
             if not primary_recs: self.finished.emit(True,
                                                     f"Sync Info: No new formula records (UID > {max_uid}) found to sync."); return
 
             all_items_to_insert = [item for rec in primary_recs for item in items_by_uid.get(rec['uid'], [])]
 
-            self.progress.emit("Phase 3/3: Writing data to database...")
+            self.progress.emit("Phase 3/3: Syncing Data...")
             with engine.connect() as conn:
                 with conn.begin():
                     conn.execute(text("""
@@ -223,7 +223,7 @@ class SyncProductionWorker(QObject):
                     text("SELECT COALESCE(MAX(prod_id), 0) FROM production_primary")
                 ).scalar()
 
-            self.progress.emit(f"Phase 1/3: Reading production items (filtering PROD_ID > {max_prod_id})...")
+            self.progress.emit(f"Phase 1/3: Reading production items...")
 
             # Read production items from tbl_prod02.dbf
             items_by_prod_id = collections.defaultdict(list)
@@ -258,10 +258,10 @@ class SyncProductionWorker(QObject):
                     "total_consumption": _to_float(item_rec.get('T_CONS'))  # Total consumption
                 })
 
-            self.progress.emit(f"Phase 1/3: Found {len(items_by_prod_id)} groups of new active items.")
+            self.progress.emit(f"Phase 1/3: Found {len(items_by_prod_id)} new active items.")
 
             # Read primary production data from tbl_prod01.dbf
-            self.progress.emit("Phase 2/3: Reading primary production data...")
+            self.progress.emit("Phase 2/3: Reading Production data...")
             primary_recs = []
 
             dbf_primary = dbfread.DBF(PRODUCTION_PRIMARY_DBF_PATH, encoding='latin1', char_decode_errors='ignore')
@@ -306,12 +306,12 @@ class SyncProductionWorker(QObject):
                     "form_type": str(r.get('T_FTYPE', '') or '').strip()
                 })
 
-            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new valid primary records.")
+            self.progress.emit(f"Phase 2/3: Found {len(primary_recs)} new records.")
 
             if not primary_recs:
                 self.finished.emit(
                     True,
-                    f"Sync Info: No new production records (PROD_ID > {max_prod_id}) found to sync."
+                    f"Sync Info: No new production records found to sync."
                 )
                 return
 
@@ -323,7 +323,7 @@ class SyncProductionWorker(QObject):
             ]
 
             # Write to database
-            self.progress.emit("Phase 3/3: Writing data to database...")
+            self.progress.emit("Phase 3/3: Syncing Data...")
 
             with engine.connect() as conn:
                 with conn.begin():

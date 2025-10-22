@@ -580,24 +580,16 @@ class ProductionManagementPage(QWidget):
             row = selected_rows[0].row()
             lot_no = self.production_table.item(row, 4).text()
             customer = self.production_table.item(row, 1).text()
+            prod_id = self.production_table.item(row, 1).data(Qt.ItemDataRole.UserRole)
 
             self.current_production_id = lot_no
             self.selected_production_label.setText(f"LOT NO: {lot_no} - {customer}")
 
-            self.load_production_details(lot_no)
+            self.load_production_details(prod_id)
 
     def load_production_details(self, lot_no):
         """Load material details for selected production."""
-        # TODO: Replace with actual db_call function
-        # details = db_call.get_production_materials(lot_no)
-
-        # Sample data
-        details = [
-            ("W8 - White Base", 5.500, 200.0, 5.700, 0.100, 5.600),
-            ("B37 - Blue Pigment", 0.450, 50.0, 0.500, 0.020, 0.480),
-            ("L19 - UV Stabilizer", 3.000, 100.0, 3.100, 0.050, 3.050),
-            ("PP4 - Polymer Base", 60.000, 500.0, 60.500, 0.300, 60.200),
-        ]
+        details = db_call.get_single_production_details(lot_no)
 
         self.details_table.setRowCount(0)
         for row_data in details:

@@ -296,3 +296,21 @@ def get_all_production_data():
     cur.close()
     conn.close()
     return records
+
+
+def get_single_production_details(prod_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT material_code, large_scale, small_scale, total_weight, total_loss, total_consumption 
+        FROM production_items
+        WHERE material_code != '' AND prod_id = %s
+        ORDER BY seq ASC;
+    """, (prod_id,))
+
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return records
+
