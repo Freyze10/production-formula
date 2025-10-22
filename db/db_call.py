@@ -282,6 +282,22 @@ def get_formula_select(product_code):
     return records
 
 
+def get_single_production_data(prod_id):
+    conn = get_connection()
+    cur = conn.cursor(dictionary=True)
+
+    cur.execute("""
+        SELECT *
+        FROM formula_primary
+        WHERE prod_id = %s
+    """, (prod_id,))
+
+    records = cur.fetchone()
+    cur.close()
+    conn.close()
+    return records
+
+
 def get_all_production_data():
     conn = get_connection()
     cur = conn.cursor()

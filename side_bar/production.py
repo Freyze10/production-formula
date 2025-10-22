@@ -582,14 +582,14 @@ class ProductionManagementPage(QWidget):
             customer = self.production_table.item(row, 1).text()
             prod_id = self.production_table.item(row, 1).data(Qt.ItemDataRole.UserRole)
 
-            self.current_production_id = lot_no
+            self.current_production_id = prod_id
             self.selected_production_label.setText(f"LOT NO: {lot_no} - {customer}")
 
             self.load_production_details(prod_id)
 
-    def load_production_details(self, lot_no):
+    def load_production_details(self, prod_id):
         """Load material details for selected production."""
-        details = db_call.get_single_production_details(lot_no)
+        details = db_call.get_single_production_details(prod_id)
 
         self.details_table.setRowCount(0)
         for row_data in details:
@@ -660,38 +660,10 @@ class ProductionManagementPage(QWidget):
         self.tab_widget.blockSignals(True)
         self.tab_widget.setCurrentIndex(1)
 
-        # TODO: Replace with actual db_call function
-        # result = db_call.get_specific_production_data(self.current_production_id)
-
-        # Sample data for now
-        result = {
-            'production_id': '0098886',
-            'form_type': 'New',
-            'product_code': 'BA10056E',
-            'product_color': 'LIGHT BLUE',
-            'dosage': 100.000000,
-            'dosage_percent': 6.000000,
-            'customer': 'Plastimer Inc.',
-            'lot_no': 'LOT001',
-            'production_date': QDate(2024, 1, 15),
-            'confirmation_date': QDate(2024, 1, 15),
-            'order_form_no': 'OF-2024-001',
-            'colormatch_no': 'CM-001',
-            'matched_date': QDate(2024, 1, 10),
-            'formulation_id': '10361',
-            'mixing_time': '5 MIN',
-            'machine_no': 'M-01',
-            'qty_required': 150.000000,
-            'qty_per_batch': 50.000000,
-            'prepared_by': 'John Doe',
-            'notes': 'Rush order',
-            'encoded_by': self.work_station['u'],
-            'production_confirmation': '',
-            'production_encoded': datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
-        }
+        result = db_call.get_single_production_data(self.current_production_id)
 
         try:
-            self.production_id_input.setText(str(result['production_id']))
+            self.production_id_input.setText(str(result['prod_id']))
             self.form_type_combo.setCurrentText(str(result['form_type']))
             self.product_code_input.setText(str(result['product_code']))
             self.product_color_input.setText(str(result['product_color']))

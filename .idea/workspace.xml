@@ -44,33 +44,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.dfr.executor": "Run",
-    "Python.fg_endorsement.executor": "Run",
-    "Python.fgendorsement.executor": "Run",
-    "Python.fgmain.executor": "Run",
-    "Python.formulation (1).executor": "Debug",
-    "Python.formulation.executor": "Run",
-    "Python.main-2.executor": "Run",
-    "Python.main.executor": "Debug",
-    "Python.sync-formula.executor": "Run",
-    "Python.sync_formula (1).executor": "Run",
-    "Python.sync_formula.executor": "Run",
-    "Python.view.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File",
-    "settings.editor.selected.configurable": "advanced.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
+    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.view.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/File&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV" />
@@ -217,14 +217,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00018" summary="fixed line object deteled">
-      <option name="closed" value="true" />
-      <created>1760424398604</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1760424398604</updated>
     </task>
     <task id="LOCAL-00019" summary="fixed fade in animation">
       <option name="closed" value="true" />
@@ -610,7 +602,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761096507002</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="fixed loading display on sync">
+      <option name="closed" value="true" />
+      <created>1761099668179</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1761099668179</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added role" />
     <MESSAGE value="fixed role access" />
     <MESSAGE value="modified" />
     <MESSAGE value="fixed audit trail insert" />
@@ -656,7 +655,8 @@
     <MESSAGE value="connected to prod refresh sync" />
     <MESSAGE value="added sync on finished func" />
     <MESSAGE value="display all production data" />
-    <option name="LAST_COMMIT_MESSAGE" value="display all production data" />
+    <MESSAGE value="fixed loading display on sync" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed loading display on sync" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -669,9 +669,9 @@
       </default-breakpoints>
     </breakpoint-manager>
     <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="def __init__(self, engine, username, log_audit_trail):&#10;        super().__init__()&#10;        self.engine = engine&#10;        self.username = username&#10;        self.log_audit_trail = log_audit_trail&#10;        self.current_formulation_id = None&#10;        self.sample_formulations = [&#10;            (&quot;0017080&quot;, &quot;-&quot;, &quot;OCTAPLAS INDUSTRIAL SERVICES&quot;, &quot;II)YA17320E&quot;, &quot;RED&quot;, 100.0, 1.0, &quot;Admin&quot;),&#10;            (&quot;0017079&quot;, &quot;-&quot;, &quot;CRONICS, INC.&quot;, &quot;YA17830E&quot;, &quot;YELLOW&quot;, 100.0, 2.0, &quot;Admin&quot;),&#10;            (&quot;0017078&quot;, &quot;-&quot;, &quot;MAGNATE FOOD AND DRINKS&quot;, &quot;GA17829E&quot;, &quot;GREEN&quot;, 100.0, 1.5, &quot;Admin&quot;),&#10;            (&quot;0017077&quot;, &quot;-&quot;, &quot;SAN MIGUEL YAMAMURA PACKAGING&quot;, &quot;BA17372E&quot;, &quot;BLUE&quot;, 100.0, 2.0, &quot;Admin&quot;),&#10;        ]" />
-      </configuration>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/main.py" line="927">
+        <watch expression="    def on_login_success(username, user_role):&#10;        nonlocal main_window&#10;        main_window = ModernMainWindow(username, user_role, login_window)&#10;        main_window.showMaximized()" />
+      </inline-watch>
     </watches-manager>
   </component>
 </project>
