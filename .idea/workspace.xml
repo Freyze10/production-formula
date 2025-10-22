@@ -150,6 +150,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="sync_formula (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FG-INV" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/db" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/db/sync_formula.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="sync_formula" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -197,8 +219,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.dfr" />
+        <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
+        <item itemvalue="Python.dfr" />
       </list>
     </recent_temporary>
   </component>
@@ -217,14 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00023" summary="deleted finished goods">
-      <option name="closed" value="true" />
-      <created>1760661213030</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1760661213030</updated>
     </task>
     <task id="LOCAL-00024" summary="refactor sidebar">
       <option name="closed" value="true" />
@@ -610,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761111188449</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="fixed display of selected data">
+      <option name="closed" value="true" />
+      <created>1761113403261</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1761113403261</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed db_status icon" />
     <MESSAGE value="added production widget" />
     <MESSAGE value="added sided bar for production" />
     <MESSAGE value="fixing production tab" />
@@ -656,7 +678,8 @@
     <MESSAGE value="added single data database call" />
     <MESSAGE value="modified load data" />
     <MESSAGE value="debug edit button" />
-    <option name="LAST_COMMIT_MESSAGE" value="debug edit button" />
+    <MESSAGE value="fixed display of selected data" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed display of selected data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

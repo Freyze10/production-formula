@@ -37,8 +37,8 @@ def initialize_database(engine):
                 connection.execute(text("""
                     CREATE TABLE IF NOT EXISTS formula_primary (
                         id SERIAL PRIMARY KEY,
-                        formula_index VARCHAR(20) NOT NULL UNIQUE,
-                        uid INTEGER,
+                        formula_index VARCHAR(20) NOT NULL,
+                        uid INTEGER NOT NULL UNIQUE,
                         formula_date DATE,
                         customer VARCHAR(100),
                         product_code VARCHAR(50),
