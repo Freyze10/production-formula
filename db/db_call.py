@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 
 def get_connection():
@@ -284,18 +285,12 @@ def get_formula_select(product_code):
 
 def get_single_production_data(prod_id):
     conn = get_connection()
-    cur = conn.cursor(dictionary=True)
-
-    cur.execute("""
-        SELECT *
-        FROM formula_primary
-        WHERE prod_id = %s
-    """, (prod_id,))
-
-    records = cur.fetchone()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur.execute("SELECT * FROM formula_primary WHERE prod_id = %s", (prod_id,))
+    record = cur.fetchone()
     cur.close()
     conn.close()
-    return records
+    return record
 
 
 def get_all_production_data():
