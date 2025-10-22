@@ -1193,3 +1193,27 @@ class ProductionManagementPage(QWidget):
 
         thread.start()
         loading_dialog.exec()
+
+    def on_sync_finished(self, success, message, thread, loading_dialog, sync_type=None):
+        try:
+            if loading_dialog.isVisible():
+                loading_dialog.accept()
+
+            if success:
+                if sync_type == "rm_warehouse":
+                    QMessageBox.information(self, "Sync Complete", message)
+                else:
+                    latest_id = db_call.get_formula_latest_uid()
+                    if latest_id and latest_id[0] is not None:
+                        next_id = int(latest_id[0]) + 1
+                    else:
+                        next_id = 1
+                    self.formulation_id_input.setText(str(next_id))
+                    self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")
+            else:
+                QMessageBox.critical(self, "Sync Error", message)
+                self.formulation_id_input.setText("ERROR")
+                self.formulation_id_input.setStyleSheet("background-color: #f8d7da;")
+
+        except Exception as e:
+            print(f"Error in on_sync_finished: {e}")

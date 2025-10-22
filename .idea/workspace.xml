@@ -44,32 +44,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.dfr.executor": "Run",
-    "Python.fg_endorsement.executor": "Run",
-    "Python.fgendorsement.executor": "Run",
-    "Python.fgmain.executor": "Run",
-    "Python.formulation (1).executor": "Debug",
-    "Python.formulation.executor": "Run",
-    "Python.main-2.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.sync-formula.executor": "Run",
-    "Python.sync_formula (1).executor": "Run",
-    "Python.sync_formula.executor": "Run",
-    "Python.view.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
+    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.view.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/File&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV" />
@@ -216,14 +216,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00015" summary="modified database">
-      <option name="closed" value="true" />
-      <created>1760404105298</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1760404105298</updated>
     </task>
     <task id="LOCAL-00016" summary="fixed the datetime error on view_save">
       <option name="closed" value="true" />
@@ -609,7 +601,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761036527636</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="connected to prod refresh sync">
+      <option name="closed" value="true" />
+      <created>1761036808262</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1761036808262</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified design" />
     <MESSAGE value="fixed sync message" />
     <MESSAGE value="modified layout audit usermgt" />
     <MESSAGE value="added role" />
@@ -655,7 +654,8 @@
     <MESSAGE value="modified required fields" />
     <MESSAGE value="added sync production" />
     <MESSAGE value="added production sync func" />
-    <option name="LAST_COMMIT_MESSAGE" value="added production sync func" />
+    <MESSAGE value="connected to prod refresh sync" />
+    <option name="LAST_COMMIT_MESSAGE" value="connected to prod refresh sync" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
