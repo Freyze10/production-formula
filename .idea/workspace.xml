@@ -241,14 +241,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00024" summary="refactor sidebar">
-      <option name="closed" value="true" />
-      <created>1760661364462</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1760661364462</updated>
-    </task>
     <task id="LOCAL-00025" summary="refactor db">
       <option name="closed" value="true" />
       <created>1760661479654</created>
@@ -633,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761113403261</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="updated legacy database">
+      <option name="closed" value="true" />
+      <created>1761116845834</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1761116845834</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added production widget" />
     <MESSAGE value="added sided bar for production" />
     <MESSAGE value="fixing production tab" />
     <MESSAGE value="fixing production tabu" />
@@ -679,7 +678,8 @@
     <MESSAGE value="modified load data" />
     <MESSAGE value="debug edit button" />
     <MESSAGE value="fixed display of selected data" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed display of selected data" />
+    <MESSAGE value="updated legacy database" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated legacy database" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

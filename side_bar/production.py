@@ -900,7 +900,7 @@ class ProductionManagementPage(QWidget):
 
         dialog = QDialog(self)
         dialog.setWindowTitle("Select Formula")
-        dialog.setMinimumSize(900, 500)
+        dialog.setMinimumSize(1400, 720)
 
         layout = QVBoxLayout(dialog)
 
