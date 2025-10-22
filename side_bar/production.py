@@ -274,9 +274,9 @@ class ProductionManagementPage(QWidget):
         self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
         dosage_layout.addWidget(self.dosage_input)
         dosage_layout.addWidget(QLabel("LD (%)"))
-        self.dosage_percent_input = QLineEdit()
-        self.dosage_percent_input.setPlaceholderText("0.000000")
-        dosage_layout.addWidget(self.dosage_percent_input)
+        self.ld_percent_input = QLineEdit()
+        self.ld_percent_input.setPlaceholderText("0.000000")
+        dosage_layout.addWidget(self.ld_percent_input)
         primary_layout.addWidget(QLabel("Dosage:"), 2, 0)
         primary_layout.addLayout(dosage_layout, 2, 1)
 
@@ -295,6 +295,7 @@ class ProductionManagementPage(QWidget):
         self.production_date_input = QDateEdit()
         self.production_date_input.setCalendarPopup(True)
         self.production_date_input.setDate(QDate.currentDate())
+        self.production_date_input.setDisplayFormat("MM/dd/yyyy")
         self.production_date_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Tentative Production Date:"), 5, 0)
         primary_layout.addWidget(self.production_date_input, 5, 1)
@@ -302,6 +303,7 @@ class ProductionManagementPage(QWidget):
         self.confirmation_date_input = QDateEdit()
         self.confirmation_date_input.setCalendarPopup(True)
         self.confirmation_date_input.setDate(QDate.currentDate())
+        self.confirmation_date_input.setDisplayFormat("MM/dd/yyyy")
         primary_layout.addWidget(QLabel("Confirmation Date \n(For Inventory Only):"), 6, 0)
         primary_layout.addWidget(self.confirmation_date_input, 6, 1)
 
@@ -668,14 +670,18 @@ class ProductionManagementPage(QWidget):
             self.product_code_input.setText(str(result['product_code']))
             self.product_color_input.setText(str(result['product_color']))
             self.dosage_input.setText(f"{result['dosage']:.6f}")
-            self.dosage_percent_input.setText(f"{result['dosage_percent']:.6f}")
+            self.ld_percent_input.setText(f"{result['ld_percent']:.6f}")
             self.customer_input.setText(str(result['customer']))
-            self.lot_no_input.setText(str(result['lot_no']))
-            self.production_date_input.setDate(result['production_date'])
-            self.confirmation_date_input.setDate(result['confirmation_date'])
+            self.lot_no_input.setText(str(result['lot_number']))
+            prod_date = QDate(result['production_date'].year, result['production_date'].month,
+                              result['production_date'].day)
+            self.production_date_input.setDate(prod_date)
+            confirmation_date = QDate(result['confirmation_date'].year, result['confirmation_date'].month,
+                              result['confirmation_date'].day)
+            self.confirmation_date_input.setDate(confirmation_date)
             self.order_form_no_combo.setCurrentText(str(result['order_form_no']))
             self.colormatch_no_input.setText(str(result['colormatch_no']))
-            self.matched_date_input.setDate(result['matched_date'])
+            self.matched_date_input.setDate(result['colormatch_date'])
             self.formulation_id_input.setText(str(result['formulation_id']))
             self.mixing_time_input.setText(str(result['mixing_time']))
             self.machine_no_input.setText(str(result['machine_no']))
@@ -684,24 +690,15 @@ class ProductionManagementPage(QWidget):
             self.prepared_by_input.setText(str(result['prepared_by']))
             self.notes_input.setPlainText(str(result['notes']))
             self.encoded_by_display.setText(str(result['encoded_by']))
-            self.production_confirmation_display.setText(str(result['production_confirmation']))
-            self.production_encoded_display.setText(str(result['production_encoded']))
+            self.production_confirmation_display.setText(str(result['scheduled_date']))
+            self.production_encoded_display.setText(str(result['encoded_on']))
 
         except Exception as e:
             print(f"Error loading production: {e}")
             QMessageBox.critical(self, "Error", f"Failed to load production data: {str(e)}")
 
         # Load materials
-        # TODO: Replace with actual db_call function
-        # materials = db_call.get_production_materials(self.current_production_id)
-
-        # Sample materials
-        materials = [
-            ("W8 - White Base", 5.500, 200.0, 5.700, 0.100, 5.600),
-            ("B37 - Blue Pigment", 0.450, 50.0, 0.500, 0.020, 0.480),
-            ("L19 - UV Stabilizer", 3.000, 100.0, 3.100, 0.050, 3.050),
-            ("PP4 - Polymer Base", 60.000, 500.0, 60.500, 0.300, 60.200),
-        ]
+        materials = db_call.get_single_production_details(self.current_production_id)
 
         self.materials_table.setRowCount(0)
         for material_data in materials:
@@ -740,7 +737,7 @@ class ProductionManagementPage(QWidget):
         self.product_code_input.clear()
         self.product_color_input.clear()
         self.dosage_input.clear()
-        self.dosage_percent_input.clear()
+        self.ld_percent_input.clear()
         self.customer_input.clear()
         self.lot_no_input.clear()
         self.production_date_input.setDate(QDate.currentDate())
@@ -800,7 +797,7 @@ class ProductionManagementPage(QWidget):
             'product_color': product_color,
             'dosage': dosage,
             'dosage_percent': float(
-                self.dosage_percent_input.text().strip()) if self.dosage_percent_input.text().strip() else 0.0,
+                self.ld_percent_input.text().strip()) if self.ld_percent_input.text().strip() else 0.0,
             'customer': customer,
             'lot_no': lot_no,
             'production_date': self.production_date_input.date().toPyDate(),
@@ -1044,7 +1041,7 @@ class ProductionManagementPage(QWidget):
             formula_table.item(row, 4).text())
         self.dosage_input.setText(
             formula_table.item(row, 5).text())
-        self.dosage_percent_input.setText(
+        self.ld_percent_input.setText(
             formula_table.item(row, 6).text())
 
         # ---- copy materials into the *main* materials table -----------------
