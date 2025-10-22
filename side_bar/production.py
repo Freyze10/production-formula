@@ -252,7 +252,7 @@ class ProductionManagementPage(QWidget):
         form_type_layout.addWidget(self.select_formula_btn)
 
         self.form_type_combo = QComboBox()
-        self.form_type_combo.addItems(["New", "Correction"])
+        self.form_type_combo.addItems(["", "New", "Correction"])
         self.form_type_combo.setStyleSheet("background-color: #fff9c4;")
         form_type_layout.addWidget(self.form_type_combo)
 
@@ -646,7 +646,6 @@ class ProductionManagementPage(QWidget):
 
     def view_production_details(self):
         """View full details of selected production."""
-        print(self.current_production_id)
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
             return
@@ -654,7 +653,7 @@ class ProductionManagementPage(QWidget):
             self.edit_production()
             self.enable_fields(enable=False)
         except Exception as e:
-            print(e)
+            print("view: ",e)
 
     def edit_production(self):
         """Load selected production into entry tab for editing."""
@@ -666,7 +665,6 @@ class ProductionManagementPage(QWidget):
         self.tab_widget.setCurrentIndex(1)
 
         result = db_call.get_single_production_data(self.current_production_id)
-        print("prod1")
 
         try:
             self.production_id_input.setText(str(result['prod_id']))
@@ -680,8 +678,8 @@ class ProductionManagementPage(QWidget):
             prod_date = QDate(result['production_date'].year, result['production_date'].month,
                               result['production_date'].day)
             self.production_date_input.setDate(prod_date)
-            confirmation_date = QDate(result['confirmation_date'].year, result['confirmation_date'].month,
-                              result['confirmation_date'].day)
+            confirmation_date = QDate(result['scheduled_date'].year, result['scheduled_date'].month,
+                                      result['scheduled_date'].day)
             self.confirmation_date_input.setDate(confirmation_date)
             self.order_form_no_combo.setCurrentText(str(result['order_form_no']))
             self.colormatch_no_input.setText(str(result['colormatch_no']))
@@ -712,7 +710,8 @@ class ProductionManagementPage(QWidget):
                 if col == 0:
                     item = QTableWidgetItem(str(value))
                 else:
-                    item = NumericTableWidgetItem(float(value), is_float=True)
+                    float_value = float(value) if value is not None else 0.0
+                    item = NumericTableWidgetItem(float_value, is_float=True)
                 item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.materials_table.setItem(row_position, col, item)
 
@@ -1091,6 +1090,7 @@ class ProductionManagementPage(QWidget):
         dialog.accept()
         QMessageBox.information(self, "Success",
                                 "Formula loaded successfully!")
+
     def generate_production(self):
         """Generate production calculations."""
         QMessageBox.information(self, "Generate", "Production generation functionality to be implemented.")
