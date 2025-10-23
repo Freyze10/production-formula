@@ -241,14 +241,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00032" summary="refactor legacy">
-      <option name="closed" value="true" />
-      <created>1760664603486</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1760664603486</updated>
-    </task>
     <task id="LOCAL-00033" summary="clear unnecessary legacy">
       <option name="closed" value="true" />
       <created>1760667731208</created>
@@ -633,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761183620553</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="slightly faster table loading">
+      <option name="closed" value="true" />
+      <created>1761189554919</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1761189554919</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added database for formula selection" />
     <MESSAGE value="added selected formulation" />
     <MESSAGE value="added ld in database" />
     <MESSAGE value="updated ld in db conn" />
@@ -679,7 +678,8 @@
     <MESSAGE value="added global var" />
     <MESSAGE value="added data for production" />
     <MESSAGE value="refactored production calls" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored production calls" />
+    <MESSAGE value="slightly faster table loading" />
+    <option name="LAST_COMMIT_MESSAGE" value="slightly faster table loading" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
