@@ -585,51 +585,45 @@ class ProductionManagementPage(QWidget):
         self.lot_no_input.setCompleter(lot_no_completer)
 
     def populate_production_table(self):
-        """Populate the production table from cached data without DB call."""
+        """Populate table efficiently using batch operations."""
         self.production_table.setSortingEnabled(False)
-        self.production_table.clearContents()
-        self.production_table.setRowCount(0)
+        self.production_table.setUpdatesEnabled(False)  # CRITICAL: Disable repaint
 
-        if not global_var.all_production_data:
-            self.production_table.setRowCount(1)
-            no_item = QTableWidgetItem("No production data available")
-            no_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-            no_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            self.production_table.setItem(0, 0, no_item)
-            self.production_table.setSpan(0, 0, 1, self.production_table.columnCount())
-            self.production_table.setSortingEnabled(True)
-            return
+        try:
+            self.production_table.clearContents()
+            self.production_table.setRowCount(0)
 
-        for row_data in global_var.all_production_data:
-            row_position = self.production_table.rowCount()
-            self.production_table.insertRow(row_position)
+            data = global_var.all_production_data
 
-            hidden_id = row_data[0]  # store hidden foreign key
+            # Pre-allocate rows
+            self.production_table.setRowCount(len(data))
 
-            # Iterate through visible columns only (skip ID column)
-            for col, data in enumerate(row_data[1:], start=0):
-                if col == 5:  # Qty. Produced column
-                    float_value = float(data) if data is not None else 0.0
-                    formatted_text = f"{float_value:.6f}"
-                    item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
-                    item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-                else:
-                    display_value = str(data) if data is not None else ""
-                    item = QTableWidgetItem(display_value)
-                    if col == 0:  # Date column
-                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+            # Batch create items
+            for row_idx, row_data in enumerate(data):
+                hidden_id = row_data[0]
+                visible_data = row_data[1:]  # Skip ID
+
+                for col_idx, value in enumerate(visible_data):
+                    if col_idx == 5:  # Qty. Produced
+                        float_val = float(value) if value is not None else 0.0
+                        item = NumericTableWidgetItem(float_val, f"{float_val:.6f}", is_float=True)
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
                     else:
-                        item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+                        text = str(value) if value is not None else ""
+                        item = QTableWidgetItem(text)
+                        if col_idx == 0:
+                            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+                        else:
+                            item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
-                # Store hidden ID in UserRole
-                item.setData(Qt.ItemDataRole.UserRole, hidden_id)
-                self.production_table.setItem(row_position, col, item)
+                    item.setData(Qt.ItemDataRole.UserRole, hidden_id)
+                    self.production_table.setItem(row_idx, col_idx, item)
 
-        # Restore sort state
-        header = self.production_table.horizontalHeader()
-        header.setSortIndicator(-1, Qt.SortOrder.AscendingOrder)
-        self.production_table.setSortingEnabled(True)
-        self.production_table.scrollToTop()
+        finally:
+            self.production_table.setUpdatesEnabled(True)  # Re-enable
+            self.production_table.setSortingEnabled(True)
+            self.production_table.scrollToTop()
+            self.production_table.resizeColumnsToContents()  # Optional: slow, do once
 
     def filter_productions(self):
         """Filter productions based on search text using cached data."""
