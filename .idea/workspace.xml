@@ -247,30 +247,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00035" summary="added sync button rm legacy">
-      <option name="closed" value="true" />
-      <created>1760670172970</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1760670172970</updated>
-    </task>
-    <task id="LOCAL-00036" summary="added auto fill combo box">
-      <option name="closed" value="true" />
-      <created>1760671810168</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1760671810168</updated>
-    </task>
-    <task id="LOCAL-00037" summary="modified design">
-      <option name="closed" value="true" />
-      <created>1760673955966</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1760673955966</updated>
-    </task>
     <task id="LOCAL-00038" summary="fixed sync message">
       <option name="closed" value="true" />
       <created>1760678774810</created>
@@ -639,7 +615,31 @@
       <option name="project" value="LOCAL" />
       <updated>1761201601421</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="added loading but static">
+      <option name="closed" value="true" />
+      <created>1761201908858</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1761201908858</updated>
+    </task>
+    <task id="LOCAL-00085" summary="updated loading">
+      <option name="closed" value="true" />
+      <created>1761201978432</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1761201978432</updated>
+    </task>
+    <task id="LOCAL-00086" summary="added gif">
+      <option name="closed" value="true" />
+      <created>1761202040438</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1761202040438</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -660,9 +660,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated ld in db conn" />
-    <MESSAGE value="fixed display  of data with ld" />
-    <MESSAGE value="modified required fields" />
     <MESSAGE value="added sync production" />
     <MESSAGE value="added production sync func" />
     <MESSAGE value="connected to prod refresh sync" />
@@ -685,7 +682,10 @@
     <MESSAGE value="slightly faster table loading" />
     <MESSAGE value="modified" />
     <MESSAGE value="added loading func" />
-    <option name="LAST_COMMIT_MESSAGE" value="added loading func" />
+    <MESSAGE value="added loading but static" />
+    <MESSAGE value="updated loading" />
+    <MESSAGE value="added gif" />
+    <option name="LAST_COMMIT_MESSAGE" value="added gif" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

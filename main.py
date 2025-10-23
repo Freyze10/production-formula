@@ -170,44 +170,43 @@ class LoadingOverlay(QWidget):
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, False)
-        self.setStyleSheet(f"background: {AppStyles.BG_SECONDARY}; border-radius: 16px;")
-
+        self.setStyleSheet("background: #FFFFFF; border-radius: 16px; border: 1px solid #E5E7EB;")
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(40, 40, 40, 40)
 
-        # Animated GIF (from assets/loading.gif)
         self.gif_label = QLabel()
         self.gif_label.setFixedSize(120, 120)
         self.gif_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Keep reference to QMovie to prevent garbage collection
-        self.movie = QMovie("assets/loading.gif")
+        # Absolute path for the GIF, in an assets/ folder next to this script
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        gif_path = os.path.join(script_dir, "assets", "loading.gif")
+        self.movie = QMovie(gif_path)
         if self.movie.isValid():
-            self.movie.setScaledSize(QSize(120, 120))  # Scale to fit
+            self.movie.setScaledSize(QSize(120, 120))
             self.gif_label.setMovie(self.movie)
-            self.movie.start()
+            QTimer.singleShot(0, self.movie.start)
         else:
             self.gif_label.setText("Loading...")
-            self.gif_label.setStyleSheet("font-size: 16pt; color: #6B7280;")
-
-        title = QLabel("Initializing Application...")
-        title.setStyleSheet(f"font-size: 18pt; font-weight: 600; color: {AppStyles.PRIMARY_COLOR}; background: transparent;")
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        subtitle = QLabel("Loading formulation and production modules...")
-        subtitle.setStyleSheet(f"font-size: 11pt; color: {AppStyles.TEXT_SECONDARY}; margin-top: 10px; background: transparent;")
-        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.gif_label.setStyleSheet("font-size: 16pt; color: #6B7280; background: transparent;")
 
         layout.addWidget(self.gif_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        title = QLabel("Initializing Application...")
+        title.setStyleSheet("font-size: 18pt; font-weight: 600; color: #4F46E5; background: transparent;")
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        subtitle = QLabel("Loading formulation and production modules...")
+        subtitle.setStyleSheet("font-size: 11pt; color: #6B7280; margin-top: 10px; background: transparent;")
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(subtitle, alignment=Qt.AlignmentFlag.AlignCenter)
 
     def stop(self):
-        if hasattr(self, 'movie') and self.movie:
+        if hasattr(self, 'movie') and self.movie and self.movie.isValid():
             self.movie.stop()
         self.hide()
-        # Don't deleteLater() — let parent manage it
 
 
 class LoginWindow(QMainWindow):
@@ -536,7 +535,7 @@ def main():
         nonlocal main_window
 
         # === SHOW LOADING OVERLAY ===
-        login_window.loading = LoadingOverlay()  # ← Store in login_window
+        login_window.loading = LoadingOverlay()  # New, robust version
         loading = login_window.loading
         screen = QApplication.primaryScreen().availableGeometry()
         loading.resize(500, 380)
@@ -558,7 +557,7 @@ def main():
                 QMessageBox.critical(None, "Init Error", f"Failed to load: {e}")
                 login_window.show()
 
-        QTimer.singleShot(100, initialize_main_window)
+        QTimer.singleShot(1000, initialize_main_window)
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()
