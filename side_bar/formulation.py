@@ -14,6 +14,7 @@ import pandas as pd
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from utils.work_station import _get_workstation_info
+from utils import global_var
 
 
 # Custom QTableWidgetItem for numerical sorting
@@ -58,15 +59,15 @@ class FormulationManagementPage(QWidget):
         self.set_date_range_or_no_data()
         self.load_rm_codes()  # Load RM codes once
         self.refresh_formulations()  # Initial load of formulations
-        self.data_loaded = True
+        global_var.formulation_data_loaded = True
 
     def load_rm_codes(self):
         """Load and cache RM codes from database."""
         try:
-            self.rm_list = db_call.get_rm_code_lists()
+            global_var.rm_list = db_call.get_rm_code_lists()
         except Exception as e:
             print(f"Error loading RM codes: {e}")
-            self.rm_list = []
+            global_var.rm_list = []
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
@@ -591,9 +592,9 @@ class FormulationManagementPage(QWidget):
     def setup_rm_code_completer(self):
         """Setup the completer for RM codes using cached data."""
         self.material_code_input.clear()
-        self.material_code_input.addItems(self.rm_list)
+        self.material_code_input.addItems(global_var.rm_list)
 
-        rm_completer = QCompleter(self.rm_list, self.material_code_input)
+        rm_completer = QCompleter(global_var.rm_list, self.material_code_input)
         rm_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
         rm_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.material_code_input.setCompleter(rm_completer)
@@ -601,13 +602,13 @@ class FormulationManagementPage(QWidget):
     def setup_autocompleters(self):
         """Setup autocompleters for customer and product code using cached data."""
         # Customer autocomplete
-        customer_completer = QCompleter(self.customer_lists)
+        customer_completer = QCompleter(global_var.customer_lists)
         customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         customer_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
         self.customer_input.setCompleter(customer_completer)
 
         # Product code autocomplete
-        pr_code_completer = QCompleter(self.product_code_lists)
+        pr_code_completer = QCompleter(global_var.product_code_lists)
         pr_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         pr_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
         self.product_code_input.setCompleter(pr_code_completer)
@@ -621,7 +622,7 @@ class FormulationManagementPage(QWidget):
     def validate_rm_code(self):
         """Prevent invalid input."""
         current_text = self.material_code_input.currentText()
-        if current_text not in self.rm_list:
+        if current_text not in global_var.rm_list:
             self.material_code_input.setCurrentIndex(0)
 
     def format_to_float(self, event, line_edit):
@@ -686,12 +687,12 @@ class FormulationManagementPage(QWidget):
         late_date = self.date_to_filter.date().toPyDate()
 
         try:
-            self.all_formula_data = db_call.get_formula_data(early_date, late_date)
+            global_var.all_formula_data = db_call.get_formula_data(early_date, late_date)
             self.update_cached_lists()
             self.populate_formulation_table()
         except Exception as e:
             QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
-            self.all_formula_data = []
+            global_var.all_formula_data = []
             self.populate_formulation_table()
 
     def set_date_range_or_no_data(self):
@@ -721,9 +722,9 @@ class FormulationManagementPage(QWidget):
         late_date = self.date_to_filter.date().toPyDate()
 
         try:
-            self.all_formula_data = db_call.get_formula_data(early_date, late_date)
+            global_var.all_formula_data = db_call.get_formula_data(early_date, late_date)
         except Exception as e:
-            self.all_formula_data = []
+            global_var.all_formula_data = []
             print(f"Error loading formula data: {e}")
 
         self.update_cached_lists()
@@ -731,15 +732,15 @@ class FormulationManagementPage(QWidget):
 
     def update_cached_lists(self):
         """Update cached lists from current formula data."""
-        if not self.all_formula_data:
-            self.customer_lists = []
-            self.product_code_lists = []
-            self.formula_uid_lists = []
+        if not global_var.all_formula_data:
+            global_var.customer_lists = []
+            global_var.product_code_lists = []
+            global_var.formula_uid_lists = []
             return
 
-        self.customer_lists = list({row[3] for row in self.all_formula_data})
-        self.product_code_lists = list({row[4] for row in self.all_formula_data})
-        self.formula_uid_lists = list({str(row[0]) for row in self.all_formula_data})
+        global_var.customer_lists = list({row[3] for row in global_var.all_formula_data})
+        global_var.product_code_lists = list({row[4] for row in global_var.all_formula_data})
+        global_var.formula_uid_lists = list({str(row[0]) for row in global_var.all_formula_data})
 
         # Update autocompleters with new cached data
         self.setup_autocompleters()
@@ -750,7 +751,7 @@ class FormulationManagementPage(QWidget):
         self.formulation_table.clearContents()
         self.formulation_table.setRowCount(0)
 
-        if not self.all_formula_data:
+        if not global_var.all_formula_data:
             self.formulation_table.setRowCount(1)
             no_item = QTableWidgetItem("No formulation data available")
             no_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
@@ -760,7 +761,7 @@ class FormulationManagementPage(QWidget):
             self.formulation_table.setSortingEnabled(True)
             return
 
-        for row_data in self.all_formula_data:
+        for row_data in global_var.all_formula_data:
             row_position = self.formulation_table.rowCount()
             self.formulation_table.insertRow(row_position)
             for col, data in enumerate(row_data):

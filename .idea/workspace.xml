@@ -241,14 +241,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00028" summary="refactor main databse">
-      <option name="closed" value="true" />
-      <created>1760662537830</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1760662537830</updated>
-    </task>
     <task id="LOCAL-00029" summary="fixed audit">
       <option name="closed" value="true" />
       <created>1760662968810</created>
@@ -633,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761122826087</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="refactored formulation">
+      <option name="closed" value="true" />
+      <created>1761182600549</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1761182600549</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed headers" />
     <MESSAGE value="change headers" />
     <MESSAGE value="updated functions" />
     <MESSAGE value="fixed table design" />
@@ -679,7 +678,8 @@
     <MESSAGE value="change size formula selection" />
     <MESSAGE value="tried changing tablerowsize" />
     <MESSAGE value="removed debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed debug" />
+    <MESSAGE value="refactored formulation" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored formulation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
