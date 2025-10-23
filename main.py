@@ -171,66 +171,67 @@ class AppStyles:
 
 
 class LoadingOverlay(QWidget):
-    # --- UPDATED LOADING OVERLAY FOR RELIABLE GIF ANIMATION ---
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, False)
-        # Changed to BG_PRIMARY for better contrast against background screen
         self.setStyleSheet(
-            f"background: {AppStyles.BG_PRIMARY}; border-radius: 16px; border: 1px solid {AppStyles.BORDER_COLOR};")
+            f"""
+            background: {AppStyles.BG_PRIMARY};
+            border-radius: 16px;
+            """
+        )
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.setContentsMargins(40, 40, 40, 40)
+        layout.setContentsMargins(50, 50, 50, 50)
+        layout.setSpacing(20)
 
-        # --- GIF Loading Logic with Absolute Path and Timer Start ---
-        self.gif_label = QLabel()
-        self.gif_label.setFixedSize(120, 120)
-        self.gif_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # App Logo / Icon
+        icon_label = QLabel()
+        icon_label.setPixmap(fa.icon('fa5s.box-open', color=AppStyles.PRIMARY_COLOR).pixmap(QSize(80, 80)))
+        icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Use absolute path for robustness
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        gif_path = os.path.join(script_dir, "assets", "loading.gif")
-
-        self.movie = QMovie(gif_path)
-
-        if self.movie.isValid():
-            # CRITICAL: Forces all frames to load, improving playback reliability
-            self.movie.setCacheMode(QMovie.CacheMode.CacheAll)
-
-            self.movie.setScaledSize(QSize(120, 120))
-            self.gif_label.setMovie(self.movie)
-
-            # CRITICAL: Start the animation with a small delay (50ms) to ensure it
-            # is in the event loop and fully painted, resolving the static image issue.
-            QTimer.singleShot(50, self.movie.start)
-
-            # print(f"DEBUG: QMovie loaded successfully from: {gif_path}")
-        else:
-            # Fallback for when the GIF file is missing or invalid
-            print(f"FATAL: QMovie failed to load from: {gif_path}. Displaying fallback text.")
-            self.gif_label.setText("Loading...")
-            self.gif_label.setStyleSheet(
-                f"font-size: 16pt; color: {AppStyles.TEXT_SECONDARY}; background: transparent;")
-
-        title = QLabel("Initializing Application...")
+        # Title
+        title = QLabel("Initializing Application")
         title.setStyleSheet(
-            f"font-size: 18pt; font-weight: 600; color: {AppStyles.PRIMARY_COLOR}; background: transparent;")
+            f"font-size: 20pt; font-weight: 600; color: {AppStyles.PRIMARY_COLOR}; background: transparent;"
+        )
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        subtitle = QLabel("Loading formulation and production modules...")
-        subtitle.setStyleSheet(
-            f"font-size: 11pt; color: {AppStyles.TEXT_SECONDARY}; margin-top: 10px; background: transparent;")
-        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # Subtitle
+        self.subtitle = QLabel("Loading modules...")
+        self.subtitle.setStyleSheet(
+            f"font-size: 12pt; color: {AppStyles.TEXT_SECONDARY}; background: transparent;"
+        )
+        self.subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        layout.addWidget(self.gif_label, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(title, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(subtitle, alignment=Qt.AlignmentFlag.AlignCenter)
+        # Animated Dots Label
+        self.dots_label = QLabel("●●●")
+        self.dots_label.setStyleSheet(
+            f"font-size: 18pt; font-weight: bold; color: {AppStyles.PRIMARY_COLOR}; background: transparent;"
+        )
+        self.dots_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        layout.addWidget(icon_label)
+        layout.addWidget(title)
+        layout.addWidget(self.subtitle)
+        layout.addWidget(self.dots_label)
+
+        # Start dot animation
+        self.dot_count = 0
+        self.dot_timer = QTimer(self)
+        self.dot_timer.timeout.connect(self.update_dots)
+        self.dot_timer.start(400)  # Update every 400ms
+
+    def update_dots(self):
+        self.dot_count = (self.dot_count + 1) % 4
+        dots = "●" * self.dot_count + "○" * (3 - self.dot_count)
+        self.dots_label.setText(dots)
 
     def stop(self):
-        if hasattr(self, 'movie') and self.movie and self.movie.isValid():
-            self.movie.stop()
+        if hasattr(self, 'dot_timer') and self.dot_timer.isActive():
+            self.dot_timer.stop()
         self.hide()
 
 
