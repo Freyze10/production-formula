@@ -207,7 +207,7 @@ class LoadingOverlay(QWidget):
         if hasattr(self, 'movie') and self.movie:
             self.movie.stop()
         self.hide()
-        self.deleteLater()
+        # Don't deleteLater() — let parent manage it
 
 
 class LoginWindow(QMainWindow):
@@ -216,6 +216,7 @@ class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.engine = create_engine_connection()
+        self.loading = None  # ← ADD THIS
         self.setObjectName("LoginWindow")
         self.setupUi()
 
@@ -535,7 +536,8 @@ def main():
         nonlocal main_window
 
         # === SHOW LOADING OVERLAY ===
-        loading = LoadingOverlay()
+        login_window.loading = LoadingOverlay()  # ← Store in login_window
+        loading = login_window.loading
         screen = QApplication.primaryScreen().availableGeometry()
         loading.resize(500, 380)
         loading.move(screen.center().x() - loading.width() // 2, screen.center().y() - loading.height() // 2)
