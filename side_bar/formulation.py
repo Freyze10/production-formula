@@ -1,5 +1,5 @@
 # formulation.py
-# Modern Formulation Management Module
+# Modern Formulation Management Module - Refactored with Data Caching
 
 from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
@@ -19,22 +19,19 @@ from utils.work_station import _get_workstation_info
 # Custom QTableWidgetItem for numerical sorting
 class NumericTableWidgetItem(QTableWidgetItem):
     def __init__(self, value, display_text=None, is_float=False):
-        # Store the actual numerical value for sorting
         self.value = value
         self.is_float = is_float
 
-        # Use display_text for the visual representation, or format value if not provided
         if display_text is None:
             if is_float:
                 display_text = f"{value:.6f}" if value is not None else ""
             else:
                 display_text = str(value) if value is not None else ""
 
-        super().__init__(display_text)  # Pass the formatted string to the base QTableWidgetItem
+        super().__init__(display_text)
 
     def __lt__(self, other):
         if isinstance(other, NumericTableWidgetItem):
-            # Ensure comparison is based on the actual numeric value, not the display string
             if self.is_float:
                 return float(self.value) < float(other.value)
             else:
@@ -51,11 +48,25 @@ class FormulationManagementPage(QWidget):
         self.log_audit_trail = log_audit_trail
         self.work_station = _get_workstation_info()
         self.current_formulation_id = None
-        self.all_formula_data = []
+
         self.setup_ui()
-        self.refresh_page()
-        self.refresh_formulations()
+        self.initial_load()  # Load data once on initialization
         self.user_access(self.user_role)
+
+    def initial_load(self):
+        """Load all data once during initialization."""
+        self.set_date_range_or_no_data()
+        self.load_rm_codes()  # Load RM codes once
+        self.refresh_formulations()  # Initial load of formulations
+        self.data_loaded = True
+
+    def load_rm_codes(self):
+        """Load and cache RM codes from database."""
+        try:
+            self.rm_list = db_call.get_rm_code_lists()
+        except Exception as e:
+            print(f"Error loading RM codes: {e}")
+            self.rm_list = []
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
@@ -141,22 +152,18 @@ class FormulationManagementPage(QWidget):
         ])
         header = self.formulation_table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        header.setSectionResizeMode(3, QHeaderView.ResizeMode.Interactive)  # Allow manual resizing
-        header.resizeSection(3, 350)  # Set initial width to 400 pixels
+        header.setSectionResizeMode(3, QHeaderView.ResizeMode.Interactive)
+        header.resizeSection(3, 350)
         header.setMinimumSectionSize(70)
-        # === Enable sorting by clicking on headers ===
         self.formulation_table.setSortingEnabled(True)
-        # === Table appearance and behavior ===
         self.formulation_table.verticalHeader().setVisible(False)
         self.formulation_table.setAlternatingRowColors(True)
         self.formulation_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.formulation_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.formulation_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        # === Optional: sort indicator visual (arrow up/down) ===
         header.setSortIndicatorShown(True)
         header.setSectionsClickable(True)
 
-        # === Connect selection event ===
         self.formulation_table.itemSelectionChanged.connect(self.on_formulation_selected)
 
         records_layout.addWidget(self.formulation_table, stretch=1)
@@ -209,20 +216,20 @@ class FormulationManagementPage(QWidget):
         self.date_to_filter.setCalendarPopup(True)
         controls_layout.addWidget(self.date_to_filter)
 
-        # Add Export Button
         self.export_btn = QPushButton("Export", objectName="SecondaryButton")
         self.export_btn.setIcon(fa.icon('fa5s.file-export', color='white'))
         self.export_btn.clicked.connect(self.export_to_excel)
         controls_layout.addWidget(self.export_btn)
 
-        self.date_from_filter.dateChanged.connect(self.refresh_formulations)
-        self.date_to_filter.dateChanged.connect(self.refresh_formulations)
+        # Connect date filters to refresh data from DB
+        self.date_from_filter.dateChanged.connect(self.on_date_filter_changed)
+        self.date_to_filter.dateChanged.connect(self.on_date_filter_changed)
 
         controls_layout.addStretch()
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        self.refresh_btn.clicked.connect(self.refresh_page)
+        self.refresh_btn.clicked.connect(self.refresh_data_from_db)
         controls_layout.addWidget(self.refresh_btn)
 
         self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
@@ -357,7 +364,6 @@ class FormulationManagementPage(QWidget):
         # MB or DC
         self.mb_dc_combo = QComboBox()
         self.mb_dc_combo.addItems(["MB", "DC"])
-        # formula_layout.addRow("MB or DC:", self.mb_dc_combo)
 
         left_column.addWidget(formula_card, stretch=1)
 
@@ -381,50 +387,44 @@ class FormulationManagementPage(QWidget):
         self.matched_by_items = ["ANNA", "ERNIE", "JINKY", "ESA"]
         self.matched_by_input = QComboBox()
         self.matched_by_input.addItems(self.matched_by_items)
-        self.matched_by_input.setEditable(True)  # ✅ Allow typing
+        self.matched_by_input.setEditable(True)
         self.matched_by_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         self.matched_by_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
-        # ✅ Enable smart autocomplete
         matched_by_model = self.matched_by_items
         matched_by_completer = QCompleter(matched_by_model, self.matched_by_input)
         matched_by_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
         matched_by_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.matched_by_input.setCompleter(matched_by_completer)
 
-        self.matched_by_input.editTextChanged.connect(lambda: None)  # ensures typing updates completer
+        self.matched_by_input.editTextChanged.connect(lambda: None)
         self.matched_by_input.lineEdit().editingFinished.connect(self.validate_matched_by)
 
         matched_by_layout.addWidget(self.matched_by_input, stretch=2)
 
-        # --- Material Code ---
+        # Material Code
         material_label = QLabel("Material Code:")
         matched_by_layout.addWidget(material_label)
 
-        self.rm_list = db_call.get_rm_code_lists()
         self.material_code_input = QComboBox()
-        self.material_code_input.addItems(self.rm_list)
         self.material_code_input.setEditable(True)
         self.material_code_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         self.material_code_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
-        # ✅ Real-time filter + dropdown completer
-        rm_model = self.rm_list
-        rm_completer = QCompleter(rm_model, self.material_code_input)
-        rm_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
-        rm_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        self.material_code_input.setCompleter(rm_completer)
+        # Setup completer for RM codes
+        self.setup_rm_code_completer()
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
 
         matched_by_layout.addWidget(self.material_code_input)
 
-        # --- Sync Button ---
+        # Sync Button
         self.rm_code_sync_button = QPushButton("Sync RM Code", objectName="SecondaryButton")
         self.rm_code_sync_button.clicked.connect(self.run_rm_warehouse_sync)
         matched_by_layout.addWidget(self.rm_code_sync_button)
 
         material_layout.addLayout(matched_by_layout)
+
         # Concentration Input
         conc_input_layout = QHBoxLayout()
         conc_input_layout.addWidget(QLabel("Concentration:"))
@@ -510,9 +510,7 @@ class FormulationManagementPage(QWidget):
         self.html_input = QLineEdit()
         self.html_input.setPlaceholderText("#FFFFFF")
         self.html_input.setStyleSheet("background-color: #fff9c4;")
-        self.html_input.setVisible(False)  # Hide from UI
-        # Uncomment next line to make visible in future:
-        # color_layout.addRow("HTML Color:", self.html_input)
+        self.html_input.setVisible(False)
 
         # CMYK Values in Grid (hidden but functional)
         cmyk_widget = QWidget()
@@ -524,29 +522,23 @@ class FormulationManagementPage(QWidget):
         self.cyan_input = QLineEdit()
         self.cyan_input.setStyleSheet("background-color: #fff9c4;")
         self.cyan_input.setText("")
-        # cmyk_layout.addWidget(self.cyan_input, 0, 1)
 
         cmyk_layout.addWidget(QLabel("M:"), 0, 2)
         self.magenta_input = QLineEdit()
         self.magenta_input.setStyleSheet("background-color: #fff9c4;")
         self.magenta_input.setText("")
-        # cmyk_layout.addWidget(self.magenta_input, 0, 3)
 
         cmyk_layout.addWidget(QLabel("Y:"), 1, 0)
         self.yellow_input = QLineEdit()
         self.yellow_input.setStyleSheet("background-color: #fff9c4;")
         self.yellow_input.setText("")
-        # cmyk_layout.addWidget(self.yellow_input, 1, 1)
 
         cmyk_layout.addWidget(QLabel("K:"), 1, 2)
         self.key_black_input = QLineEdit()
         self.key_black_input.setStyleSheet("background-color: #fff9c4;")
         self.key_black_input.setText("")
-        # cmyk_layout.addWidget(self.key_black_input, 1, 3)
 
-        cmyk_widget.setVisible(False)  # Hide entire CMYK widget from UI
-        # Uncomment next line to make visible in future:
-        # color_layout.addRow("CMYK Values:", cmyk_widget)
+        cmyk_widget.setVisible(False)
 
         # Updated By and Date/Time
         self.updated_by_display = QLineEdit()
@@ -596,14 +588,38 @@ class FormulationManagementPage(QWidget):
 
         return tab
 
-    # ✅ Prevent invalid entry (revert to last valid)
+    def setup_rm_code_completer(self):
+        """Setup the completer for RM codes using cached data."""
+        self.material_code_input.clear()
+        self.material_code_input.addItems(self.rm_list)
+
+        rm_completer = QCompleter(self.rm_list, self.material_code_input)
+        rm_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+        rm_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.material_code_input.setCompleter(rm_completer)
+
+    def setup_autocompleters(self):
+        """Setup autocompleters for customer and product code using cached data."""
+        # Customer autocomplete
+        customer_completer = QCompleter(self.customer_lists)
+        customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        customer_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.customer_input.setCompleter(customer_completer)
+
+        # Product code autocomplete
+        pr_code_completer = QCompleter(self.product_code_lists)
+        pr_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        pr_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.product_code_input.setCompleter(pr_code_completer)
+
     def validate_matched_by(self):
+        """Prevent invalid entry (revert to last valid)."""
         current_text = self.matched_by_input.currentText()
         if current_text not in self.matched_by_items:
-            self.matched_by_input.setCurrentIndex(0)  # reset to default
+            self.matched_by_input.setCurrentIndex(0)
 
-    # ✅ Prevent invalid input
     def validate_rm_code(self):
+        """Prevent invalid input."""
         current_text = self.material_code_input.currentText()
         if current_text not in self.rm_list:
             self.material_code_input.setCurrentIndex(0)
@@ -612,26 +628,22 @@ class FormulationManagementPage(QWidget):
         """Format the input to a float with 6 decimal places when focus is lost."""
         text = line_edit.text().strip()
         try:
-            if text:  # Only format if not empty
+            if text:
                 value = float(text)
                 line_edit.setText(f"{value:.6f}")
         except ValueError:
-            # Optionally, clear or keep the text if not numeric
             QMessageBox.warning(self, "Invalid Input", "Please enter a valid number.")
-            line_edit.setFocus()  # ✅ keep focus in the field
-            line_edit.selectAll()  # optional: highlight text for quick correction
+            line_edit.setFocus()
+            line_edit.selectAll()
             return
-            # Call the base focusOutEvent to ensure normal behavior
         QLineEdit.focusOutEvent(line_edit, event)
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file."""
-        # Get date range for filename
         date_from = self.date_from_filter.date().toString("yyyyMMdd")
         date_to = self.date_to_filter.date().toString("yyyyMMdd")
         default_filename = f"formulation_records_{date_from}_to_{date_to}.xlsx"
 
-        # Open QFileDialog to select save location
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Excel File",
@@ -640,38 +652,47 @@ class FormulationManagementPage(QWidget):
         )
 
         if not file_path:
-            return  # User canceled the dialog
+            return
 
-        # Collect table data
         headers = ["ID", "Index Ref", "Date", "Customer", "Product Code", "Product Color", "Total Cons", "Dosage"]
         data = []
         for row in range(self.formulation_table.rowCount()):
-            if not self.formulation_table.isRowHidden(row):  # Only include visible rows (filtered data)
+            if not self.formulation_table.isRowHidden(row):
                 row_data = []
                 for col in range(self.formulation_table.columnCount()):
                     item = self.formulation_table.item(row, col)
                     if isinstance(item, NumericTableWidgetItem):
-                        row_data.append(item.value)  # Use the actual numerical value
+                        row_data.append(item.value)
                     else:
                         row_data.append(item.text() if item else "")
                 data.append(row_data)
 
-        # Create DataFrame
         df = pd.DataFrame(data, columns=headers)
 
         try:
-            # Save to Excel
             df.to_excel(file_path, index=False)
             QMessageBox.information(self, "Export Successful", f"Table data exported to {file_path}")
             self.log_audit_trail("Data Export", f"Exported formulation table to {file_path}")
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
 
-    def refresh_page(self):
-        self.formulation_table.setRowCount(0)
-        """Refresh the formulation records."""
-        self.set_date_range_or_no_data()
-        self.refresh_formulations()
+    def on_date_filter_changed(self):
+        """Handle date filter changes - refresh data from database."""
+        self.refresh_data_from_db()
+
+    def refresh_data_from_db(self):
+        """Explicitly refresh data from database (called by refresh button or date change)."""
+        early_date = self.date_from_filter.date().toPyDate()
+        late_date = self.date_to_filter.date().toPyDate()
+
+        try:
+            self.all_formula_data = db_call.get_formula_data(early_date, late_date)
+            self.update_cached_lists()
+            self.populate_formulation_table()
+        except Exception as e:
+            QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
+            self.all_formula_data = []
+            self.populate_formulation_table()
 
     def set_date_range_or_no_data(self):
         """Enable/disable date filters based on DB content."""
@@ -695,52 +716,49 @@ class FormulationManagementPage(QWidget):
         self.date_to_filter.setDate(q_to)
 
     def refresh_formulations(self):
-        """Load formulations and preserve sort order if applicable."""
+        """Load formulations from database and cache them."""
         early_date = self.date_from_filter.date().toPyDate()
         late_date = self.date_to_filter.date().toPyDate()
 
-        # ---- Store sort state (optional) ----
-        sort_column = self.formulation_table.horizontalHeader().sortIndicatorSection()
-        sort_order = self.formulation_table.horizontalHeader().sortIndicatorOrder()
-
-        # ---- Clear everything (including any previous “No data” row) ----
-        self.formulation_table.setSortingEnabled(False)
-        self.formulation_table.clearContents()
-        self.formulation_table.setRowCount(0)
-
-        # ---- Try to fetch data -------------------------------------------------
         try:
             self.all_formula_data = db_call.get_formula_data(early_date, late_date)
         except Exception as e:
             self.all_formula_data = []
             print(f"Error loading formula data: {e}")
 
-        # ---- No rows at all? ---------------------------------------------------
+        self.update_cached_lists()
+        self.populate_formulation_table()
+
+    def update_cached_lists(self):
+        """Update cached lists from current formula data."""
         if not self.all_formula_data:
-            # show a single centered “No data” row
-            self.formulation_table.setRowCount(1)
-            no_item = QTableWidgetItem("No formulation data available")
-            no_item.setTextAlignment(
-                Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-            no_item.setFlags(Qt.ItemFlag.ItemIsEnabled)  # not selectable
-            self.formulation_table.setItem(0, 0, no_item)
-            self.formulation_table.setSpan(0, 0, 1,
-                                           self.formulation_table.columnCount())
-            self.formulation_table.setSortingEnabled(True)
+            self.customer_lists = []
+            self.product_code_lists = []
+            self.formula_uid_lists = []
             return
+
         self.customer_lists = list({row[3] for row in self.all_formula_data})
         self.product_code_lists = list({row[4] for row in self.all_formula_data})
         self.formula_uid_lists = list({str(row[0]) for row in self.all_formula_data})
 
-        customer_completer = QCompleter(self.customer_lists)
-        customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        customer_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)  # Optional: makes it case-insensitive
-        self.customer_input.setCompleter(customer_completer)  # completer for customer input
+        # Update autocompleters with new cached data
+        self.setup_autocompleters()
 
-        pr_code_completer = QCompleter(self.product_code_lists)
-        pr_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        pr_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)  # Optional: makes it case-insensitive
-        self.product_code_input.setCompleter(pr_code_completer)  # completer for customer input
+    def populate_formulation_table(self):
+        """Populate the formulation table from cached data without DB call."""
+        self.formulation_table.setSortingEnabled(False)
+        self.formulation_table.clearContents()
+        self.formulation_table.setRowCount(0)
+
+        if not self.all_formula_data:
+            self.formulation_table.setRowCount(1)
+            no_item = QTableWidgetItem("No formulation data available")
+            no_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            no_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
+            self.formulation_table.setItem(0, 0, no_item)
+            self.formulation_table.setSpan(0, 0, 1, self.formulation_table.columnCount())
+            self.formulation_table.setSortingEnabled(True)
+            return
 
         for row_data in self.all_formula_data:
             row_position = self.formulation_table.rowCount()
@@ -748,6 +766,7 @@ class FormulationManagementPage(QWidget):
             for col, data in enumerate(row_data):
                 item = None
                 display_value = str(data) if data is not None else ""
+
                 if col == 0:
                     item = NumericTableWidgetItem(int(data)) if data is not None else QTableWidgetItem("")
                 elif col == 1:
@@ -759,23 +778,23 @@ class FormulationManagementPage(QWidget):
                     item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
                 else:
                     item = QTableWidgetItem(display_value)
+
                 if col in (0, 1, 2):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 elif col in (6, 7):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
                 else:
                     item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+
                 self.formulation_table.setItem(row_position, col, item)
 
-        # Restore sort state
         header = self.formulation_table.horizontalHeader()
         header.setSortIndicator(-1, Qt.SortOrder.AscendingOrder)
         self.formulation_table.setSortingEnabled(True)
-        # Clear sort indicator to show no sorting is applied
         self.formulation_table.scrollToTop()
 
     def filter_formulations(self):
-        """Filter formulations based on search text."""
+        """Filter formulations based on search text using cached data."""
         search_text = self.search_input.text().lower()
         for row in range(self.formulation_table.rowCount()):
             show_row = False
@@ -791,20 +810,18 @@ class FormulationManagementPage(QWidget):
         selected_rows = self.formulation_table.selectionModel().selectedRows()
         if selected_rows:
             row = selected_rows[0].row()
-            # Retrieve the actual value from the custom item if it's numeric
             formulation_id_item = self.formulation_table.item(row, 0)
             formulation_id = formulation_id_item.value if isinstance(formulation_id_item,
                                                                      NumericTableWidgetItem) else formulation_id_item.text()
             customer = self.formulation_table.item(row, 3).text()
 
-            self.current_formulation_id = str(formulation_id)  # Ensure it's a string for consistency
-            self.selected_formulation_label.setText(
-                f"-/ {self.current_formulation_id} - {customer}")
+            self.current_formulation_id = str(formulation_id)
+            self.selected_formulation_label.setText(f"-/ {self.current_formulation_id} - {customer}")
 
-            self.load_formulation_details(str(formulation_id))  # Pass as string
+            self.load_formulation_details(str(formulation_id))
 
     def load_formulation_details(self, formulation_id):
-        """Load sample detailed material list for selected formulation."""
+        """Load detailed material list for selected formulation."""
         details = db_call.get_formula_materials(formulation_id)
         self.details_table.setRowCount(0)
         for row_data in details:
@@ -812,7 +829,7 @@ class FormulationManagementPage(QWidget):
             self.details_table.insertRow(row_position)
             for col, data in enumerate(row_data):
                 item = QTableWidgetItem(str(data) if data is not None else "")
-                if col == 1:  # Concentration column in details table
+                if col == 1:
                     item = QTableWidgetItem(f"{float(data):.6f}" if data is not None else "")
                 item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.details_table.setItem(row_position, col, item)
@@ -823,23 +840,23 @@ class FormulationManagementPage(QWidget):
         self.enable_fields(enable=False)
 
     def edit_formulation(self):
-        """Load selected formulation into entry tab for editing (sample data)."""
+        """Load selected formulation into entry tab for editing."""
         if not self.current_formulation_id:
             QMessageBox.warning(self, "No Selection", "Please select a formulation to edit.")
             return
 
         self.tab_widget.blockSignals(True)
-        # Change the tab
         self.tab_widget.setCurrentIndex(1)
+
         result = db_call.get_specific_formula_data(self.current_formulation_id)
         if not result:
             QMessageBox.warning(self, "Error",
                                 f"Formulation ID {self.current_formulation_id} not found in database.")
             self.tab_widget.blockSignals(False)
             return
+
         try:
-            # Re-enable signals
-            self.formulation_id_input.setText(str(result[2]))  # Ensure ID is string for display
+            self.formulation_id_input.setText(str(result[2]))
             self.customer_input.setText(str(result[4]))
             self.index_ref_input.setText(str(result[1]))
             self.product_code_input.setText(str(result[5]))
@@ -847,28 +864,28 @@ class FormulationManagementPage(QWidget):
             self.sum_conc_input.setText(str(result[7]))
             self.dosage_input.setText(str(result[8]))
             self.mixing_time_input.setText(str(result[9]))
-            self.resin_used_input.setText(str(result[10]))  # Example
-            self.application_no_input.setText(str(result[11]))  # Example
-            self.matching_no_input.setText(str(result[12]))  # Example
+            self.resin_used_input.setText(str(result[10]))
+            self.application_no_input.setText(str(result[11]))
+            self.matching_no_input.setText(str(result[12]))
             date_matched = QDate(result[13].year, result[13].month, result[13].day)
-            self.date_matched_input.setDate(date_matched)  # Example insert date
-            self.notes_input.setPlainText(str(result[14]))  # Example
-            self.mb_dc_combo.setCurrentText(str(result[22]))  # Example
-            self.html_input.setText(str(result[23]))  # Example
+            self.date_matched_input.setDate(date_matched)
+            self.notes_input.setPlainText(str(result[14]))
+            self.mb_dc_combo.setCurrentText(str(result[22]))
+            self.html_input.setText(str(result[23]))
             self.cyan_input.setText(str(result[24]))
             self.magenta_input.setText(str(result[25]))
             self.yellow_input.setText(str(result[26]))
             self.key_black_input.setText(str(result[27]))
-            self.matched_by_input.setCurrentText(str(result[14]))  # Example
-            self.encoded_by_display.setText(str(result[15]))  # Example
+            self.matched_by_input.setCurrentText(str(result[14]))
+            self.encoded_by_display.setText(str(result[15]))
             self.updated_by_display.setText(str(result[19]))
 
             date_and_time = datetime.strptime(str(result[20]), "%m/%d/%y %I:%M:%S %p")
             self.date_time_display.setText(date_and_time.strftime("%m/%d/%Y %I:%M:%S %p"))
         except Exception as e:
             print(e)
-        # Load materials for the selected formulation from db_call
-        materials = db_call.get_formula_materials(self.current_formulation_id)  # Pass ID as string
+
+        materials = db_call.get_formula_materials(self.current_formulation_id)
         self.materials_table.setRowCount(0)
         for material_code, concentration in materials:
             row_position = self.materials_table.rowCount()
@@ -877,7 +894,6 @@ class FormulationManagementPage(QWidget):
             self.materials_table.setItem(row_position, 1, QTableWidgetItem(f"{concentration:.6f}"))
         self.update_total_concentration()
 
-        # Switch to entry tab
         self.tab_widget.blockSignals(False)
 
     def enable_fields(self, enable=True):
@@ -891,11 +907,9 @@ class FormulationManagementPage(QWidget):
             self.magenta_input, self.yellow_input, self.key_black_input,
             self.matched_by_input, self.material_code_input, self.concentration_input,
             self.materials_table,
-
             self.add_material_btn,
             self.remove_material_btn,
             self.clear_materials_btn,
-
             self.save_btn
         ]
         for field in fields:
@@ -918,7 +932,6 @@ class FormulationManagementPage(QWidget):
             return
 
         rm_code = QTableWidgetItem(material_code)
-        # Use NumericTableWidgetItem for concentration in the materials table as well
         concentration_value = NumericTableWidgetItem(concentration, is_float=True)
         rm_code.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         concentration_value.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -953,7 +966,6 @@ class FormulationManagementPage(QWidget):
         for row in range(self.materials_table.rowCount()):
             item = self.materials_table.item(row, 1)
             if item:
-                # If it's a NumericTableWidgetItem, get its actual value
                 if isinstance(item, NumericTableWidgetItem):
                     self.total_material_concentration += float(item.value)
                 else:
@@ -995,13 +1007,12 @@ class FormulationManagementPage(QWidget):
         self.concentration_input.setPlaceholderText("")
         self.materials_table.setRowCount(0)
         self.update_total_concentration()
-        self.current_formulation_id = None  # Ensure we are on the entry tab
+        self.current_formulation_id = None
 
         self.enable_fields(enable=True)
 
     def save_formulation(self):
-        """Save the current formulation (simulation)."""
-        # --- Basic Validation ---
+        """Save the current formulation."""
         formulation_id = self.formulation_id_input.text().strip()
         customer_name = self.customer_input.text().strip()
         product_code = self.product_code_input.text().strip()
@@ -1025,12 +1036,8 @@ class FormulationManagementPage(QWidget):
             QMessageBox.warning(self, "Missing Data", "Please add at least one material to the composition.")
             return
 
-        # --- Validate concentration match ---
-        # Get the calculated total from the label (which is always up-to-date)
         calculated_total = float(self.total_material_concentration)
-
-        # Check if user manually edited the sum field
-        tolerance = 0.000001  # Allow for minor floating point differences
+        tolerance = 0.000001
         if abs(calculated_total - sum_conc) > tolerance:
             QMessageBox.critical(
                 self,
@@ -1041,8 +1048,6 @@ class FormulationManagementPage(QWidget):
             )
             return
 
-        # --- Gather data for saving ---
-        # Main formula data
         formula_data = {
             "uid": formulation_id,
             "formula_index": self.index_ref_input.text().strip() or "-",
@@ -1056,7 +1061,6 @@ class FormulationManagementPage(QWidget):
             "application": self.application_no_input.text().strip() or "-",
             "cm_num": self.matching_no_input.text().strip() or "-",
             "cm_date": self.date_matched_input.date().toString("yyyy-MM-dd"),
-            # Consider converting to QDate/datetime object
             "remarks": self.notes_input.toPlainText().strip() or None,
             "total_concentration": calculated_total,
             "mb_dc": self.mb_dc_combo.currentText(),
@@ -1068,14 +1072,11 @@ class FormulationManagementPage(QWidget):
             "matched_by": self.matched_by_input.currentText(),
             "encoded_by": self.encoded_by_display.text().strip(),
             "formula_date": datetime.strptime(self.date_entry_display.text().strip(), "%m/%d/%Y").date(),
-            # Convert to date object
             "dbf_updated_by": self.updated_by_display.text().strip(),
             "dbf_updated_on_text": datetime.strptime(self.date_time_display.text().strip(),
                                                      "%m/%d/%Y %I:%M:%S %p").strftime("%m/%d/%y %I:%M:%S %p"),
-            # Convert to datetime object
         }
 
-        # Material composition data
         material_composition = []
         for row in range(self.materials_table.rowCount()):
             material_code_item = self.materials_table.item(row, 0)
@@ -1086,37 +1087,35 @@ class FormulationManagementPage(QWidget):
                     "material_code": material_code_item.text().strip(),
                     "concentration": float(concentration_item.text().strip())
                 })
+
         try:
             if self.current_formulation_id:
-                # Existing formulation - perform update
                 db_call.update_formula(formula_data, material_composition)
                 self.log_audit_trail("Data Entry", f"Updated existing Formula: {formulation_id}")
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} updated successfully!")
             else:
-                # New formulation - perform save
                 db_call.save_formula(formula_data, material_composition)
                 self.log_audit_trail("Data Entry", f"Saved new Formula: {formulation_id}")
                 QMessageBox.information(self, "Success", f"Formulation {formulation_id} saved successfully!")
 
-            self.refresh_formulations()  # Refresh the records tab
-            self.new_formulation()  # Reset form for new entry
+            # Refresh cache after save
+            self.refresh_data_from_db()
+            self.new_formulation()
         except Exception as e:
             QMessageBox.critical(self, "Save Error", f"An error occurred while saving the formulation:\n{e}")
 
     def sync_for_entry(self, index):
         """Trigger sync when entering the entry tab."""
         try:
-
             if self.tab_widget.widget(index) == self.entry_tab:
                 self.run_formula_sync()
-                # Also reset date and time displays to current values
                 self.new_formulation()
                 self.date_entry_display.setText(datetime.now().strftime("%m/%d/%Y"))
                 self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
                 self.encoded_by_display.setText(self.work_station['u'])
                 self.updated_by_display.setText(self.work_station['u'])
             if self.tab_widget.widget(index) == self.records_tab:
-                self.refresh_page()
+                self.populate_formulation_table()  # Use cached data
                 self.enable_fields(enable=True)
                 self.new_formulation()
         except Exception as e:
@@ -1129,13 +1128,11 @@ class FormulationManagementPage(QWidget):
 
         loading_dialog = LoadingDialog("Syncing Formula Data", self)
 
-        # Safe connections
         worker.progress.connect(loading_dialog.update_progress)
         worker.finished.connect(
             lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog)
         )
 
-        # --- Safe cleanup pattern ---
         thread.started.connect(worker.run)
         worker.finished.connect(thread.quit)
         thread.finished.connect(lambda: worker.deleteLater())
@@ -1157,7 +1154,6 @@ class FormulationManagementPage(QWidget):
                 lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog, "rm_warehouse")
             )
 
-            # --- Safe cleanup pattern ---
             thread.started.connect(worker.run)
             worker.finished.connect(thread.quit)
             thread.finished.connect(lambda: worker.deleteLater())
@@ -1176,6 +1172,9 @@ class FormulationManagementPage(QWidget):
 
             if success:
                 if sync_type == "rm_warehouse":
+                    # Refresh RM codes cache
+                    self.load_rm_codes()
+                    self.setup_rm_code_completer()
                     QMessageBox.information(self, "Sync Complete", message)
                 else:
                     latest_id = db_call.get_formula_latest_uid()
