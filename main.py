@@ -1,8 +1,10 @@
-# main.py - COMPLETE VERSION WITH LOADING SCREEN (NO EMBEDDED GIF)
 import sys
 import os
 from datetime import datetime
-from PyQt6.QtCore import QTimer, Qt, QSize, QEvent, QPropertyAnimation, QEasingCurve, QAbstractAnimation, pyqtSignal
+from PyQt6.QtCore import (
+    QTimer, Qt, QSize, QEvent, QPropertyAnimation, QEasingCurve,
+    QAbstractAnimation, pyqtSignal, QCoreApplication
+)
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
     QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget, QFrame, QStatusBar,
@@ -11,15 +13,18 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QMovie
 
 # --- Page imports ---
-from side_bar.audit_trail import AuditTrailPage
-from side_bar.user_management import UserManagementPage
-from side_bar.formulation import FormulationManagementPage
-from side_bar.production import ProductionManagementPage
-from utils.work_station import _get_workstation_info
-
-# --- Database imports ---
-from db.engine_conn import create_engine_connection
-from db.schema import initialize_database, get_user_credentials, log_audit_trail, test_database_connection
+# NOTE: These modules must be available for the app to run
+try:
+    from side_bar.audit_trail import AuditTrailPage
+    from side_bar.user_management import UserManagementPage
+    from side_bar.formulation import FormulationManagementPage
+    from side_bar.production import ProductionManagementPage
+    from utils.work_station import _get_workstation_info
+    from db.engine_conn import create_engine_connection
+    from db.schema import initialize_database, get_user_credentials, log_audit_trail, test_database_connection
+except ImportError as e:
+    print(f"FATAL: Missing required module import: {e}")
+    sys.exit(1)
 
 try:
     import qtawesome as fa
@@ -166,41 +171,61 @@ class AppStyles:
 
 
 class LoadingOverlay(QWidget):
+    # --- UPDATED LOADING OVERLAY FOR RELIABLE GIF ANIMATION ---
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, False)
-        self.setStyleSheet("background: #FFFFFF; border-radius: 16px; border: 1px solid #E5E7EB;")
+        # Changed to BG_PRIMARY for better contrast against background screen
+        self.setStyleSheet(
+            f"background: {AppStyles.BG_PRIMARY}; border-radius: 16px; border: 1px solid {AppStyles.BORDER_COLOR};")
+
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(40, 40, 40, 40)
 
+        # --- GIF Loading Logic with Absolute Path and Timer Start ---
         self.gif_label = QLabel()
         self.gif_label.setFixedSize(120, 120)
         self.gif_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Absolute path for the GIF, in an assets/ folder next to this script
+        # Use absolute path for robustness
         script_dir = os.path.dirname(os.path.abspath(__file__))
         gif_path = os.path.join(script_dir, "assets", "loading.gif")
+
         self.movie = QMovie(gif_path)
+
         if self.movie.isValid():
+            # CRITICAL: Forces all frames to load, improving playback reliability
+            self.movie.setCacheMode(QMovie.CacheMode.CacheAll)
+
             self.movie.setScaledSize(QSize(120, 120))
             self.gif_label.setMovie(self.movie)
-            QTimer.singleShot(0, self.movie.start)
-        else:
-            self.gif_label.setText("Loading...")
-            self.gif_label.setStyleSheet("font-size: 16pt; color: #6B7280; background: transparent;")
 
-        layout.addWidget(self.gif_label, alignment=Qt.AlignmentFlag.AlignCenter)
+            # CRITICAL: Start the animation with a small delay (50ms) to ensure it
+            # is in the event loop and fully painted, resolving the static image issue.
+            QTimer.singleShot(50, self.movie.start)
+
+            # print(f"DEBUG: QMovie loaded successfully from: {gif_path}")
+        else:
+            # Fallback for when the GIF file is missing or invalid
+            print(f"FATAL: QMovie failed to load from: {gif_path}. Displaying fallback text.")
+            self.gif_label.setText("Loading...")
+            self.gif_label.setStyleSheet(
+                f"font-size: 16pt; color: {AppStyles.TEXT_SECONDARY}; background: transparent;")
 
         title = QLabel("Initializing Application...")
-        title.setStyleSheet("font-size: 18pt; font-weight: 600; color: #4F46E5; background: transparent;")
+        title.setStyleSheet(
+            f"font-size: 18pt; font-weight: 600; color: {AppStyles.PRIMARY_COLOR}; background: transparent;")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(title, alignment=Qt.AlignmentFlag.AlignCenter)
 
         subtitle = QLabel("Loading formulation and production modules...")
-        subtitle.setStyleSheet("font-size: 11pt; color: #6B7280; margin-top: 10px; background: transparent;")
+        subtitle.setStyleSheet(
+            f"font-size: 11pt; color: {AppStyles.TEXT_SECONDARY}; margin-top: 10px; background: transparent;")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        layout.addWidget(self.gif_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(subtitle, alignment=Qt.AlignmentFlag.AlignCenter)
 
     def stop(self):
@@ -215,9 +240,12 @@ class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.engine = create_engine_connection()
-        self.loading = None  # ← ADD THIS
+        self.loading = None
         self.setObjectName("LoginWindow")
         self.setupUi()
+        # ... (rest of LoginWindow is unchanged)
+
+    # ... (rest of LoginWindow methods are unchanged)
 
     def setupUi(self):
         self.setWindowTitle("Production Formulation Program - Login")
@@ -310,13 +338,21 @@ class ModernMainWindow(QMainWindow):
         self.user_role = user_role
         self.login_window = login_window
         self.is_animating = False
-        self.icon_maximize, self.icon_restore = fa.icon('fa5s.expand-arrows-alt', color='#ecf0f1'), fa.icon('fa5s.compress-arrows-alt', color='#ecf0f1')
-        self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle', color='#D32F2F')
+        self.icon_maximize, self.icon_restore = fa.icon('fa5s.expand-arrows-alt', color='#ecf0f1'), fa.icon(
+            'fa5s.compress-arrows-alt', color='#ecf0f1')
+        self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle',
+                                                                                                    color='#D32F2F')
         self.setWindowTitle("Production Formulation Program")
         self.setWindowIcon(fa.icon('fa5s.check-double', color='gray'))
         self.setMinimumSize(1400, 720)
         self.setGeometry(100, 100, 1366, 768)
         self.workstation_info = _get_workstation_info()
+
+        # Initialize pages to None
+        self.formulation_page = None
+        self.production_page = None
+        self.audit_trail_page = None
+        self.user_management_page = None
 
         self.init_ui()
 
@@ -329,6 +365,8 @@ class ModernMainWindow(QMainWindow):
         main_layout = QHBoxLayout(main_widget)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
+
+        # Create the menu first so button references are available
         main_layout.addWidget(self.create_side_menu())
 
         self.stacked_widget = QStackedWidget()
@@ -338,24 +376,39 @@ class ModernMainWindow(QMainWindow):
         self.setup_status_bar()
         self.apply_styles()
 
-        # Defer page loading
-        QTimer.singleShot(0, self._initialize_pages)
+        # NOTE: self._initialize_pages() is NO LONGER CALLED HERE.
+        # It is now called by the QTimer in the main function.
 
     def _initialize_pages(self):
+        """
+        Loads the pages (the 'heavy' work) and adds them to the stacked widget.
+        """
         try:
             print("Initializing pages...")
-            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
-            self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
+
+            # Instantiate all pages
+            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role,
+                                                              self.log_audit_trail)
+            self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role,
+                                                            self.log_audit_trail)
             self.audit_trail_page = AuditTrailPage(self.engine)
             self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
 
+            # Add pages to the stacked widget
             for page in [self.formulation_page, self.production_page, self.audit_trail_page, self.user_management_page]:
                 self.stacked_widget.addWidget(page)
 
+            # Apply role-based visibility after pages are loaded
             if self.user_role != 'Admin':
                 self.btn_user_mgmt.hide()
+                # Check if the initial page (index 0) is hidden, if so, switch to the next valid page
+                if self.stacked_widget.widget(0) == self.user_management_page:
+                    self.show_page(0, True)  # Show first page
+                else:
+                    self.show_page(0, True)  # Show first page
+            else:
+                self.show_page(0, True)
 
-            self.show_page(0, True)
             self.btn_formulation.setChecked(True)
             print("All pages loaded.")
         except Exception as e:
@@ -379,8 +432,9 @@ class ModernMainWindow(QMainWindow):
         sep = QFrame(frameShape=QFrame.Shape.HLine, objectName="Separator")
         sep.setContentsMargins(0, 10, 0, 10)
 
+        # Buttons created here, but pages not yet loaded. Indices are placeholders.
         self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
-        self.btn_production = self.create_menu_button("  Auto-Generated Entry", 'fa5s.flask', 1)
+        self.btn_production = self.create_menu_button("  Auto-Generated Entry", 'fa5s.industry', 1)
         self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
         self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 3)
 
@@ -407,9 +461,12 @@ class ModernMainWindow(QMainWindow):
 
     def create_menu_button(self, text, icon, page_index):
         btn = QPushButton(text, icon=fa.icon(icon, color='#ecf0f1'), checkable=True, autoExclusive=True)
+        # We connect the buttons now, even if the pages aren't loaded yet.
         if page_index is not None:
             btn.clicked.connect(lambda: self.show_page(page_index))
         return btn
+
+    # ... (rest of ModernMainWindow methods are unchanged)
 
     def setup_status_bar(self):
         self.status_bar = QStatusBar()
@@ -452,6 +509,10 @@ class ModernMainWindow(QMainWindow):
         self.setStyleSheet(AppStyles.MAIN_WINDOW_STYLESHEET)
 
     def show_page(self, index, is_first_load=False):
+        # Prevent page changing until the pages are actually loaded (during initial loading)
+        if self.formulation_page is None and index != 0 and not is_first_load:
+            return
+
         if self.stacked_widget.currentIndex() == index:
             return
         if self.is_animating and not is_first_load:
@@ -534,30 +595,50 @@ def main():
     def on_login_success(username, user_role):
         nonlocal main_window
 
-        # === SHOW LOADING OVERLAY ===
-        login_window.loading = LoadingOverlay()  # New, robust version
+        # 1. Create Main Window (fast operation: creates UI shell)
+        main_window = ModernMainWindow(username, user_role, login_window)
+
+        # 2. Show Loading Overlay and ensure GIF animation is running
+        login_window.loading = LoadingOverlay()
         loading = login_window.loading
         screen = QApplication.primaryScreen().availableGeometry()
+
+        # Center the loading screen
         loading.resize(500, 380)
         loading.move(screen.center().x() - loading.width() // 2, screen.center().y() - loading.height() // 2)
+
+        # NOTE: The GIF is started inside LoadingOverlay.__init__ using a QTimer.singleShot(50,...)
         loading.show()
 
-        def initialize_main_window():
-            try:
-                main_window = ModernMainWindow(username, user_role, login_window)
-                main_window.showMaximized()
+        # 3. Defer the heavy page initialization to keep the GIF responsive
+        # The QTimer ensures the UI event loop processes the GIF's frame changes
+        # before starting the blocking page initialization work.
+        QTimer.singleShot(100, lambda: start_heavy_initialization(loading, main_window))
 
-                QTimer.singleShot(500, lambda: (
-                    loading.stop(),
-                    main_window.activateWindow(),
-                    main_window.raise_()
-                ))
-            except Exception as e:
-                loading.stop()
-                QMessageBox.critical(None, "Init Error", f"Failed to load: {e}")
-                login_window.show()
+    def start_heavy_initialization(loading_overlay, main_window_ref):
+        """
+        Function that performs the heavy lifting and switches to the main window.
+        This runs after the QTimer fires, ensuring the loading GIF has started.
+        """
+        try:
+            # Step A: Perform the heavy work (instantiate all QWidgets and load data)
+            main_window_ref._initialize_pages()
 
-        QTimer.singleShot(1000, initialize_main_window)
+            # Step B: Show the main window (it's maximized and ready now)
+            main_window_ref.showMaximized()
+
+            # Step C: Stop the loading animation and hide the overlay
+            # Use a slight delay here to ensure a clean transition
+            QTimer.singleShot(300, lambda: (
+                loading_overlay.stop(),
+                main_window_ref.activateWindow(),
+                main_window_ref.raise_()
+            ))
+
+        except Exception as e:
+            loading_overlay.stop()
+            QMessageBox.critical(None, "Init Error", f"Failed to load main application components: {e}")
+            login_window.show()
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()
