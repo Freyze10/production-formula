@@ -179,14 +179,17 @@ class LoadingOverlay(QWidget):
         # Animated GIF (from assets/loading.gif)
         self.gif_label = QLabel()
         self.gif_label.setFixedSize(120, 120)
-        movie = QMovie("assets/loading.gif")
-        if movie.isValid():
-            self.gif_label.setMovie(movie)
-            movie.start()
+        self.gif_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # Keep reference to QMovie to prevent garbage collection
+        self.movie = QMovie("assets/loading.gif")
+        if self.movie.isValid():
+            self.movie.setScaledSize(QSize(120, 120))  # Scale to fit
+            self.gif_label.setMovie(self.movie)
+            self.movie.start()
         else:
             self.gif_label.setText("Loading...")
             self.gif_label.setStyleSheet("font-size: 16pt; color: #6B7280;")
-        self.gif_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         title = QLabel("Initializing Application...")
         title.setStyleSheet(f"font-size: 18pt; font-weight: 600; color: {AppStyles.PRIMARY_COLOR}; background: transparent;")
@@ -201,8 +204,8 @@ class LoadingOverlay(QWidget):
         layout.addWidget(subtitle, alignment=Qt.AlignmentFlag.AlignCenter)
 
     def stop(self):
-        for child in self.findChildren(QMovie):
-            child.stop()
+        if hasattr(self, 'movie') and self.movie:
+            self.movie.stop()
         self.hide()
         self.deleteLater()
 
