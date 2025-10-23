@@ -1,5 +1,5 @@
 # production.py
-# Modern Production Management Module
+# Modern Production Management Module - Refactored with Data Caching
 
 from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
@@ -14,6 +14,7 @@ import pandas as pd
 from db import db_call
 from db.sync_formula import SyncProductionWorker, LoadingDialog
 from utils.work_station import _get_workstation_info
+from utils import global_var
 
 
 class NumericTableWidgetItem(QTableWidgetItem):
@@ -45,10 +46,21 @@ class ProductionManagementPage(QWidget):
         self.log_audit_trail = log_audit_trail
         self.work_station = _get_workstation_info()
         self.current_production_id = None
-        self.all_production_data = []
+
         self.setup_ui()
-        self.refresh_page()
+        self.initial_load()
         self.user_access(self.user_role)
+
+    def initial_load(self):
+        """Load all data once during initialization."""
+        self.set_date_range()
+        self.refresh_productions()
+        global_var.production_data_loaded = True
+
+    def set_date_range(self):
+        """Set default date range to last month."""
+        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
+        self.date_to_filter.setDate(QDate.currentDate())
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
@@ -191,16 +203,15 @@ class ProductionManagementPage(QWidget):
         self.export_btn.clicked.connect(self.export_to_excel)
         controls_layout.addWidget(self.export_btn)
 
-        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
-        self.date_to_filter.setDate(QDate.currentDate())
-        self.date_from_filter.dateChanged.connect(self.refresh_productions)
-        self.date_to_filter.dateChanged.connect(self.refresh_productions)
+        # Connect date filters to refresh data from DB
+        self.date_from_filter.dateChanged.connect(self.on_date_filter_changed)
+        self.date_to_filter.dateChanged.connect(self.on_date_filter_changed)
 
         controls_layout.addStretch()
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        self.refresh_btn.clicked.connect(self.run_production_sync)
+        self.refresh_btn.clicked.connect(self.refresh_data_from_db)
         controls_layout.addWidget(self.refresh_btn)
 
         self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
@@ -423,7 +434,7 @@ class ProductionManagementPage(QWidget):
         total_layout.addWidget(self.fg_label)
         material_layout.addLayout(total_layout)
 
-        # Encoding Information (without groupbox, added to bottom)
+        # Encoding Information
         encoding_layout = QGridLayout()
         encoding_layout.setSpacing(6)
 
@@ -512,35 +523,92 @@ class ProductionManagementPage(QWidget):
             return
         QLineEdit.focusOutEvent(line_edit, event)
 
-    def refresh_page(self):
-        """Refresh the production records."""
-        self.production_table.setRowCount(0)
+    def on_date_filter_changed(self):
+        """Handle date filter changes - refresh data from database."""
+        self.refresh_data_from_db()
 
-        # Set date range to last month by default
-        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
-        self.date_to_filter.setDate(QDate.currentDate())
-        self.refresh_productions()
+    def refresh_data_from_db(self):
+        """Explicitly refresh data from database (called by refresh button or date change)."""
+        try:
+            global_var.all_production_data = db_call.get_all_production_data()
+            self.update_cached_lists()
+            self.populate_production_table()
+        except Exception as e:
+            QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
+            global_var.all_production_data = []
+            self.populate_production_table()
 
     def refresh_productions(self):
-        """Load productions and preserve sort order if applicable."""
-        # Disable sorting and clear table
+        """Load productions from database and cache them."""
+        try:
+            global_var.all_production_data = db_call.get_all_production_data()
+        except Exception as e:
+            global_var.all_production_data = []
+            print(f"Error loading production data: {e}")
+
+        self.update_cached_lists()
+        self.populate_production_table()
+
+    def update_cached_lists(self):
+        """Update cached lists from current production data."""
+        if not global_var.all_production_data:
+            global_var.production_customer_lists = []
+            global_var.production_product_code_lists = []
+            global_var.production_lot_no_lists = []
+            return
+
+        global_var.production_customer_lists = list({row[2] for row in global_var.all_production_data if row[2]})
+        global_var.production_product_code_lists = list({row[3] for row in global_var.all_production_data if row[3]})
+        global_var.production_lot_no_lists = list({row[5] for row in global_var.all_production_data if row[5]})
+
+        # Update autocompleters
+        self.setup_autocompleters()
+
+    def setup_autocompleters(self):
+        """Setup autocompleters for customer and product code using cached data."""
+        # Customer autocomplete
+        customer_completer = QCompleter(global_var.production_customer_lists)
+        customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        customer_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.customer_input.setCompleter(customer_completer)
+
+        # Product code autocomplete
+        product_code_completer = QCompleter(global_var.production_product_code_lists)
+        product_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        product_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.product_code_input.setCompleter(product_code_completer)
+
+        # Lot number autocomplete
+        lot_no_completer = QCompleter(global_var.production_lot_no_lists)
+        lot_no_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        lot_no_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.lot_no_input.setCompleter(lot_no_completer)
+
+    def populate_production_table(self):
+        """Populate the production table from cached data without DB call."""
         self.production_table.setSortingEnabled(False)
         self.production_table.clearContents()
         self.production_table.setRowCount(0)
 
-        # Load data from database
-        self.all_production_data = db_call.get_all_production_data()
+        if not global_var.all_production_data:
+            self.production_table.setRowCount(1)
+            no_item = QTableWidgetItem("No production data available")
+            no_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            no_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
+            self.production_table.setItem(0, 0, no_item)
+            self.production_table.setSpan(0, 0, 1, self.production_table.columnCount())
+            self.production_table.setSortingEnabled(True)
+            return
 
-        # Populate table
-        for row_data in self.all_production_data:
+        for row_data in global_var.all_production_data:
             row_position = self.production_table.rowCount()
             self.production_table.insertRow(row_position)
 
-            hidden_id = row_data[0]  # store hidden foreign key (e.g., primary ID)
+            hidden_id = row_data[0]  # store hidden foreign key
 
             # Iterate through visible columns only (skip ID column)
             for col, data in enumerate(row_data[1:], start=0):
-                if col == 5:  # Qty. Produced column (adjusted index after skipping ID)
+                if col == 5:  # Qty. Produced column
                     float_value = float(data) if data is not None else 0.0
                     formatted_text = f"{float_value:.6f}"
                     item = NumericTableWidgetItem(float_value, display_text=formatted_text, is_float=True)
@@ -564,7 +632,7 @@ class ProductionManagementPage(QWidget):
         self.production_table.scrollToTop()
 
     def filter_productions(self):
-        """Filter productions based on search text."""
+        """Filter productions based on search text using cached data."""
         search_text = self.search_input.text().lower()
         for row in range(self.production_table.rowCount()):
             show_row = False
@@ -653,7 +721,7 @@ class ProductionManagementPage(QWidget):
             self.edit_production()
             self.enable_fields(enable=False)
         except Exception as e:
-            print("view: ",e)
+            print("view: ", e)
 
     def edit_production(self):
         """Load selected production into entry tab for editing."""
@@ -854,7 +922,8 @@ class ProductionManagementPage(QWidget):
                 self.log_audit_trail("Data Entry", f"Saved new production: {production_id}")
                 QMessageBox.information(self, "Success", f"Production {production_id} saved successfully!")
 
-            self.refresh_productions()
+            # Refresh cache after save
+            self.refresh_data_from_db()
             self.new_production()
         except Exception as e:
             QMessageBox.critical(self, "Save Error", f"An error occurred while saving: {str(e)}")
@@ -886,7 +955,7 @@ class ProductionManagementPage(QWidget):
                 self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
                 self.encoded_by_display.setText(self.work_station['u'])
             elif self.tab_widget.widget(index) == self.records_tab:
-                self.refresh_page()
+                self.populate_production_table()  # Use cached data
                 self.enable_fields(enable=True)
         except Exception as e:
             print(f"Error in sync_for_entry: {e}")
@@ -904,15 +973,12 @@ class ProductionManagementPage(QWidget):
 
         layout = QVBoxLayout(dialog)
 
-        # ----- Header ---------------------------------------------------- #
         product_code = self.product_code_input.text().strip()
         header = QLabel(f"Product Code: {product_code}")
         header.setFont(QFont("Segoe UI", 11, QFont.Weight.Bold))
-        header.setStyleSheet(
-            "color: #0078d4; background-color: #e3f2fd; padding: 8px;")
+        header.setStyleSheet("color: #0078d4; background-color: #e3f2fd; padding: 8px;")
         layout.addWidget(header)
 
-        # ----- Formula table --------------------------------------------- #
         self.formula_table = QTableWidget()
         self.formula_table.setColumnCount(7)
         self.formula_table.setHorizontalHeaderLabels([
@@ -920,62 +986,47 @@ class ProductionManagementPage(QWidget):
             "Product Color", "Dosage", "LD (%)"
         ])
 
-        # fetch formulas for the product code
         try:
             formula_data = db_call.get_formula_select(product_code)
         except Exception as e:
-            QMessageBox.critical(
-                self, "Database Error",
-                f"Failed to fetch formulas: {e}")
+            QMessageBox.critical(self, "Database Error", f"Failed to fetch formulas: {e}")
             return
 
         self.formula_table.setRowCount(len(formula_data))
 
         for r, row in enumerate(formula_data):
-            # pad short rows with empty strings
             row = list(row) + [""] * (7 - len(row))
             for c, value in enumerate(row[:7]):
                 item = QTableWidgetItem(str(value))
-                if r == 2:  # keep original highlight
+                if r == 2:
                     item.setBackground(Qt.GlobalColor.cyan)
                 self.formula_table.setItem(r, c, item)
 
-        self.formula_table.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch)
-        self.formula_table.setSelectionBehavior(
-            QAbstractItemView.SelectionBehavior.SelectRows)
-        self.formula_table.setSelectionMode(
-            QAbstractItemView.SelectionMode.SingleSelection)
-
-        # connect **once** – populate materials when a row is selected
-        self.formula_table.itemSelectionChanged.connect(
-            self.show_formulation_selected)
+        self.formula_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.formula_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.formula_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.formula_table.itemSelectionChanged.connect(self.show_formulation_selected)
 
         layout.addWidget(self.formula_table)
 
-        # ----- Materials section ------------------------------------------ #
         materials_lbl = QLabel("Materials:")
         materials_lbl.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
         layout.addWidget(materials_lbl)
 
         self.materials_table_selector = QTableWidget()
         self.materials_table_selector.setColumnCount(2)
-        self.materials_table_selector.setHorizontalHeaderLabels(
-            ["Material Code", "Concentration"])
+        self.materials_table_selector.setHorizontalHeaderLabels(["Material Code", "Concentration"])
         self.materials_table_selector.setRowCount(0)
-        self.materials_table_selector.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch)
+        self.materials_table_selector.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         layout.addWidget(self.materials_table_selector)
 
-        # ----- Buttons ---------------------------------------------------- #
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
         ok_btn = QPushButton("OK")
         ok_btn.setObjectName("SuccessButton")
         ok_btn.clicked.connect(
-            lambda: self.load_selected_formula(
-                dialog, self.formula_table, self.materials_table_selector))
+            lambda: self.load_selected_formula(dialog, self.formula_table, self.materials_table_selector))
         btn_layout.addWidget(ok_btn)
 
         cancel_btn = QPushButton("CANCEL")
@@ -985,13 +1036,11 @@ class ProductionManagementPage(QWidget):
 
         layout.addLayout(btn_layout)
 
-        # pre-select first row (if any) so materials appear immediately
         if formula_data:
             self.formula_table.selectRow(0)
 
         dialog.exec()
 
-    # --------------------------------------------------------------------- #
     def show_formulation_selected(self):
         """Fill the materials table for the currently selected formula."""
         rows = self.formula_table.selectionModel().selectedRows()
@@ -999,56 +1048,40 @@ class ProductionManagementPage(QWidget):
             return
 
         row_idx = rows[0].row()
-        # Column 1 = "Formula No."  (the unique identifier for the formula)
         formula_no_item = self.formula_table.item(row_idx, 1)
         if not formula_no_item:
             return
         formula_no = formula_no_item.text().strip()
 
-        # ---- fetch materials ------------------------------------------------
         try:
             materials = db_call.get_formula_materials(formula_no)
         except Exception as e:
-            QMessageBox.critical(
-                self, "Database Error",
-                f"Could not load materials for formula {formula_no}: {e}")
+            QMessageBox.critical(self, "Database Error",
+                                 f"Could not load materials for formula {formula_no}: {e}")
             materials = []
 
-        # ---- populate materials table ---------------------------------------
         self.materials_table_selector.setRowCount(len(materials))
         for r, (mat_code, conc) in enumerate(materials):
-            self.materials_table_selector.setItem(
-                r, 0, QTableWidgetItem(str(mat_code)))
-            self.materials_table_selector.setItem(
-                r, 1, QTableWidgetItem(str(conc)))
+            self.materials_table_selector.setItem(r, 0, QTableWidgetItem(str(mat_code)))
+            self.materials_table_selector.setItem(r, 1, QTableWidgetItem(str(conc)))
 
-    # --------------------------------------------------------------------- #
     def load_selected_formula(self, dialog, formula_table, materials_table):
         """Copy the selected formula + materials into the main production form."""
         sel = formula_table.selectionModel().selectedRows()
         if not sel:
-            QMessageBox.warning(dialog, "No Selection",
-                                "Please select a formula first.")
+            QMessageBox.warning(dialog, "No Selection", "Please select a formula first.")
             return
 
         row = sel[0].row()
 
-        # ---- copy formula fields --------------------------------------------
-        self.formulation_id_input.setText(
-            formula_table.item(row, 1).text())  # Formula No.
-        self.customer_input.setText(
-            formula_table.item(row, 2).text())
-        self.product_code_input.setText(
-            formula_table.item(row, 3).text())
-        self.product_color_input.setText(
-            formula_table.item(row, 4).text())
-        self.dosage_input.setText(
-            formula_table.item(row, 5).text())
-        self.ld_percent_input.setText(
-            formula_table.item(row, 6).text())
+        self.formulation_id_input.setText(formula_table.item(row, 1).text())
+        self.customer_input.setText(formula_table.item(row, 2).text())
+        self.product_code_input.setText(formula_table.item(row, 3).text())
+        self.product_color_input.setText(formula_table.item(row, 4).text())
+        self.dosage_input.setText(formula_table.item(row, 5).text())
+        self.ld_percent_input.setText(formula_table.item(row, 6).text())
 
-        # ---- copy materials into the *main* materials table -----------------
-        self.materials_table.setRowCount(0)  # clear old rows
+        self.materials_table.setRowCount(0)
 
         for mat_row in range(materials_table.rowCount()):
             mat_code = materials_table.item(mat_row, 0).text()
@@ -1058,38 +1091,25 @@ class ProductionManagementPage(QWidget):
             except ValueError:
                 concentration = 0.0
 
-            # ---- example calculations (adjust to your real logic) ----------
-            large_scale = concentration * 0.1  # e.g. kg per 100 kg base
-            small_scale = concentration * 10  # e.g. g per 100 kg base
+            large_scale = concentration * 0.1
+            small_scale = concentration * 10
             total_weight = large_scale + (small_scale / 1000)
-            total_loss = total_weight * 0.02  # 2 % loss
+            total_loss = total_weight * 0.02
             total_consumption = total_weight + total_loss
 
             new_row = self.materials_table.rowCount()
             self.materials_table.insertRow(new_row)
 
-            self.materials_table.setItem(
-                new_row, 0, QTableWidgetItem(mat_code))
-            self.materials_table.setItem(
-                new_row, 1,
-                NumericTableWidgetItem(large_scale, is_float=True))
-            self.materials_table.setItem(
-                new_row, 2,
-                NumericTableWidgetItem(small_scale, is_float=True))
-            self.materials_table.setItem(
-                new_row, 3,
-                NumericTableWidgetItem(total_weight, is_float=True))
-            self.materials_table.setItem(
-                new_row, 4,
-                NumericTableWidgetItem(total_loss, is_float=True))
-            self.materials_table.setItem(
-                new_row, 5,
-                NumericTableWidgetItem(total_consumption, is_float=True))
+            self.materials_table.setItem(new_row, 0, QTableWidgetItem(mat_code))
+            self.materials_table.setItem(new_row, 1, NumericTableWidgetItem(large_scale, is_float=True))
+            self.materials_table.setItem(new_row, 2, NumericTableWidgetItem(small_scale, is_float=True))
+            self.materials_table.setItem(new_row, 3, NumericTableWidgetItem(total_weight, is_float=True))
+            self.materials_table.setItem(new_row, 4, NumericTableWidgetItem(total_loss, is_float=True))
+            self.materials_table.setItem(new_row, 5, NumericTableWidgetItem(total_consumption, is_float=True))
 
         self.update_totals()
         dialog.accept()
-        QMessageBox.information(self, "Success",
-                                "Formula loaded successfully!")
+        QMessageBox.information(self, "Success", "Formula loaded successfully!")
 
     def generate_production(self):
         """Generate production calculations."""
@@ -1133,15 +1153,13 @@ class ProductionManagementPage(QWidget):
         worker = SyncProductionWorker()
         worker.moveToThread(thread)
 
-        loading_dialog = LoadingDialog("Syncing Formula Data", self)
+        loading_dialog = LoadingDialog("Syncing Production Data", self)
 
-        # Safe connections
         worker.progress.connect(loading_dialog.update_progress)
         worker.finished.connect(
             lambda success, message: self.on_sync_finished(success, message, thread, loading_dialog)
         )
 
-        # --- Safe cleanup pattern ---
         thread.started.connect(worker.run)
         worker.finished.connect(thread.quit)
         thread.finished.connect(lambda: worker.deleteLater())
@@ -1156,7 +1174,11 @@ class ProductionManagementPage(QWidget):
                 loading_dialog.accept()
 
             if success:
+                # Refresh production data cache
+                self.refresh_data_from_db()
                 QMessageBox.information(self, "Sync Complete", message)
+            else:
+                QMessageBox.critical(self, "Sync Error", message)
 
         except Exception as e:
             print(f"Error in on_sync_finished: {e}")

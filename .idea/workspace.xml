@@ -241,14 +241,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00030" summary="removed the tbl prod_legacy">
-      <option name="closed" value="true" />
-      <created>1760664198633</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1760664198633</updated>
-    </task>
     <task id="LOCAL-00031" summary="renamed legacy">
       <option name="closed" value="true" />
       <created>1760664573142</created>
@@ -633,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761182864290</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="added data for production">
+      <option name="closed" value="true" />
+      <created>1761183454760</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1761183454760</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -654,7 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated functions" />
     <MESSAGE value="fixed table design" />
     <MESSAGE value="added database for formula selection" />
     <MESSAGE value="added selected formulation" />
@@ -679,7 +678,8 @@
     <MESSAGE value="removed debug" />
     <MESSAGE value="refactored formulation" />
     <MESSAGE value="added global var" />
-    <option name="LAST_COMMIT_MESSAGE" value="added global var" />
+    <MESSAGE value="added data for production" />
+    <option name="LAST_COMMIT_MESSAGE" value="added data for production" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
