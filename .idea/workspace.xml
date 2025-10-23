@@ -247,14 +247,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00033" summary="clear unnecessary legacy">
-      <option name="closed" value="true" />
-      <created>1760667731208</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1760667731208</updated>
-    </task>
     <task id="LOCAL-00034" summary="fixed rm code legacy">
       <option name="closed" value="true" />
       <created>1760668941678</created>
@@ -639,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761189554919</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="modified">
+      <option name="closed" value="true" />
+      <created>1761201031596</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1761201031597</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -660,7 +660,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added selected formulation" />
     <MESSAGE value="added ld in database" />
     <MESSAGE value="updated ld in db conn" />
     <MESSAGE value="fixed display  of data with ld" />
@@ -685,14 +684,15 @@
     <MESSAGE value="added data for production" />
     <MESSAGE value="refactored production calls" />
     <MESSAGE value="slightly faster table loading" />
-    <option name="LAST_COMMIT_MESSAGE" value="slightly faster table loading" />
+    <MESSAGE value="modified" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>795</line>
+          <line>747</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

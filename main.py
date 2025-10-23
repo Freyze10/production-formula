@@ -1,10 +1,25 @@
-# main.py - COMPLETE VERSION WITH SILENT BACKGROUND LEGACY SYNC
+# main.py - COMPLETE VERSION WITH LOADING SCREEN (NO EMBEDDED GIF)
 import sys
 import os
 from datetime import datetime
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import QTimer, Qt, QSize, QEvent, QPropertyAnimation, QEasingCurve, QAbstractAnimation, pyqtSignal
+from PyQt6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
+    QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget, QFrame, QStatusBar,
+    QGraphicsOpacityEffect
+)
+from PyQt6.QtGui import QMovie
 
+# --- Page imports ---
+from side_bar.audit_trail import AuditTrailPage
+from side_bar.user_management import UserManagementPage
+from side_bar.formulation import FormulationManagementPage
 from side_bar.production import ProductionManagementPage
+from utils.work_station import _get_workstation_info
+
+# --- Database imports ---
+from db.engine_conn import create_engine_connection
+from db.schema import initialize_database, get_user_credentials, log_audit_trail, test_database_connection
 
 try:
     import qtawesome as fa
@@ -12,39 +27,18 @@ except ImportError:
     print("FATAL ERROR: The 'qtawesome' library is required. Please install it using: pip install qtawesome")
     sys.exit(1)
 
-from PyQt6.QtCore import (Qt, pyqtSignal, QSize, QEvent, QTimer, QThread, QObject, QPropertyAnimation,
-                          QEasingCurve, QAbstractAnimation)
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
-                             QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget,
-                             QFrame, QStatusBar, QDialog, QGraphicsOpacityEffect)
-from PyQt6.QtGui import QMovie
-
-# --- Page imports ---
-from side_bar.audit_trail import AuditTrailPage
-from side_bar.user_management import UserManagementPage
-from side_bar.formulation import FormulationManagementPage
-from utils.work_station import _get_workstation_info
-
-# --- Database imports ---
-from db.engine_conn import create_engine_connection
-from db.schema import (initialize_database, get_user_credentials, log_audit_trail, test_database_connection)
-
 
 class AppStyles:
     """Modern, visually appealing stylesheet with enhanced readability."""
+    PRIMARY_COLOR = "#4F46E5"
+    PRIMARY_COLOR_HOVER = "#4338CA"
+    PRIMARY_COLOR_LIGHT = "#818CF8"
+    ACCENT_COLOR = "#06B6D4"
+    SUCCESS_COLOR = "#10B981"
+    WARNING_COLOR = "#F59E0B"
+    DANGER_COLOR = "#EF4444"
+    INFO_COLOR = "#3B82F6"
 
-    # Color Palette - Softer, more harmonious colors
-    PRIMARY_COLOR = "#4F46E5"  # Indigo
-    PRIMARY_COLOR_HOVER = "#4338CA"  # Darker Indigo
-    PRIMARY_COLOR_LIGHT = "#818CF8"  # Light Indigo
-
-    ACCENT_COLOR = "#06B6D4"  # Cyan
-    SUCCESS_COLOR = "#10B981"  # Emerald
-    WARNING_COLOR = "#F59E0B"  # Amber
-    DANGER_COLOR = "#EF4444"  # Red
-    INFO_COLOR = "#3B82F6"  # Blue
-
-    # Neutral Colors
     BG_PRIMARY = "#FFFFFF"
     BG_SECONDARY = "#F9FAFB"
     BG_TERTIARY = "#F3F4F6"
@@ -59,542 +53,158 @@ class AppStyles:
     BORDER_COLOR = "#E5E7EB"
     BORDER_FOCUS = PRIMARY_COLOR
 
-    # Shadows
     SHADOW_SM = "0 1px 2px 0 rgba(0, 0, 0, 0.05)"
     SHADOW_MD = "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     SHADOW_LG = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
     SHADOW_XL = "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
 
     LOGIN_STYLESHEET = f"""
-        /* ===== Global Styles ===== */
         #LoginWindow, #FormFrame {{ 
             background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
                 stop:0 {BG_SECONDARY}, stop:1 #E0E7FF);
         }}
-
         QWidget {{ 
             font-family: "Segoe UI", "Inter", "SF Pro Display", sans-serif; 
             font-size: 10pt; 
             color: {TEXT_PRIMARY};
         }}
-
-        /* ===== Login Form ===== */
-        #FormFrame {{
-            background-color: {BG_PRIMARY};
-            border-radius: 16px;
-            padding: 20px;
-        }}
-
-        #LoginTitle {{ 
-            font-size: 24pt; 
-            font-weight: 600; 
-            color: {TEXT_PRIMARY};
-            letter-spacing: -0.5px;
-        }}
-
-        /* ===== Input Fields ===== */
-        #InputFrame {{ 
-            background-color: {BG_SECONDARY}; 
-            border: 2px solid {BORDER_COLOR}; 
-            border-radius: 12px; 
-            padding: 8px 12px;
-            transition: all 0.2s ease;
-        }}
-
-        #InputFrame:focus-within {{ 
-            border: 2px solid {PRIMARY_COLOR}; 
-            background-color: {BG_PRIMARY};
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }}
-
-        QLineEdit {{ 
-            border: none; 
-            background-color: transparent; 
-            padding: 8px 4px;
-            font-size: 11pt;
-            color: {TEXT_PRIMARY};
-        }}
-
-        QLineEdit::placeholder {{
-            color: {TEXT_TERTIARY};
-        }}
-
-        /* ===== Primary Button ===== */
+        #FormFrame {{ background-color: {BG_PRIMARY}; border-radius: 16px; padding: 20px; }}
+        #LoginTitle {{ font-size: 24pt; font-weight: 600; color: {TEXT_PRIMARY}; letter-spacing: -0.5px; }}
+        #InputFrame {{ background-color: {BG_SECONDARY}; border: 2px solid {BORDER_COLOR}; border-radius: 12px; padding: 8px 12px; }}
+        #InputFrame:focus-within {{ border: 2px solid {PRIMARY_COLOR}; background-color: {BG_PRIMARY}; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }}
+        QLineEdit {{ border: none; background-color: transparent; padding: 8px 4px; font-size: 11pt; color: {TEXT_PRIMARY}; }}
+        QLineEdit::placeholder {{ color: {TEXT_TERTIARY}; }}
         QPushButton#PrimaryButton {{ 
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 {PRIMARY_COLOR}, stop:1 {PRIMARY_COLOR_HOVER});
-            color: {TEXT_LIGHT}; 
-            border-radius: 12px; 
-            padding: 12px 24px; 
-            font-weight: 600; 
-            font-size: 11pt; 
-            border: none;
-            letter-spacing: 0.3px;
+            background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {PRIMARY_COLOR}, stop:1 {PRIMARY_COLOR_HOVER});
+            color: {TEXT_LIGHT}; border-radius: 12px; padding: 12px 24px; font-weight: 600; font-size: 11pt; border: none;
         }}
-
-        QPushButton#PrimaryButton:hover {{ 
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 {PRIMARY_COLOR_HOVER}, stop:1 #3730A3);
-            padding: 12px 24px;
-        }}
-
-        QPushButton#PrimaryButton:pressed {{
-            padding: 13px 24px 11px 24px;
-        }}
-
-        QPushButton#PrimaryButton:disabled {{
-            background-color: {TEXT_TERTIARY};
-            color: {BG_SECONDARY};
-        }}
-
-        #StatusLabel {{ 
-            color: {DANGER_COLOR}; 
-            font-size: 10pt;
-            font-weight: 500;
-        }}
+        QPushButton#PrimaryButton:hover {{ background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {PRIMARY_COLOR_HOVER}, stop:1 #3730A3); }}
+        QPushButton#PrimaryButton:pressed {{ padding: 13px 24px 11px 24px; }}
+        QPushButton#PrimaryButton:disabled {{ background-color: {TEXT_TERTIARY}; color: {BG_SECONDARY}; }}
+        #StatusLabel {{ color: {DANGER_COLOR}; font-size: 10pt; font-weight: 500; }}
     """
 
     MAIN_WINDOW_STYLESHEET = f"""
-        /* ===== Global Styles ===== */
-        QMainWindow, QStackedWidget > QWidget {{ 
-            background-color: {BG_SECONDARY}; 
-        }}
-
-        QWidget {{ 
-            font-family: "Segoe UI", "Inter", "SF Pro Display", sans-serif; 
-            font-size: 9.5pt; 
-            color: {TEXT_PRIMARY}; 
-        }}
-
-        /* ===== Status Bar ===== */
-        QStatusBar, QStatusBar QLabel {{ 
-            background-color: {BG_PRIMARY}; 
-            font-size: 9pt;
-            color: {TEXT_SECONDARY};
-            border-top: 1px solid {BORDER_COLOR};
-            padding: 4px 8px;
-        }}
-
-        /* ===== Side Menu ===== */
+        QMainWindow, QStackedWidget > QWidget {{ background-color: {BG_SECONDARY}; }}
+        QWidget {{ font-family: "Segoe UI", "Inter", "SF Pro Display", sans-serif; font-size: 9.5pt; color: {TEXT_PRIMARY}; }}
+        QStatusBar, QStatusBar QLabel {{ background-color: {BG_PRIMARY}; font-size: 9pt; color: {TEXT_SECONDARY}; border-top: 1px solid {BORDER_COLOR}; padding: 4px 8px; }}
         QWidget#SideMenu {{ 
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 {BG_DARKER}, stop:1 {BG_DARK});
-            color: {TEXT_LIGHT}; 
-            width: 240px;
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {BG_DARKER}, stop:1 {BG_DARK});
+            color: {TEXT_LIGHT}; width: 240px; border-right: 1px solid rgba(255, 255, 255, 0.05);
         }}
-
-        #SideMenu QLabel {{ 
-            color: {TEXT_LIGHT}; 
-            font-family: "Segoe UI", sans-serif; 
-            font-size: 10pt; 
-        }}
-
-        #SideMenu #MenuLabel {{ 
-            font-size: 9pt; 
-            font-weight: 700; 
-            color: {TEXT_TERTIARY}; 
-            padding: 12px 16px 6px 16px; 
-            margin-top: 12px;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-        }}
-
+        #SideMenu QLabel {{ color: {TEXT_LIGHT}; font-family: "Segoe UI", sans-serif; font-size: 10pt; }}
+        #SideMenu #MenuLabel {{ font-size: 9pt; font-weight: 700; color: {TEXT_TERTIARY}; padding: 12px 16px 6px 16px; margin-top: 12px; letter-spacing: 1.2px; text-transform: uppercase; }}
         #SideMenu QPushButton {{ 
-            background-color: transparent; 
-            color: {TEXT_LIGHT}; 
-            border: none; 
-            padding: 12px 16px; 
-            text-align: left; 
-            font-size: 10.5pt; 
-            font-weight: 500; 
-            border-radius: 10px; 
-            margin: 2px 8px;
-            transition: all 0.2s ease;
+            background-color: transparent; color: {TEXT_LIGHT}; border: none; padding: 12px 16px; text-align: left; 
+            font-size: 10.5pt; font-weight: 500; border-radius: 10px; margin: 2px 8px; transition: all 0.2s ease;
         }}
-
-        #SideMenu QPushButton:hover {{ 
-            background-color: rgba(255, 255, 255, 0.08);
-            padding-left: 20px;
-        }}
-
+        #SideMenu QPushButton:hover {{ background-color: rgba(255, 255, 255, 0.08); padding-left: 20px; }}
         #SideMenu QPushButton:checked {{ 
-            background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                stop:0 {PRIMARY_COLOR}, stop:1 {PRIMARY_COLOR_LIGHT});
-            font-weight: 600;
-            color: {TEXT_LIGHT};
+            background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 {PRIMARY_COLOR}, stop:1 {PRIMARY_COLOR_LIGHT});
+            font-weight: 600; color: {TEXT_LIGHT};
         }}
-
-        QFrame#Separator {{ 
-            background-color: rgba(255, 255, 255, 0.1); 
-            height: 1px; 
-            margin: 8px 0px;
-        }}
-
-        /* ===== Form Elements ===== */
-        QFormLayout QLabel, QGridLayout QLabel, QGroupBox {{ 
-            font-weight: 600; 
-            color: {TEXT_PRIMARY};
-            font-size: 9.5pt;
-        }}
-
+        QFrame#Separator {{ background-color: rgba(255, 255, 255, 0.1); height: 1px; margin: 8px 0px; }}
+        QFormLayout QLabel, QGridLayout QLabel, QGroupBox {{ font-weight: 600; color: {TEXT_PRIMARY}; font-size: 9.5pt; }}
         QLineEdit, QComboBox, QDateEdit, QTextEdit {{ 
-            border: 1.5px solid {BORDER_COLOR}; 
-            padding: 6px 8px; 
-            border-radius: 8px; 
-            background-color: {BG_PRIMARY}; 
-            min-height: 20px;
-            min-width: 90px;
-            color: {TEXT_PRIMARY};
-            selection-background-color: {PRIMARY_COLOR_LIGHT};
+            border: 1.5px solid {BORDER_COLOR}; padding: 6px 8px; border-radius: 8px; background-color: {BG_PRIMARY}; 
+            min-height: 20px; min-width: 90px; color: {TEXT_PRIMARY}; selection-background-color: {PRIMARY_COLOR_LIGHT};
         }}
-        QComboBox{{
-            padding: 6px;
-        }}
-
-        QDateEdit {{ 
-            min-width: 90px;
-            padding-right: 4px;
-        }}
-
+        QComboBox {{ padding: 6px; }}
+        QDateEdit {{ min-width: 90px; padding-right: 4px; }}
         QLineEdit:focus, QComboBox:focus, QDateEdit:focus, QTextEdit:focus {{ 
-            border: 1.5px solid {PRIMARY_COLOR}; 
-            background-color: {BG_PRIMARY};
-            outline: none;
+            border: 1.5px solid {PRIMARY_COLOR}; background-color: {BG_PRIMARY}; outline: none;
         }}
-
-        QLineEdit:read-only {{ 
-            background-color: {BG_TERTIARY}; 
-            color: {TEXT_SECONDARY};
-            border: 1.5px solid {BORDER_COLOR};
-        }}
-
-        QLineEdit::placeholder, QTextEdit::placeholder {{
-            color: {TEXT_TERTIARY};
-        }}
-
-        /* ===== Combo Box ===== */
-        QComboBox::drop-down {{ 
-            subcontrol-origin: padding; 
-            subcontrol-position: top right; 
-            width: 28px; 
-            border-left: 1.5px solid {BORDER_COLOR}; 
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-            background-color: {BG_TERTIARY};
-        }}
-
-        QComboBox::down-arrow {{
-            image: url(down_arrow.png);
-            width: 12px;
-            height: 12px;
-        }}
-
-        QComboBox QAbstractItemView {{
-            border: 1.5px solid {BORDER_COLOR};
-            border-radius: 8px;
-            background-color: {BG_PRIMARY};
-            selection-background-color: {PRIMARY_COLOR_LIGHT};
-            selection-color: {TEXT_PRIMARY};
-            padding: 4px;
-        }}
-
-        /* ===== Checkboxes ===== */
-        QCheckBox::indicator {{ 
-            width: 18px; 
-            height: 18px; 
-            border-radius: 5px;
-            border: 2px solid {BORDER_COLOR};
-            background-color: {BG_PRIMARY};
-        }}
-
-        QCheckBox::indicator:hover {{
-            border: 2px solid {PRIMARY_COLOR};
-        }}
-
-        QCheckBox::indicator:checked {{ 
-            background-color: {PRIMARY_COLOR};
-            border: 2px solid {PRIMARY_COLOR};
-            image: url(check.png);
-        }}
-
-        /* ===== Buttons ===== */
-        QPushButton {{ 
-            padding: 9px 18px; 
-            font-size: 9.5pt; 
-            border: 1.5px solid {BORDER_COLOR}; 
-            border-radius: 8px; 
-            background-color: {BG_PRIMARY}; 
-            color: {TEXT_PRIMARY};
-            font-weight: 500;
-        }}
-
-        QPushButton:hover {{ 
-            background-color: {BG_TERTIARY}; 
-            border-color: {TEXT_TERTIARY};
-        }}
-
-        QPushButton:pressed {{
-            background-color: {BORDER_COLOR};
-        }}
-
-        QPushButton#PrimaryButton {{ 
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 {PRIMARY_COLOR}, stop:1 {PRIMARY_COLOR_HOVER});
-            color: {TEXT_LIGHT}; 
-            font-weight: 600; 
-            border: none;
-        }}
-
-        QPushButton#PrimaryButton:hover {{ 
-            background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 {PRIMARY_COLOR_LIGHT}, stop:1 {PRIMARY_COLOR});
-        }}
-
-        QPushButton#SecondaryButton {{ 
-            background-color: {TEXT_SECONDARY}; 
-            color: {TEXT_LIGHT}; 
-            font-weight: 600; 
-            border: none; 
-        }}
-
-        QPushButton#SecondaryButton:hover {{ 
-            background-color: {TEXT_PRIMARY}; 
-        }}
-
-        QPushButton#SuccessButton {{ 
-            background-color: {SUCCESS_COLOR}; 
-            color: {TEXT_LIGHT}; 
-            font-weight: 600; 
-            border: none; 
-        }}
-
-        QPushButton#SuccessButton:hover {{ 
-            background-color: #059669; 
-        }}
-
-        QPushButton#DangerButton {{ 
-            background-color: {DANGER_COLOR}; 
-            color: {TEXT_LIGHT}; 
-            font-weight: 600; 
-            border: none; 
-        }}
-
-        QPushButton#DangerButton:hover {{ 
-            background-color: #DC2626; 
-        }}
-
-        QPushButton#WarningButton {{ 
-            background-color: {WARNING_COLOR}; 
-            color: {TEXT_PRIMARY}; 
-            font-weight: 600; 
-            border: none; 
-        }}
-
-        QPushButton#WarningButton:hover {{ 
-            background-color: #D97706; 
-        }}
-
-        QPushButton#InfoButton {{ 
-            background-color: {INFO_COLOR}; 
-            color: {TEXT_LIGHT}; 
-            font-weight: 600; 
-            border: none; 
-        }}
-
-        QPushButton#InfoButton:hover {{ 
-            background-color: #2563EB; 
-        }}
-
-        /* ===== Tables ===== */
-        QTableWidget {{ 
-            border: 1px solid {BORDER_COLOR}; 
-            gridline-color: {BORDER_COLOR}; 
-            background-color: {BG_PRIMARY};
-            border-radius: 8px;
-            alternate-background-color: {BG_SECONDARY};
-        }}
-
-        QHeaderView::section {{ 
-            background-color: {BG_TERTIARY}; 
-            padding: 6px 4px; 
-            border: none; 
-            border-bottom: 2px solid {BORDER_COLOR}; 
-            border-right: 1px solid {BORDER_COLOR};
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 8.5pt;
-            letter-spacing: 0.5px;
-        }}
-
-        QHeaderView::section:first {{
-            border-top-left-radius: 8px;
-        }}
-
-        QHeaderView::section:last {{
-            border-top-right-radius: 8px;
-            border-right: none;
-        }}
-
-        QTableWidget::item {{ 
-            padding: 8px;
-            border: none;
-            color: {TEXT_SECONDARY};
-        }}
-
-        QTableWidget::item:selected {{ 
-            background-color: {PRIMARY_COLOR_LIGHT}; 
-            color: {TEXT_PRIMARY};
-        }}
-        QTableWidget::item:hover {{
-            background-color: rgba(79, 70, 229, 0.08);
-        }}
-
-        /* ===== Tabs ===== */
-        QTabWidget::pane {{ 
-            border: 1px solid {BORDER_COLOR}; 
-            border-top: none; 
-            background-color: {BG_PRIMARY}; 
-            padding: 16px;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }}
-
-        QTabBar::tab {{ 
-            background: {BG_TERTIARY}; 
-            border: 1px solid {BORDER_COLOR}; 
-            border-bottom: none; 
-            padding: 12px 28px; 
-            font-size: 10pt; 
-            margin-right: 3px; 
-            border-top-left-radius: 10px; 
-            border-top-right-radius: 10px; 
-            font-weight: 500; 
-            color: {TEXT_SECONDARY}; 
-        }}
-
-        QTabBar::tab:hover {{
-            background: {BG_SECONDARY};
-            color: {TEXT_PRIMARY};
-        }}
-
-        QTabBar::tab:selected {{ 
-            background: {BG_PRIMARY}; 
-            color: {PRIMARY_COLOR}; 
-            border-bottom: 3px solid {PRIMARY_COLOR};
-            font-weight: 600;
-            padding-top: 11px;
-        }}
-
-        /* ===== Group Box ===== */
-        QGroupBox {{ 
-            border: none;
-            border-radius: 12px; 
-            margin-top: 20px; 
-            padding: 14px 16px 14px 16px;
-            font-weight: 600;
-            background-color: {BG_SECONDARY};
-            font-size: 10.5pt;
-        }}
-
-        QGroupBox::title {{ 
-            subcontrol-origin: margin; 
-            subcontrol-position: top left; 
-            padding: 6px 14px;
-            color: {PRIMARY_COLOR};
-            background-color: transparent;
-            font-weight: 700;
-            left: 8px;
-            top: -8px;
-            letter-spacing: 0.3px;
-        }}
-
-        /* ===== Text Edit ===== */
-        QTextEdit {{ 
-            border: 1.5px solid {BORDER_COLOR}; 
-            border-radius: 8px; 
-            padding: 6px; 
-            background-color: {BG_PRIMARY};
-            line-height: 2.5;
-        }}
-
-        QTextEdit:focus {{ 
-            border: 1.5px solid {PRIMARY_COLOR}; 
-        }}
-
-        /* ===== Scroll Bar ===== */
-        QScrollBar:vertical {{
-            border: none;
-            background: {BG_TERTIARY};
-            width: 12px;
-            border-radius: 6px;
-            margin: 0px;
-        }}
-
-        QScrollBar::handle:vertical {{
-            background: {TEXT_TERTIARY};
-            border-radius: 6px;
-            min-height: 30px;
-        }}
-
-        QScrollBar::handle:vertical:hover {{
-            background: {TEXT_SECONDARY};
-        }}
-
-        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
-            height: 0px;
-        }}
-
-        QScrollBar:horizontal {{
-            border: none;
-            background: {BG_TERTIARY};
-            height: 12px;
-            border-radius: 6px;
-            margin: 0px;
-        }}
-
-        QScrollBar::handle:horizontal {{
-            background: {TEXT_TERTIARY};
-            border-radius: 6px;
-            min-width: 20px;
-        }}
-
-        QScrollBar::handle:horizontal:hover {{
-            background: {TEXT_SECONDARY};
-        }}
-
-        QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{
-            width: 0px;
-        }}
-
-        /* ===== Splitter ===== */
-        QSplitter::handle {{
-            background-color: {BORDER_COLOR};
-        }}
-
-        QSplitter::handle:hover {{
-            background-color: {PRIMARY_COLOR};
-        }}
-
-        QSplitter::handle:pressed {{
-            background-color: {PRIMARY_COLOR_HOVER};
-        }}
-
-        /* ===== Cards (Frames) ===== */
-        QFrame#ContentCard {{
-            background-color: {BG_PRIMARY};
-            border: 1px solid {BORDER_COLOR};
-            border-radius: 10px;
-            padding: 16px;
-        }}
-
-        QFrame#HeaderCard {{
-            background-color: {BG_PRIMARY};
-            border: 1px solid {BORDER_COLOR};
-            border-radius: 10px;
-            padding: 12px 16px;
-        }}
+        QLineEdit:read-only {{ background-color: {BG_TERTIARY}; color: {TEXT_SECONDARY}; border: 1.5px solid {BORDER_COLOR}; }}
+        QLineEdit::placeholder, QTextEdit::placeholder {{ color: {TEXT_TERTIARY}; }}
+        QComboBox::drop-down {{ subcontrol-origin: padding; subcontrol-position: top right; width: 28px; border-left: 1.5px solid {BORDER_COLOR}; border-top-right-radius: 8px; border-bottom-right-radius: 8px; background-color: {BG_TERTIARY}; }}
+        QComboBox QAbstractItemView {{ border: 1.5px solid {BORDER_COLOR}; border-radius: 8px; background-color: {BG_PRIMARY}; selection-background-color: {PRIMARY_COLOR_LIGHT}; selection-color: {TEXT_PRIMARY}; padding: 4px; }}
+        QCheckBox::indicator {{ width: 18px; height: 18px; border-radius: 5px; border: 2px solid {BORDER_COLOR}; background-color: {BG_PRIMARY}; }}
+        QCheckBox::indicator:hover {{ border: 2px solid {PRIMARY_COLOR}; }}
+        QCheckBox::indicator:checked {{ background-color: {PRIMARY_COLOR}; border: 2px solid {PRIMARY_COLOR}; }}
+        QPushButton {{ padding: 9px 18px; font-size: 9.5pt; border: 1.5px solid {BORDER_COLOR}; border-radius: 8px; background-color: {BG_PRIMARY}; color: {TEXT_PRIMARY}; font-weight: 500; }}
+        QPushButton:hover {{ background-color: {BG_TERTIARY}; border-color: {TEXT_TERTIARY}; }}
+        QPushButton:pressed {{ background-color: {BORDER_COLOR}; }}
+        QPushButton#PrimaryButton {{ background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {PRIMARY_COLOR}, stop:1 {PRIMARY_COLOR_HOVER}); color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
+        QPushButton#PrimaryButton:hover {{ background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {PRIMARY_COLOR_LIGHT}, stop:1 {PRIMARY_COLOR}); }}
+        QPushButton#SecondaryButton {{ background-color: {TEXT_SECONDARY}; color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
+        QPushButton#SecondaryButton:hover {{ background-color: {TEXT_PRIMARY}; }}
+        QPushButton#SuccessButton {{ background-color: {SUCCESS_COLOR}; color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
+        QPushButton#SuccessButton:hover {{ background-color: #059669; }}
+        QPushButton#DangerButton {{ background-color: {DANGER_COLOR}; color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
+        QPushButton#DangerButton:hover {{ background-color: #DC2626; }}
+        QPushButton#WarningButton {{ background-color: {WARNING_COLOR}; color: {TEXT_PRIMARY}; font-weight: 600; border: none; }}
+        QPushButton#WarningButton:hover {{ background-color: #D97706; }}
+        QPushButton#InfoButton {{ background-color: {INFO_COLOR}; color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
+        QPushButton#InfoButton:hover {{ background-color: #2563EB; }}
+        QTableWidget {{ border: 1px solid {BORDER_COLOR}; gridline-color: {BORDER_COLOR}; background-color: {BG_PRIMARY}; border-radius: 8px; alternate-background-color: {BG_SECONDARY}; }}
+        QHeaderView::section {{ background-color: {BG_TERTIARY}; padding: 6px 4px; border: none; border-bottom: 2px solid {BORDER_COLOR}; border-right: 1px solid {BORDER_COLOR}; font-weight: 600; text-transform: uppercase; font-size: 8.5pt; letter-spacing: 0.5px; }}
+        QHeaderView::section:first {{ border-top-left-radius: 8px; }}
+        QHeaderView::section:last {{ border-top-right-radius: 8px; border-right: none; }}
+        QTableWidget::item {{ padding: 8px; border: none; color: {TEXT_SECONDARY}; }}
+        QTableWidget::item:selected {{ background-color: {PRIMARY_COLOR_LIGHT}; color: {TEXT_PRIMARY}; }}
+        QTableWidget::item:hover {{ background-color: rgba(79, 70, 229, 0.08); }}
+        QTabWidget::pane {{ border: 1px solid {BORDER_COLOR}; border-top: none; background-color: {BG_PRIMARY}; padding: 16px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }}
+        QTabBar::tab {{ background: {BG_TERTIARY}; border: 1px solid {BORDER_COLOR}; border-bottom: none; padding: 12px 28px; font-size: 10pt; margin-right: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; font-weight: 500; color: {TEXT_SECONDARY}; }}
+        QTabBar::tab:hover {{ background: {BG_SECONDARY}; color: {TEXT_PRIMARY}; }}
+        QTabBar::tab:selected {{ background: {BG_PRIMARY}; color: {PRIMARY_COLOR}; border-bottom: 3px solid {PRIMARY_COLOR}; font-weight: 600; padding-top: 11px; }}
+        QGroupBox {{ border: none; border-radius: 12px; margin-top: 20px; padding: 14px 16px 14px 16px; font-weight: 600; background-color: {BG_SECONDARY}; font-size: 10.5pt; }}
+        QGroupBox::title {{ subcontrol-origin: margin; subcontrol-position: top left; padding: 6px 14px; color: {PRIMARY_COLOR}; background-color: transparent; font-weight: 700; left: 8px; top: -8px; letter-spacing: 0.3px; }}
+        QTextEdit {{ border: 1.5px solid {BORDER_COLOR}; border-radius: 8px; padding: 6px; background-color: {BG_PRIMARY}; line-height: 2.5; }}
+        QTextEdit:focus {{ border: 1.5px solid {PRIMARY_COLOR}; }}
+        QScrollBar:vertical {{ border: none; background: {BG_TERTIARY}; width: 12px; border-radius: 6px; margin: 0px; }}
+        QScrollBar::handle:vertical {{ background: {TEXT_TERTIARY}; border-radius: 6px; min-height: 30px; }}
+        QScrollBar::handle:vertical:hover {{ background: {TEXT_SECONDARY}; }}
+        QScrollBar:horizontal {{ border: none; background: {BG_TERTIARY}; height: 12px; border-radius: 6px; margin: 0px; }}
+        QScrollBar::handle:horizontal {{ background: {TEXT_TERTIARY}; border-radius: 6px; min-width: 20px; }}
+        QScrollBar::handle:horizontal:hover {{ background: {TEXT_SECONDARY}; }}
+        QSplitter::handle {{ background-color: {BORDER_COLOR}; }}
+        QSplitter::handle:hover {{ background-color: {PRIMARY_COLOR}; }}
+        QSplitter::handle:pressed {{ background-color: {PRIMARY_COLOR_HOVER}; }}
+        QFrame#ContentCard {{ background-color: {BG_PRIMARY}; border: 1px solid {BORDER_COLOR}; border-radius: 10px; padding: 16px; }}
+        QFrame#HeaderCard {{ background-color: {BG_PRIMARY}; border: 1px solid {BORDER_COLOR}; border-radius: 10px; padding: 12px 16px; }}
     """
+
+
+class LoadingOverlay(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, False)
+        self.setStyleSheet(f"background: {AppStyles.BG_SECONDARY}; border-radius: 16px;")
+
+        layout = QVBoxLayout(self)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setContentsMargins(40, 40, 40, 40)
+
+        # Animated GIF (from assets/loading.gif)
+        self.gif_label = QLabel()
+        self.gif_label.setFixedSize(120, 120)
+        movie = QMovie("assets/loading.gif")
+        if movie.isValid():
+            self.gif_label.setMovie(movie)
+            movie.start()
+        else:
+            self.gif_label.setText("Loading...")
+            self.gif_label.setStyleSheet("font-size: 16pt; color: #6B7280;")
+        self.gif_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        title = QLabel("Initializing Application...")
+        title.setStyleSheet(f"font-size: 18pt; font-weight: 600; color: {AppStyles.PRIMARY_COLOR}; background: transparent;")
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        subtitle = QLabel("Loading formulation and production modules...")
+        subtitle.setStyleSheet(f"font-size: 11pt; color: {AppStyles.TEXT_SECONDARY}; margin-top: 10px; background: transparent;")
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        layout.addWidget(self.gif_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(subtitle, alignment=Qt.AlignmentFlag.AlignCenter)
+
+    def stop(self):
+        for child in self.findChildren(QMovie):
+            child.stop()
+        self.hide()
+        self.deleteLater()
 
 
 class LoginWindow(QMainWindow):
@@ -627,8 +237,7 @@ class LoginWindow(QMainWindow):
         layout.addWidget(QLabel(pixmap=fa.icon('fa5s.boxes', color="#0078d4").pixmap(QSize(150, 150))),
                          alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addSpacing(10)
-        layout.addWidget(
-            QLabel("Production Login", objectName="LoginTitle", alignment=Qt.AlignmentFlag.AlignCenter))
+        layout.addWidget(QLabel("Production Login", objectName="LoginTitle", alignment=Qt.AlignmentFlag.AlignCenter))
         layout.addSpacing(20)
 
         self.username_widget, self.username = self._create_input_field('fa5s.user', "Username")
@@ -672,15 +281,14 @@ class LoginWindow(QMainWindow):
         try:
             credentials = get_user_credentials(self.engine, u)
             if credentials and credentials[0] == p:
-                if not credentials[1]:  # qc_access
+                if not credentials[1]:
                     self.status_label.setText("This user does not have access.")
                     return
 
-                # Log login
                 workstation_info = _get_workstation_info()
                 log_audit_trail(self.engine, u, 'LOGIN', 'User logged in.', workstation_info)
 
-                self.login_successful.emit(u, credentials[2])  # role
+                self.login_successful.emit(u, credentials[2])
                 self.close()
             else:
                 self.status_label.setText("Invalid credentials.")
@@ -699,17 +307,14 @@ class ModernMainWindow(QMainWindow):
         self.user_role = user_role
         self.login_window = login_window
         self.is_animating = False
-        self.icon_maximize, self.icon_restore = fa.icon('fa5s.expand-arrows-alt', color='#ecf0f1'), fa.icon(
-            'fa5s.compress-arrows-alt', color='#ecf0f1')
-        self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle',
-                                                                                                    color='#D32F2F')
+        self.icon_maximize, self.icon_restore = fa.icon('fa5s.expand-arrows-alt', color='#ecf0f1'), fa.icon('fa5s.compress-arrows-alt', color='#ecf0f1')
+        self.icon_db_ok, self.icon_db_fail = fa.icon('fa5s.check-circle', color='#4CAF50'), fa.icon('fa5s.times-circle', color='#D32F2F')
         self.setWindowTitle("Production Formulation Program")
         self.setWindowIcon(fa.icon('fa5s.check-double', color='gray'))
         self.setMinimumSize(1400, 720)
         self.setGeometry(100, 100, 1366, 768)
         self.workstation_info = _get_workstation_info()
 
-        # Initialize UI first
         self.init_ui()
 
     def log_audit_trail(self, action_type, details):
@@ -726,27 +331,33 @@ class ModernMainWindow(QMainWindow):
         self.stacked_widget = QStackedWidget()
         main_layout.addWidget(self.stacked_widget)
 
-        try:
-            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
-            self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
-            self.audit_trail_page = AuditTrailPage(self.engine)
-            self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
-        except Exception as e:
-            print(f"Error initializing pages: {e}")
-            return
-
-        for page in [self.formulation_page, self.production_page, self.audit_trail_page, self.user_management_page]:
-            self.stacked_widget.addWidget(page)
-
         self.setCentralWidget(main_widget)
         self.setup_status_bar()
         self.apply_styles()
 
-        if self.user_role != 'Admin':
-            self.btn_user_mgmt.hide()
-        self.update_maximize_button()
-        self.show_page(0, True)
-        self.btn_formulation.setChecked(True)
+        # Defer page loading
+        QTimer.singleShot(0, self._initialize_pages)
+
+    def _initialize_pages(self):
+        try:
+            print("Initializing pages...")
+            self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
+            self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role, self.log_audit_trail)
+            self.audit_trail_page = AuditTrailPage(self.engine)
+            self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
+
+            for page in [self.formulation_page, self.production_page, self.audit_trail_page, self.user_management_page]:
+                self.stacked_widget.addWidget(page)
+
+            if self.user_role != 'Admin':
+                self.btn_user_mgmt.hide()
+
+            self.show_page(0, True)
+            self.btn_formulation.setChecked(True)
+            print("All pages loaded.")
+        except Exception as e:
+            print(f"PAGE INIT ERROR: {e}")
+            QMessageBox.critical(self, "Load Error", f"Failed to load pages: {e}")
 
     def create_side_menu(self):
         menu = QWidget(objectName="SideMenu")
@@ -782,7 +393,6 @@ class ModernMainWindow(QMainWindow):
         layout.addWidget(self.btn_formulation)
         layout.addWidget(QLabel("PRODUCTION", objectName="MenuLabel"))
         layout.addWidget(self.btn_production)
-
         layout.addWidget(QLabel("SYSTEM", objectName="MenuLabel"))
         layout.addWidget(self.btn_audit_trail)
         layout.addWidget(self.btn_user_mgmt)
@@ -807,8 +417,7 @@ class ModernMainWindow(QMainWindow):
         self.db_status_icon_label.setFixedSize(QSize(36, 30))
         self.db_status_icon_label.setScaledContents(True)
 
-        # Add sync status label
-        self.sync_status_label = QLabel("🔄 Legacy sync: Ready")
+        self.sync_status_label = QLabel("Legacy sync: Ready")
         self.status_bar.addPermanentWidget(self.sync_status_label)
 
         for w in [self.db_status_icon_label, self.db_status_text_label, self.time_label,
@@ -904,10 +513,6 @@ class ModernMainWindow(QMainWindow):
         self.login_window.show()
 
     def closeEvent(self, event):
-        # Stop any running sync threads
-        if hasattr(self, 'sync_thread') and self.sync_thread.isRunning():
-            self.sync_thread.quit()
-            self.sync_thread.wait(3000)  # Wait up to 3 seconds
         self.login_window.close()
         event.accept()
 
@@ -925,8 +530,30 @@ def main():
 
     def on_login_success(username, user_role):
         nonlocal main_window
-        main_window = ModernMainWindow(username, user_role, login_window)
-        main_window.showMaximized()
+
+        # === SHOW LOADING OVERLAY ===
+        loading = LoadingOverlay()
+        screen = QApplication.primaryScreen().availableGeometry()
+        loading.resize(500, 380)
+        loading.move(screen.center().x() - loading.width() // 2, screen.center().y() - loading.height() // 2)
+        loading.show()
+
+        def initialize_main_window():
+            try:
+                main_window = ModernMainWindow(username, user_role, login_window)
+                main_window.showMaximized()
+
+                QTimer.singleShot(500, lambda: (
+                    loading.stop(),
+                    main_window.activateWindow(),
+                    main_window.raise_()
+                ))
+            except Exception as e:
+                loading.stop()
+                QMessageBox.critical(None, "Init Error", f"Failed to load: {e}")
+                login_window.show()
+
+        QTimer.singleShot(100, initialize_main_window)
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()
