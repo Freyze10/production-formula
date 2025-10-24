@@ -696,7 +696,6 @@ class ProductionManagementPage(QWidget):
             self.current_production_id = prod_id
             self.selected_production_label.setText(f"LOT NO: {lot_no} - {customer}")
 
-            print(prod_id)
             self.load_production_details(prod_id)
 
     def load_production_details(self, prod_id):
