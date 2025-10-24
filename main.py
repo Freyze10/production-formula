@@ -10,10 +10,8 @@ from PyQt6.QtWidgets import (
     QMessageBox, QVBoxLayout, QHBoxLayout, QStackedWidget, QFrame, QStatusBar,
     QGraphicsOpacityEffect
 )
-from PyQt6.QtGui import QMovie
 
 # --- Page imports ---
-# NOTE: These modules must be available for the app to run
 try:
     from side_bar.audit_trail import AuditTrailPage
     from side_bar.user_management import UserManagementPage
@@ -351,7 +349,6 @@ class ModernMainWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        # Create the menu first so button references are available
         main_layout.addWidget(self.create_side_menu())
 
         self.stacked_widget = QStackedWidget()
@@ -362,13 +359,8 @@ class ModernMainWindow(QMainWindow):
         self.apply_styles()
 
     def _initialize_pages(self):
-        """
-        Loads the pages (the 'heavy' work) and adds them to the stacked widget.
-        """
         try:
             print("Initializing pages...")
-
-            # Instantiate all pages
             self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role,
                                                               self.log_audit_trail)
             self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role,
@@ -376,18 +368,15 @@ class ModernMainWindow(QMainWindow):
             self.audit_trail_page = AuditTrailPage(self.engine)
             self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
 
-            # Add pages to the stacked widget
             for page in [self.formulation_page, self.production_page, self.audit_trail_page, self.user_management_page]:
                 self.stacked_widget.addWidget(page)
 
-            # Apply role-based visibility after pages are loaded
             if self.user_role != 'Admin':
                 self.btn_user_mgmt.hide()
-                # Check if the initial page (index 0) is hidden, if so, switch to the next valid page
                 if self.stacked_widget.widget(0) == self.user_management_page:
-                    self.show_page(0, True)  # Show first page
+                    self.show_page(0, True)
                 else:
-                    self.show_page(0, True)  # Show first page
+                    self.show_page(0, True)
             else:
                 self.show_page(0, True)
 
@@ -414,7 +403,6 @@ class ModernMainWindow(QMainWindow):
         sep = QFrame(frameShape=QFrame.Shape.HLine, objectName="Separator")
         sep.setContentsMargins(0, 10, 0, 10)
 
-        # Buttons created here, but pages not yet loaded. Indices are placeholders.
         self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
         self.btn_production = self.create_menu_button("  Auto-Generated Entry", 'fa5s.industry', 1)
         self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
@@ -443,7 +431,6 @@ class ModernMainWindow(QMainWindow):
 
     def create_menu_button(self, text, icon, page_index):
         btn = QPushButton(text, icon=fa.icon(icon, color='#ecf0f1'), checkable=True, autoExclusive=True)
-        # We connect the buttons now, even if the pages aren't loaded yet.
         if page_index is not None:
             btn.clicked.connect(lambda: self.show_page(page_index))
         return btn
@@ -489,7 +476,6 @@ class ModernMainWindow(QMainWindow):
         self.setStyleSheet(AppStyles.MAIN_WINDOW_STYLESHEET)
 
     def show_page(self, index, is_first_load=False):
-        # Prevent page changing until the pages are actually loaded (during initial loading)
         if self.formulation_page is None and index != 0 and not is_first_load:
             return
 
@@ -583,6 +569,7 @@ def main():
         loading.resize(500, 380)
         loading.move(screen.center().x() - loading.width() // 2, screen.center().y() - loading.height() // 2)
         loading.show()
+        QCoreApplication.processEvents()  # Ensure the overlay is painted
 
         # 2. Create Main Window (fast operation: creates UI shell)
         main_window = ModernMainWindow(username, user_role, login_window)
