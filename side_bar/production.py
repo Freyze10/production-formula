@@ -805,7 +805,7 @@ class ProductionManagementPage(QWidget):
             self.notes_input.setPlainText(str(result['notes']))
             self.encoded_by_display.setText(str(result['encoded_by']))
             self.production_confirmation_display.setText(str(result['scheduled_date']))
-            self.production_encoded_display.setText(str(result['encoded_on']))
+            self.production_encoded_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
 
         except Exception as e:
             print(f"Error loading production: {e}")
