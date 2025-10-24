@@ -325,3 +325,18 @@ def get_single_production_details(prod_id):
     conn.close()
     return records
 
+
+def get_min_max_production_date():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""SELECT MIN(production_date) AS earliest_date,
+                            MAX(production_date) AS latest_date
+                    FROM production_primary""")
+    record = cur.fetchone()
+
+    cur.close()
+    conn.close()
+    if record and record[0] is not None:
+        return record[0], record[1]
+    return None, None
