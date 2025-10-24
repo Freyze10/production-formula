@@ -250,14 +250,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00050" summary="fixing production tabu">
-      <option name="closed" value="true" />
-      <created>1760766512664</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1760766512664</updated>
-    </task>
     <task id="LOCAL-00051" summary="fixing production tabu">
       <option name="closed" value="true" />
       <created>1760778424860</created>
@@ -642,7 +634,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761290324316</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="fixed datetime format">
+      <option name="closed" value="true" />
+      <created>1761291078620</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1761291078620</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -663,7 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated legacy database" />
     <MESSAGE value="change size formula selection" />
     <MESSAGE value="tried changing tablerowsize" />
     <MESSAGE value="removed debug" />
@@ -688,7 +687,8 @@
     <MESSAGE value="static loading" />
     <MESSAGE value="removed unnecessary comment" />
     <MESSAGE value="fixed date input display" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed date input display" />
+    <MESSAGE value="fixed datetime format" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed datetime format" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

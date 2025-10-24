@@ -659,7 +659,7 @@ class ProductionManagementPage(QWidget):
             self.production_table.setUpdatesEnabled(True)  # Re-enable
             self.production_table.setSortingEnabled(True)
             self.production_table.scrollToTop()
-            self.production_table.resizeColumnsToContents()  # Optional: slow, do once
+            # self.production_table.resizeColumnsToContents()  # Optional: slow, do once
 
     def filter_productions(self):
         """Filter productions based on search text using cached data."""
