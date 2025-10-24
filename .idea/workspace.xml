@@ -247,14 +247,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00042" summary="modified">
-      <option name="closed" value="true" />
-      <created>1760691832731</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1760691832731</updated>
-    </task>
     <task id="LOCAL-00043" summary="fixed audit trail insert">
       <option name="closed" value="true" />
       <created>1760749375644</created>
@@ -639,7 +631,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761209742180</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="added min and max date">
+      <option name="closed" value="true" />
+      <created>1761267416656</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1761267416656</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -660,7 +660,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="display all production data" />
     <MESSAGE value="fixed loading display on sync" />
     <MESSAGE value="fixed var naming" />
     <MESSAGE value="added single data database call" />
@@ -685,7 +684,8 @@
     <MESSAGE value="static gif" />
     <MESSAGE value="removed the animation" />
     <MESSAGE value="removed the gif" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed the gif" />
+    <MESSAGE value="added min and max date" />
+    <option name="LAST_COMMIT_MESSAGE" value="added min and max date" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

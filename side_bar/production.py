@@ -1,4 +1,3 @@
-# production.py
 # Modern Production Management Module - Refactored with Data Caching
 
 from datetime import datetime
@@ -58,9 +57,15 @@ class ProductionManagementPage(QWidget):
         global_var.production_data_loaded = True
 
     def set_date_range(self):
-        """Set default date range to last month."""
-        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
-        self.date_to_filter.setDate(QDate.currentDate())
+        """Set default date range based on min and max production dates."""
+        min_date, max_date = db_call.get_min_max_production_date()
+        if min_date and max_date:
+            self.date_from_filter.setDate(QDate(min_date.year, min_date.month, min_date.day))
+            self.date_to_filter.setDate(QDate(max_date.year, max_date.month, max_date.day))
+        else:
+            # Fallback to default range if no data is available
+            self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
+            self.date_to_filter.setDate(QDate.currentDate())
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
@@ -524,8 +529,27 @@ class ProductionManagementPage(QWidget):
         QLineEdit.focusOutEvent(line_edit, event)
 
     def on_date_filter_changed(self):
-        """Handle date filter changes - refresh data from database."""
-        self.refresh_data_from_db()
+        """Handle date filter changes - filter table based on date range."""
+        date_from = self.date_from_filter.date().toPyDate()
+        date_to = self.date_to_filter.date().toPyDate()
+
+        # Validate date range
+        if date_from > date_to:
+            QMessageBox.warning(self, "Invalid Date Range", "Date From cannot be later than Date To.")
+            return
+
+        # Filter table rows based on date range
+        for row in range(self.production_table.rowCount()):
+            item = self.production_table.item(row, 0)  # Date column
+            if item:
+                try:
+                    row_date = datetime.strptime(item.text(), "%Y-%m-%d").date()
+                    show_row = date_from <= row_date <= date_to
+                except ValueError:
+                    show_row = False
+            else:
+                show_row = False
+            self.production_table.setRowHidden(row, not show_row)
 
     def refresh_data_from_db(self):
         """Explicitly refresh data from database (called by refresh button or date change)."""
@@ -533,6 +557,8 @@ class ProductionManagementPage(QWidget):
             global_var.all_production_data = db_call.get_all_production_data()
             self.update_cached_lists()
             self.populate_production_table()
+            # Re-apply date filter after refresh
+            self.on_date_filter_changed()
         except Exception as e:
             QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
             global_var.all_production_data = []
@@ -628,13 +654,26 @@ class ProductionManagementPage(QWidget):
     def filter_productions(self):
         """Filter productions based on search text using cached data."""
         search_text = self.search_input.text().lower()
+        date_from = self.date_from_filter.date().toPyDate()
+        date_to = self.date_to_filter.date().toPyDate()
+
         for row in range(self.production_table.rowCount()):
             show_row = False
+            # Check search text
             for col in range(self.production_table.columnCount()):
                 item = self.production_table.item(row, col)
                 if item and search_text in item.text().lower():
                     show_row = True
                     break
+            # Apply date filter
+            if show_row:
+                item = self.production_table.item(row, 0)  # Date column
+                if item:
+                    try:
+                        row_date = datetime.strptime(item.text(), "%Y-%m-%d").date()
+                        show_row = date_from <= row_date <= date_to
+                    except ValueError:
+                        show_row = False
             self.production_table.setRowHidden(row, not show_row)
 
     def on_production_selected(self):
@@ -649,6 +688,7 @@ class ProductionManagementPage(QWidget):
             self.current_production_id = prod_id
             self.selected_production_label.setText(f"LOT NO: {lot_no} - {customer}")
 
+            print(prod_id)
             self.load_production_details(prod_id)
 
     def load_production_details(self, prod_id):
