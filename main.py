@@ -230,7 +230,7 @@ class LoadingOverlay(QWidget):
         self.dots_label.setText(dots)
 
     def stop(self):
-        if hasattr(self, ' ') and self.dot_timer.isActive():
+        if hasattr(self, 'dot_timer') and self.dot_timer.isActive():
             self.dot_timer.stop()
         self.hide()
 

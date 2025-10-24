@@ -41,7 +41,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -249,14 +249,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00045" summary="fixed db_status icon">
-      <option name="closed" value="true" />
-      <created>1760755332239</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1760755332239</updated>
     </task>
     <task id="LOCAL-00046" summary="added production widget">
       <option name="closed" value="true" />
@@ -642,7 +634,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761270681451</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="modified">
+      <option name="closed" value="true" />
+      <created>1761273017623</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1761273017623</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     <MESSAGE value="added data for production" />
     <MESSAGE value="refactored production calls" />
     <MESSAGE value="slightly faster table loading" />
-    <MESSAGE value="modified" />
     <MESSAGE value="added loading func" />
     <MESSAGE value="added loading but static" />
     <MESSAGE value="updated loading" />
@@ -688,7 +687,8 @@
     <MESSAGE value="added min and max date" />
     <MESSAGE value="fixed date range selection" />
     <MESSAGE value="btn refresh func" />
-    <option name="LAST_COMMIT_MESSAGE" value="btn refresh func" />
+    <MESSAGE value="modified" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -700,8 +700,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>172</line>
+          <line>381</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/db/db_call.py</url>
+          <line>312</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
