@@ -83,7 +83,6 @@ class ProductionManagementPage(QWidget):
 
         self.entry_tab = self.create_entry_tab()
         self.tab_widget.addTab(self.entry_tab, "Production Entry")
-        self.tab_widget.currentChanged.connect(self.sync_for_entry)
 
         main_layout.addWidget(self.tab_widget)
 
@@ -659,7 +658,6 @@ class ProductionManagementPage(QWidget):
             self.production_table.setUpdatesEnabled(True)  # Re-enable
             self.production_table.setSortingEnabled(True)
             self.production_table.scrollToTop()
-            # self.production_table.resizeColumnsToContents()  # Optional: slow, do once
 
     def filter_productions(self):
         """Filter productions based on search text using cached data."""

@@ -250,14 +250,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00051" summary="fixing production tabu">
-      <option name="closed" value="true" />
-      <created>1760778424860</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1760778424860</updated>
-    </task>
     <task id="LOCAL-00052" summary="changed headers">
       <option name="closed" value="true" />
       <created>1760940459743</created>
@@ -642,7 +634,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761291078620</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="removed table pos">
+      <option name="closed" value="true" />
+      <created>1761294948903</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1761294948903</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -663,7 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="change size formula selection" />
     <MESSAGE value="tried changing tablerowsize" />
     <MESSAGE value="removed debug" />
     <MESSAGE value="refactored formulation" />
@@ -688,7 +687,8 @@
     <MESSAGE value="removed unnecessary comment" />
     <MESSAGE value="fixed date input display" />
     <MESSAGE value="fixed datetime format" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed datetime format" />
+    <MESSAGE value="removed table pos" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed table pos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
