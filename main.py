@@ -206,7 +206,7 @@ class LoadingOverlay(QWidget):
         )
         self.subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Animated Dots Label
+        # Static Dots Label (no animation)
         self.dots_label = QLabel("●●●")
         self.dots_label.setStyleSheet(
             f"font-size: 18pt; font-weight: bold; color: {AppStyles.PRIMARY_COLOR}; background: transparent;"
@@ -218,20 +218,7 @@ class LoadingOverlay(QWidget):
         layout.addWidget(self.subtitle)
         layout.addWidget(self.dots_label)
 
-        # Start dot animation
-        self.dot_count = 0
-        self.dot_timer = QTimer(self)
-        self.dot_timer.timeout.connect(self.update_dots)
-        self.dot_timer.start(400)  # Update every 400ms
-
-    def update_dots(self):
-        self.dot_count = (self.dot_count + 1) % 4
-        dots = "●" * self.dot_count + "○" * (3 - self.dot_count)
-        self.dots_label.setText(dots)
-
     def stop(self):
-        if hasattr(self, 'dot_timer') and self.dot_timer.isActive():
-            self.dot_timer.stop()
         self.hide()
 
 
@@ -244,9 +231,6 @@ class LoginWindow(QMainWindow):
         self.loading = None
         self.setObjectName("LoginWindow")
         self.setupUi()
-        # ... (rest of LoginWindow is unchanged)
-
-    # ... (rest of LoginWindow methods are unchanged)
 
     def setupUi(self):
         self.setWindowTitle("Production Formulation Program - Login")
@@ -377,9 +361,6 @@ class ModernMainWindow(QMainWindow):
         self.setup_status_bar()
         self.apply_styles()
 
-        # NOTE: self._initialize_pages() is NO LONGER CALLED HERE.
-        # It is now called by the QTimer in the main function.
-
     def _initialize_pages(self):
         """
         Loads the pages (the 'heavy' work) and adds them to the stacked widget.
@@ -466,8 +447,6 @@ class ModernMainWindow(QMainWindow):
         if page_index is not None:
             btn.clicked.connect(lambda: self.show_page(page_index))
         return btn
-
-    # ... (rest of ModernMainWindow methods are unchanged)
 
     def setup_status_bar(self):
         self.status_bar = QStatusBar()
@@ -596,50 +575,41 @@ def main():
     def on_login_success(username, user_role):
         nonlocal main_window
 
-        # 1. Create Main Window (fast operation: creates UI shell)
-        main_window = ModernMainWindow(username, user_role, login_window)
-
-        # 2. Show Loading Overlay and ensure GIF animation is running
-        login_window.loading = LoadingOverlay()
-        loading = login_window.loading
+        # 1. Show Loading Overlay immediately
+        loading = LoadingOverlay()
         screen = QApplication.primaryScreen().availableGeometry()
 
         # Center the loading screen
         loading.resize(500, 380)
         loading.move(screen.center().x() - loading.width() // 2, screen.center().y() - loading.height() // 2)
-
-        # NOTE: The GIF is started inside LoadingOverlay.__init__ using a QTimer.singleShot(50,...)
         loading.show()
 
-        # 3. Defer the heavy page initialization to keep the GIF responsive
-        # The QTimer ensures the UI event loop processes the GIF's frame changes
-        # before starting the blocking page initialization work.
-        QTimer.singleShot(100, lambda: start_heavy_initialization(loading, main_window))
+        # 2. Create Main Window (fast operation: creates UI shell)
+        main_window = ModernMainWindow(username, user_role, login_window)
 
-    def start_heavy_initialization(loading_overlay, main_window_ref):
-        """
-        Function that performs the heavy lifting and switches to the main window.
-        This runs after the QTimer fires, ensuring the loading GIF has started.
-        """
-        try:
-            # Step A: Perform the heavy work (instantiate all QWidgets and load data)
-            main_window_ref._initialize_pages()
+        # 3. Use QTimer to allow the loading overlay to render first, then start heavy work
+        def start_loading():
+            try:
+                # Perform the heavy work (instantiate all QWidgets and load data)
+                main_window._initialize_pages()
 
-            # Step B: Show the main window (it's maximized and ready now)
-            main_window_ref.showMaximized()
+                # 4. Hide loading overlay
+                loading.stop()
+                loading.deleteLater()
 
-            # Step C: Stop the loading animation and hide the overlay
-            # Use a slight delay here to ensure a clean transition
-            QTimer.singleShot(300, lambda: (
-                loading_overlay.stop(),
-                main_window_ref.activateWindow(),
-                main_window_ref.raise_()
-            ))
+                # 5. Show the main window fully loaded
+                main_window.showMaximized()
+                main_window.activateWindow()
+                main_window.raise_()
 
-        except Exception as e:
-            loading_overlay.stop()
-            QMessageBox.critical(None, "Init Error", f"Failed to load main application components: {e}")
-            login_window.show()
+            except Exception as e:
+                loading.stop()
+                loading.deleteLater()
+                QMessageBox.critical(None, "Init Error", f"Failed to load main application components: {e}")
+                login_window.show()
+
+        # Delay by 50ms to let the loading overlay paint itself first
+        QTimer.singleShot(50, start_loading)
 
     login_window.login_successful.connect(on_login_success)
     login_window.show()

@@ -60,7 +60,9 @@ class ProductionManagementPage(QWidget):
         """Set default date range based on min and max production dates."""
         min_date, max_date = db_call.get_min_max_production_date()
         if min_date and max_date:
+            print(min_date.year)
             self.date_from_filter.setDate(QDate(min_date.year, min_date.month, min_date.day))
+            print(self.date_from_filter.text())
             self.date_to_filter.setDate(QDate(max_date.year, max_date.month, max_date.day))
         else:
             # Fallback to default range if no data is available
@@ -560,7 +562,7 @@ class ProductionManagementPage(QWidget):
             global_var.all_production_data = db_call.get_all_production_data()
             self.update_cached_lists()
             self.populate_production_table()
-            # Re-apply date filter after refresh
+            # Re-apply date filter after refresh.
             self.on_date_filter_changed()
         except Exception as e:
             QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")

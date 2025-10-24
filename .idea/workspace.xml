@@ -250,14 +250,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00046" summary="added production widget">
-      <option name="closed" value="true" />
-      <created>1760757180516</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1760757180516</updated>
-    </task>
     <task id="LOCAL-00047" summary="added production widget">
       <option name="closed" value="true" />
       <created>1760757183221</created>
@@ -642,7 +634,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761273017623</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="udated date calls">
+      <option name="closed" value="true" />
+      <created>1761286655256</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1761286655257</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -663,7 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added single data database call" />
     <MESSAGE value="modified load data" />
     <MESSAGE value="debug edit button" />
     <MESSAGE value="fixed display of selected data" />
@@ -688,7 +687,8 @@
     <MESSAGE value="fixed date range selection" />
     <MESSAGE value="btn refresh func" />
     <MESSAGE value="modified" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified" />
+    <MESSAGE value="udated date calls" />
+    <option name="LAST_COMMIT_MESSAGE" value="udated date calls" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -697,11 +697,6 @@
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
           <line>747</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>381</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/db/db_call.py</url>
