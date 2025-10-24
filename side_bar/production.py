@@ -216,7 +216,7 @@ class ProductionManagementPage(QWidget):
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        self.refresh_btn.clicked.connect(self.refresh_data_from_db)
+        self.refresh_btn.clicked.connect(self.refresh_btn_clicked)
         controls_layout.addWidget(self.refresh_btn)
 
         self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
@@ -550,6 +550,9 @@ class ProductionManagementPage(QWidget):
             else:
                 show_row = False
             self.production_table.setRowHidden(row, not show_row)
+    def refresh_btn_clicked(self):
+        self.set_date_range()
+        self.refresh_data_from_db()
 
     def refresh_data_from_db(self):
         """Explicitly refresh data from database (called by refresh button or date change)."""
