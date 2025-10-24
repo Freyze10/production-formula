@@ -332,8 +332,7 @@ def get_min_max_production_date():
 
     cur.execute("""SELECT MIN(production_date) AS earliest_date,
                             MAX(production_date) AS latest_date
-                    FROM production_primary
-                    WHERE production_date >= '2001-01-01'""")
+                    FROM production_primary""")
     record = cur.fetchone()
 
     cur.close()

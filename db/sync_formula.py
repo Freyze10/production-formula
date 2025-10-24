@@ -786,68 +786,68 @@ class SyncToolWindow(QWidget):
 
 
 # --- Database Initialization ---
-# def initialize_sync_tool_db():
-#     print("Checking database schema for sync tool...")
-#     try:
-#         with engine.connect() as connection:
-#             with connection.begin():
-#                 # Schema for formula tables
-#                 connection.execute(text("""
-#                     CREATE TABLE IF NOT EXISTS formula_primary (
-#                         id SERIAL PRIMARY KEY,
-#                         formula_index VARCHAR(20) NOT NULL,
-#                         uid INTEGER NOT NULL UNIQUE,
-#                         formula_date DATE,
-#                         customer VARCHAR(100),
-#                         product_code VARCHAR(50),
-#                         product_color VARCHAR(50),
-#                         dosage NUMERIC(15,6),
-#                         ld NUMERIC(15,6),
-#                         mix_type VARCHAR(50),
-#                         resin VARCHAR(50),
-#                         application VARCHAR(100),
-#                         cm_num VARCHAR(20),
-#                         cm_date DATE,
-#                         matched_by VARCHAR(50),
-#                         encoded_by VARCHAR(50),
-#                         remarks TEXT,
-#                         total_concentration NUMERIC(15,6),
-#                         is_used BOOLEAN DEFAULT FALSE,
-#                         dbf_updated_by VARCHAR(100),
-#                         dbf_updated_on_text VARCHAR(100),
-#                         last_synced_on TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-#                         mb_dc VARCHAR(5) DEFAULT 'MB',
-#                         html_code VARCHAR(10),
-#                         c INTEGER,
-#                         m INTEGER,
-#                         y INTEGER,
-#                         k INTEGER,
-#                         created_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-#                         is_deleted BOOLEAN DEFAULT FALSE
-#                     );"""))
-#                 connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_primary_uid ON formula_primary (uid);"))
-#                 connection.execute(
-#                     text("CREATE INDEX IF NOT EXISTS idx_formula_primary_prod_code ON formula_primary (product_code);"))
-#                 connection.execute(text("""
-#                     CREATE TABLE IF NOT EXISTS formula_items (
-#                         id SERIAL PRIMARY KEY, uid INTEGER NOT NULL, seq INTEGER, material_code VARCHAR(50), concentration NUMERIC(15, 6), update_by VARCHAR(100), update_on_text VARCHAR(100)
-#                     );"""))
-#                 connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_items_uid ON formula_items (uid);"))
-#
-#         print("Database schema check complete.")
-#         return True
-#     except Exception as e:
-#         print(f"CRITICAL ERROR during database initialization: {e}")
-#         return False
-#
-#
-# # --- Main Execution ---
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     if not initialize_sync_tool_db():
-#         QMessageBox.critical(None, "Database Error",
-#                              "Could not connect to or initialize the database.\nCheck console for details.")
-#         sys.exit(1)
-#     main_window = SyncToolWindow()
-#     main_window.show()
-#     sys.exit(app.exec())
+def initialize_sync_tool_db():
+    print("Checking database schema for sync tool...")
+    try:
+        with engine.connect() as connection:
+            with connection.begin():
+                # Schema for formula tables
+                connection.execute(text("""
+                    CREATE TABLE IF NOT EXISTS formula_primary (
+                        id SERIAL PRIMARY KEY,
+                        formula_index VARCHAR(20) NOT NULL,
+                        uid INTEGER NOT NULL UNIQUE,
+                        formula_date DATE,
+                        customer VARCHAR(100),
+                        product_code VARCHAR(50),
+                        product_color VARCHAR(50),
+                        dosage NUMERIC(15,6),
+                        ld NUMERIC(15,6),
+                        mix_type VARCHAR(50),
+                        resin VARCHAR(50),
+                        application VARCHAR(100),
+                        cm_num VARCHAR(20),
+                        cm_date DATE,
+                        matched_by VARCHAR(50),
+                        encoded_by VARCHAR(50),
+                        remarks TEXT,
+                        total_concentration NUMERIC(15,6),
+                        is_used BOOLEAN DEFAULT FALSE,
+                        dbf_updated_by VARCHAR(100),
+                        dbf_updated_on_text VARCHAR(100),
+                        last_synced_on TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+                        mb_dc VARCHAR(5) DEFAULT 'MB',
+                        html_code VARCHAR(10),
+                        c INTEGER,
+                        m INTEGER,
+                        y INTEGER,
+                        k INTEGER,
+                        created_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+                        is_deleted BOOLEAN DEFAULT FALSE
+                    );"""))
+                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_primary_uid ON formula_primary (uid);"))
+                connection.execute(
+                    text("CREATE INDEX IF NOT EXISTS idx_formula_primary_prod_code ON formula_primary (product_code);"))
+                connection.execute(text("""
+                    CREATE TABLE IF NOT EXISTS formula_items (
+                        id SERIAL PRIMARY KEY, uid INTEGER NOT NULL, seq INTEGER, material_code VARCHAR(50), concentration NUMERIC(15, 6), update_by VARCHAR(100), update_on_text VARCHAR(100)
+                    );"""))
+                connection.execute(text("CREATE INDEX IF NOT EXISTS idx_formula_items_uid ON formula_items (uid);"))
+
+        print("Database schema check complete.")
+        return True
+    except Exception as e:
+        print(f"CRITICAL ERROR during database initialization: {e}")
+        return False
+
+
+# --- Main Execution ---
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    if not initialize_sync_tool_db():
+        QMessageBox.critical(None, "Database Error",
+                             "Could not connect to or initialize the database.\nCheck console for details.")
+        sys.exit(1)
+    main_window = SyncToolWindow()
+    main_window.show()
+    sys.exit(app.exec())

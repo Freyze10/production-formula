@@ -60,9 +60,10 @@ class ProductionManagementPage(QWidget):
         """Set default date range based on min and max production dates."""
         min_date, max_date = db_call.get_min_max_production_date()
         if min_date and max_date:
-            print(min_date.year)
-            self.date_from_filter.setDate(QDate(min_date.year, min_date.month, min_date.day))
-            print(self.date_from_filter.text())
+            if min_date.year < 2001:
+                self.date_from_filter.setDate(QDate(2001, 1, 1))
+            else:
+                self.date_from_filter.setDate(QDate(min_date.year, min_date.month, min_date.day))
             self.date_to_filter.setDate(QDate(max_date.year, max_date.month, max_date.day))
         else:
             # Fallback to default range if no data is available
@@ -197,12 +198,15 @@ class ProductionManagementPage(QWidget):
         controls_layout.addWidget(date_from_label)
         self.date_from_filter = QDateEdit()
         self.date_from_filter.setCalendarPopup(True)
+        self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
+
         controls_layout.addWidget(self.date_from_filter)
 
         date_to_label = QLabel("Date To:")
         controls_layout.addWidget(date_to_label)
         self.date_to_filter = QDateEdit()
         self.date_to_filter.setCalendarPopup(True)
+        self.date_to_filter.setDate(QDate.currentDate())
         controls_layout.addWidget(self.date_to_filter)
 
         self.export_btn = QPushButton("Export", objectName="SecondaryButton")
@@ -553,6 +557,7 @@ class ProductionManagementPage(QWidget):
                 show_row = False
             self.production_table.setRowHidden(row, not show_row)
     def refresh_btn_clicked(self):
+        self.run_production_sync()
         self.set_date_range()
         self.refresh_data_from_db()
 
