@@ -64,7 +64,7 @@ class ProductionManagementPage(QWidget):
             self.date_to_filter.setDate(QDate(max_date.year, max_date.month, max_date.day))
         else:
             # Fallback to default range if no data is available
-            self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
+            self.date_from_filter.setDate(QDate(2001, 1, 1))
             self.date_to_filter.setDate(QDate.currentDate())
 
     def setup_ui(self):

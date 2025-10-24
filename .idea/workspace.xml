@@ -40,6 +40,9 @@
     &quot;accountId&quot;: &quot;69872e8b-c644-4823-811a-2f00aaddb812&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -246,14 +249,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00044" summary="added export to excel">
-      <option name="closed" value="true" />
-      <created>1760754437209</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1760754437209</updated>
     </task>
     <task id="LOCAL-00045" summary="fixed db_status icon">
       <option name="closed" value="true" />
@@ -639,7 +634,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761270074405</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="btn refresh func">
+      <option name="closed" value="true" />
+      <created>1761270681451</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1761270681451</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -660,7 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed var naming" />
     <MESSAGE value="added single data database call" />
     <MESSAGE value="modified load data" />
     <MESSAGE value="debug edit button" />
@@ -685,7 +687,8 @@
     <MESSAGE value="removed the gif" />
     <MESSAGE value="added min and max date" />
     <MESSAGE value="fixed date range selection" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed date range selection" />
+    <MESSAGE value="btn refresh func" />
+    <option name="LAST_COMMIT_MESSAGE" value="btn refresh func" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

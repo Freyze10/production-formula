@@ -330,9 +330,9 @@ def get_min_max_production_date():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""SELECT MIN(production_date) AS earliest_date,
-                            MAX(production_date) AS latest_date
-                    FROM production_primary""")
+    cur.execute("""SELECT MIN(formula_date) AS earliest_date,
+                            MAX(formula_date) AS latest_date
+                    FROM formula_primary""")
     record = cur.fetchone()
 
     cur.close()
