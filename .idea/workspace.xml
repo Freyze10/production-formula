@@ -250,22 +250,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00052" summary="changed headers">
-      <option name="closed" value="true" />
-      <created>1760940459743</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1760940459743</updated>
-    </task>
-    <task id="LOCAL-00053" summary="change headers">
-      <option name="closed" value="true" />
-      <created>1760941490901</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1760941490901</updated>
-    </task>
     <task id="LOCAL-00054" summary="updated functions">
       <option name="closed" value="true" />
       <created>1760943459541</created>
@@ -642,7 +626,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761294948903</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="removed function on tab">
+      <option name="closed" value="true" />
+      <created>1761295262534</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1761295262534</updated>
+    </task>
+    <task id="LOCAL-00102" summary="removed print debug">
+      <option name="closed" value="true" />
+      <created>1761295304587</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1761295304587</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -663,8 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="tried changing tablerowsize" />
-    <MESSAGE value="removed debug" />
     <MESSAGE value="refactored formulation" />
     <MESSAGE value="added global var" />
     <MESSAGE value="added data for production" />
@@ -688,7 +686,9 @@
     <MESSAGE value="fixed date input display" />
     <MESSAGE value="fixed datetime format" />
     <MESSAGE value="removed table pos" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed table pos" />
+    <MESSAGE value="removed function on tab" />
+    <MESSAGE value="removed print debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed print debug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
