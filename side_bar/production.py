@@ -344,6 +344,7 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(self.matched_date_input, 9, 1)
 
         self.formulation_id_input = QLineEdit()
+        self.formulation_index = QLineEdit()
         self.formulation_id_input.setPlaceholderText("0")
         self.formulation_id_input.setStyleSheet("background-color: #e9ecef;")
         self.formulation_id_input.setReadOnly(True)
@@ -791,6 +792,7 @@ class ProductionManagementPage(QWidget):
             else:
                 self.matched_date_input.setText("")
             self.formulation_id_input.setText(str(result['formulation_id']))
+            self.formulation_index.setText(str(result['formula_index']))
             self.mixing_time_input.setText(str(result['mixing_time']))
             self.machine_no_input.setText(str(result['machine_no']))
             self.qty_required_input.setText(f"{result['qty_required']:.6f}")
@@ -924,6 +926,7 @@ class ProductionManagementPage(QWidget):
             'colormatch_no': self.colormatch_no_input.text().strip(),
             'matched_date': self.matched_date_input.get_date(),
             'formulation_id': self.formulation_id_input.text().strip(),
+            'formula_index': self.formulation_index.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
             'machine_no': self.machine_no_input.text().strip(),
             'qty_required': qty_required,
@@ -953,7 +956,7 @@ class ProductionManagementPage(QWidget):
                 'total_weight': total_weight,
                 'total_loss': total_loss,
                 'total_consumption': total_consumption
-            })
+            }
 
         try:
             if self.current_production_id:
@@ -1107,6 +1110,7 @@ class ProductionManagementPage(QWidget):
 
         row = sel[0].row()
 
+        self.formulation_index.setText(formula_table.item(row, 0).text())
         self.formulation_id_input.setText(formula_table.item(row, 1).text())
         self.customer_input.setText(formula_table.item(row, 2).text())
         self.product_code_input.setText(formula_table.item(row, 3).text())
