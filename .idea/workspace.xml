@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00066" summary="display all production data">
-      <option name="closed" value="true" />
-      <created>1761096507002</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1761096507002</updated>
-    </task>
     <task id="LOCAL-00067" summary="fixed loading display on sync">
       <option name="closed" value="true" />
       <created>1761099668179</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761361192075</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="updated util date">
+      <option name="closed" value="true" />
+      <created>1761361850598</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1761361850598</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -664,7 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed the animation" />
     <MESSAGE value="removed the gif" />
     <MESSAGE value="added min and max date" />
     <MESSAGE value="fixed date range selection" />
@@ -689,7 +688,8 @@
     <MESSAGE value="fixed date display edit" />
     <MESSAGE value="fixed save func" />
     <MESSAGE value="modified edit display data" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified edit display data" />
+    <MESSAGE value="updated util date" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated util date" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

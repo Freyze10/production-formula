@@ -24,13 +24,6 @@ class SmartDateEdit(QLineEdit):
         self.blockSignals(False)
         self.setCursorPosition(len(formatted))
 
-    def setText(self, text):
-        """Allow setting text manually (e.g., from database)."""
-        self.blockSignals(True)
-        super().setText(text)
-        self.blockSignals(False)
-        self.auto_format_date()
-
     def get_date(self):
         """Return QDate if valid; else None."""
         d = QDate.fromString(self.text(), "MM/dd/yyyy")
