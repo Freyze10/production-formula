@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00060" summary="fixed display  of data with ld">
-      <option name="closed" value="true" />
-      <created>1761027098488</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1761027098488</updated>
-    </task>
     <task id="LOCAL-00061" summary="modified required fields">
       <option name="closed" value="true" />
       <created>1761027984726</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761354187814</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="did write or select date">
+      <option name="closed" value="true" />
+      <created>1761355261909</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1761355261909</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -664,7 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added loading func" />
     <MESSAGE value="added loading but static" />
     <MESSAGE value="updated loading" />
     <MESSAGE value="added gif" />
@@ -689,7 +688,8 @@
     <MESSAGE value="created new calendar design" />
     <MESSAGE value="connected new callendar design" />
     <MESSAGE value="creating freely typing date" />
-    <option name="LAST_COMMIT_MESSAGE" value="creating freely typing date" />
+    <MESSAGE value="did write or select date" />
+    <option name="LAST_COMMIT_MESSAGE" value="did write or select date" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

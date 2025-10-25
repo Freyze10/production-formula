@@ -338,9 +338,7 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(QLabel("Colormatch No:"), 8, 0)
         primary_layout.addWidget(self.colormatch_no_input, 8, 1)
 
-        self.matched_date_input = QDateEdit()
-        self.matched_date_input.setCalendarPopup(True)
-        self.matched_date_input.setDate(QDate.currentDate())
+        self.matched_date_input = SmartDateEdit()
         primary_layout.addWidget(QLabel("Matched Date:"), 9, 0)
         primary_layout.addWidget(self.matched_date_input, 9, 1)
 
