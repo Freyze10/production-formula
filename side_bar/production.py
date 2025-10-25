@@ -323,8 +323,6 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(self.production_date_input, 5, 1)
 
         self.confirmation_date_input = SmartDateEdit()
-        self.confirmation_date_input.calendarWidget().setMinimumSize(370, 230)
-        self.confirmation_date_input.calendarWidget().setStyleSheet(calendar_design.STYLESHEET)
         primary_layout.addWidget(QLabel("Confirmation Date \n(For Inventory Only):"), 6, 0)
         primary_layout.addWidget(self.confirmation_date_input, 6, 1)
 
