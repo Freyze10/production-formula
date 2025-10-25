@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00068" summary="fixed var naming">
-      <option name="closed" value="true" />
-      <created>1761103577903</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1761103577903</updated>
-    </task>
     <task id="LOCAL-00069" summary="added single data database call">
       <option name="closed" value="true" />
       <created>1761103602430</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761361981345</updated>
     </task>
-    <option name="localTasksCounter" value="117" />
+    <task id="LOCAL-00117" summary="updated new button func">
+      <option name="closed" value="true" />
+      <created>1761362825640</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1761362825640</updated>
+    </task>
+    <option name="localTasksCounter" value="118" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -664,7 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added min and max date" />
     <MESSAGE value="fixed date range selection" />
     <MESSAGE value="btn refresh func" />
     <MESSAGE value="modified" />
@@ -689,7 +688,8 @@
     <MESSAGE value="modified edit display data" />
     <MESSAGE value="updated util date" />
     <MESSAGE value="final date func" />
-    <option name="LAST_COMMIT_MESSAGE" value="final date func" />
+    <MESSAGE value="updated new button func" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated new button func" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

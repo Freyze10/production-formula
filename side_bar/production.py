@@ -840,7 +840,8 @@ class ProductionManagementPage(QWidget):
 
     def new_production(self):
         """Start a new production entry."""
-        self.production_id_input.clear()
+        latest_prod = db_call.get_latest_prod_id()
+        self.production_id_input.setText(str(latest_prod + 1))
         self.form_type_combo.setCurrentIndex(0)
         self.product_code_input.clear()
         self.product_color_input.clear()
@@ -991,19 +992,6 @@ class ProductionManagementPage(QWidget):
 
         self.no_items_label.setText(str(item_count))
         self.total_weight_label.setText(f"{total_weight:.6f}")
-
-    def sync_for_entry(self, index):
-        """Trigger sync when entering the entry tab."""
-        try:
-            if self.tab_widget.widget(index) == self.entry_tab:
-                self.new_production()
-                self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
-                self.encoded_by_display.setText(self.work_station['u'])
-            elif self.tab_widget.widget(index) == self.records_tab:
-                self.populate_production_table()  # Use cached data
-                self.enable_fields(enable=True)
-        except Exception as e:
-            print(f"Error in sync_for_entry: {e}")
 
     def show_formulation_selector(self):
         """Show dialog to select a formulation and populate its materials."""
