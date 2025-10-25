@@ -353,3 +353,75 @@ def get_latest_prod_id():
     cur.close()
     conn.close()
     return record[0]
+
+
+def save_production(production_data, material_data):
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+
+        # Insert into formula_primary - using all fields from primary_data
+        cur.execute("""
+            INSERT INTO formula_primary (
+                uid, formula_index, customer, product_code, product_color, 
+                dosage, ld, mix_type, resin, application, 
+                cm_num, cm_date, remarks, total_concentration, mb_dc, html_code, c, m, y, k, 
+                matched_by, encoded_by, formula_date, dbf_updated_by, dbf_updated_on_text
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING uid;
+        """, (
+            production_data["uid"],
+            production_data["formula_index"],
+            production_data["customer"],
+            production_data["product_code"],
+            production_data["product_color"],
+            production_data["dosage"],
+            production_data["ld"],
+            production_data["mix_type"],
+            production_data["resin"],
+            production_data["application"],
+            production_data["cm_num"],
+            production_data["cm_date"],
+            production_data["remarks"],
+            production_data["total_concentration"],
+            production_data["mb_dc"],
+            production_data["html_code"],
+            production_data["c"],
+            production_data["m"],
+            production_data["y"],
+            production_data["k"],
+            production_data["matched_by"],
+            production_data["encoded_by"],
+            production_data["formula_date"],
+            production_data["dbf_updated_by"],
+            production_data["dbf_updated_on_text"]
+        ))
+
+        uid = cur.fetchone()[0]
+
+        # Insert material composition - preserve row order with sequence number
+        for idx, material in enumerate(material_data):
+            cur.execute("""
+                INSERT INTO formula_items (
+                    uid, seq, material_code, concentration
+                ) VALUES (%s, %s, %s, %s)
+            """, (
+                uid,
+                idx + 1,  # Sequence starting from 1 for top row
+                material["material_code"],
+                material["concentration"]
+            ))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+        return uid
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        cur.close()
+        conn.close()
+        raise e
+
+

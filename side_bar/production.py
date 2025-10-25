@@ -262,6 +262,7 @@ class ProductionManagementPage(QWidget):
 
         self.production_id_input = QLineEdit()
         self.production_id_input.setPlaceholderText("0098886")
+
         self.production_id_input.setStyleSheet("background-color: #fff9c4;")
 
         # Button and Form Type on same row
@@ -821,6 +822,7 @@ class ProductionManagementPage(QWidget):
                 self.materials_table.setItem(row_position, col, item)
 
         self.update_totals()
+        self.enable_fields(enable=True)
         self.tab_widget.blockSignals(False)
 
     def enable_fields(self, enable=True):
