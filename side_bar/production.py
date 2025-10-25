@@ -506,11 +506,6 @@ class ProductionManagementPage(QWidget):
         self.save_btn.clicked.connect(self.save_production)
         button_layout.addWidget(self.save_btn)
 
-        close_btn = QPushButton("Close", objectName="DangerButton")
-        close_btn.setIcon(fa.icon('fa5s.times', color='white'))
-        close_btn.clicked.connect(self.close_production)
-        button_layout.addWidget(close_btn)
-
         main_layout.addLayout(button_layout)
 
         return tab
@@ -783,7 +778,7 @@ class ProductionManagementPage(QWidget):
             prod_date = QDate(result['production_date'].year, result['production_date'].month,
                               result['production_date'].day)
             self.production_date_input.setDate(prod_date)
-            self.confirmation_date_input.setText(result['scheduled_date'].strftime("%m/%d/%Y"))
+            self.confirmation_date_input.setText(result['confirmation_date'].strftime("%m/%d/%Y"))
             self.order_form_no_combo.setCurrentText(str(result['order_form_no']))
             self.colormatch_no_input.setText(str(result['colormatch_no']))
             if result['colormatch_date']:
@@ -1172,19 +1167,6 @@ class ProductionManagementPage(QWidget):
 
         QMessageBox.information(self, "Print", "Print functionality to be implemented.")
         self.log_audit_trail("Production Action", f"Printed production: {self.production_id_input.text()}")
-
-    def close_production(self):
-        """Close the production form."""
-        reply = QMessageBox.question(
-            self,
-            "Close Production",
-            "Are you sure you want to close? Any unsaved changes will be lost.",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-
-        if reply == QMessageBox.StandardButton.Yes:
-            self.new_production()
-            self.tab_widget.setCurrentIndex(0)
 
     def run_production_sync(self):
         thread = QThread()
