@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00058" summary="added ld in database">
-      <option name="closed" value="true" />
-      <created>1761025287775</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1761025287775</updated>
-    </task>
     <task id="LOCAL-00059" summary="updated ld in db conn">
       <option name="closed" value="true" />
       <created>1761025992025</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761352591044</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="connected new callendar design">
+      <option name="closed" value="true" />
+      <created>1761353357149</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1761353357149</updated>
+    </task>
+    <option name="localTasksCounter" value="108" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -664,7 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactored production calls" />
     <MESSAGE value="slightly faster table loading" />
     <MESSAGE value="added loading func" />
     <MESSAGE value="added loading but static" />
@@ -689,7 +688,8 @@
     <MESSAGE value="added nullable date" />
     <MESSAGE value="connected confirmation to nullable" />
     <MESSAGE value="created new calendar design" />
-    <option name="LAST_COMMIT_MESSAGE" value="created new calendar design" />
+    <MESSAGE value="connected new callendar design" />
+    <option name="LAST_COMMIT_MESSAGE" value="connected new callendar design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
