@@ -867,17 +867,6 @@ class ProductionManagementPage(QWidget):
 
     def save_production(self):
         """Save the current production record."""
-        # Basic validation
-        production_id = self.production_id_input.text().strip()
-        product_code = self.product_code_input.text().strip()
-        product_color = self.product_color_input.text().strip()
-        customer = self.customer_input.text().strip()
-        lot_no = self.lot_no_input.text().strip()
-
-        if not all([production_id, product_code, product_color, customer, lot_no]):
-            QMessageBox.warning(self, "Missing Data", "Please fill in all required fields.")
-            return
-
         # Validate numeric fields
         try:
             dosage = float(self.dosage_input.text().strip()) if self.dosage_input.text().strip() else 0.0
@@ -889,26 +878,45 @@ class ProductionManagementPage(QWidget):
             QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for dosage and quantities.")
             return
 
+        # Basic validation
+        required_fields = [
+            ("Production ID", self.production_id_input.text().strip()),
+            ("Product Code", self.product_code_input.text().strip()),
+            ("Product Color", self.product_color_input.text().strip()),
+            ("Customer", self.customer_input.text().strip()),
+            ("Lot Number", self.lot_no_input.text().strip()),
+            ("Order Form No", self.order_form_no_combo.currentText().strip()),
+            ("Quantity Required", str(qty_required).strip() if qty_required else ""),
+            ("Quantity per Batch", str(qty_per_batch).strip() if qty_per_batch else ""),
+            ("Prepared By", self.prepared_by_input.text().strip()),
+        ]
+
+        # Loop and check missing fields
+        for field, value in required_fields:
+            if not value:  # empty string or zero
+                QMessageBox.warning(self, "Missing Input", f"Please fill in: {field}")
+                return
+
         if self.materials_table.rowCount() == 0:
             QMessageBox.warning(self, "Missing Data", "Please add at least one material.")
             return
 
         # Gather production data
         production_data = {
-            'production_id': production_id,
+            'production_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
-            'product_code': product_code,
-            'product_color': product_color,
+            'product_code': self.product_code_input.text().strip(),
+            'product_color': self.product_color_input.text().strip(),
             'dosage': dosage,
             'dosage_percent': float(
                 self.ld_percent_input.text().strip()) if self.ld_percent_input.text().strip() else 0.0,
-            'customer': customer,
-            'lot_no': lot_no,
+            'customer': self.customer_input.text().strip(),
+            'lot_no': self.lot_no_input.text().strip(),
             'production_date': self.production_date_input.date().toPyDate(),
-            'confirmation_date': self.confirmation_date_input.date().toPyDate(),
+            'confirmation_date': self.confirmation_date_input.get_date(),
             'order_form_no': self.order_form_no_combo.currentText(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
-            'matched_date': self.matched_date_input.date().toPyDate(),
+            'matched_date': self.matched_date_input.get_date(),
             'formulation_id': self.formulation_id_input.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
             'machine_no': self.machine_no_input.text().strip(),
@@ -946,14 +954,14 @@ class ProductionManagementPage(QWidget):
                 # Update existing production
                 # TODO: Replace with actual db_call function
                 # db_call.update_production(production_data, material_data)
-                self.log_audit_trail("Data Entry", f"Updated production: {production_id}")
-                QMessageBox.information(self, "Success", f"Production {production_id} updated successfully!")
+                self.log_audit_trail("Data Entry", f"Updated production")
+                QMessageBox.information(self, "Success", f"Production updated successfully!")
             else:
                 # Save new production
                 # TODO: Replace with actual db_call function
                 # db_call.save_production(production_data, material_data)
-                self.log_audit_trail("Data Entry", f"Saved new production: {production_id}")
-                QMessageBox.information(self, "Success", f"Production {production_id} saved successfully!")
+                self.log_audit_trail("Data Entry", f"Saved new production")
+                QMessageBox.information(self, "Success", f"Production saved successfully!")
 
             # Refresh cache after save
             self.refresh_data_from_db()
