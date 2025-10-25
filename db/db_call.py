@@ -370,9 +370,9 @@ def save_production(production_data, material_data):
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING uid;
         """, (
-            production_data["uid"],
-            production_data["formula_index"],
+            production_data["production_date"],
             production_data["customer"],
+            production_data["formulation_id"],
             production_data["product_code"],
             production_data["product_color"],
             production_data["dosage"],
