@@ -916,7 +916,7 @@ class ProductionManagementPage(QWidget):
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
             'dosage': dosage,
-            'dosage_percent': float(
+            'ld_percent': float(
                 self.ld_percent_input.text().strip()) if self.ld_percent_input.text().strip() else 0.0,
             'customer': self.customer_input.text().strip(),
             'lot_no': self.lot_no_input.text().strip(),
@@ -924,7 +924,7 @@ class ProductionManagementPage(QWidget):
             'confirmation_date': self.confirmation_date_input.get_date(),
             'order_form_no': self.order_form_no_combo.currentText(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
-            'matched_date': self.matched_date_input.get_date(),
+            'colormatch_date': self.matched_date_input.get_date(),
             'formulation_id': self.formulation_id_input.text().strip(),
             'formula_index': self.formulation_index.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
@@ -956,7 +956,7 @@ class ProductionManagementPage(QWidget):
                 'total_weight': total_weight,
                 'total_loss': total_loss,
                 'total_consumption': total_consumption
-            }
+            })
 
         try:
             if self.current_production_id:
