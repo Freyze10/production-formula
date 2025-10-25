@@ -12,6 +12,7 @@ import pandas as pd
 
 from db import db_call
 from db.sync_formula import SyncProductionWorker, LoadingDialog
+from utils.date import NullableDateEdit
 from utils.work_station import _get_workstation_info
 from utils import global_var
 
@@ -321,10 +322,14 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(QLabel("Tentative Production Date:"), 5, 0)
         primary_layout.addWidget(self.production_date_input, 5, 1)
 
-        self.confirmation_date_input = QDateEdit()
+        self.confirmation_date_input = NullableDateEdit()
         self.confirmation_date_input.setCalendarPopup(True)
-        self.confirmation_date_input.setDate(QDate.currentDate())
+        # self.confirmation_date_input.setDate(QDate.currentDate())
         self.confirmation_date_input.setDisplayFormat("MM/dd/yyyy")
+        min_date = QDate(1900, 1, 1)
+        self.confirmation_date_input.setMinimumDate(min_date)
+        self.confirmation_date_input.setSpecialValueText("")
+        self.confirmation_date_input.setDate(min_date)  # shows blank initially
         primary_layout.addWidget(QLabel("Confirmation Date \n(For Inventory Only):"), 6, 0)
         primary_layout.addWidget(self.confirmation_date_input, 6, 1)
 

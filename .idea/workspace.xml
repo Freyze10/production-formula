@@ -250,22 +250,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00054" summary="updated functions">
-      <option name="closed" value="true" />
-      <created>1760943459541</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1760943459541</updated>
-    </task>
-    <task id="LOCAL-00055" summary="fixed table design">
-      <option name="closed" value="true" />
-      <created>1761010100493</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1761010100493</updated>
-    </task>
     <task id="LOCAL-00056" summary="added database for formula selection">
       <option name="closed" value="true" />
       <created>1761015546050</created>
@@ -642,7 +626,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761295304587</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="removed print debug">
+      <option name="closed" value="true" />
+      <created>1761296637837</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1761296637837</updated>
+    </task>
+    <task id="LOCAL-00104" summary="added nullable date">
+      <option name="closed" value="true" />
+      <created>1761352437588</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1761352437588</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -663,7 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactored formulation" />
     <MESSAGE value="added global var" />
     <MESSAGE value="added data for production" />
     <MESSAGE value="refactored production calls" />
@@ -688,7 +687,8 @@
     <MESSAGE value="removed table pos" />
     <MESSAGE value="removed function on tab" />
     <MESSAGE value="removed print debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed print debug" />
+    <MESSAGE value="added nullable date" />
+    <option name="LAST_COMMIT_MESSAGE" value="added nullable date" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
