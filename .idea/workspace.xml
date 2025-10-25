@@ -52,35 +52,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
-    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.view.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/File&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.dfr.executor": "Run",
+    "Python.fg_endorsement.executor": "Run",
+    "Python.fgendorsement.executor": "Run",
+    "Python.fgmain.executor": "Run",
+    "Python.formulation (1).executor": "Debug",
+    "Python.formulation.executor": "Run",
+    "Python.main-2.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.sync-formula.executor": "Run",
+    "Python.sync_formula (1).executor": "Run",
+    "Python.sync_formula.executor": "Run",
+    "Python.view.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV/utils",
+    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -249,22 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00056" summary="added database for formula selection">
-      <option name="closed" value="true" />
-      <created>1761015546050</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1761015546051</updated>
-    </task>
-    <task id="LOCAL-00057" summary="added selected formulation">
-      <option name="closed" value="true" />
-      <created>1761017772476</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1761017772476</updated>
     </task>
     <task id="LOCAL-00058" summary="added ld in database">
       <option name="closed" value="true" />
@@ -642,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761352437588</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="connected confirmation to nullable">
+      <option name="closed" value="true" />
+      <created>1761352561459</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1761352561459</updated>
+    </task>
+    <task id="LOCAL-00106" summary="created new calendar design">
+      <option name="closed" value="true" />
+      <created>1761352591044</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1761352591044</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -663,8 +664,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added global var" />
-    <MESSAGE value="added data for production" />
     <MESSAGE value="refactored production calls" />
     <MESSAGE value="slightly faster table loading" />
     <MESSAGE value="added loading func" />
@@ -688,7 +687,9 @@
     <MESSAGE value="removed function on tab" />
     <MESSAGE value="removed print debug" />
     <MESSAGE value="added nullable date" />
-    <option name="LAST_COMMIT_MESSAGE" value="added nullable date" />
+    <MESSAGE value="connected confirmation to nullable" />
+    <MESSAGE value="created new calendar design" />
+    <option name="LAST_COMMIT_MESSAGE" value="created new calendar design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

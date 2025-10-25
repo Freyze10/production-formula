@@ -14,7 +14,7 @@ from db import db_call
 from db.sync_formula import SyncProductionWorker, LoadingDialog
 from utils.date import NullableDateEdit
 from utils.work_station import _get_workstation_info
-from utils import global_var
+from utils import global_var, calendar_design
 
 
 class NumericTableWidgetItem(QTableWidgetItem):
@@ -326,7 +326,9 @@ class ProductionManagementPage(QWidget):
         self.confirmation_date_input.setCalendarPopup(True)
         # self.confirmation_date_input.setDate(QDate.currentDate())
         self.confirmation_date_input.setDisplayFormat("MM/dd/yyyy")
-        min_date = QDate(1900, 1, 1)
+        self.confirmation_date_input.calendarWidget().setMinimumSize(370, 230)
+        self.confirmation_date_input.calendarWidget().setStyleSheet(calendar_design.STYLESHEET)
+        min_date = QDate(2001, 1, 1)
         self.confirmation_date_input.setMinimumDate(min_date)
         self.confirmation_date_input.setSpecialValueText("")
         self.confirmation_date_input.setDate(min_date)  # shows blank initially
