@@ -778,7 +778,11 @@ class ProductionManagementPage(QWidget):
             prod_date = QDate(result['production_date'].year, result['production_date'].month,
                               result['production_date'].day)
             self.production_date_input.setDate(prod_date)
-            self.confirmation_date_input.setText(result['confirmation_date'].strftime("%m/%d/%Y"))
+            if result['confirmation_date']:
+                self.confirmation_date_input.setText(result['confirmation_date'].strftime("%m/%d/%Y"))
+            else:
+                self.confirmation_date_input.setText("")
+
             self.order_form_no_combo.setCurrentText(str(result['order_form_no']))
             self.colormatch_no_input.setText(str(result['colormatch_no']))
             if result['colormatch_date']:
