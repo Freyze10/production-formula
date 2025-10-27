@@ -458,7 +458,7 @@ class ProductionManagementPage(QWidget):
         encoding_layout.addWidget(self.encoded_by_display, 0, 1)
 
         self.production_confirmation_display = QLineEdit()
-        self.production_confirmation_display.setPlaceholderText("0000000")
+        self.production_confirmation_display.setPlaceholderText("mm/dd/yyyy h:m:s")
         self.production_confirmation_display.setStyleSheet("background-color: #fff9c4;")
         self.production_confirmation_display.setReadOnly(True)
         encoding_layout.addWidget(QLabel("Production Confirmation Encoded On:"), 1, 0)
