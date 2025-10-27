@@ -940,7 +940,7 @@ class ProductionManagementPage(QWidget):
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': self.production_confirmation_display.text().strip(),
-            'encoded_on': datetime.now().strftime("%m/%d/%Y %I:%M:%S")
+            'encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
         # Gather material data
@@ -981,6 +981,7 @@ class ProductionManagementPage(QWidget):
             self.new_production()
         except Exception as e:
             QMessageBox.critical(self, "Save Error", f"An error occurred while saving: {str(e)}")
+            print(e)
 
     def update_totals(self):
         """Update the total weight and item count displays."""
