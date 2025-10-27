@@ -27,4 +27,4 @@ class SmartDateEdit(QLineEdit):
     def get_date(self):
         """Return QDate if valid; else None."""
         d = QDate.fromString(self.text(), "MM/dd/yyyy")
-        return d if d.isValid() else None
+        return d.toString("yyyy-MM-dd") if d.isValid() else None

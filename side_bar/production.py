@@ -922,12 +922,12 @@ class ProductionManagementPage(QWidget):
             'ld_percent': float(
                 self.ld_percent_input.text().strip()) if self.ld_percent_input.text().strip() else 0.0,
             'customer': self.customer_input.text().strip(),
-            'lot_no': self.lot_no_input.text().strip(),
+            'lot_number': self.lot_no_input.text().strip(),
             'production_date': self.production_date_input.date().toPyDate(),
-            'confirmation_date': self.confirmation_date_input.get_date().toString("yyyy/MM/dd") if self.confirmation_date_input else None,
+            'confirmation_date': self.confirmation_date_input.get_date(),
             'order_form_no': self.order_form_no_combo.currentText(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
-            'colormatch_date': self.matched_date_input.get_date().toString("yyyy/MM/dd") if self.matched_date_input else None,
+            'colormatch_date': self.matched_date_input.get_date(),
             'formulation_id': self.formulation_id_input.text().strip(),
             'formula_index': self.formulation_index.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
@@ -940,7 +940,7 @@ class ProductionManagementPage(QWidget):
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': self.production_confirmation_display.text().strip(),
-            'encoded_on': datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+            'encoded_on': datetime.now().strftime("%m/%d/%Y %I:%M:%S")
         }
 
         # Gather material data

@@ -362,9 +362,9 @@ def save_production(production_data, material_data):
 
         # Insert into formula_primary - using all fields from primary_data
         cur.execute("""
-            INSERT INTO formula_primary (
+            INSERT INTO production_primary (
                 production_date, customer, formulation_id, formula_index, 
-                product_color, dosage, ld_percent, lot_no, order_form_no, 
+                product_color, dosage, ld_percent, lot_number, order_form_no, 
                 colormatch_no, colormatch_date, mixing_time, machine_no, qty_required, qty_per_batch, 
                 qty_produced, notes, user_id, prepared_by, 
                 encoded_by, encoded_on, confirmation_date, form_type
@@ -378,7 +378,7 @@ def save_production(production_data, material_data):
             production_data["product_color"],
             production_data["dosage"],
             production_data["ld_percent"],
-            production_data["lot_no"],
+            production_data["lot_number"],
             production_data["order_form_no"],
             production_data["colormatch_no"],
             production_data["colormatch_date"],
