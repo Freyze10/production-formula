@@ -955,7 +955,7 @@ class ProductionManagementPage(QWidget):
                                                                                                              5) else 0.0
 
             material_data.append({
-                'material_name': material_name,
+                'material_code': material_name,
                 'large_scale': large_scale,
                 'small_scale': small_scale,
                 'total_weight': total_weight,

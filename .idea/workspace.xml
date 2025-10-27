@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00081" summary="slightly faster table loading">
-      <option name="closed" value="true" />
-      <created>1761189554919</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1761189554919</updated>
-    </task>
     <task id="LOCAL-00082" summary="modified">
       <option name="closed" value="true" />
       <created>1761201031596</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761546158425</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="updates db_conn save">
+      <option name="closed" value="true" />
+      <created>1761547099903</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1761547099903</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed unnecessary comment" />
     <MESSAGE value="fixed date input display" />
     <MESSAGE value="fixed datetime format" />
     <MESSAGE value="removed table pos" />
@@ -700,7 +699,8 @@
     <MESSAGE value="fixing prod save func" />
     <MESSAGE value="&#10;fixing prod save func" />
     <MESSAGE value="change datetime format save" />
-    <option name="LAST_COMMIT_MESSAGE" value="change datetime format save" />
+    <MESSAGE value="updates db_conn save" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates db_conn save" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -718,7 +718,7 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/db/db_call.py</url>
           <line>357</line>
-          <option name="timeStamp" value="10" />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

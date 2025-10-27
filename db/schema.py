@@ -91,7 +91,7 @@ def initialize_database(engine):
                     text("CREATE INDEX IF NOT EXISTS idx_rm_warehouse_rm_code ON tbl_rm_warehouse (rm_code);"))
                 connection.execute(text("""
                     CREATE TABLE IF NOT EXISTS production_primary (
-                        prod_id INTEGER PRIMARY KEY,
+                        prod_id SERIAL PRIMARY KEY,
                         production_date DATE,
                         customer VARCHAR(100),
                         formulation_id INTEGER,

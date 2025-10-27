@@ -357,10 +357,11 @@ def get_latest_prod_id():
 
 def save_production(production_data, material_data):
     conn = get_connection()
+    cur = None
     try:
         cur = conn.cursor()
 
-        # Insert into formula_primary - using all fields from primary_data
+        # Insert into production_primary
         cur.execute("""
             INSERT INTO production_primary (
                 production_date, customer, formulation_id, formula_index, 
@@ -397,21 +398,24 @@ def save_production(production_data, material_data):
         ))
 
         prod_id = cur.fetchone()[0]
-        print(f"Prod_id: {prod_id}")
-        # Insert material composition - preserve row order with sequence number
+        print(f"✅ New prod_id: {prod_id}")
+
+        # Insert each material line
         for idx, material in enumerate(material_data):
             cur.execute("""
                 INSERT INTO production_items (
-                    prod_id, lot_num, confirmation_date, production_date, seq, material_code, large_scale,
-                    small_scale, total_weight, total_loss, total_consumption
+                    prod_id, lot_num, confirmation_date, production_date, seq,
+                    material_code, large_scale, small_scale, total_weight,
+                    total_loss, total_consumption
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
                 prod_id,
-                production_data["lot_number"].
+                production_data["lot_number"],
                 production_data["confirmation_date"],
                 production_data["production_date"],
-                idx,  # Sequence starting from 0 for top row
-                material["material_code"],
+                idx,
+                material["material_code"],  # corrected key
+                material["large_scale"],    # corrected order
                 material["small_scale"],
                 material["total_weight"],
                 material["total_loss"],
@@ -419,15 +423,19 @@ def save_production(production_data, material_data):
             ))
 
         conn.commit()
-        cur.close()
-        conn.close()
         return prod_id
 
     except Exception as e:
         if conn:
             conn.rollback()
-        cur.close()
-        conn.close()
+        print("❌ Error saving production:", e)
         raise e
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
 
 
