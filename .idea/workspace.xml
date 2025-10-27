@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00083" summary="added loading func">
-      <option name="closed" value="true" />
-      <created>1761201601421</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1761201601421</updated>
-    </task>
     <task id="LOCAL-00084" summary="added loading but static">
       <option name="closed" value="true" />
       <created>1761201908858</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761548702157</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="back to INTEGER">
+      <option name="closed" value="true" />
+      <created>1761549553730</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1761549553730</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed datetime format" />
     <MESSAGE value="removed table pos" />
     <MESSAGE value="removed function on tab" />
     <MESSAGE value="removed print debug" />
@@ -700,7 +699,8 @@
     <MESSAGE value="change datetime format save" />
     <MESSAGE value="updates db_conn save" />
     <MESSAGE value="updates db" />
-    <option name="LAST_COMMIT_MESSAGE" value="updates db" />
+    <MESSAGE value="back to INTEGER" />
+    <option name="LAST_COMMIT_MESSAGE" value="back to INTEGER" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

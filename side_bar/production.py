@@ -915,7 +915,7 @@ class ProductionManagementPage(QWidget):
 
         # Gather production data
         production_data = {
-            'production_id': self.production_id_input.text().strip(),
+            'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),

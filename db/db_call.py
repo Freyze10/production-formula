@@ -364,14 +364,15 @@ def save_production(production_data, material_data):
         # Insert into production_primary
         cur.execute("""
             INSERT INTO production_primary (
-                production_date, customer, formulation_id, formula_index, 
+                prod_id, production_date, customer, formulation_id, formula_index, 
                 product_color, dosage, ld_percent, lot_number, order_form_no, 
                 colormatch_no, colormatch_date, mixing_time, machine_no, qty_required, qty_per_batch, 
                 qty_produced, notes, user_id, prepared_by, 
                 encoded_by, encoded_on, confirmation_date, form_type
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING prod_id;
         """, (
+            production_data["prod_id"],
             production_data["production_date"],
             production_data["customer"],
             production_data["formulation_id"],
@@ -397,9 +398,6 @@ def save_production(production_data, material_data):
             production_data["form_type"]
         ))
 
-        prod_id = cur.fetchone()[0]
-        print(f"✅ New prod_id: {prod_id}")
-
         # Insert each material line
         for idx, material in enumerate(material_data):
             cur.execute("""
@@ -409,7 +407,7 @@ def save_production(production_data, material_data):
                     total_loss, total_consumption
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
-                prod_id,
+                production_data["prod_id"],
                 production_data["lot_number"],
                 production_data["confirmation_date"],
                 production_data["production_date"],
@@ -423,7 +421,6 @@ def save_production(production_data, material_data):
             ))
 
         conn.commit()
-        return prod_id
 
     except Exception as e:
         if conn:
@@ -436,6 +433,4 @@ def save_production(production_data, material_data):
             cur.close()
         if conn:
             conn.close()
-
-
 
