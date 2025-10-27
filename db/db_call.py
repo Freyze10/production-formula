@@ -408,6 +408,8 @@ def save_production(production_data, material_data):
             """, (
                 prod_id,
                 production_data["lot_no"].
+                production_data["confirmation_date"],
+                production_data["production_date"],
                 idx,  # Sequence starting from 0 for top row
                 material["material_code"],
                 material["small_scale"],
