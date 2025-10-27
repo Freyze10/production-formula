@@ -461,6 +461,7 @@ class ProductionManagementPage(QWidget):
         self.production_confirmation_display = QLineEdit()
         self.production_confirmation_display.setPlaceholderText("0000000")
         self.production_confirmation_display.setStyleSheet("background-color: #fff9c4;")
+
         encoding_layout.addWidget(QLabel("Production Confirmation Encoded On:"), 1, 0)
         encoding_layout.addWidget(self.production_confirmation_display, 1, 1)
 
@@ -773,39 +774,59 @@ class ProductionManagementPage(QWidget):
         result = db_call.get_single_production_data(self.current_production_id)
 
         try:
-            self.production_id_input.setText(str(result['prod_id']))
-            self.form_type_combo.setCurrentText(str(result['form_type']))
-            self.product_code_input.setText(str(result['product_code']))
-            self.product_color_input.setText(str(result['product_color']))
-            self.dosage_input.setText(f"{result['dosage']:.6f}")
-            self.ld_percent_input.setText(f"{result['ld_percent']:.6f}")
-            self.customer_input.setText(str(result['customer']))
-            self.lot_no_input.setText(str(result['lot_number']))
-            prod_date = QDate(result['production_date'].year, result['production_date'].month,
-                              result['production_date'].day)
+            # Handle basic fields with fallback to empty string if None or missing
+            self.production_id_input.setText(str(result.get('prod_id', '')))
+            self.form_type_combo.setCurrentText(str(result.get('form_type', '')))
+            self.product_code_input.setText(str(result.get('product_code', '')))
+            self.product_color_input.setText(str(result.get('product_color', '')))
+            self.dosage_input.setText(f"{result.get('dosage', 0.0):.6f}")
+            self.ld_percent_input.setText(f"{result.get('ld_percent', 0.0):.6f}")
+            self.customer_input.setText(str(result.get('customer', '')))
+            self.lot_no_input.setText(str(result.get('lot_number', '')))
+
+            # Handle production date with fallback
+            prod_date = QDate.currentDate()  # Default to current date if None
+            if result.get('production_date'):
+                prod_date = QDate(result['production_date'].year, result['production_date'].month,
+                                  result['production_date'].day)
             self.production_date_input.setDate(prod_date)
-            if result['confirmation_date']:
+
+            # Handle confirmation date with fallback
+            if result.get('confirmation_date'):
                 self.confirmation_date_input.setText(result['confirmation_date'].strftime("%m/%d/%Y"))
             else:
                 self.confirmation_date_input.setText("")
 
-            self.order_form_no_combo.setCurrentText(str(result['order_form_no']))
-            self.colormatch_no_input.setText(str(result['colormatch_no']))
-            if result['colormatch_date']:
+            self.order_form_no_combo.setCurrentText(str(result.get('order_form_no', '')))
+            self.colormatch_no_input.setText(str(result.get('colormatch_no', '')))
+
+            # Handle colormatch date with fallback
+            if result.get('colormatch_date'):
                 self.matched_date_input.setText(result['colormatch_date'].strftime("%m/%d/%Y"))
             else:
                 self.matched_date_input.setText("")
-            self.formulation_id_input.setText(str(result['formulation_id']))
-            self.formulation_index.setText(str(result['formula_index']))
-            self.mixing_time_input.setText(str(result['mixing_time']))
-            self.machine_no_input.setText(str(result['machine_no']))
-            self.qty_required_input.setText(f"{result['qty_required']:.6f}")
-            self.qty_per_batch_input.setText(f"{result['qty_per_batch']:.6f}")
-            self.prepared_by_input.setText(str(result['prepared_by']))
-            self.notes_input.setPlainText(str(result['notes']))
-            self.encoded_by_display.setText(str(result['encoded_by']))
-            self.production_confirmation_display.setText(str(result['scheduled_date']))
-            self.production_encoded_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+
+            self.formulation_id_input.setText(str(result.get('formulation_id', '')))
+            self.formulation_index.setText(str(result.get('formula_index', '')))
+            self.mixing_time_input.setText(str(result.get('mixing_time', '')))
+            self.machine_no_input.setText(str(result.get('machine_no', '')))
+            self.qty_required_input.setText(f"{result.get('qty_required', 0.0):.6f}")
+            self.qty_per_batch_input.setText(f"{result.get('qty_per_batch', 0.0):.6f}")
+            self.prepared_by_input.setText(str(result.get('prepared_by', '')))
+            self.notes_input.setPlainText(str(result.get('notes', '')))
+            self.encoded_by_display.setText(str(result.get('encoded_by', '')))
+
+            # Handle scheduled date with fallback
+            if result.get('scheduled_date'):
+                self.production_confirmation_display.setText(result['scheduled_date'].strftime("%m/%d/%Y %I:%M:%S %p"))
+            else:
+                self.production_confirmation_display.setText("")
+
+            # Handle encoded_on with fallback
+            if result.get('encoded_on'):
+                self.production_encoded_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+            else:
+                self.production_encoded_display.setText("")
 
         except Exception as e:
             print(f"Error loading production: {e}")
@@ -815,12 +836,12 @@ class ProductionManagementPage(QWidget):
         materials = db_call.get_single_production_details(self.current_production_id)
 
         self.materials_table.setRowCount(0)
-        for material_data in materials:
+        for material_data in materials or []:  # Handle case where materials is None
             row_position = self.materials_table.rowCount()
             self.materials_table.insertRow(row_position)
-            for col, value in enumerate(material_data):
+            for col, value in enumerate(material_data or []):  # Handle case where material_data is None
                 if col == 0:
-                    item = QTableWidgetItem(str(value))
+                    item = QTableWidgetItem(str(value or ''))
                 else:
                     float_value = float(value) if value is not None else 0.0
                     item = NumericTableWidgetItem(float_value, is_float=True)
