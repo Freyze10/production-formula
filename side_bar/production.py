@@ -961,7 +961,7 @@ class ProductionManagementPage(QWidget):
             'qty_produced': self.total_weight_label.text().strip(),
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
-            'scheduled_date': self.production_confirmation_display.text().strip(),
+            'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 

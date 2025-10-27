@@ -435,3 +435,106 @@ def save_production(production_data, material_data):
         if conn:
             conn.close()
 
+def update_production(production_data, material_data):
+    conn = get_connection()
+    cur = None
+    try:
+        cur = conn.cursor()
+
+        # --- Update production_primary ---
+        cur.execute("""
+            UPDATE production_primary
+            SET 
+                production_date = %s,
+                customer = %s,
+                formulation_id = %s,
+                formula_index = %s,
+                product_code = %s,
+                product_color = %s,
+                dosage = %s,
+                ld_percent = %s,
+                lot_number = %s,
+                order_form_no = %s,
+                colormatch_no = %s,
+                colormatch_date = %s,
+                mixing_time = %s,
+                machine_no = %s,
+                qty_required = %s,
+                qty_per_batch = %s,
+                qty_produced = %s,
+                notes = %s,
+                user_id = %s,
+                prepared_by = %s,
+                encoded_by = %s,
+                encoded_on = %s,
+                confirmation_date = %s,
+                form_type = %s
+            WHERE prod_id = %s;
+        """, (
+            production_data["production_date"],
+            production_data["customer"],
+            production_data["formulation_id"],
+            production_data["formula_index"],
+            production_data["product_code"],
+            production_data["product_color"],
+            production_data["dosage"],
+            production_data["ld_percent"],
+            production_data["lot_number"],
+            production_data["order_form_no"],
+            production_data["colormatch_no"],
+            production_data["colormatch_date"],
+            production_data["mixing_time"],
+            production_data["machine_no"],
+            production_data["qty_required"],
+            production_data["qty_per_batch"],
+            production_data["qty_produced"],
+            production_data["notes"],
+            production_data["user_id"],
+            production_data["prepared_by"],
+            production_data["encoded_by"],
+            production_data["encoded_on"],
+            production_data["confirmation_date"],
+            production_data["form_type"],
+            production_data["prod_id"]
+        ))
+
+        # --- Update production_items ---
+        # Strategy: delete old items and reinsert all to keep things clean and consistent
+        cur.execute("DELETE FROM production_items WHERE prod_id = %s;", (production_data["prod_id"],))
+
+        for idx, material in enumerate(material_data, start=1):
+            cur.execute("""
+                INSERT INTO production_items (
+                    prod_id, lot_num, confirmation_date, production_date, seq,
+                    material_code, large_scale, small_scale, total_weight,
+                    total_loss, total_consumption
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """, (
+                production_data["prod_id"],
+                production_data["lot_number"],
+                production_data["confirmation_date"],
+                production_data["production_date"],
+                idx,
+                material["material_code"],
+                material["large_scale"],
+                material["small_scale"],
+                material["total_weight"],
+                material["total_loss"],
+                material["total_consumption"]
+            ))
+
+        conn.commit()
+        print(f"✅ Production record {production_data['prod_id']} updated successfully.")
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print("❌ Error updating production:", e)
+        raise e
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
