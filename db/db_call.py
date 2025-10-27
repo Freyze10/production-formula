@@ -369,7 +369,7 @@ def save_production(production_data, material_data):
                 qty_produced, notes, user_id, prepared_by, 
                 encoded_by, encoded_on, confirmation_date, form_type
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            RETURNING uid;
+            RETURNING prod_id;
         """, (
             production_data["production_date"],
             production_data["customer"],

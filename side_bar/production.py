@@ -464,7 +464,7 @@ class ProductionManagementPage(QWidget):
         encoding_layout.addWidget(self.production_confirmation_display, 1, 1)
 
         self.production_encoded_display = QLineEdit()
-        self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+        self.production_encoded_display.setText(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         self.production_encoded_display.setReadOnly(True)
         self.production_encoded_display.setStyleSheet("background-color: #e9ecef;")
         encoding_layout.addWidget(QLabel("Production Encoded On:"), 2, 0)
