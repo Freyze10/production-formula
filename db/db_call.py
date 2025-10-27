@@ -363,11 +363,12 @@ def save_production(production_data, material_data):
         # Insert into formula_primary - using all fields from primary_data
         cur.execute("""
             INSERT INTO formula_primary (
-                prod_id, formula_index, customer, product_code, product_color, 
-                dosage, ld, mix_type, resin, application, 
-                cm_num, cm_date, remarks, total_concentration, mb_dc, html_code, c, m, y, k, 
-                matched_by, encoded_by, formula_date, dbf_updated_by, dbf_updated_on_text
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                production_date, customer, formulation_id, formula_index, 
+                product_color, dosage, ld_percent, lot_no, order_form_no, 
+                colormatch_no, colormatch_date, mixing_time, machine_no, qty_required, qty_per_batch, 
+                qty_produced, notes, user_id, prepared_by, 
+                encoded_by, encoded_on, confirmation_date, form_type
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING uid;
         """, (
             production_data["production_date"],
@@ -393,9 +394,6 @@ def save_production(production_data, material_data):
             production_data["encoded_on"],
             production_data["confirmation_date"],
             production_data["form_type"],
-
-            production_data["dbf_updated_by"],
-            production_data["dbf_updated_on_text"]
         ))
 
         prod_id = cur.fetchone()[0]
@@ -403,20 +401,25 @@ def save_production(production_data, material_data):
         # Insert material composition - preserve row order with sequence number
         for idx, material in enumerate(material_data):
             cur.execute("""
-                INSERT INTO formula_items (
-                    uid, seq, material_code, concentration
+                INSERT INTO production_items (
+                    prod_id, lot_num, confirmation_date, production_date, seq, material_code, large_scale,
+                    small_scale, total_weight, total_loss, total_consumption
                 ) VALUES (%s, %s, %s, %s)
             """, (
-                uid,
-                idx + 1,  # Sequence starting from 1 for top row
+                prod_id,
+                production_data["lot_no"].
+                idx,  # Sequence starting from 0 for top row
                 material["material_code"],
-                material["concentration"]
+                material["small_scale"],
+                material["total_weight"],
+                material["total_loss"],
+                material["total_consumption"]
             ))
 
         conn.commit()
         cur.close()
         conn.close()
-        return uid
+        return prod_id
 
     except Exception as e:
         if conn:
