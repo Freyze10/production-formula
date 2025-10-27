@@ -363,7 +363,7 @@ def save_production(production_data, material_data):
         # Insert into formula_primary - using all fields from primary_data
         cur.execute("""
             INSERT INTO formula_primary (
-                uid, formula_index, customer, product_code, product_color, 
+                prod_id, formula_index, customer, product_code, product_color, 
                 dosage, ld, mix_type, resin, application, 
                 cm_num, cm_date, remarks, total_concentration, mb_dc, html_code, c, m, y, k, 
                 matched_by, encoded_by, formula_date, dbf_updated_by, dbf_updated_on_text
@@ -382,22 +382,23 @@ def save_production(production_data, material_data):
             production_data["colormatch_no"],
             production_data["colormatch_date"],
             production_data["mixing_time"],
-            production_data["remarks"],
-            production_data["total_concentration"],
-            production_data["mb_dc"],
-            production_data["html_code"],
-            production_data["c"],
-            production_data["m"],
-            production_data["y"],
-            production_data["k"],
-            production_data["matched_by"],
+            production_data["machine_no"],
+            production_data["qty_required"],
+            production_data["qty_per_batch"],
+            production_data["qty_produced"],
+            production_data["notes"],
+            production_data["user_id"],
+            production_data["prepared_by"],
             production_data["encoded_by"],
-            production_data["formula_date"],
+            production_data["encoded_on"],
+            production_data["confirmation_date"],
+            production_data["form_type"],
+
             production_data["dbf_updated_by"],
             production_data["dbf_updated_on_text"]
         ))
 
-        uid = cur.fetchone()[0]
+        prod_id = cur.fetchone()[0]
 
         # Insert material composition - preserve row order with sequence number
         for idx, material in enumerate(material_data):

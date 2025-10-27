@@ -45,6 +45,7 @@ class ProductionManagementPage(QWidget):
         self.user_role = user_role
         self.log_audit_trail = log_audit_trail
         self.work_station = _get_workstation_info()
+        self.user_id = f"{self.work_station['h']} # {self.user_role}"
         self.current_production_id = None
 
         self.setup_ui()
@@ -933,9 +934,11 @@ class ProductionManagementPage(QWidget):
             'qty_per_batch': qty_per_batch,
             'prepared_by': self.prepared_by_input.text().strip(),
             'notes': self.notes_input.toPlainText().strip(),
+            'qty_produced': self.total_weight_label.text().strip(),
             'encoded_by': self.encoded_by_display.text().strip(),
-            'production_confirmation': self.production_confirmation_display.text().strip(),
-            'production_encoded': datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+            'user_id': self.user_id,
+            'scheduled_date': self.production_confirmation_display.text().strip(),
+            'encoded_on': datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
         }
 
         # Gather material data

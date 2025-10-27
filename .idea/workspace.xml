@@ -52,33 +52,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.dfr.executor": "Run",
-    "Python.fg_endorsement.executor": "Run",
-    "Python.fgendorsement.executor": "Run",
-    "Python.fgmain.executor": "Run",
-    "Python.formulation (1).executor": "Debug",
-    "Python.formulation.executor": "Run",
-    "Python.main-2.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.sync-formula.executor": "Run",
-    "Python.sync_formula (1).executor": "Run",
-    "Python.sync_formula.executor": "Run",
-    "Python.view.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV/utils",
-    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
+    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.view.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV/utils&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00073" summary="updated legacy database">
-      <option name="closed" value="true" />
-      <created>1761116845834</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1761116845834</updated>
     </task>
     <task id="LOCAL-00074" summary="change size formula selection">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761372386328</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="fixing prod save func">
+      <option name="closed" value="true" />
+      <created>1761380915235</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1761380915235</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -655,6 +655,17 @@
               <option name="CUSTOM_BOOLEAN_PROPERTIES">
                 <map>
                   <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
                 </map>
               </option>
             </State>
