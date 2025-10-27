@@ -393,21 +393,21 @@ def save_production(production_data, material_data):
             production_data["encoded_by"],
             production_data["encoded_on"],
             production_data["confirmation_date"],
-            production_data["form_type"],
+            production_data["form_type"]
         ))
 
         prod_id = cur.fetchone()[0]
-
+        print(f"Prod_id: {prod_id}")
         # Insert material composition - preserve row order with sequence number
         for idx, material in enumerate(material_data):
             cur.execute("""
                 INSERT INTO production_items (
                     prod_id, lot_num, confirmation_date, production_date, seq, material_code, large_scale,
                     small_scale, total_weight, total_loss, total_consumption
-                ) VALUES (%s, %s, %s, %s)
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
                 prod_id,
-                production_data["lot_no"].
+                production_data["lot_number"].
                 production_data["confirmation_date"],
                 production_data["production_date"],
                 idx,  # Sequence starting from 0 for top row
