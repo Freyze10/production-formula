@@ -365,11 +365,11 @@ def save_production(production_data, material_data):
         cur.execute("""
             INSERT INTO production_primary (
                 prod_id, production_date, customer, formulation_id, formula_index, 
-                product_color, dosage, ld_percent, lot_number, order_form_no, 
+                product_codey, product_color, dosage, ld_percent, lot_number, order_form_no, 
                 colormatch_no, colormatch_date, mixing_time, machine_no, qty_required, qty_per_batch, 
                 qty_produced, notes, user_id, prepared_by, 
                 encoded_by, encoded_on, confirmation_date, form_type
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING prod_id;
         """, (
             production_data["prod_id"],
@@ -377,6 +377,7 @@ def save_production(production_data, material_data):
             production_data["customer"],
             production_data["formulation_id"],
             production_data["formula_index"],
+            production_data["product_code"],
             production_data["product_color"],
             production_data["dosage"],
             production_data["ld_percent"],

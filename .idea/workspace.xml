@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00084" summary="added loading but static">
-      <option name="closed" value="true" />
-      <created>1761201908858</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1761201908858</updated>
-    </task>
     <task id="LOCAL-00085" summary="updated loading">
       <option name="closed" value="true" />
       <created>1761201978432</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761549553730</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="manual enter prod_id">
+      <option name="closed" value="true" />
+      <created>1761549794208</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1761549794208</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed table pos" />
     <MESSAGE value="removed function on tab" />
     <MESSAGE value="removed print debug" />
     <MESSAGE value="added nullable date" />
@@ -700,7 +699,8 @@
     <MESSAGE value="updates db_conn save" />
     <MESSAGE value="updates db" />
     <MESSAGE value="back to INTEGER" />
-    <option name="LAST_COMMIT_MESSAGE" value="back to INTEGER" />
+    <MESSAGE value="manual enter prod_id" />
+    <option name="LAST_COMMIT_MESSAGE" value="manual enter prod_id" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
