@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00087" summary="working gif">
-      <option name="closed" value="true" />
-      <created>1761203017481</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1761203017482</updated>
-    </task>
     <task id="LOCAL-00088" summary="static gif">
       <option name="closed" value="true" />
       <created>1761209502966</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761553101011</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <task id="LOCAL-00136" summary="modify edit func err handling">
+      <option name="closed" value="true" />
+      <created>1761554703469</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1761554703469</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added nullable date" />
     <MESSAGE value="connected confirmation to nullable" />
     <MESSAGE value="created new calendar design" />
     <MESSAGE value="connected new callendar design" />
@@ -700,7 +699,8 @@
     <MESSAGE value="manual enter prod_id" />
     <MESSAGE value="added product_code" />
     <MESSAGE value="field availability" />
-    <option name="LAST_COMMIT_MESSAGE" value="field availability" />
+    <MESSAGE value="modify edit func err handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify edit func err handling" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

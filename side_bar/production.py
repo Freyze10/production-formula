@@ -327,7 +327,6 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(self.production_date_input, 5, 1)
 
         self.confirmation_date_input = SmartDateEdit()
-        self.confirmation_date_input.setReadOnly(True)
         primary_layout.addWidget(QLabel("Confirmation Date \n(For Inventory Only):"), 6, 0)
         primary_layout.addWidget(self.confirmation_date_input, 6, 1)
 
@@ -461,7 +460,7 @@ class ProductionManagementPage(QWidget):
         self.production_confirmation_display = QLineEdit()
         self.production_confirmation_display.setPlaceholderText("0000000")
         self.production_confirmation_display.setStyleSheet("background-color: #fff9c4;")
-
+        self.production_confirmation_display.setReadOnly(True)
         encoding_layout.addWidget(QLabel("Production Confirmation Encoded On:"), 1, 0)
         encoding_layout.addWidget(self.production_confirmation_display, 1, 1)
 
