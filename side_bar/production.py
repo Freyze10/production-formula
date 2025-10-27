@@ -1,6 +1,8 @@
 # Modern Production Management Module - Refactored with Data Caching
 
 from datetime import datetime
+from time import strftime
+
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
@@ -922,10 +924,10 @@ class ProductionManagementPage(QWidget):
             'customer': self.customer_input.text().strip(),
             'lot_no': self.lot_no_input.text().strip(),
             'production_date': self.production_date_input.date().toPyDate(),
-            'confirmation_date': self.confirmation_date_input.get_date(),
+            'confirmation_date': self.confirmation_date_input.get_date().toString("yyyy/MM/dd") if self.confirmation_date_input else None,
             'order_form_no': self.order_form_no_combo.currentText(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
-            'colormatch_date': self.matched_date_input.get_date(),
+            'colormatch_date': self.matched_date_input.get_date().toString("yyyy/MM/dd") if self.matched_date_input else None,
             'formulation_id': self.formulation_id_input.text().strip(),
             'formula_index': self.formulation_index.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
