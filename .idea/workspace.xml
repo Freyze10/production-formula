@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00098" summary="fixed date input display">
-      <option name="closed" value="true" />
-      <created>1761290324316</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1761290324316</updated>
-    </task>
     <task id="LOCAL-00099" summary="fixed datetime format">
       <option name="closed" value="true" />
       <created>1761291078620</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761615708385</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="initialized new production">
+      <option name="closed" value="true" />
+      <created>1761616125336</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1761616125336</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated util date" />
     <MESSAGE value="final date func" />
     <MESSAGE value="updated new button func" />
     <MESSAGE value="updated latest prod_id" />
@@ -700,7 +699,8 @@
     <MESSAGE value="created debounce method" />
     <MESSAGE value="used callback" />
     <MESSAGE value="formulation table callback func" />
-    <option name="LAST_COMMIT_MESSAGE" value="formulation table callback func" />
+    <MESSAGE value="initialized new production" />
+    <option name="LAST_COMMIT_MESSAGE" value="initialized new production" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
