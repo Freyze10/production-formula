@@ -369,7 +369,7 @@ def save_production(production_data, material_data):
                 colormatch_no, colormatch_date, mixing_time, machine_no, qty_required, qty_per_batch, 
                 qty_produced, notes, user_id, prepared_by, 
                 encoded_by, encoded_on, scheduled_date, confirmation_date, form_type
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING prod_id;
         """, (
             production_data["prod_id"],
