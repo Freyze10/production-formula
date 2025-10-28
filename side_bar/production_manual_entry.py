@@ -451,7 +451,6 @@ class ManualProductionPage(QWidget):
         rm_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
         rm_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.material_code_combo.setCompleter(rm_completer)
-        self.material_code_combo.setCurrentIndex(0)
 
     def user_access(self, user_role):
         """Disable certain features for viewers."""
@@ -541,8 +540,7 @@ class ManualProductionPage(QWidget):
 
     def clear_material_inputs(self):
         """Clear material input fields."""
-        self.material_code_combo.setCurrentIndex(-1)
-        self.material_code_combo.clearEditText()
+        self.material_code_combo.setCurrentIndex(0)
         self.material_code_lineedit.clear()
         self.large_scale_input.clear()
         self.small_scale_input.clear()
