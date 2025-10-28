@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00091" summary="added min and max date">
-      <option name="closed" value="true" />
-      <created>1761267416656</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1761267416656</updated>
-    </task>
-    <task id="LOCAL-00092" summary="fixed date range selection">
-      <option name="closed" value="true" />
-      <created>1761270074405</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1761270074405</updated>
-    </task>
     <task id="LOCAL-00093" summary="btn refresh func">
       <option name="closed" value="true" />
       <created>1761270681451</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761555439251</updated>
     </task>
-    <option name="localTasksCounter" value="140" />
+    <task id="LOCAL-00140" summary="fixed encoded and schedueld">
+      <option name="closed" value="true" />
+      <created>1761613240517</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1761613240517</updated>
+    </task>
+    <task id="LOCAL-00141" summary="added value var">
+      <option name="closed" value="true" />
+      <created>1761613339929</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1761613339929</updated>
+    </task>
+    <option name="localTasksCounter" value="142" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="creating freely typing date" />
-    <MESSAGE value="did write or select date" />
     <MESSAGE value="connected another date" />
     <MESSAGE value="fixed date format" />
     <MESSAGE value="fixed date display edit" />
@@ -700,7 +698,9 @@
     <MESSAGE value="modified field availavility" />
     <MESSAGE value="modified field availability" />
     <MESSAGE value="added update for edit" />
-    <option name="LAST_COMMIT_MESSAGE" value="added update for edit" />
+    <MESSAGE value="fixed encoded and schedueld" />
+    <MESSAGE value="added value var" />
+    <option name="LAST_COMMIT_MESSAGE" value="added value var" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

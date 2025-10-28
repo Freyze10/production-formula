@@ -988,8 +988,7 @@ class ProductionManagementPage(QWidget):
         try:
             if self.current_production_id:
                 # Update existing production
-                # TODO: Replace with actual db_call function
-                # db_call.update_production(production_data, material_data)
+                db_call.update_production(production_data, material_data)
                 self.log_audit_trail("Data Entry", f"Updated production")
                 QMessageBox.information(self, "Success", f"Production updated successfully!")
             else:
