@@ -434,11 +434,6 @@ class ManualProductionPage(QWidget):
         new_btn.clicked.connect(self.new_production)
         button_layout.addWidget(new_btn)
 
-        close_btn = QPushButton("CLOSE", objectName="DangerButton")
-        close_btn.setIcon(fa.icon('fa5s.times', color='white'))
-        close_btn.clicked.connect(self.close)
-        button_layout.addWidget(close_btn)
-
         main_layout.addLayout(button_layout)
 
     def validate_rm_code(self):

@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00112" summary="fixed date display edit">
-      <option name="closed" value="true" />
-      <created>1761359549428</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1761359549429</updated>
-    </task>
     <task id="LOCAL-00113" summary="fixed save func">
       <option name="closed" value="true" />
       <created>1761360897974</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761629445216</updated>
     </task>
-    <option name="localTasksCounter" value="161" />
+    <task id="LOCAL-00161" summary="modified material code entry">
+      <option name="closed" value="true" />
+      <created>1761634222858</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1761634222858</updated>
+    </task>
+    <option name="localTasksCounter" value="162" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="field availability" />
     <MESSAGE value="modify edit func err handling" />
     <MESSAGE value="modified field availavility" />
     <MESSAGE value="modified field availability" />
@@ -700,7 +699,8 @@
     <MESSAGE value="added double click on formula selection" />
     <MESSAGE value="modified checkbox func" />
     <MESSAGE value="fixed the rm code init" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed the rm code init" />
+    <MESSAGE value="modified material code entry" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified material code entry" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
