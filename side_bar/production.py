@@ -17,6 +17,7 @@ from db.sync_formula import SyncProductionWorker, LoadingDialog
 from utils.date import SmartDateEdit
 from utils.debounce import finished_typing
 from utils.work_station import _get_workstation_info
+from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var, calendar_design
 
 

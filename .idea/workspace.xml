@@ -251,30 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00099" summary="fixed datetime format">
-      <option name="closed" value="true" />
-      <created>1761291078620</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1761291078620</updated>
-    </task>
-    <task id="LOCAL-00100" summary="removed table pos">
-      <option name="closed" value="true" />
-      <created>1761294948903</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1761294948903</updated>
-    </task>
-    <task id="LOCAL-00101" summary="removed function on tab">
-      <option name="closed" value="true" />
-      <created>1761295262534</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1761295262534</updated>
-    </task>
     <task id="LOCAL-00102" summary="removed print debug">
       <option name="closed" value="true" />
       <created>1761295304587</created>
@@ -643,7 +619,31 @@
       <option name="project" value="LOCAL" />
       <updated>1761616125336</updated>
     </task>
-    <option name="localTasksCounter" value="148" />
+    <task id="LOCAL-00148" summary="added manual entry">
+      <option name="closed" value="true" />
+      <created>1761617525257</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1761617525257</updated>
+    </task>
+    <task id="LOCAL-00149" summary="added manual entry">
+      <option name="closed" value="true" />
+      <created>1761617558798</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1761617558798</updated>
+    </task>
+    <task id="LOCAL-00150" summary="created numeric_table for refactoring">
+      <option name="closed" value="true" />
+      <created>1761617658768</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1761617658768</updated>
+    </task>
+    <option name="localTasksCounter" value="151" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="final date func" />
-    <MESSAGE value="updated new button func" />
     <MESSAGE value="updated latest prod_id" />
     <MESSAGE value="fixing save func" />
     <MESSAGE value="fixing prod save func" />
@@ -700,7 +698,9 @@
     <MESSAGE value="used callback" />
     <MESSAGE value="formulation table callback func" />
     <MESSAGE value="initialized new production" />
-    <option name="LAST_COMMIT_MESSAGE" value="initialized new production" />
+    <MESSAGE value="added manual entry" />
+    <MESSAGE value="created numeric_table for refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="created numeric_table for refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
