@@ -14,6 +14,7 @@ import pandas as pd
 
 from db import db_call
 from db.sync_formula import SyncProductionWorker, LoadingDialog
+from side_bar.production_manual_entry import ManualProductionPage
 from utils.date import SmartDateEdit
 from utils.debounce import finished_typing
 from utils.work_station import _get_workstation_info
@@ -68,8 +69,11 @@ class ProductionManagementPage(QWidget):
         self.records_tab = self.create_records_tab()
         self.tab_widget.addTab(self.records_tab, "Production Records")
 
-        self.entry_tab = self.create_entry_tab()
-        self.tab_widget.addTab(self.entry_tab, "Auto Generated Entry")
+        self.auto_gen_entry_tab = self.create_entry_tab()
+        self.tab_widget.addTab(self.auto_gen_entry_tab, "Auto Generated Entry")
+
+        self.manual_entry_tab = ManualProductionPage(self.engine, self.username, self.user_role, self.log_audit_trail)
+        self.tab_widget.addTab(self.manual_entry_tab, "Manual Entry")
 
         main_layout.addWidget(self.tab_widget)
 

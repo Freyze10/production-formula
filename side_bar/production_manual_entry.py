@@ -11,27 +11,8 @@ import qtawesome as fa
 from db import db_call
 from utils.date import SmartDateEdit
 from utils.work_station import _get_workstation_info
+from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var
-
-
-class NumericTableWidgetItem(QTableWidgetItem):
-    def __init__(self, value, display_text=None, is_float=False):
-        self.value = value
-        self.is_float = is_float
-        if display_text is None:
-            if is_float:
-                display_text = f"{value:.6f}" if value is not None else ""
-            else:
-                display_text = str(value) if value is not None else ""
-        super().__init__(display_text)
-
-    def __lt__(self, other):
-        if isinstance(other, NumericTableWidgetItem):
-            if self.is_float:
-                return float(self.value) < float(other.value)
-            else:
-                return int(self.value) < int(other.value)
-        return super().__lt__(other)
 
 
 class ManualProductionPage(QWidget):
@@ -50,7 +31,7 @@ class ManualProductionPage(QWidget):
 
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(10, 10, 10, 5)
+        main_layout.setContentsMargins(5, 5, 5, 5)
         main_layout.setSpacing(5)
 
         # Header
@@ -83,8 +64,8 @@ class ManualProductionPage(QWidget):
         # Production Information Card
         primary_card = QGroupBox("Production Information")
         primary_layout = QGridLayout(primary_card)
-        primary_layout.setSpacing(6)
-        primary_layout.setContentsMargins(10, 18, 10, 12)
+        primary_layout.setSpacing(4)
+        primary_layout.setContentsMargins(8, 12, 8, 8)
 
         row = 0
 
@@ -135,23 +116,19 @@ class ManualProductionPage(QWidget):
         primary_layout.addWidget(self.formula_input, row, 1)
         row += 1
 
-        # Sum of Cons
+        # Sum of Cons and Dosage in one row
+        sum_dosage_layout = QHBoxLayout()
+        sum_dosage_layout.addWidget(QLabel("Sum of Cons:"))
         self.sum_cons_input = QLineEdit()
         self.sum_cons_input.setPlaceholderText("0.00000")
-        primary_layout.addWidget(QLabel("Sum of Cons:"), row, 0)
-        primary_layout.addWidget(self.sum_cons_input, row, 1)
-        row += 1
-
-        # Dosage
-        dosage_layout = QHBoxLayout()
+        sum_dosage_layout.addWidget(self.sum_cons_input)
+        sum_dosage_layout.addWidget(QLabel("Dosage:"))
         self.dosage_input = QLineEdit()
         self.dosage_input.setPlaceholderText("0.000000")
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
         self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
-        dosage_layout.addWidget(self.dosage_input)
-        dosage_layout.addWidget(QLabel("Dosage"))
-        primary_layout.addWidget(QLabel("Dosage:"), row, 0)
-        primary_layout.addLayout(dosage_layout, row, 1)
+        sum_dosage_layout.addWidget(self.dosage_input)
+        primary_layout.addLayout(sum_dosage_layout, row, 0, 1, 2)
         row += 1
 
         # Customer
@@ -204,36 +181,34 @@ class ManualProductionPage(QWidget):
         primary_layout.addWidget(self.matched_date_input, row, 1)
         row += 1
 
-        # Mixing Time
+        # Mixing Time and Machine No in one row
+        mixing_machine_layout = QHBoxLayout()
+        mixing_machine_layout.addWidget(QLabel("Mixing Time:"))
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
-        primary_layout.addWidget(QLabel("Mixing Time:"), row, 0)
-        primary_layout.addWidget(self.mixing_time_input, row, 1)
-        row += 1
-
-        # Machine No
+        mixing_machine_layout.addWidget(self.mixing_time_input)
+        mixing_machine_layout.addWidget(QLabel("Machine No:"))
         self.machine_no_input = QLineEdit()
         self.machine_no_input.setPlaceholderText("Enter machine number")
-        primary_layout.addWidget(QLabel("Machine No:"), row, 0)
-        primary_layout.addWidget(self.machine_no_input, row, 1)
+        mixing_machine_layout.addWidget(self.machine_no_input)
+        primary_layout.addLayout(mixing_machine_layout, row, 0, 1, 2)
         row += 1
 
-        # Qty Required
+        # Qty Required and Qty Per Batch in one row
+        qty_layout = QHBoxLayout()
+        qty_layout.addWidget(QLabel("Qty. Required:"))
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.0000000")
         self.qty_required_input.setStyleSheet("background-color: #fff9c4;")
         self.qty_required_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_required_input)
-        primary_layout.addWidget(QLabel("Qty. Required:"), row, 0)
-        primary_layout.addWidget(self.qty_required_input, row, 1)
-        row += 1
-
-        # Qty Per Batch
+        qty_layout.addWidget(self.qty_required_input)
+        qty_layout.addWidget(QLabel("Qty. Per Batch:"))
         self.qty_per_batch_input = QLineEdit()
         self.qty_per_batch_input.setPlaceholderText("0.0000000")
         self.qty_per_batch_input.setStyleSheet("background-color: #fff9c4;")
         self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
-        primary_layout.addWidget(QLabel("Qty. Per Batch:"), row, 0)
-        primary_layout.addWidget(self.qty_per_batch_input, row, 1)
+        qty_layout.addWidget(self.qty_per_batch_input)
+        primary_layout.addLayout(qty_layout, row, 0, 1, 2)
         row += 1
 
         # Prepared By
@@ -255,7 +230,7 @@ class ManualProductionPage(QWidget):
         # Notes
         self.notes_input = QTextEdit()
         self.notes_input.setPlaceholderText("Enter any notes...")
-        self.notes_input.setMaximumHeight(60)
+        self.notes_input.setMaximumHeight(50)
         primary_layout.addWidget(QLabel("Notes:"), row, 0)
         primary_layout.addWidget(self.notes_input, row, 1)
         row += 1
@@ -286,15 +261,20 @@ class ManualProductionPage(QWidget):
         # Materials Card
         material_card = QGroupBox("Material Composition")
         material_layout = QVBoxLayout(material_card)
-        material_layout.setContentsMargins(10, 18, 10, 12)
-        material_layout.setSpacing(8)
+        material_layout.setContentsMargins(8, 12, 8, 8)
+        material_layout.setSpacing(6)
 
-        # Material Type Selection
+        # Material Type Selection (Radio-button behavior)
         material_type_layout = QHBoxLayout()
         material_type_layout.addWidget(QLabel("Material Used:"))
         self.raw_material_check = QCheckBox("RAW MATERIAL")
         self.raw_material_check.setChecked(True)
         self.non_raw_material_check = QCheckBox("NON-RAW MATERIAL")
+
+        # Make checkboxes behave like radio buttons
+        self.raw_material_check.toggled.connect(lambda checked: self.on_material_type_changed(checked, True))
+        self.non_raw_material_check.toggled.connect(lambda checked: self.on_material_type_changed(checked, False))
+
         material_type_layout.addWidget(self.raw_material_check)
         material_type_layout.addWidget(self.non_raw_material_check)
         material_type_layout.addStretch()
@@ -398,11 +378,6 @@ class ManualProductionPage(QWidget):
         total_layout.addWidget(self.fg_label)
         material_layout.addLayout(total_layout)
 
-        # Add Separator checkbox
-        self.add_separator_check = QCheckBox("ADD SEPARATOR?")
-        self.add_separator_check.setStyleSheet("font-weight: bold;")
-        material_layout.addWidget(self.add_separator_check)
-
         right_column.addWidget(material_card)
         scroll_layout.addLayout(right_column, stretch=1)
 
@@ -445,6 +420,14 @@ class ManualProductionPage(QWidget):
         if user_role == 'Viewer':
             # Disable all input fields and buttons except view/print
             pass
+
+    def on_material_type_changed(self, checked, is_raw):
+        """Handle material type selection like radio buttons."""
+        if checked:
+            if is_raw:
+                self.non_raw_material_check.setChecked(False)
+            else:
+                self.raw_material_check.setChecked(False)
 
     def format_to_float(self, event, line_edit):
         """Format the input to a float with 6 decimal places when focus is lost."""
