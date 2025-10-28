@@ -343,42 +343,58 @@ class ProductionManagementPage(QWidget):
         primary_layout.addWidget(QLabel("Formulation ID:"), 10, 0)
         primary_layout.addWidget(self.formulation_id_input, 10, 1)
 
+        mixing_machine_layout = QHBoxLayout()
+        mixing_machine_layout.setSpacing(9)
+
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
-        primary_layout.addWidget(QLabel("Mixing Time:"), 11, 0)
-        primary_layout.addWidget(self.mixing_time_input, 11, 1)
+        mixing_machine_layout.addWidget(self.mixing_time_input)
+
+        machine_no_label = QLabel("Machine No:")
+        mixing_machine_layout.addWidget(machine_no_label)
 
         self.machine_no_input = QLineEdit()
         self.machine_no_input.setPlaceholderText("Enter machine number")
-        primary_layout.addWidget(QLabel("Machine No:"), 12, 0)
-        primary_layout.addWidget(self.machine_no_input, 12, 1)
+        mixing_machine_layout.addWidget(self.machine_no_input)
+
+        primary_layout.addWidget(QLabel("Mixing Time:"), 11, 0)
+        primary_layout.addLayout(mixing_machine_layout, 11, 1)
+
+        qty_layout = QHBoxLayout()
+        qty_layout.setSpacing(9)
 
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.000000")
         self.qty_required_input.setStyleSheet("background-color: #fff9c4;")
         self.qty_required_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_required_input)
-        primary_layout.addWidget(QLabel("Qty. Req:"), 13, 0)
-        primary_layout.addWidget(self.qty_required_input, 13, 1)
+        qty_layout.addWidget(self.qty_required_input)
+
+        qty_batch_label = QLabel("Qty. Per Batch:")
+        qty_layout.addWidget(qty_batch_label)
 
         self.qty_per_batch_input = QLineEdit()
         self.qty_per_batch_input.setPlaceholderText("0.000000")
         self.qty_per_batch_input.setStyleSheet("background-color: #fff9c4;")
         self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
-        primary_layout.addWidget(QLabel("Qty. Per Batch:"), 14, 0)
-        primary_layout.addWidget(self.qty_per_batch_input, 14, 1)
+        qty_layout.addWidget(self.qty_per_batch_input)
+
+
+
+        primary_layout.addWidget(QLabel("Qty. Req:"), 12, 0)
+        primary_layout.addLayout(qty_layout, 12, 1)
 
         self.prepared_by_input = QLineEdit()
         self.prepared_by_input.setPlaceholderText("Enter preparer name")
         self.prepared_by_input.setStyleSheet("background-color: #fff9c4;")
-        primary_layout.addWidget(QLabel("Prepared By:"), 15, 0)
-        primary_layout.addWidget(self.prepared_by_input, 15, 1)
+        primary_layout.addWidget(QLabel("Prepared By:"), 13, 0)
+        primary_layout.addWidget(self.prepared_by_input, 13, 1)
 
         self.notes_input = QTextEdit()
         self.notes_input.setPlaceholderText("Enter any notes...")
         self.notes_input.setMinimumHeight(30)
-        self.notes_input.setMaximumHeight(60)
-        primary_layout.addWidget(QLabel("Notes:"), 16, 0)
-        primary_layout.addWidget(self.notes_input, 16, 1)
+        self.notes_input.setMaximumHeight(50)
+        primary_layout.addWidget(QLabel("Notes:"), 14, 0)
+        primary_layout.addWidget(self.notes_input, 14, 1)
 
         left_column.addWidget(primary_card)
 

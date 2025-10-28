@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00106" summary="created new calendar design">
-      <option name="closed" value="true" />
-      <created>1761352591044</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1761352591044</updated>
-    </task>
     <task id="LOCAL-00107" summary="connected new callendar design">
       <option name="closed" value="true" />
       <created>1761353357149</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761620974863</updated>
     </task>
-    <option name="localTasksCounter" value="155" />
+    <task id="LOCAL-00155" summary="add minimum  height on note field">
+      <option name="closed" value="true" />
+      <created>1761621832344</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1761621832344</updated>
+    </task>
+    <option name="localTasksCounter" value="156" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="change datetime format save" />
     <MESSAGE value="updates db_conn save" />
     <MESSAGE value="updates db" />
     <MESSAGE value="back to INTEGER" />
@@ -700,7 +699,8 @@
     <MESSAGE value="modified layout manual entryu" />
     <MESSAGE value="layout change" />
     <MESSAGE value="layout fix on manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="layout fix on manual" />
+    <MESSAGE value="add minimum  height on note field" />
+    <option name="LAST_COMMIT_MESSAGE" value="add minimum  height on note field" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
