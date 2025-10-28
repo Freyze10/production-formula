@@ -419,11 +419,6 @@ class ManualProductionPage(QWidget):
         print_wip_btn.clicked.connect(self.print_with_wip)
         button_layout.addWidget(print_wip_btn)
 
-        save_btn = QPushButton("SAVE", objectName="SuccessButton")
-        save_btn.setIcon(fa.icon('fa5s.save', color='white'))
-        save_btn.clicked.connect(self.save_production)
-        button_layout.addWidget(save_btn)
-
         print_btn = QPushButton("PRINT", objectName="SecondaryButton")
         print_btn.setIcon(fa.icon('fa5s.print', color='white'))
         print_btn.clicked.connect(self.print_production)
@@ -433,6 +428,11 @@ class ManualProductionPage(QWidget):
         new_btn.setIcon(fa.icon('fa5s.file', color='white'))
         new_btn.clicked.connect(self.new_production)
         button_layout.addWidget(new_btn)
+
+        save_btn = QPushButton("SAVE", objectName="SuccessButton")
+        save_btn.setIcon(fa.icon('fa5s.save', color='white'))
+        save_btn.clicked.connect(self.save_production)
+        button_layout.addWidget(save_btn)
 
         main_layout.addLayout(button_layout)
 

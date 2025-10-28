@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00114" summary="modified edit display data">
-      <option name="closed" value="true" />
-      <created>1761361192075</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1761361192075</updated>
-    </task>
     <task id="LOCAL-00115" summary="updated util date">
       <option name="closed" value="true" />
       <created>1761361850598</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761634475361</updated>
     </task>
-    <option name="localTasksCounter" value="163" />
+    <task id="LOCAL-00163" summary="reduced table column">
+      <option name="closed" value="true" />
+      <created>1761636858185</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1761636858185</updated>
+    </task>
+    <option name="localTasksCounter" value="164" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified field availavility" />
     <MESSAGE value="modified field availability" />
     <MESSAGE value="added update for edit" />
     <MESSAGE value="fixed encoded and schedueld" />
@@ -700,7 +699,8 @@
     <MESSAGE value="fixed the rm code init" />
     <MESSAGE value="modified material code entry" />
     <MESSAGE value="removed close button" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed close button" />
+    <MESSAGE value="reduced table column" />
+    <option name="LAST_COMMIT_MESSAGE" value="reduced table column" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
