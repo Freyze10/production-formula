@@ -60,6 +60,7 @@ class FormulationManagementPage(QWidget):
         self.set_date_range_or_no_data()
         self.load_rm_codes()  # Load RM codes once
         self.refresh_formulations()  # Initial load of formulations
+        self.setup_rm_code_completer() # Setup completer for RM codes
         global_var.formulation_data_loaded = True
 
     def load_rm_codes(self):
@@ -414,9 +415,6 @@ class FormulationManagementPage(QWidget):
         self.material_code_input.setEditable(True)
         self.material_code_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         self.material_code_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-
-        # Setup completer for RM codes
-        self.setup_rm_code_completer()
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
 
