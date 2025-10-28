@@ -432,11 +432,20 @@ class ManualProductionPage(QWidget):
 
     def on_material_type_changed(self, checked, is_raw):
         """Handle material type selection like radio buttons."""
-        if checked:
-            if is_raw:
+        if is_raw:
+            if checked:
                 self.non_raw_material_check.setChecked(False)
             else:
+                # Prevent both from being unchecked
+                if not self.non_raw_material_check.isChecked():
+                    self.raw_material_check.setChecked(True)
+        else:
+            if checked:
                 self.raw_material_check.setChecked(False)
+            else:
+                # Prevent both from being unchecked
+                if not self.raw_material_check.isChecked():
+                    self.non_raw_material_check.setChecked(True)
 
     def format_to_float(self, event, line_edit):
         """Format the input to a float with 6 decimal places when focus is lost."""
