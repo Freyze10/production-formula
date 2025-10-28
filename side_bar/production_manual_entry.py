@@ -123,18 +123,13 @@ class ManualProductionPage(QWidget):
 
         # Sum of Cons and Dosage in one row
         sum_dosage_layout = QHBoxLayout()
-        sum_dosage_layout.setSpacing(6)
-
-        sum_cons_label = QLabel("Sum of Cons:")
-        sum_cons_label.setFixedWidth(100)
-        sum_dosage_layout.addWidget(sum_cons_label)
+        sum_dosage_layout.setSpacing(9)
 
         self.sum_cons_input = QLineEdit()
         self.sum_cons_input.setPlaceholderText("0.00000")
         sum_dosage_layout.addWidget(self.sum_cons_input)
 
         dosage_label = QLabel("Dosage:")
-        dosage_label.setFixedWidth(60)
         sum_dosage_layout.addWidget(dosage_label)
 
         self.dosage_input = QLineEdit()
@@ -143,7 +138,8 @@ class ManualProductionPage(QWidget):
         self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
         sum_dosage_layout.addWidget(self.dosage_input)
 
-        primary_layout.addLayout(sum_dosage_layout, row, 0, 1, 2)
+        primary_layout.addWidget(QLabel("Sum of Cons:"), row, 0)
+        primary_layout.addLayout(sum_dosage_layout, row, 1)
         row += 1
 
         # Customer
@@ -198,34 +194,26 @@ class ManualProductionPage(QWidget):
 
         # Mixing Time and Machine No in one row
         mixing_machine_layout = QHBoxLayout()
-        mixing_machine_layout.setSpacing(6)
-
-        mixing_time_label = QLabel("Mixing Time:")
-        mixing_time_label.setFixedWidth(100)
-        mixing_machine_layout.addWidget(mixing_time_label)
+        mixing_machine_layout.setSpacing(9)
 
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
         mixing_machine_layout.addWidget(self.mixing_time_input)
 
         machine_no_label = QLabel("Machine No:")
-        machine_no_label.setFixedWidth(90)
         mixing_machine_layout.addWidget(machine_no_label)
 
         self.machine_no_input = QLineEdit()
         self.machine_no_input.setPlaceholderText("Enter machine number")
         mixing_machine_layout.addWidget(self.machine_no_input)
 
-        primary_layout.addLayout(mixing_machine_layout, row, 0, 1, 2)
+        primary_layout.addWidget(QLabel("Mixing Time:"), row, 0)
+        primary_layout.addLayout(mixing_machine_layout, row, 1)
         row += 1
 
         # Qty Required and Qty Per Batch in one row
         qty_layout = QHBoxLayout()
-        qty_layout.setSpacing(6)
-
-        qty_req_label = QLabel("Qty. Required:")
-        qty_req_label.setFixedWidth(100)
-        qty_layout.addWidget(qty_req_label)
+        qty_layout.setSpacing(9)
 
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.0000000")
@@ -234,7 +222,6 @@ class ManualProductionPage(QWidget):
         qty_layout.addWidget(self.qty_required_input)
 
         qty_batch_label = QLabel("Qty. Per Batch:")
-        qty_batch_label.setFixedWidth(100)
         qty_layout.addWidget(qty_batch_label)
 
         self.qty_per_batch_input = QLineEdit()
@@ -243,7 +230,8 @@ class ManualProductionPage(QWidget):
         self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
         qty_layout.addWidget(self.qty_per_batch_input)
 
-        primary_layout.addLayout(qty_layout, row, 0, 1, 2)
+        primary_layout.addWidget(QLabel("Qty. Required:"), row, 0)
+        primary_layout.addLayout(qty_layout, row, 1)
         row += 1
 
         # Prepared By
