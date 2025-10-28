@@ -399,7 +399,7 @@ def save_production(production_data, material_data):
             production_data["confirmation_date"],
             production_data["form_type"]
         ))
-
+        prod_id = cur.fetchone()[0]
         # Insert each material line
         for idx, material in enumerate(material_data):
             cur.execute("""
@@ -409,7 +409,7 @@ def save_production(production_data, material_data):
                     total_loss, total_consumption
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """, (
-                production_data["prod_id"],
+                prod_id,
                 production_data["lot_number"],
                 production_data["confirmation_date"],
                 production_data["production_date"],
