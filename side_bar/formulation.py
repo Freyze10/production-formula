@@ -13,6 +13,7 @@ import pandas as pd
 
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
+from utils.debounce import finished_typing
 from utils.work_station import _get_workstation_info
 from utils import global_var
 
@@ -116,7 +117,9 @@ class FormulationManagementPage(QWidget):
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("Search formulations...")
         self.search_input.setFixedWidth(250)
-        self.search_input.textChanged.connect(self.filter_formulations)
+        self.formula_search_timer = finished_typing(
+            self.search_input, self.filter_formulations, delay=700
+        )
         header_layout.addWidget(self.search_input)
 
         search_btn = QPushButton("Search", objectName="PrimaryButton")
