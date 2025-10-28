@@ -344,12 +344,12 @@ class ManualProductionPage(QWidget):
 
         # Materials Table
         self.materials_table = QTableWidget()
-        self.materials_table.setColumnCount(6)
+        self.materials_table.setColumnCount(4)
         self.materials_table.setHorizontalHeaderLabels([
             "Material Name", "Large Scale (KG)", "Small Scale (G)",
-            "Total Weight (KG)", "Total Loss (KG)", "Total Consumption (KG)"
+            "Total Weight (KG)"
         ])
-        self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.materials_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.materials_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.materials_table.verticalHeader().setVisible(False)
@@ -574,11 +574,6 @@ class ManualProductionPage(QWidget):
             QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for scales and weight.")
             return
 
-        # Calculate total loss (2% of total weight)
-        total_loss = total_weight * 0.02
-        # Calculate total consumption
-        total_consumption = total_weight + total_loss
-
         # Add row to table
         row_position = self.materials_table.rowCount()
         self.materials_table.insertRow(row_position)
@@ -587,8 +582,6 @@ class ManualProductionPage(QWidget):
         self.materials_table.setItem(row_position, 1, NumericTableWidgetItem(large_scale, is_float=True))
         self.materials_table.setItem(row_position, 2, NumericTableWidgetItem(small_scale, is_float=True))
         self.materials_table.setItem(row_position, 3, NumericTableWidgetItem(total_weight, is_float=True))
-        self.materials_table.setItem(row_position, 4, NumericTableWidgetItem(total_loss, is_float=True))
-        self.materials_table.setItem(row_position, 5, NumericTableWidgetItem(total_consumption, is_float=True))
 
         self.clear_material_inputs()
         self.update_totals()
