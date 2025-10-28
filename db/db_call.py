@@ -368,7 +368,7 @@ def save_production(production_data, material_data):
                 product_codey, product_color, dosage, ld_percent, lot_number, order_form_no, 
                 colormatch_no, colormatch_date, mixing_time, machine_no, qty_required, qty_per_batch, 
                 qty_produced, notes, user_id, prepared_by, 
-                encoded_by, encoded_on, confirmation_date, form_type
+                encoded_by, encoded_on, scheduled_date, confirmation_date, form_type
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING prod_id;
         """, (
@@ -394,7 +394,8 @@ def save_production(production_data, material_data):
             production_data["user_id"],
             production_data["prepared_by"],
             production_data["encoded_by"],
-            production_data["encoded_on"],
+            production_data["conf_encoded_on"],
+            production_data["scheduled_date"],
             production_data["confirmation_date"],
             production_data["form_type"]
         ))
@@ -492,7 +493,7 @@ def update_production(production_data, material_data):
             production_data["user_id"],
             production_data["prepared_by"],
             production_data["encoded_by"],
-            production_data["encoded_on"],
+            production_data["conf_encoded_on"],
             production_data["confirmation_date"],
             production_data["form_type"],
             production_data["prod_id"]

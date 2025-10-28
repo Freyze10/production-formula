@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00090" summary="removed the gif">
-      <option name="closed" value="true" />
-      <created>1761209742180</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1761209742180</updated>
-    </task>
     <task id="LOCAL-00091" summary="added min and max date">
       <option name="closed" value="true" />
       <created>1761267416656</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761554836443</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="added update for edit">
+      <option name="closed" value="true" />
+      <created>1761555439251</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1761555439251</updated>
+    </task>
+    <option name="localTasksCounter" value="140" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="connected new callendar design" />
     <MESSAGE value="creating freely typing date" />
     <MESSAGE value="did write or select date" />
     <MESSAGE value="connected another date" />
@@ -700,7 +699,8 @@
     <MESSAGE value="modify edit func err handling" />
     <MESSAGE value="modified field availavility" />
     <MESSAGE value="modified field availability" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified field availability" />
+    <MESSAGE value="added update for edit" />
+    <option name="LAST_COMMIT_MESSAGE" value="added update for edit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

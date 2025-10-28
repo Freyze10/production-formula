@@ -816,14 +816,14 @@ class ProductionManagementPage(QWidget):
             self.encoded_by_display.setText(str(result.get('encoded_by', '')))
 
             # Handle scheduled date with fallback
-            if result.get('scheduled_date'):
-                self.production_confirmation_display.setText(result['scheduled_date'].strftime("%m/%d/%Y %I:%M:%S %p"))
+            if result.get('encoded_on'):
+                self.production_confirmation_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
             else:
                 self.production_confirmation_display.setText("")
 
             # Handle encoded_on with fallback
-            if result.get('encoded_on'):
-                self.production_encoded_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+            if result.get('scheduled_date'):
+                self.production_encoded_display.setText(result['scheduled_date'].strftime("%m/%d/%Y %I:%M:%S %p"))
             else:
                 self.production_encoded_display.setText("")
 
@@ -962,7 +962,7 @@ class ProductionManagementPage(QWidget):
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            'encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            'conf_encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
         # Gather material data
