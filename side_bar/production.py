@@ -60,6 +60,7 @@ class ProductionManagementPage(QWidget):
         self.set_date_range()
         self.refresh_productions()
         global_var.production_data_loaded = True
+        self.new_production()
 
     def set_date_range(self):
         """Set default date range based on min and max production dates."""
@@ -87,7 +88,7 @@ class ProductionManagementPage(QWidget):
         self.tab_widget.addTab(self.records_tab, "Production Records")
 
         self.entry_tab = self.create_entry_tab()
-        self.tab_widget.addTab(self.entry_tab, "Production Entry")
+        self.tab_widget.addTab(self.entry_tab, "Auto Generated Entry")
 
         main_layout.addWidget(self.tab_widget)
 
