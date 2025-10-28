@@ -60,7 +60,7 @@ class FormulationManagementPage(QWidget):
         self.set_date_range_or_no_data()
         self.load_rm_codes()  # Load RM codes once
         self.refresh_formulations()  # Initial load of formulations
-        self.setup_rm_code_completer() # Setup completer for RM codes
+        self.setup_rm_code_completer()  # Setup completer for RM codes
         global_var.formulation_data_loaded = True
 
     def load_rm_codes(self):

@@ -3,7 +3,7 @@ from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
-                             QScrollArea, QCheckBox, QSpinBox, QDoubleSpinBox)
+                             QScrollArea, QCheckBox, QSpinBox, QDoubleSpinBox, QSizePolicy, QCompleter)
 from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtGui import QFont
 import qtawesome as fa
@@ -274,12 +274,29 @@ class ManualProductionPage(QWidget):
         input_layout = QGridLayout(input_card)
         input_layout.setSpacing(6)
 
-        # Material Code
-        self.material_code_input = QLineEdit()
-        self.material_code_input.setPlaceholderText("Enter material code")
-        self.material_code_input.setStyleSheet("background-color: #fff9c4;")
+        # Material Code - Create both QComboBox and QLineEdit
+        self.material_code_combo = QComboBox()
+        self.material_code_combo.setEditable(True)
+        self.material_code_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.material_code_combo.setPlaceholderText("Enter material code")
+        self.material_code_combo.setStyleSheet("background-color: #fff9c4;")
+        self.material_code_combo.lineEdit().editingFinished.connect(self.validate_rm_code)
+
+        # Setup completer for combo box
+        self.setup_rm_code_completer()
+
+        self.material_code_lineedit = QLineEdit()
+        self.material_code_lineedit.setPlaceholderText("Enter material code")
+        self.material_code_lineedit.setStyleSheet("background-color: #fff9c4;")
+        self.material_code_lineedit.setVisible(False)  # Hidden by default
+
+
+
+        # Add label
         input_layout.addWidget(QLabel("Material Code:"), 0, 0)
-        input_layout.addWidget(self.material_code_input, 0, 1)
+        # Add both widgets to the same position (only one will be visible at a time)
+        input_layout.addWidget(self.material_code_combo, 0, 1)
+        input_layout.addWidget(self.material_code_lineedit, 0, 1)
 
         # Large Scale
         self.large_scale_input = QLineEdit()
@@ -424,6 +441,23 @@ class ManualProductionPage(QWidget):
 
         main_layout.addLayout(button_layout)
 
+    def validate_rm_code(self):
+        """Prevent invalid input."""
+        current_text = self.material_code_combo.currentText()
+        if current_text not in global_var.rm_list:
+            self.material_code_combo.setCurrentIndex(0)
+
+    def setup_rm_code_completer(self):
+        """Setup the completer for RM codes using cached data."""
+        self.material_code_combo.clear()
+        self.material_code_combo.addItems(global_var.rm_list)
+
+        rm_completer = QCompleter(global_var.rm_list, self.material_code_combo)
+        rm_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+        rm_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.material_code_combo.setCompleter(rm_completer)
+        self.material_code_combo.setCurrentIndex(0)
+
     def user_access(self, user_role):
         """Disable certain features for viewers."""
         if user_role == 'Viewer':
@@ -431,10 +465,13 @@ class ManualProductionPage(QWidget):
             pass
 
     def on_material_type_changed(self, checked, is_raw):
-        """Handle material type selection like radio buttons."""
+        """Handle material type selection like radio buttons and switch input fields."""
         if is_raw:
             if checked:
                 self.non_raw_material_check.setChecked(False)
+                # Show QComboBox with completer for raw materials
+                self.material_code_combo.setVisible(True)
+                self.material_code_lineedit.setVisible(False)
             else:
                 # Prevent both from being unchecked
                 if not self.non_raw_material_check.isChecked():
@@ -442,10 +479,20 @@ class ManualProductionPage(QWidget):
         else:
             if checked:
                 self.raw_material_check.setChecked(False)
+                # Show QLineEdit without completer for non-raw materials
+                self.material_code_combo.setVisible(False)
+                self.material_code_lineedit.setVisible(True)
             else:
                 # Prevent both from being unchecked
                 if not self.raw_material_check.isChecked():
                     self.non_raw_material_check.setChecked(True)
+
+    def get_material_code(self):
+        """Get the material code from the currently visible widget."""
+        if self.raw_material_check.isChecked():
+            return self.material_code_combo.currentText().strip()
+        else:
+            return self.material_code_lineedit.text().strip()
 
     def format_to_float(self, event, line_edit):
         """Format the input to a float with 6 decimal places when focus is lost."""
@@ -501,18 +548,27 @@ class ManualProductionPage(QWidget):
 
     def clear_material_inputs(self):
         """Clear material input fields."""
-        self.material_code_input.clear()
+        self.material_code_combo.setCurrentIndex(-1)
+        self.material_code_combo.clearEditText()
+        self.material_code_lineedit.clear()
         self.large_scale_input.clear()
         self.small_scale_input.clear()
         self.total_weight_input.clear()
 
     def add_material(self):
         """Add material to the table."""
-        material_code = self.material_code_input.text().strip()
+        material_code = self.get_material_code()
 
         if not material_code:
             QMessageBox.warning(self, "Missing Input", "Please enter a material code.")
             return
+
+        # Validate raw material code if RAW MATERIAL is selected
+        if self.raw_material_check.isChecked():
+            if material_code not in global_var.rm_list:
+                QMessageBox.warning(self, "Invalid Material",
+                                  "Please select a valid raw material code from the list.")
+                return
 
         try:
             large_scale = float(self.large_scale_input.text().strip()) if self.large_scale_input.text().strip() else 0.0
