@@ -508,10 +508,8 @@ class ManualProductionPage(QWidget):
         try:
             latest_prod = db_call.get_latest_prod_id()
             self.production_id_input.setText(str(latest_prod + 1))
-            self.wip_no_input.setText(f"WIP-{latest_prod + 1}")
         except Exception as e:
             self.production_id_input.setText("1")
-            self.wip_no_input.setText("WIP-1")
 
         self.form_type_combo.setCurrentIndex(0)
         self.product_code_input.clear()
