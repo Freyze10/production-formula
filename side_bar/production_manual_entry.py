@@ -11,8 +11,27 @@ import qtawesome as fa
 from db import db_call
 from utils.date import SmartDateEdit
 from utils.work_station import _get_workstation_info
-from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var
+
+
+class NumericTableWidgetItem(QTableWidgetItem):
+    def __init__(self, value, display_text=None, is_float=False):
+        self.value = value
+        self.is_float = is_float
+        if display_text is None:
+            if is_float:
+                display_text = f"{value:.6f}" if value is not None else ""
+            else:
+                display_text = str(value) if value is not None else ""
+        super().__init__(display_text)
+
+    def __lt__(self, other):
+        if isinstance(other, NumericTableWidgetItem):
+            if self.is_float:
+                return float(self.value) < float(other.value)
+            else:
+                return int(self.value) < int(other.value)
+        return super().__lt__(other)
 
 
 class ManualProductionPage(QWidget):
@@ -33,20 +52,6 @@ class ManualProductionPage(QWidget):
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(5, 5, 5, 5)
         main_layout.setSpacing(5)
-
-        # Header
-        header_card = QFrame()
-        header_card.setObjectName("HeaderCard")
-        header_layout = QHBoxLayout(header_card)
-        header_layout.setContentsMargins(15, 2, 15, 2)
-
-        title_label = QLabel("Manual Production Entry")
-        title_label.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
-        title_label.setStyleSheet("color: #0078d4;")
-        header_layout.addWidget(title_label)
-        header_layout.addStretch()
-
-        main_layout.addWidget(header_card)
 
         # Scrollable content
         scroll = QScrollArea()
@@ -118,16 +123,26 @@ class ManualProductionPage(QWidget):
 
         # Sum of Cons and Dosage in one row
         sum_dosage_layout = QHBoxLayout()
-        sum_dosage_layout.addWidget(QLabel("Sum of Cons:"))
+        sum_dosage_layout.setSpacing(6)
+
+        sum_cons_label = QLabel("Sum of Cons:")
+        sum_cons_label.setFixedWidth(100)
+        sum_dosage_layout.addWidget(sum_cons_label)
+
         self.sum_cons_input = QLineEdit()
         self.sum_cons_input.setPlaceholderText("0.00000")
         sum_dosage_layout.addWidget(self.sum_cons_input)
-        sum_dosage_layout.addWidget(QLabel("Dosage:"))
+
+        dosage_label = QLabel("Dosage:")
+        dosage_label.setFixedWidth(60)
+        sum_dosage_layout.addWidget(dosage_label)
+
         self.dosage_input = QLineEdit()
         self.dosage_input.setPlaceholderText("0.000000")
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
         self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
         sum_dosage_layout.addWidget(self.dosage_input)
+
         primary_layout.addLayout(sum_dosage_layout, row, 0, 1, 2)
         row += 1
 
@@ -183,31 +198,51 @@ class ManualProductionPage(QWidget):
 
         # Mixing Time and Machine No in one row
         mixing_machine_layout = QHBoxLayout()
-        mixing_machine_layout.addWidget(QLabel("Mixing Time:"))
+        mixing_machine_layout.setSpacing(6)
+
+        mixing_time_label = QLabel("Mixing Time:")
+        mixing_time_label.setFixedWidth(100)
+        mixing_machine_layout.addWidget(mixing_time_label)
+
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
         mixing_machine_layout.addWidget(self.mixing_time_input)
-        mixing_machine_layout.addWidget(QLabel("Machine No:"))
+
+        machine_no_label = QLabel("Machine No:")
+        machine_no_label.setFixedWidth(90)
+        mixing_machine_layout.addWidget(machine_no_label)
+
         self.machine_no_input = QLineEdit()
         self.machine_no_input.setPlaceholderText("Enter machine number")
         mixing_machine_layout.addWidget(self.machine_no_input)
+
         primary_layout.addLayout(mixing_machine_layout, row, 0, 1, 2)
         row += 1
 
         # Qty Required and Qty Per Batch in one row
         qty_layout = QHBoxLayout()
-        qty_layout.addWidget(QLabel("Qty. Required:"))
+        qty_layout.setSpacing(6)
+
+        qty_req_label = QLabel("Qty. Required:")
+        qty_req_label.setFixedWidth(100)
+        qty_layout.addWidget(qty_req_label)
+
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.0000000")
         self.qty_required_input.setStyleSheet("background-color: #fff9c4;")
         self.qty_required_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_required_input)
         qty_layout.addWidget(self.qty_required_input)
-        qty_layout.addWidget(QLabel("Qty. Per Batch:"))
+
+        qty_batch_label = QLabel("Qty. Per Batch:")
+        qty_batch_label.setFixedWidth(100)
+        qty_layout.addWidget(qty_batch_label)
+
         self.qty_per_batch_input = QLineEdit()
         self.qty_per_batch_input.setPlaceholderText("0.0000000")
         self.qty_per_batch_input.setStyleSheet("background-color: #fff9c4;")
         self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
         qty_layout.addWidget(self.qty_per_batch_input)
+
         primary_layout.addLayout(qty_layout, row, 0, 1, 2)
         row += 1
 
@@ -219,14 +254,6 @@ class ManualProductionPage(QWidget):
         primary_layout.addWidget(self.prepared_by_input, row, 1)
         row += 1
 
-        # Encoded By
-        self.encoded_by_display = QLineEdit()
-        self.encoded_by_display.setReadOnly(True)
-        self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
-        primary_layout.addWidget(QLabel("Encoded By:"), row, 0)
-        primary_layout.addWidget(self.encoded_by_display, row, 1)
-        row += 1
-
         # Notes
         self.notes_input = QTextEdit()
         self.notes_input.setPlaceholderText("Enter any notes...")
@@ -234,22 +261,6 @@ class ManualProductionPage(QWidget):
         primary_layout.addWidget(QLabel("Notes:"), row, 0)
         primary_layout.addWidget(self.notes_input, row, 1)
         row += 1
-
-        # Production Confirmation Encoded On
-        self.production_confirmation_display = QLineEdit()
-        self.production_confirmation_display.setPlaceholderText("mm/dd/yyyy h:m:s")
-        self.production_confirmation_display.setReadOnly(True)
-        self.production_confirmation_display.setStyleSheet("background-color: #e9ecef;")
-        primary_layout.addWidget(QLabel("Production Confirmation\nEncoded On:"), row, 0)
-        primary_layout.addWidget(self.production_confirmation_display, row, 1)
-        row += 1
-
-        # Production Encoded On
-        self.production_encoded_display = QLineEdit()
-        self.production_encoded_display.setReadOnly(True)
-        self.production_encoded_display.setStyleSheet("background-color: #e9ecef;")
-        primary_layout.addWidget(QLabel("Production Encoded On:"), row, 0)
-        primary_layout.addWidget(self.production_encoded_display, row, 1)
 
         left_column.addWidget(primary_card)
         scroll_layout.addLayout(left_column, stretch=1)
@@ -377,6 +388,34 @@ class ManualProductionPage(QWidget):
         self.fg_label.setStyleSheet("background-color: #fff9c4; padding: 2px 8px; font-weight: bold;")
         total_layout.addWidget(self.fg_label)
         material_layout.addLayout(total_layout)
+
+        # Encoding Information
+        encoding_layout = QGridLayout()
+        encoding_layout.setSpacing(6)
+
+        self.encoded_by_display = QLineEdit()
+        self.encoded_by_display.setReadOnly(True)
+        self.encoded_by_display.setText(self.work_station['u'])
+        self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
+
+        encoding_layout.addWidget(QLabel("Encoded By:"), 0, 0)
+        encoding_layout.addWidget(self.encoded_by_display, 0, 1)
+
+        self.production_confirmation_display = QLineEdit()
+        self.production_confirmation_display.setPlaceholderText("mm/dd/yyyy h:m:s")
+        self.production_confirmation_display.setStyleSheet("background-color: #fff9c4;")
+        self.production_confirmation_display.setReadOnly(True)
+        encoding_layout.addWidget(QLabel("Production Confirmation Encoded On:"), 1, 0)
+        encoding_layout.addWidget(self.production_confirmation_display, 1, 1)
+
+        self.production_encoded_display = QLineEdit()
+        self.production_encoded_display.setText(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        self.production_encoded_display.setReadOnly(True)
+        self.production_encoded_display.setStyleSheet("background-color: #e9ecef;")
+        encoding_layout.addWidget(QLabel("Production Encoded On:"), 2, 0)
+        encoding_layout.addWidget(self.production_encoded_display, 2, 1)
+
+        material_layout.addLayout(encoding_layout)
 
         right_column.addWidget(material_card)
         scroll_layout.addLayout(right_column, stretch=1)
