@@ -375,6 +375,7 @@ class ProductionManagementPage(QWidget):
 
         self.notes_input = QTextEdit()
         self.notes_input.setPlaceholderText("Enter any notes...")
+        self.notes_input.setMinimumHeight(30)
         self.notes_input.setMaximumHeight(60)
         primary_layout.addWidget(QLabel("Notes:"), 16, 0)
         primary_layout.addWidget(self.notes_input, 16, 1)

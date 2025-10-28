@@ -245,6 +245,7 @@ class ManualProductionPage(QWidget):
         # Notes
         self.notes_input = QTextEdit()
         self.notes_input.setPlaceholderText("Enter any notes...")
+        self.notes_input.setMinimumHeight(30)
         self.notes_input.setMaximumHeight(50)
         primary_layout.addWidget(QLabel("Notes:"), row, 0)
         primary_layout.addWidget(self.notes_input, row, 1)

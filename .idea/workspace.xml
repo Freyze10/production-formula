@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00105" summary="connected confirmation to nullable">
-      <option name="closed" value="true" />
-      <created>1761352561459</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1761352561459</updated>
-    </task>
     <task id="LOCAL-00106" summary="created new calendar design">
       <option name="closed" value="true" />
       <created>1761352591044</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761620305338</updated>
     </task>
-    <option name="localTasksCounter" value="154" />
+    <task id="LOCAL-00154" summary="layout fix on manual">
+      <option name="closed" value="true" />
+      <created>1761620974863</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1761620974863</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="&#10;fixing prod save func" />
     <MESSAGE value="change datetime format save" />
     <MESSAGE value="updates db_conn save" />
     <MESSAGE value="updates db" />
@@ -700,7 +699,8 @@
     <MESSAGE value="refactored prod" />
     <MESSAGE value="modified layout manual entryu" />
     <MESSAGE value="layout change" />
-    <option name="LAST_COMMIT_MESSAGE" value="layout change" />
+    <MESSAGE value="layout fix on manual" />
+    <option name="LAST_COMMIT_MESSAGE" value="layout fix on manual" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
