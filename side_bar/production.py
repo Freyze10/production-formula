@@ -1075,6 +1075,9 @@ class ProductionManagementPage(QWidget):
         self.formula_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.formula_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.formula_table.itemSelectionChanged.connect(self.show_formulation_selected)
+        self.formula_table.itemDoubleClicked.connect(
+            lambda item: self._on_formula_double_clicked(dialog, item)
+        )
 
         layout.addWidget(self.formula_table)
 
@@ -1109,6 +1112,14 @@ class ProductionManagementPage(QWidget):
             self.formula_table.selectRow(0)
 
         dialog.exec()
+
+    def _on_formula_double_clicked(self, dialog, item):
+        """Called when user double-clicks a row in the formula selector."""
+        row = item.row()
+        # Ensure the row is selected (in case double-click happens before selection)
+        self.formula_table.selectRow(row)
+        # Trigger the same logic as the OK button
+        self.load_selected_formula(dialog, self.formula_table, self.materials_table_selector)
 
     def show_formulation_selected(self):
         """Fill the materials table for the currently selected formula."""
