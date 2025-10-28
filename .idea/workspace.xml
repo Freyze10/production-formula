@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00117" summary="updated new button func">
-      <option name="closed" value="true" />
-      <created>1761362825640</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1761362825640</updated>
-    </task>
     <task id="LOCAL-00118" summary="updated latest prod_id">
       <option name="closed" value="true" />
       <created>1761364055851</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761637391254</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="edit material code initial val">
+      <option name="closed" value="true" />
+      <created>1761641034510</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1761641034510</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed encoded and schedueld" />
     <MESSAGE value="added value var" />
     <MESSAGE value="connected update func" />
     <MESSAGE value="finished update" />
@@ -700,7 +699,8 @@
     <MESSAGE value="reduced table column" />
     <MESSAGE value="rearranged buttons" />
     <MESSAGE value="modified new formulation" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified new formulation" />
+    <MESSAGE value="edit material code initial val" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit material code initial val" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
