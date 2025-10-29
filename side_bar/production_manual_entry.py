@@ -687,7 +687,8 @@ class ManualProductionPage(QWidget):
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            'conf_encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            'conf_encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'is_manual': True
         }
 
         # Gather material data

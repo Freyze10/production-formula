@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00133" summary="manual enter prod_id">
-      <option name="closed" value="true" />
-      <created>1761549794208</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1761549794208</updated>
-    </task>
     <task id="LOCAL-00134" summary="added product_code">
       <option name="closed" value="true" />
       <created>1761552817696</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761717819057</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <task id="LOCAL-00182" summary="removed wip placeholder">
+      <option name="closed" value="true" />
+      <created>1761719040161</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1761719040161</updated>
+    </task>
+    <option name="localTasksCounter" value="183" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add minimum  height on note field" />
     <MESSAGE value="modified field  layout" />
     <MESSAGE value="refactored numeric table" />
     <MESSAGE value="added double click on formula selection" />
@@ -700,7 +699,8 @@
     <MESSAGE value="added return on enter" />
     <MESSAGE value="modified focus after add" />
     <MESSAGE value="modified material entry fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified material entry fields" />
+    <MESSAGE value="removed wip placeholder" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed wip placeholder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
