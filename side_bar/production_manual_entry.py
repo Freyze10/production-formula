@@ -618,7 +618,9 @@ class ManualProductionPage(QWidget):
         """Save the manual production entry."""
         # Validate required fields
         try:
-            dosage = float(self.dosage_input.text().strip()) if self.dosage_input.text().strip() else 0.0
+            dosage = float(self.sum_cons_input.text().strip()) if self.dosage_input.text().strip() else 0.0
+            ld_dosage = float(
+                self.dosage_input.text().strip()) if self.dosage_input.text().strip() else 0.0
             qty_required = float(
                 self.qty_required_input.text().strip()) if self.qty_required_input.text().strip() else 0.0
             qty_per_batch = float(
@@ -653,8 +655,9 @@ class ManualProductionPage(QWidget):
             'form_type': self.form_type_combo.currentText(),
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
+            'formula_id': self.formula_input.text().strip(),
             'dosage': dosage,
-            'formula_id': self.formula_input,
+            'ld_percent': ld_dosage,
             'customer': self.customer_input.text().strip(),
             'lot_number': self.lot_no_input.text().strip(),
             'production_date': self.production_date_input.get_date(),
@@ -662,14 +665,12 @@ class ManualProductionPage(QWidget):
             'order_form_no': self.order_form_no_input.text().strip(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
             'colormatch_date': self.matched_date_input.get_date(),
-            'formulation_id': self.formula_input.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
             'machine_no': self.machine_no_input.text().strip(),
             'qty_required': qty_required,
             'qty_per_batch': qty_per_batch,
             'prepared_by': self.prepared_by_input.text().strip(),
             'notes': self.notes_input.toPlainText().strip(),
-            'qty_produced': self.total_weight_label.text().strip(),
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
