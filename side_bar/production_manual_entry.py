@@ -57,7 +57,6 @@ class ManualProductionPage(QWidget):
 
         # WIP No (Production ID)
         self.wip_no_input = QLineEdit()
-        self.wip_no_input.setPlaceholderText("Auto-generated")
         self.wip_no_input.setStyleSheet("background-color: #e9ecef;")
         primary_layout.addWidget(QLabel("WIP No:"), row, 0)
         primary_layout.addWidget(self.wip_no_input, row, 1)
