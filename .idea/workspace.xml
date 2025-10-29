@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00127" summary="change datetime format save">
-      <option name="closed" value="true" />
-      <created>1761545479640</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1761545479647</updated>
-    </task>
-    <task id="LOCAL-00128" summary="change datetime format save">
-      <option name="closed" value="true" />
-      <created>1761546016598</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1761546016598</updated>
-    </task>
     <task id="LOCAL-00129" summary="change datetime format save">
       <option name="closed" value="true" />
       <created>1761546158425</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761710066543</updated>
     </task>
-    <option name="localTasksCounter" value="176" />
+    <task id="LOCAL-00176" summary="fixed float formatt lower dosage">
+      <option name="closed" value="true" />
+      <created>1761715408025</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1761715408025</updated>
+    </task>
+    <task id="LOCAL-00177" summary="fixed float format sum cons">
+      <option name="closed" value="true" />
+      <created>1761715451008</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1761715451008</updated>
+    </task>
+    <option name="localTasksCounter" value="178" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created numeric_table for refactoring" />
-    <MESSAGE value="refactored prod" />
     <MESSAGE value="modified layout manual entryu" />
     <MESSAGE value="layout change" />
     <MESSAGE value="layout fix on manual" />
@@ -700,7 +698,9 @@
     <MESSAGE value="clean float calc save func" />
     <MESSAGE value="edited fields to save" />
     <MESSAGE value="modified fields to save" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified fields to save" />
+    <MESSAGE value="fixed float formatt lower dosage" />
+    <MESSAGE value="fixed float format sum cons" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed float format sum cons" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -291,7 +291,6 @@ class ManualProductionPage(QWidget):
         self.material_code_lineedit.setVisible(False)  # Hidden by default
 
 
-
         # Add label
         input_layout.addWidget(QLabel("Material Code:"), 0, 0)
         # Add both widgets to the same position (only one will be visible at a time)
@@ -316,6 +315,7 @@ class ManualProductionPage(QWidget):
         self.total_weight_input = QLineEdit()
         self.total_weight_input.setPlaceholderText("0.0000000")
         self.total_weight_input.setStyleSheet("background-color: #fff9c4;")
+        self.total_weight_input.returnPressed.connect(self.add_material)
         input_layout.addWidget(QLabel("Total Weight (KG):"), 3, 0)
         input_layout.addWidget(self.total_weight_input, 3, 1)
 
