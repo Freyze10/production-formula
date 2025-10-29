@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00136" summary="modify edit func err handling">
-      <option name="closed" value="true" />
-      <created>1761554703469</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1761554703469</updated>
-    </task>
-    <task id="LOCAL-00137" summary="modified field availavility">
-      <option name="closed" value="true" />
-      <created>1761554726677</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1761554726677</updated>
-    </task>
     <task id="LOCAL-00138" summary="modified field availability">
       <option name="closed" value="true" />
       <created>1761554836442</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761721883520</updated>
     </task>
-    <option name="localTasksCounter" value="185" />
+    <task id="LOCAL-00185" summary="added view and edit in manual">
+      <option name="closed" value="true" />
+      <created>1761723206749</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1761723206749</updated>
+    </task>
+    <task id="LOCAL-00186" summary="added check if manual">
+      <option name="closed" value="true" />
+      <created>1761723394911</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1761723394911</updated>
+    </task>
+    <option name="localTasksCounter" value="187" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactored numeric table" />
-    <MESSAGE value="added double click on formula selection" />
     <MESSAGE value="modified checkbox func" />
     <MESSAGE value="fixed the rm code init" />
     <MESSAGE value="modified material code entry" />
@@ -700,7 +698,9 @@
     <MESSAGE value="modified material entry fields" />
     <MESSAGE value="removed wip placeholder" />
     <MESSAGE value="added is_manual in db" />
-    <option name="LAST_COMMIT_MESSAGE" value="added is_manual in db" />
+    <MESSAGE value="added view and edit in manual" />
+    <MESSAGE value="added check if manual" />
+    <option name="LAST_COMMIT_MESSAGE" value="added check if manual" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -360,7 +360,8 @@ def get_is_manual(prod_id):
     cur = conn.cursor()
 
     cur.execute("""SELECT is_manual
-                    FROM production_primary""")
+                    FROM production_primary
+                    WHERE prod_id = %s""", (prod_id,))
     record = cur.fetchone()
 
     cur.close()
