@@ -553,8 +553,9 @@ class ManualProductionPage(QWidget):
 
     def add_material(self):
         """Add material to the table."""
-        material_code = self.get_material_code()
+        material_code = self.get_material_code().strip()
 
+        # Check for empty material code
         if not material_code:
             QMessageBox.warning(self, "Missing Input", "Please enter a material code.")
             return
@@ -563,14 +564,23 @@ class ManualProductionPage(QWidget):
         if self.raw_material_check.isChecked():
             if material_code not in global_var.rm_list:
                 QMessageBox.warning(self, "Invalid Material",
-                                  "Please select a valid raw material code from the list.")
+                                    "Please select a valid raw material code from the list.")
                 return
 
+        # Get text values
+        large_scale_text = self.large_scale_input.text().strip()
+        small_scale_text = self.small_scale_input.text().strip()
+        total_weight_text = self.total_weight_input.text().strip()
+
+        # Ensure no field is empty
+        if not large_scale_text or not small_scale_text or not total_weight_text:
+            QMessageBox.warning(self, "Missing Input", "Please fill in all scale and weight fields.")
+            return
+
         try:
-            large_scale = float(self.large_scale_input.text().strip()) if self.large_scale_input.text().strip() else 0.0
-            small_scale = float(self.small_scale_input.text().strip()) if self.small_scale_input.text().strip() else 0.0
-            total_weight = float(
-                self.total_weight_input.text().strip()) if self.total_weight_input.text().strip() else 0.0
+            large_scale = float(large_scale_text)
+            small_scale = float(small_scale_text)
+            total_weight = float(total_weight_text)
         except ValueError:
             QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for scales and weight.")
             return

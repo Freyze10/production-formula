@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00130" summary="updates db_conn save">
-      <option name="closed" value="true" />
-      <created>1761547099903</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1761547099903</updated>
-    </task>
-    <task id="LOCAL-00131" summary="updates db">
-      <option name="closed" value="true" />
-      <created>1761548702157</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1761548702157</updated>
-    </task>
     <task id="LOCAL-00132" summary="back to INTEGER">
       <option name="closed" value="true" />
       <created>1761549553730</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761716761709</updated>
     </task>
-    <option name="localTasksCounter" value="179" />
+    <task id="LOCAL-00179" summary="added return on enter">
+      <option name="closed" value="true" />
+      <created>1761716917464</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1761716917464</updated>
+    </task>
+    <task id="LOCAL-00180" summary="modified focus after add">
+      <option name="closed" value="true" />
+      <created>1761717254116</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1761717254116</updated>
+    </task>
+    <option name="localTasksCounter" value="181" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="layout change" />
     <MESSAGE value="layout fix on manual" />
     <MESSAGE value="add minimum  height on note field" />
     <MESSAGE value="modified field  layout" />
@@ -700,7 +699,8 @@
     <MESSAGE value="fixed float formatt lower dosage" />
     <MESSAGE value="fixed float format sum cons" />
     <MESSAGE value="added return on enter" />
-    <option name="LAST_COMMIT_MESSAGE" value="added return on enter" />
+    <MESSAGE value="modified focus after add" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified focus after add" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
