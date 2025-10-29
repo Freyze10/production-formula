@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00135" summary="field availability">
-      <option name="closed" value="true" />
-      <created>1761553101011</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
-      <option name="project" value="LOCAL" />
-      <updated>1761553101011</updated>
-    </task>
     <task id="LOCAL-00136" summary="modify edit func err handling">
       <option name="closed" value="true" />
       <created>1761554703469</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761719351649</updated>
     </task>
-    <option name="localTasksCounter" value="184" />
+    <task id="LOCAL-00184" summary="added is_manual in db">
+      <option name="closed" value="true" />
+      <created>1761721883520</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1761721883520</updated>
+    </task>
+    <option name="localTasksCounter" value="185" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

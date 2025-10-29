@@ -25,6 +25,9 @@ class ManualProductionPage(QWidget):
         self.work_station = _get_workstation_info()
         self.user_id = f"{self.work_station['h']} # {self.user_role}"
 
+        # Track current production for edit/view
+        self.current_production_id = None
+
         self.setup_ui()
         self.new_production()
         self.user_access(self.user_role)
@@ -289,7 +292,6 @@ class ManualProductionPage(QWidget):
         self.material_code_lineedit.setStyleSheet("background-color: #fff9c4;")
         self.material_code_lineedit.setVisible(False)  # Hidden by default
 
-
         # Add label
         input_layout.addWidget(QLabel("Material Code:"), 0, 0)
         # Add both widgets to the same position (only one will be visible at a time)
@@ -454,29 +456,28 @@ class ManualProductionPage(QWidget):
     def user_access(self, user_role):
         """Disable certain features for viewers."""
         if user_role == 'Viewer':
-            # Disable all input fields and buttons except view/print
-            pass
+            self.enable_fields(enable=False)
+            # Allow print buttons
+            for btn in self.findChildren(QPushButton):
+                if "PRINT" in btn.text():
+                    btn.setEnabled(True)
 
     def on_material_type_changed(self, checked, is_raw):
         """Handle material type selection like radio buttons and switch input fields."""
         if is_raw:
             if checked:
                 self.non_raw_material_check.setChecked(False)
-                # Show QComboBox with completer for raw materials
                 self.material_code_combo.setVisible(True)
                 self.material_code_lineedit.setVisible(False)
             else:
-                # Prevent both from being unchecked
                 if not self.non_raw_material_check.isChecked():
                     self.raw_material_check.setChecked(True)
         else:
             if checked:
                 self.raw_material_check.setChecked(False)
-                # Show QLineEdit without completer for non-raw materials
                 self.material_code_combo.setVisible(False)
                 self.material_code_lineedit.setVisible(True)
             else:
-                # Prevent both from being unchecked
                 if not self.raw_material_check.isChecked():
                     self.non_raw_material_check.setChecked(True)
 
@@ -503,6 +504,7 @@ class ManualProductionPage(QWidget):
 
     def new_production(self):
         """Initialize a new production entry."""
+        self.current_production_id = None
         try:
             latest_prod = db_call.get_latest_prod_id()
             self.production_id_input.setText(str(latest_prod + 1))
@@ -536,6 +538,7 @@ class ManualProductionPage(QWidget):
         self.materials_table.setRowCount(0)
         self.clear_material_inputs()
         self.update_totals()
+        self.enable_fields(enable=True)
 
     def clear_material_inputs(self):
         """Clear material input fields."""
@@ -554,24 +557,20 @@ class ManualProductionPage(QWidget):
         """Add material to the table."""
         material_code = self.get_material_code().strip()
 
-        # Check for empty material code
         if not material_code:
             QMessageBox.warning(self, "Missing Input", "Please enter a material code.")
             return
 
-        # Validate raw material code if RAW MATERIAL is selected
         if self.raw_material_check.isChecked():
             if material_code not in global_var.rm_list:
                 QMessageBox.warning(self, "Invalid Material",
                                     "Please select a valid raw material code from the list.")
                 return
 
-        # Get text values
         large_scale_text = self.large_scale_input.text().strip()
         small_scale_text = self.small_scale_input.text().strip()
         total_weight_text = self.total_weight_input.text().strip()
 
-        # Ensure no field is empty
         if not large_scale_text or not small_scale_text or not total_weight_text:
             QMessageBox.warning(self, "Missing Input", "Please fill in all scale and weight fields.")
             return
@@ -584,7 +583,6 @@ class ManualProductionPage(QWidget):
             QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for scales and weight.")
             return
 
-        # Add row to table
         row_position = self.materials_table.rowCount()
         self.materials_table.insertRow(row_position)
 
@@ -612,7 +610,7 @@ class ManualProductionPage(QWidget):
         item_count = self.materials_table.rowCount()
 
         for row in range(item_count):
-            item = self.materials_table.item(row, 3)  # Total Weight column
+            item = self.materials_table.item(row, 3)
             if item:
                 if isinstance(item, NumericTableWidgetItem):
                     total_weight += float(item.value)
@@ -625,19 +623,105 @@ class ManualProductionPage(QWidget):
         self.no_items_label.setText(str(item_count))
         self.total_weight_label.setText(f"{total_weight:.7f}")
 
-    def save_production(self):
-        """Save the manual production entry."""
-        # Validate required fields
+    def enable_fields(self, enable=True):
+        """Enable or disable all input fields."""
+        widgets = [
+            self.wip_no_input, self.production_id_input, self.form_type_combo,
+            self.product_code_input, self.product_color_input, self.formula_input,
+            self.sum_cons_input, self.dosage_input, self.customer_input,
+            self.lot_no_input, self.production_date_input, self.confirmation_date_input,
+            self.order_form_no_input, self.colormatch_no_input, self.matched_date_input,
+            self.mixing_time_input, self.machine_no_input, self.qty_required_input,
+            self.qty_per_batch_input, self.prepared_by_input, self.notes_input,
+            self.raw_material_check, self.non_raw_material_check,
+            self.material_code_combo, self.material_code_lineedit,
+            self.large_scale_input, self.small_scale_input, self.total_weight_input,
+            self.materials_table
+        ]
+        for w in widgets:
+            w.setEnabled(enable)
+
+    def load_production(self, prod_id):
+        """Load production data into form."""
         try:
-            dosage = float(self.sum_cons_input.text().strip()) if self.dosage_input.text().strip() else 0.0
-            ld_dosage = float(
-                self.dosage_input.text().strip()) if self.dosage_input.text().strip() else 0.0
-            qty_required = float(
-                self.qty_required_input.text().strip()) if self.qty_required_input.text().strip() else 0.0
-            qty_per_batch = float(
-                self.qty_per_batch_input.text().strip()) if self.qty_per_batch_input.text().strip() else 0.0
+            result = db_call.get_single_production_data(prod_id)
+            if not result:
+                QMessageBox.warning(self, "Not Found", f"Production {prod_id} not found.")
+                return False
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to load: {e}")
+            return False
+
+        # Fill fields
+        self.production_id_input.setText(str(result.get('prod_id', '')))
+        self.form_type_combo.setCurrentText(str(result.get('form_type', '')))
+        self.product_code_input.setText(str(result.get('product_code', '')))
+        self.product_color_input.setText(str(result.get('product_color', '')))
+        self.formula_input.setText(str(result.get('formulation_id', '')))
+        self.sum_cons_input.setText(f"{result.get('dosage', 0.0):.6f}")
+        self.dosage_input.setText(f"{result.get('ld_percent', 0.0):.6f}")
+        self.customer_input.setText(str(result.get('customer', '')))
+        self.lot_no_input.setText(str(result.get('lot_number', '')))
+        self.order_form_no_input.setText(str(result.get('order_form_no', '')))
+        self.colormatch_no_input.setText(str(result.get('colormatch_no', '')))
+        self.prepared_by_input.setText(str(result.get('prepared_by', '')))
+        self.notes_input.setPlainText(str(result.get('notes', '')))
+
+        def set_date(widget, date_obj):
+            if date_obj:
+                widget.setText(date_obj.strftime("%m/%d/%Y"))
+            else:
+                widget.clear()
+
+        set_date(self.production_date_input, result.get('production_date'))
+        set_date(self.confirmation_date_input, result.get('confirmation_date'))
+        set_date(self.matched_date_input, result.get('colormatch_date'))
+
+        self.mixing_time_input.setText(str(result.get('mixing_time', '')))
+        self.machine_no_input.setText(str(result.get('machine_no', '')))
+        self.qty_required_input.setText(f"{result.get('qty_required', 0.0):.6f}")
+        self.qty_per_batch_input.setText(f"{result.get('qty_per_batch', 0.0):.6f}")
+
+        self.encoded_by_display.setText(str(result.get('encoded_by', '')))
+        if result.get('encoded_on'):
+            self.production_encoded_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+        if result.get('conf_encoded_on'):
+            self.production_confirmation_display.setText(result['conf_encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+
+        # Load materials
+        materials = db_call.get_single_production_details(prod_id) or []
+        self.materials_table.setRowCount(0)
+        for mat in materials:
+            row = self.materials_table.rowCount()
+            self.materials_table.insertRow(row)
+            self.materials_table.setItem(row, 0, QTableWidgetItem(str(mat.get('material_code', ''))))
+            self.materials_table.setItem(row, 1, NumericTableWidgetItem(mat.get('large_scale', 0.0), is_float=True))
+            self.materials_table.setItem(row, 2, NumericTableWidgetItem(mat.get('small_scale', 0.0), is_float=True))
+            self.materials_table.setItem(row, 3, NumericTableWidgetItem(mat.get('total_weight', 0.0), is_float=True))
+
+        self.update_totals()
+        return True
+
+    def edit_production(self, prod_id):
+        self.current_production_id = prod_id
+        if self.load_production(prod_id):
+            self.enable_fields(enable=True)
+
+    def view_production_details(self, prod_id):
+        """View production in read-only mode."""
+        self.current_production_id = prod_id
+        if self.load_production(prod_id):
+            self.enable_fields(enable=False)
+
+    def save_production(self):
+        """Save or update production."""
+        try:
+            dosage = float(self.sum_cons_input.text().strip() or 0)
+            ld_dosage = float(self.dosage_input.text().strip() or 0)
+            qty_required = float(self.qty_required_input.text().strip() or 0)
+            qty_per_batch = float(self.qty_per_batch_input.text().strip() or 0)
         except ValueError:
-            QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for dosage and quantities.")
+            QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers.")
             return
 
         required_fields = [
@@ -651,16 +735,15 @@ class ManualProductionPage(QWidget):
             ("Prepared By", self.prepared_by_input.text().strip()),
         ]
 
-        for field, value in required_fields:
-            if not value or value == "0.0":
-                QMessageBox.warning(self, "Missing Input", f"Please fill in: {field}")
+        for label, val in required_fields:
+            if not val or val == "0.0":
+                QMessageBox.warning(self, "Missing Input", f"Please fill in: {label}")
                 return
 
         if self.materials_table.rowCount() == 0:
-            QMessageBox.warning(self, "Missing Data", "Please add at least one material.")
+            QMessageBox.warning(self, "Missing Data", "Add at least one material.")
             return
 
-        # Gather production data
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
@@ -676,7 +759,6 @@ class ManualProductionPage(QWidget):
             'order_form_no': self.order_form_no_input.text().strip(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
             'colormatch_date': self.matched_date_input.get_date(),
-            'formula_index': "",
             'mixing_time': self.mixing_time_input.text().strip(),
             'machine_no': self.machine_no_input.text().strip(),
             'qty_required': qty_required,
@@ -691,41 +773,40 @@ class ManualProductionPage(QWidget):
             'is_manual': True
         }
 
-        # Gather material data
         material_data = []
         for row in range(self.materials_table.rowCount()):
-            material_name = self.materials_table.item(row, 0).text() if self.materials_table.item(row, 0) else ""
-            large_scale = float(self.materials_table.item(row, 1).text()) if self.materials_table.item(row, 1) else 0.0
-            small_scale = float(self.materials_table.item(row, 2).text()) if self.materials_table.item(row, 2) else 0.0
-            total_weight = float(self.materials_table.item(row, 3).text()) if self.materials_table.item(row, 3) else 0.0
-            total_loss = float(self.materials_table.item(row, 4).text()) if self.materials_table.item(row, 4) else 0.0
-            total_consumption = float(self.materials_table.item(row, 5).text()) if self.materials_table.item(row,5) else 0.0
-
+            material_name = self.materials_table.item(row, 0).text()
+            large = float(self.materials_table.item(row, 1).text() or 0)
+            small = float(self.materials_table.item(row, 2).text() or 0)
+            total = float(self.materials_table.item(row, 3).text() or 0)
             material_data.append({
                 'material_code': material_name,
-                'large_scale': large_scale,
-                'small_scale': small_scale,
-                'total_weight': total_weight,
-                'total_loss': total_loss,
-                'total_consumption': total_consumption
+                'large_scale': large,
+                'small_scale': small,
+                'total_weight': total,
+                'total_loss': 0.0,
+                'total_consumption': 0.0
             })
 
         try:
-            # Save production
-            db_call.save_production(production_data, material_data)
-            self.log_audit_trail("Manual Production", f"Saved manual production: {production_data['prod_id']}")
-            QMessageBox.information(self, "Success", "Manual production saved successfully!")
+            if self.current_production_id:
+                db_call.update_production(production_data, material_data)
+                action = "updated"
+            else:
+                db_call.save_production(production_data, material_data)
+                action = "saved"
+
+            self.log_audit_trail("Manual Production", f"{action.capitalize()}: {production_data['prod_id']}")
+            QMessageBox.information(self, "Success", f"Production {action} successfully!")
             self.new_production()
         except Exception as e:
-            QMessageBox.critical(self, "Save Error", f"An error occurred while saving: {str(e)}")
-            print(f"Save error: {e}")
+            QMessageBox.critical(self, "Error", f"Failed to {action}: {e}")
 
     def print_production(self):
         """Print the production record."""
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
-
         QMessageBox.information(self, "Print", "Print functionality to be implemented.")
         self.log_audit_trail("Manual Production", f"Printed production: {self.production_id_input.text()}")
 
@@ -734,6 +815,5 @@ class ManualProductionPage(QWidget):
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
-
         QMessageBox.information(self, "Print with WIP", "Print with WIP functionality to be implemented.")
         self.log_audit_trail("Manual Production", f"Printed with WIP: {self.wip_no_input.text()}")
