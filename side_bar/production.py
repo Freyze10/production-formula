@@ -291,6 +291,7 @@ class ProductionManagementPage(QWidget):
         dosage_layout.addWidget(QLabel("LD (%)"))
         self.ld_percent_input = QLineEdit()
         self.ld_percent_input.setPlaceholderText("0.000000")
+        self.ld_percent_input.focusOutEvent = lambda event: self.format_to_float(event, self.ld_percent_input)
         dosage_layout.addWidget(self.ld_percent_input)
         primary_layout.addWidget(QLabel("Dosage:"), 2, 0)
         primary_layout.addLayout(dosage_layout, 2, 1)
