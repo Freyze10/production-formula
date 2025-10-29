@@ -709,18 +709,18 @@ class ManualProductionPage(QWidget):
             row = self.materials_table.rowCount()
             self.materials_table.insertRow(row)
 
-            # Use direct access for guaranteed fields; fallback only for rare edge cases
+            # Tuple indexing: (material_code, large_scale, small_scale, total_weight)
             self.materials_table.setItem(row, 0,
-                                         QTableWidgetItem(str(mat['material_code'])))  # required
+                                         QTableWidgetItem(str(mat[0])))  # material_code
 
             self.materials_table.setItem(row, 1,
-                                         NumericTableWidgetItem(mat['large_scale'], is_float=True))
+                                         NumericTableWidgetItem(mat[1], is_float=True))  # large_scale
 
             self.materials_table.setItem(row, 2,
-                                         NumericTableWidgetItem(mat['small_scale'], is_float=True))
+                                         NumericTableWidgetItem(mat[2], is_float=True))  # small_scale
 
             self.materials_table.setItem(row, 3,
-                                         NumericTableWidgetItem(mat['total_weight'], is_float=True))
+                                         NumericTableWidgetItem(mat[3], is_float=True))  # total_weight
 
         self.update_totals()
         return True

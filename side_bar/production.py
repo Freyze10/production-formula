@@ -765,7 +765,7 @@ class ProductionManagementPage(QWidget):
         try:
             print(db_call.get_is_manual(self.current_production_id))
             if db_call.get_is_manual(self.current_production_id):
-                self.manual_entry_tab.edit_production(self.current_production_id)
+                self.manual_entry_tab.view_production_details(self.current_production_id)
                 self.tab_widget.setCurrentIndex(2)
             else:
                 self.edit_production()
