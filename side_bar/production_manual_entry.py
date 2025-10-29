@@ -335,7 +335,7 @@ class ManualProductionPage(QWidget):
 
         clear_btn = QPushButton("CLEAR")
         clear_btn.setObjectName("SecondaryButton")
-        clear_btn.clicked.connect(self.clear_material_inputs)
+        clear_btn.clicked.connect(self.clear_material_table)
         action_layout.addWidget(clear_btn)
 
         input_layout.addLayout(action_layout, 4, 0, 1, 2)
@@ -548,7 +548,7 @@ class ManualProductionPage(QWidget):
 
     def clear_material_table(self):
         self.materials_table.setRowCount(0)
-        self.clear_material_table()
+        self.clear_material_inputs()
 
     def add_material(self):
         """Add material to the table."""

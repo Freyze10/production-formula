@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00119" summary="fixing save func">
-      <option name="closed" value="true" />
-      <created>1761370085868</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1761370085868</updated>
-    </task>
     <task id="LOCAL-00120" summary="fixing save func">
       <option name="closed" value="true" />
       <created>1761371096815</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761643609502</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="added clear table function">
+      <option name="closed" value="true" />
+      <created>1761697820144</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1761697820144</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added value var" />
     <MESSAGE value="connected update func" />
     <MESSAGE value="finished update" />
     <MESSAGE value="created debounce method" />
@@ -700,7 +699,8 @@
     <MESSAGE value="rearranged buttons" />
     <MESSAGE value="modified new formulation" />
     <MESSAGE value="edit material code initial val" />
-    <option name="LAST_COMMIT_MESSAGE" value="edit material code initial val" />
+    <MESSAGE value="added clear table function" />
+    <option name="LAST_COMMIT_MESSAGE" value="added clear table function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
