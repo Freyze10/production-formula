@@ -586,6 +586,7 @@ class ManualProductionPage(QWidget):
 
         self.clear_material_inputs()
         self.update_totals()
+        self.material_code_combo.setFocus()
 
     def remove_material(self):
         """Remove selected material from table."""
