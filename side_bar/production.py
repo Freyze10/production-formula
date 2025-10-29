@@ -257,8 +257,6 @@ class ProductionManagementPage(QWidget):
 
         self.production_id_input.setStyleSheet("background-color: #fff9c4;")
 
-        # Button and Form Type on same row
-        form_type_layout = QHBoxLayout()
         self.select_formula_btn = QPushButton()
         self.select_formula_btn.setIcon(fa.icon('mdi.newspaper-variant-multiple-outline', color='#0078d4', scale_factor=1.5))
         self.select_formula_btn.setFixedSize(36, 36)
@@ -268,7 +266,6 @@ class ProductionManagementPage(QWidget):
         self.form_type_combo = QComboBox()
         self.form_type_combo.addItems(["", "New", "Correction"])
         self.form_type_combo.setStyleSheet("background-color: #fff9c4;")
-        form_type_layout.addWidget(self.form_type_combo)
 
         select_formula_layout = QHBoxLayout()
 
@@ -416,7 +413,7 @@ class ProductionManagementPage(QWidget):
         header_layout.addWidget(QLabel("Production ID:"), 0, 0)
         header_layout.addWidget(self.production_id_input, 0, 1)
         header_layout.addWidget(QLabel("Form Type:"), 1, 0)
-        header_layout.addLayout(form_type_layout, 1, 1)
+        header_layout.addWidget(self.form_type_combo, 1, 1)
         material_layout.addLayout(header_layout)
 
         self.materials_table = QTableWidget()

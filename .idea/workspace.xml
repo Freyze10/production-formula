@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00122" summary="fixing prod save func">
-      <option name="closed" value="true" />
-      <created>1761380915235</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1761380915235</updated>
-    </task>
     <task id="LOCAL-00123" summary="fixing prod save func">
       <option name="closed" value="true" />
       <created>1761531458743</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761697961631</updated>
     </task>
-    <option name="localTasksCounter" value="171" />
+    <task id="LOCAL-00171" summary="repositioned select formula icon">
+      <option name="closed" value="true" />
+      <created>1761703265320</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1761703265320</updated>
+    </task>
+    <option name="localTasksCounter" value="172" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created debounce method" />
     <MESSAGE value="used callback" />
     <MESSAGE value="formulation table callback func" />
     <MESSAGE value="initialized new production" />
@@ -700,7 +699,8 @@
     <MESSAGE value="added clear table function" />
     <MESSAGE value="connected clear table function" />
     <MESSAGE value="added update total on clear" />
-    <option name="LAST_COMMIT_MESSAGE" value="added update total on clear" />
+    <MESSAGE value="repositioned select formula icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="repositioned select formula icon" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
