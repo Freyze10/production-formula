@@ -549,6 +549,7 @@ class ManualProductionPage(QWidget):
     def clear_material_table(self):
         self.materials_table.setRowCount(0)
         self.clear_material_inputs()
+        self.update_totals()
 
     def add_material(self):
         """Add material to the table."""
