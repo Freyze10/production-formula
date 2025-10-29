@@ -655,7 +655,7 @@ class ManualProductionPage(QWidget):
             'form_type': self.form_type_combo.currentText(),
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
-            'formula_id': self.formula_input.text().strip(),
+            'formulation_id': self.formula_input.text().strip(),
             'dosage': dosage,
             'ld_percent': ld_dosage,
             'customer': self.customer_input.text().strip(),
@@ -665,12 +665,14 @@ class ManualProductionPage(QWidget):
             'order_form_no': self.order_form_no_input.text().strip(),
             'colormatch_no': self.colormatch_no_input.text().strip(),
             'colormatch_date': self.matched_date_input.get_date(),
+            'formula_index': "",
             'mixing_time': self.mixing_time_input.text().strip(),
             'machine_no': self.machine_no_input.text().strip(),
             'qty_required': qty_required,
             'qty_per_batch': qty_per_batch,
             'prepared_by': self.prepared_by_input.text().strip(),
             'notes': self.notes_input.toPlainText().strip(),
+            'qty_produced': self.total_weight_label.text().strip(),
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -685,8 +687,7 @@ class ManualProductionPage(QWidget):
             small_scale = float(self.materials_table.item(row, 2).text()) if self.materials_table.item(row, 2) else 0.0
             total_weight = float(self.materials_table.item(row, 3).text()) if self.materials_table.item(row, 3) else 0.0
             total_loss = float(self.materials_table.item(row, 4).text()) if self.materials_table.item(row, 4) else 0.0
-            total_consumption = float(self.materials_table.item(row, 5).text()) if self.materials_table.item(row,
-                                                                                                             5) else 0.0
+            total_consumption = float(self.materials_table.item(row, 5).text()) if self.materials_table.item(row,5) else 0.0
 
             material_data.append({
                 'material_code': material_name,
