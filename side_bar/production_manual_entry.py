@@ -642,62 +642,85 @@ class ManualProductionPage(QWidget):
             w.setEnabled(enable)
 
     def load_production(self, prod_id):
-        """Load production data into form."""
+        """Load production data into the form using direct dict access."""
         try:
             result = db_call.get_single_production_data(prod_id)
             if not result:
-                QMessageBox.warning(self, "Not Found", f"Production {prod_id} not found.")
+                QMessageBox.warning(self, "Not Found",
+                                    f"Production {prod_id} not found.")
                 return False
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to load: {e}")
             return False
 
-        # Fill fields
-        self.production_id_input.setText(str(result.get('prod_id', '')))
-        self.form_type_combo.setCurrentText(str(result.get('form_type', '')))
-        self.product_code_input.setText(str(result.get('product_code', '')))
-        self.product_color_input.setText(str(result.get('product_color', '')))
-        self.formula_input.setText(str(result.get('formulation_id', '')))
-        self.sum_cons_input.setText(f"{result.get('dosage', 0.0):.6f}")
-        self.dosage_input.setText(f"{result.get('ld_percent', 0.0):.6f}")
-        self.customer_input.setText(str(result.get('customer', '')))
-        self.lot_no_input.setText(str(result.get('lot_number', '')))
-        self.order_form_no_input.setText(str(result.get('order_form_no', '')))
-        self.colormatch_no_input.setText(str(result.get('colormatch_no', '')))
-        self.prepared_by_input.setText(str(result.get('prepared_by', '')))
-        self.notes_input.setPlainText(str(result.get('notes', '')))
+        # ------------------------------------------------------------------ #
+        #  Basic fields – direct access (keys are guaranteed by the query)
+        # ------------------------------------------------------------------ #
+        self.production_id_input.setText(str(result['prod_id']))
+        self.form_type_combo.setCurrentText(str(result['form_type']))
+        self.product_code_input.setText(str(result['product_code']))
+        self.product_color_input.setText(str(result['product_color']))
+        self.formula_input.setText(str(result['formulation_id']))
+        self.sum_cons_input.setText(f"{result['dosage']:.6f}")
+        self.dosage_input.setText(f"{result['ld_percent']:.6f}")
+        self.customer_input.setText(str(result['customer']))
+        self.lot_no_input.setText(str(result['lot_number']))
+        self.order_form_no_input.setText(str(result['order_form_no']))
+        self.colormatch_no_input.setText(str(result['colormatch_no']))
+        self.prepared_by_input.setText(str(result['prepared_by']))
+        self.notes_input.setPlainText(str(result['notes']))
 
-        def set_date(widget, date_obj):
+        # ------------------------------------------------------------------ #
+        #  Date fields – inline helper to keep the code tidy
+        # ------------------------------------------------------------------ #
+        def _set_date(widget, date_obj):
             if date_obj:
                 widget.setText(date_obj.strftime("%m/%d/%Y"))
             else:
                 widget.clear()
 
-        set_date(self.production_date_input, result.get('production_date'))
-        set_date(self.confirmation_date_input, result.get('confirmation_date'))
-        set_date(self.matched_date_input, result.get('colormatch_date'))
+        _set_date(self.production_date_input, result.get('production_date'))
+        _set_date(self.confirmation_date_input, result.get('confirmation_date'))
+        _set_date(self.matched_date_input, result.get('colormatch_date'))
 
-        self.mixing_time_input.setText(str(result.get('mixing_time', '')))
-        self.machine_no_input.setText(str(result.get('machine_no', '')))
-        self.qty_required_input.setText(f"{result.get('qty_required', 0.0):.6f}")
-        self.qty_per_batch_input.setText(f"{result.get('qty_per_batch', 0.0):.6f}")
+        # ------------------------------------------------------------------ #
+        #  Other fields
+        # ------------------------------------------------------------------ #
+        self.mixing_time_input.setText(str(result['mixing_time']))
+        self.machine_no_input.setText(str(result['machine_no']))
+        self.qty_required_input.setText(f"{result['qty_required']:.6f}")
+        self.qty_per_batch_input.setText(f"{result['qty_per_batch']:.6f}")
 
-        self.encoded_by_display.setText(str(result.get('encoded_by', '')))
+        self.encoded_by_display.setText(str(result['encoded_by']))
         if result.get('encoded_on'):
-            self.production_encoded_display.setText(result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+            self.production_encoded_display.setText(
+                result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
         if result.get('conf_encoded_on'):
-            self.production_confirmation_display.setText(result['conf_encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+            self.production_confirmation_display.setText(
+                result['conf_encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
 
-        # Load materials
+        # ------------------------------------------------------------------ #
+        #  Materials table
+        # ------------------------------------------------------------------ #
         materials = db_call.get_single_production_details(prod_id) or []
         self.materials_table.setRowCount(0)
+
         for mat in materials:
             row = self.materials_table.rowCount()
             self.materials_table.insertRow(row)
-            self.materials_table.setItem(row, 0, QTableWidgetItem(str(mat.get('material_code', ''))))
-            self.materials_table.setItem(row, 1, NumericTableWidgetItem(mat.get('large_scale', 0.0), is_float=True))
-            self.materials_table.setItem(row, 2, NumericTableWidgetItem(mat.get('small_scale', 0.0), is_float=True))
-            self.materials_table.setItem(row, 3, NumericTableWidgetItem(mat.get('total_weight', 0.0), is_float=True))
+
+            # Use direct access for guaranteed fields; fallback only for rare edge cases
+            self.materials_table.setItem(row, 0,
+                                         QTableWidgetItem(str(mat['material_code'])))  # required
+
+            self.materials_table.setItem(row, 1,
+                                         NumericTableWidgetItem(mat['large_scale'], is_float=True))
+
+            self.materials_table.setItem(row, 2,
+                                         NumericTableWidgetItem(mat['small_scale'], is_float=True))
+
+            self.materials_table.setItem(row, 3,
+                                         NumericTableWidgetItem(mat['total_weight'], is_float=True))
 
         self.update_totals()
         return True
