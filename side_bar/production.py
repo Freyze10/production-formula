@@ -260,22 +260,25 @@ class ProductionManagementPage(QWidget):
         # Button and Form Type on same row
         form_type_layout = QHBoxLayout()
         self.select_formula_btn = QPushButton()
-        self.select_formula_btn.setIcon(fa.icon('fa5s.list', color='#0078d4'))
-        self.select_formula_btn.setFixedSize(30, 25)
+        self.select_formula_btn.setIcon(fa.icon('mdi.newspaper-variant-multiple-outline', color='#0078d4', scale_factor=1.5))
+        self.select_formula_btn.setFixedSize(36, 36)
         self.select_formula_btn.clicked.connect(self.show_formulation_selector)
         self.select_formula_btn.setToolTip("Select Formula")
-        form_type_layout.addWidget(self.select_formula_btn)
 
         self.form_type_combo = QComboBox()
         self.form_type_combo.addItems(["", "New", "Correction"])
         self.form_type_combo.setStyleSheet("background-color: #fff9c4;")
         form_type_layout.addWidget(self.form_type_combo)
 
+        select_formula_layout = QHBoxLayout()
+
         self.product_code_input = QLineEdit()
         self.product_code_input.setPlaceholderText("Enter product code")
         self.product_code_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Product Code:"), 0, 0)
-        primary_layout.addWidget(self.product_code_input, 0, 1)
+        select_formula_layout.addWidget(self.product_code_input)
+        select_formula_layout.addWidget(self.select_formula_btn)
+        primary_layout.addLayout(select_formula_layout, 0, 1)
 
         self.product_color_input = QLineEdit()
         self.product_color_input.setPlaceholderText("Enter product color")
