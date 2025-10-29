@@ -546,6 +546,10 @@ class ManualProductionPage(QWidget):
         self.small_scale_input.clear()
         self.total_weight_input.clear()
 
+    def clear_material_table(self):
+        self.materials_table.setRowCount(0)
+        self.clear_material_table()
+
     def add_material(self):
         """Add material to the table."""
         material_code = self.get_material_code()
