@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00123" summary="fixing prod save func">
-      <option name="closed" value="true" />
-      <created>1761531458743</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1761531458744</updated>
-    </task>
     <task id="LOCAL-00124" summary="&#10;fixing prod save func">
       <option name="closed" value="true" />
       <created>1761535169342</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761703265320</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="removed formtype layout">
+      <option name="closed" value="true" />
+      <created>1761703770134</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1761703770134</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="used callback" />
     <MESSAGE value="formulation table callback func" />
     <MESSAGE value="initialized new production" />
     <MESSAGE value="added manual entry" />
@@ -700,7 +699,8 @@
     <MESSAGE value="connected clear table function" />
     <MESSAGE value="added update total on clear" />
     <MESSAGE value="repositioned select formula icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="repositioned select formula icon" />
+    <MESSAGE value="removed formtype layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed formtype layout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -909,10 +909,13 @@ class ProductionManagementPage(QWidget):
         # Validate numeric fields
         try:
             dosage = float(self.dosage_input.text().strip()) if self.dosage_input.text().strip() else 0.0
+            ld_dosage = float(
+                self.ld_percent_input.text().strip()) if self.ld_percent_input.text().strip() else 0.0
             qty_required = float(
                 self.qty_required_input.text().strip()) if self.qty_required_input.text().strip() else 0.0
             qty_per_batch = float(
                 self.qty_per_batch_input.text().strip()) if self.qty_per_batch_input.text().strip() else 0.0
+
         except ValueError:
             QMessageBox.warning(self, "Invalid Input", "Please enter valid numbers for dosage and quantities.")
             return
@@ -947,8 +950,7 @@ class ProductionManagementPage(QWidget):
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
             'dosage': dosage,
-            'ld_percent': float(
-                self.ld_percent_input.text().strip()) if self.ld_percent_input.text().strip() else 0.0,
+            'ld_percent': ld_dosage,
             'customer': self.customer_input.text().strip(),
             'lot_number': self.lot_no_input.text().strip(),
             'production_date': self.production_date_input.date().toPyDate(),

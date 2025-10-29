@@ -59,7 +59,6 @@ class ManualProductionPage(QWidget):
         self.wip_no_input = QLineEdit()
         self.wip_no_input.setPlaceholderText("Auto-generated")
         self.wip_no_input.setStyleSheet("background-color: #e9ecef;")
-        self.wip_no_input.setReadOnly(True)
         primary_layout.addWidget(QLabel("WIP No:"), row, 0)
         primary_layout.addWidget(self.wip_no_input, row, 1)
         row += 1
@@ -655,6 +654,7 @@ class ManualProductionPage(QWidget):
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
             'dosage': dosage,
+            'formula_id': self.formula_input,
             'customer': self.customer_input.text().strip(),
             'lot_number': self.lot_no_input.text().strip(),
             'production_date': self.production_date_input.get_date(),
