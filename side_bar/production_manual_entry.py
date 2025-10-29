@@ -107,6 +107,7 @@ class ManualProductionPage(QWidget):
 
         self.sum_cons_input = QLineEdit()
         self.sum_cons_input.setPlaceholderText("0.00000")
+        self.sum_cons_input.focusOutEvent = lambda event: self.format_to_float(event, self.sum_cons_input)
         sum_dosage_layout.addWidget(self.sum_cons_input)
 
         dosage_label = QLabel("Dosage:")
