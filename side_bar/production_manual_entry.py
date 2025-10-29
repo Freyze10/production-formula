@@ -324,17 +324,17 @@ class ManualProductionPage(QWidget):
         action_layout = QHBoxLayout()
         action_layout.addStretch()
 
-        add_btn = QPushButton("ADD")
+        add_btn = QPushButton("Add")
         add_btn.setObjectName("SuccessButton")
         add_btn.clicked.connect(self.add_material)
         action_layout.addWidget(add_btn)
 
-        remove_btn = QPushButton("REMOVE")
+        remove_btn = QPushButton("Remove")
         remove_btn.setObjectName("DangerButton")
         remove_btn.clicked.connect(self.remove_material)
         action_layout.addWidget(remove_btn)
 
-        clear_btn = QPushButton("CLEAR")
+        clear_btn = QPushButton("Clear")
         clear_btn.setObjectName("SecondaryButton")
         clear_btn.clicked.connect(self.clear_material_table)
         action_layout.addWidget(clear_btn)
@@ -415,22 +415,22 @@ class ManualProductionPage(QWidget):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        print_wip_btn = QPushButton("PRINT WITH WIP", objectName="InfoButton")
+        print_wip_btn = QPushButton("Print with WIP", objectName="InfoButton")
         print_wip_btn.setIcon(fa.icon('fa5s.print', color='white'))
         print_wip_btn.clicked.connect(self.print_with_wip)
         button_layout.addWidget(print_wip_btn)
 
-        print_btn = QPushButton("PRINT", objectName="SecondaryButton")
+        print_btn = QPushButton("Print", objectName="SecondaryButton")
         print_btn.setIcon(fa.icon('fa5s.print', color='white'))
         print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
 
-        new_btn = QPushButton("NEW", objectName="PrimaryButton")
+        new_btn = QPushButton("New", objectName="PrimaryButton")
         new_btn.setIcon(fa.icon('fa5s.file', color='white'))
         new_btn.clicked.connect(self.new_production)
         button_layout.addWidget(new_btn)
 
-        save_btn = QPushButton("SAVE", objectName="SuccessButton")
+        save_btn = QPushButton("Save", objectName="SuccessButton")
         save_btn.setIcon(fa.icon('fa5s.save', color='white'))
         save_btn.clicked.connect(self.save_production)
         button_layout.addWidget(save_btn)
