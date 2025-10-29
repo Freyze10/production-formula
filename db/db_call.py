@@ -436,6 +436,7 @@ def save_production(production_data, material_data):
         if conn:
             conn.close()
 
+
 def update_production(production_data, material_data):
     conn = get_connection()
     cur = None
