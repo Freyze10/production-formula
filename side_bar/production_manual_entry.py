@@ -827,12 +827,12 @@ class ManualProductionPage(QWidget):
             QMessageBox.critical(self, "Error", f"Failed to {action}: {e}")
 
     def print_production(self):
-        """Open the print-preview in a **new window** and log only when really printed."""
+        """Open print preview and log only on actual print."""
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
 
-        # ---------- Gather production data ----------
+        # Gather production data
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
@@ -854,29 +854,38 @@ class ManualProductionPage(QWidget):
             'approved_by': 'M. VERDE'
         }
 
-        # ---------- Gather materials ----------
+        # Gather materials
         materials_data = []
         for row in range(self.materials_table.rowCount()):
+            item0 = self.materials_table.item(row, 0)
+            if not item0 or not item0.text().strip():
+                continue
             materials_data.append({
-                'material_code': self.materials_table.item(row, 0).text(),
-                'large_scale': self.materials_table.item(row, 1).text(),
-                'small_scale': self.materials_table.item(row, 2).text(),
-                'total_weight': self.materials_table.item(row, 3).text()
+                'material_code': item0.text(),
+                'large_scale': self.materials_table.item(row, 1).text() if self.materials_table.item(row, 1) else '0',
+                'small_scale': self.materials_table.item(row, 2).text() if self.materials_table.item(row, 2) else '0',
+                'total_weight': self.materials_table.item(row, 3).text() if self.materials_table.item(row, 3) else '0'
             })
 
-        # ---------- Open preview in its own window ----------
-        preview = ProductionPrintPreview(production_data, materials_data)
-        preview.show()  # non-modal – user can keep working
+        # Open preview
+        self.print_preview_widget = ProductionPrintPreview(
+            production_data=production_data,
+            materials_data=materials_data,
+            parent=self
+        )
 
-        # ---------- Connect real-print signal to audit trail ----------
-        def on_really_printed(prod_id):
-            self.log_audit_trail(
-                "Manual Production",
-                f"Printed production: {prod_id}"
-            )
-            preview.printed.disconnect(on_really_printed)  # one-time
+        # Connect audit log
+        self.print_preview_widget.printed.connect(lambda prod_id: self.log_audit_trail(
+            "Print Production",
+            f"Printed production record: {prod_id} | "
+            f"Qty: {production_data['qty_produced']} KG | "
+            f"Customer: {production_data['customer']}"
+        ))
 
-        preview.printed.connect(on_really_printed)
+        self.print_preview_widget.resize(1100, 800)
+        self.print_preview_widget.show()
+        self.print_preview_widget.activateWindow()
+        self.print_preview_widget.raise_()
 
     def print_with_wip(self):
         """Print production with WIP number."""
