@@ -13,7 +13,6 @@ from utils.date import SmartDateEdit
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var
-from preview.production_preview import ProductionPrintPreview
 
 class ManualProductionPage(QWidget):
     def __init__(self, engine, username, user_role, log_audit_trail):
