@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00144" summary="created debounce method">
-      <option name="closed" value="true" />
-      <created>1761614794813</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1761614794813</updated>
-    </task>
-    <task id="LOCAL-00145" summary="used callback">
-      <option name="closed" value="true" />
-      <created>1761615474696</created>
-      <option name="number" value="00145" />
-      <option name="presentableId" value="LOCAL-00145" />
-      <option name="project" value="LOCAL" />
-      <updated>1761615474696</updated>
-    </task>
     <task id="LOCAL-00146" summary="formulation table callback func">
       <option name="closed" value="true" />
       <created>1761615708385</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761786453032</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="modified manual print prev">
+      <option name="closed" value="true" />
+      <created>1761786526055</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1761786526055</updated>
+    </task>
+    <task id="LOCAL-00194" summary="refactored file name">
+      <option name="closed" value="true" />
+      <created>1761786684556</created>
+      <option name="number" value="00194" />
+      <option name="presentableId" value="LOCAL-00194" />
+      <option name="project" value="LOCAL" />
+      <updated>1761786684556</updated>
+    </task>
+    <option name="localTasksCounter" value="195" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="rearranged buttons" />
-    <MESSAGE value="modified new formulation" />
     <MESSAGE value="edit material code initial val" />
     <MESSAGE value="added clear table function" />
     <MESSAGE value="connected clear table function" />
@@ -700,7 +698,9 @@
     <MESSAGE value="fixed edit and view connect to manual" />
     <MESSAGE value="debugging" />
     <MESSAGE value="created production preview" />
-    <option name="LAST_COMMIT_MESSAGE" value="created production preview" />
+    <MESSAGE value="modified manual print prev" />
+    <MESSAGE value="refactored file name" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored file name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

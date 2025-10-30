@@ -416,12 +416,12 @@ class ManualProductionPage(QWidget):
         button_layout.addStretch()
 
         print_wip_btn = QPushButton("Print with WIP", objectName="InfoButton")
-        print_wip_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        print_wip_btn.setIcon(fa.icon('fa5s.print_prev', color='white'))
         print_wip_btn.clicked.connect(self.print_with_wip)
         button_layout.addWidget(print_wip_btn)
 
         print_btn = QPushButton("Print", objectName="SecondaryButton")
-        print_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        print_btn.setIcon(fa.icon('fa5s.print_prev', color='white'))
         print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
 
@@ -457,7 +457,7 @@ class ManualProductionPage(QWidget):
         """Disable certain features for viewers."""
         if user_role == 'Viewer':
             self.enable_fields(enable=False)
-            # Allow print buttons
+            # Allow print_prev buttons
             for btn in self.findChildren(QPushButton):
                 if "PRINT" in btn.text():
                     btn.setEnabled(True)
@@ -864,7 +864,7 @@ class ManualProductionPage(QWidget):
             }
             materials_data.append(material)
 
-        # Show print preview
+        # Show print_prev preview
         preview = ProductionPrintPreview(production_data, materials_data, self)
         preview.show()
 

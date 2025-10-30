@@ -52,7 +52,7 @@ class ProductionPrintPreview(QWidget):
 
         # Print button
         print_btn = QPushButton("Print")
-        print_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        print_btn.setIcon(fa.icon('fa5s.print_prev', color='white'))
         print_btn.setObjectName("SuccessButton")
         print_btn.clicked.connect(self.print_document)
         toolbar.addWidget(print_btn)
@@ -413,4 +413,4 @@ class ProductionPrintPreview(QWidget):
 
                 QMessageBox.information(self, "Success", "Document printed successfully!")
             except Exception as e:
-                QMessageBox.critical(self, "Print Error", f"Failed to print: {str(e)}")
+                QMessageBox.critical(self, "Print Error", f"Failed to print_prev: {str(e)}")
