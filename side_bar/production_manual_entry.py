@@ -9,6 +9,7 @@ from PyQt6.QtGui import QFont
 import qtawesome as fa
 
 from db import db_call
+from previews.production_manual import ProductionPrintPreview
 from utils.date import SmartDateEdit
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem

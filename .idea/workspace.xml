@@ -251,46 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00148" summary="added manual entry">
-      <option name="closed" value="true" />
-      <created>1761617525257</created>
-      <option name="number" value="00148" />
-      <option name="presentableId" value="LOCAL-00148" />
-      <option name="project" value="LOCAL" />
-      <updated>1761617525257</updated>
-    </task>
-    <task id="LOCAL-00149" summary="added manual entry">
-      <option name="closed" value="true" />
-      <created>1761617558798</created>
-      <option name="number" value="00149" />
-      <option name="presentableId" value="LOCAL-00149" />
-      <option name="project" value="LOCAL" />
-      <updated>1761617558798</updated>
-    </task>
-    <task id="LOCAL-00150" summary="created numeric_table for refactoring">
-      <option name="closed" value="true" />
-      <created>1761617658768</created>
-      <option name="number" value="00150" />
-      <option name="presentableId" value="LOCAL-00150" />
-      <option name="project" value="LOCAL" />
-      <updated>1761617658768</updated>
-    </task>
-    <task id="LOCAL-00151" summary="refactored prod">
-      <option name="closed" value="true" />
-      <created>1761617815928</created>
-      <option name="number" value="00151" />
-      <option name="presentableId" value="LOCAL-00151" />
-      <option name="project" value="LOCAL" />
-      <updated>1761617815928</updated>
-    </task>
-    <task id="LOCAL-00152" summary="modified layout manual entryu">
-      <option name="closed" value="true" />
-      <created>1761619816956</created>
-      <option name="number" value="00152" />
-      <option name="presentableId" value="LOCAL-00152" />
-      <option name="project" value="LOCAL" />
-      <updated>1761619816956</updated>
-    </task>
     <task id="LOCAL-00153" summary="layout change">
       <option name="closed" value="true" />
       <created>1761620305338</created>
@@ -643,7 +603,47 @@
       <option name="project" value="LOCAL" />
       <updated>1761786857362</updated>
     </task>
-    <option name="localTasksCounter" value="197" />
+    <task id="LOCAL-00197" summary="refactored file name">
+      <option name="closed" value="true" />
+      <created>1761787237250</created>
+      <option name="number" value="00197" />
+      <option name="presentableId" value="LOCAL-00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1761787237250</updated>
+    </task>
+    <task id="LOCAL-00198" summary="refactored file name">
+      <option name="closed" value="true" />
+      <created>1761787358936</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1761787358936</updated>
+    </task>
+    <task id="LOCAL-00199" summary="refactored file name">
+      <option name="closed" value="true" />
+      <created>1761787364565</created>
+      <option name="number" value="00199" />
+      <option name="presentableId" value="LOCAL-00199" />
+      <option name="project" value="LOCAL" />
+      <updated>1761787364565</updated>
+    </task>
+    <task id="LOCAL-00200" summary="delete trouble files">
+      <option name="closed" value="true" />
+      <created>1761787429974</created>
+      <option name="number" value="00200" />
+      <option name="presentableId" value="LOCAL-00200" />
+      <option name="project" value="LOCAL" />
+      <updated>1761787429974</updated>
+    </task>
+    <task id="LOCAL-00201" summary="delete trouble files">
+      <option name="closed" value="true" />
+      <created>1761787433301</created>
+      <option name="number" value="00201" />
+      <option name="presentableId" value="LOCAL-00201" />
+      <option name="project" value="LOCAL" />
+      <updated>1761787433301</updated>
+    </task>
+    <option name="localTasksCounter" value="202" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="edit material code initial val" />
     <MESSAGE value="added clear table function" />
     <MESSAGE value="connected clear table function" />
     <MESSAGE value="added update total on clear" />
@@ -700,7 +699,8 @@
     <MESSAGE value="created production preview" />
     <MESSAGE value="modified manual print prev" />
     <MESSAGE value="refactored file name" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored file name" />
+    <MESSAGE value="delete trouble files" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete trouble files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
