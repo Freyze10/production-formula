@@ -123,10 +123,18 @@ class ProductionPrintPreview(QDialog):
         hbox.addLayout(left)
         hbox.addStretch()
 
-        # Right - Info box (HAS BOX)
+        # Right - Info box (ONLY outer border)
         box = QFrame()
-        box.setStyleSheet("border:1px solid black;")
+        box.setObjectName("infoBox")  # give it a unique name
         box.setFixedWidth(310)
+
+        # Apply border only to the frame, not to inner widgets
+        box.setStyleSheet("""
+            QFrame#infoBox {
+                border: 1px solid black;
+            }
+        """)
+
         bl = QVBoxLayout(box)
         bl.setSpacing(0)
         bl.setContentsMargins(10, 6, 10, 6)
