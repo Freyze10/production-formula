@@ -1202,6 +1202,7 @@ class ProductionManagementPage(QWidget):
             self.materials_table.setItem(new_row, 5, NumericTableWidgetItem(total_consumption, is_float=True))
 
         self.update_totals()
+        print(self.formulation_index.text())
         dialog.accept()
         QMessageBox.information(self, "Success", "Formula loaded successfully!")
 
