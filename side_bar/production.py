@@ -505,7 +505,7 @@ class ProductionManagementPage(QWidget):
         button_layout.addWidget(generate_advance_btn)
 
         print_btn = QPushButton("Print", objectName="SecondaryButton")
-        print_btn.setIcon(fa.icon('fa5s.print_prev', color='white'))
+        print_btn.setIcon(fa.icon('fa5s.preview', color='white'))
         print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
 
