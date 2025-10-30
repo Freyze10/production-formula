@@ -827,12 +827,12 @@ class ManualProductionPage(QWidget):
             QMessageBox.critical(self, "Error", f"Failed to {action}: {e}")
 
     def print_production(self):
-        """Print the production record."""
+        """Open the print-preview in a **new window** and log only when really printed."""
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
 
-            # Gather production data
+        # ---------- Gather production data ----------
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
@@ -854,22 +854,29 @@ class ManualProductionPage(QWidget):
             'approved_by': 'M. VERDE'
         }
 
-        # Gather materials data
+        # ---------- Gather materials ----------
         materials_data = []
         for row in range(self.materials_table.rowCount()):
-            material = {
+            materials_data.append({
                 'material_code': self.materials_table.item(row, 0).text(),
                 'large_scale': self.materials_table.item(row, 1).text(),
                 'small_scale': self.materials_table.item(row, 2).text(),
                 'total_weight': self.materials_table.item(row, 3).text()
-            }
-            materials_data.append(material)
+            })
 
-        # Show print preview
-        preview = ProductionPrintPreview(production_data, materials_data, self)
-        preview.show()
+        # ---------- Open preview in its own window ----------
+        preview = ProductionPrintPreview(production_data, materials_data)
+        preview.show()  # non-modal – user can keep working
 
-        self.log_audit_trail("Manual Production", f"Printed production: {self.production_id_input.text()}")
+        # ---------- Connect real-print signal to audit trail ----------
+        def on_really_printed(prod_id):
+            self.log_audit_trail(
+                "Manual Production",
+                f"Printed production: {prod_id}"
+            )
+            preview.printed.disconnect(on_really_printed)  # one-time
+
+        preview.printed.connect(on_really_printed)
 
     def print_with_wip(self):
         """Print production with WIP number."""
