@@ -1,46 +1,40 @@
-# ──────────────────────────────────────────────────────────────────────
 # production_print_preview.py
-# ──────────────────────────────────────────────────────────────────────
 from datetime import datetime
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont, QPainter, QPageLayout, QPageSize
 from PyQt6.QtPrintSupport import QPrinter, QPrintDialog
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,
+    QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QLabel,
     QComboBox, QScrollArea, QFrame, QMessageBox, QSpacerItem,
-    QSizePolicy
+    QSizePolicy, QWidget
 )
 import qtawesome as fa
 
 
-class ProductionPrintPreview(QWidget):
-    """Independent print-preview window – dark theme, audit-safe."""
-    printed = pyqtSignal(str)          # emitted **only** after a real print
+class ProductionPrintPreview(QDialog):
+    """Standalone print preview dialog – stays open, no crash, audit-safe."""
+    printed = pyqtSignal(str)  # Emitted only when print is confirmed
 
-    def __init__(self, production_data: dict, materials_data: list):
-        # NOTE: NO parent, and we **do not** pass any Qt.Window flags here.
-        super().__init__()
+    def __init__(self, production_data: dict, materials_data: list, parent=None):
+        super().__init__(parent)
         self.production_data = production_data or {}
-        self.materials_data   = materials_data   or []
+        self.materials_data = materials_data or []
         self.current_zoom = 100
 
         self.setWindowTitle("Print Preview – Production Entry")
-        self.setWindowFlags(Qt.WindowType.Window)   # <-- makes it a top-level window
-        self.setMinimumSize(1000, 700)
+        self.setModal(False)  # Allow main window interaction
         self.resize(1150, 820)
+        self.setMinimumSize(1000, 700)
 
         self.setup_ui()
         self.render_preview()
 
-    # ------------------------------------------------------------------
-    # UI – dark background
-    # ------------------------------------------------------------------
     def setup_ui(self):
         main = QVBoxLayout(self)
         main.setContentsMargins(12, 12, 12, 12)
         main.setSpacing(10)
 
-        # Toolbar
+        # === Toolbar ===
         tb = QHBoxLayout()
         tb.setSpacing(8)
 
@@ -66,73 +60,59 @@ class ProductionPrintPreview(QWidget):
         zout.setFixedSize(32, 32)
         tb.addWidget(zout)
 
-        tb.addSpacerItem(QSpacerItem(40, 20,
-                                     QSizePolicy.Policy.Expanding,
-                                     QSizePolicy.Policy.Minimum))
+        tb.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
 
-        # Print
+        # Print Button
         self.print_btn = QPushButton("Print")
         self.print_btn.setIcon(fa.icon('fa5s.print', color='white'))
         self.print_btn.setStyleSheet("""
-            QPushButton#SuccessButton{
-                background:#28a745;color:white;font-weight:bold;
-                padding:8px 16px;border-radius:6px;min-width:90px;
-            }
-            QPushButton#SuccessButton:hover{background:#218838;}
+            QPushButton{background:#28a745;color:white;font-weight:bold;
+                        padding:8px 16px;border-radius:6px;min-width:90px;}
+            QPushButton:hover{background:#218838;}
         """)
-        self.print_btn.setObjectName("SuccessButton")
         self.print_btn.clicked.connect(self.print_document)
         tb.addWidget(self.print_btn)
 
-        # Close
-        close = QPushButton("Close")
-        close.setIcon(fa.icon('fa5s.times', color='white'))
-        close.setStyleSheet("""
-            QPushButton#DangerButton{
-                background:#dc3545;color:white;font-weight:bold;
-                padding:8px 16px;border-radius:6px;min-width:90px;
-            }
-            QPushButton#DangerButton:hover{background:#c82333;}
+        # Close Button
+        close_btn = QPushButton("Close")
+        close_btn.setIcon(fa.icon('fa5s.times', color='white'))
+        close_btn.setStyleSheet("""
+            QPushButton{background:#dc3545;color:white;font-weight:bold;
+                        padding:8px 16px;border-radius:6px;min-width:90px;}
+            QPushButton:hover{background:#c82333;}
         """)
-        close.setObjectName("DangerButton")
-        close.clicked.connect(self.close)
-        tb.addWidget(close)
+        close_btn.clicked.connect(self.reject)  # Close without printing
+        tb.addWidget(close_btn)
 
         main.addLayout(tb)
 
-        # Scroll area – dark
+        # === Preview Area (Dark Background) ===
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
         scroll.setStyleSheet("""
             QScrollArea{background:#2d2d2d;border:none;}
             QScrollBar:vertical{background:#3a3a3a;border:none;width:12px;border-radius:6px;}
-            QScrollBar::handle:vertical{background:#555;border-radius:6px;min-height:20px;}
+            QScrollBar::handle:vertical{background:#555;border-radius:6px;}
             QScrollBar::handle:vertical:hover{background:#777;}
         """)
 
-        self.preview_container = QWidget()
-        self.preview_layout = QVBoxLayout(self.preview_container)
-        self.preview_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.preview_layout.setContentsMargins(20, 20, 20, 20)
+        container = QWidget()
+        container_layout = QVBoxLayout(container)
+        container_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        container_layout.setContentsMargins(20, 20, 20, 20)
 
         self.preview_frame = QFrame()
         self.preview_frame.setStyleSheet("""
-            QFrame{
-                background:white;
-                border:2px solid #aaa;
-                border-radius:6px;
-                box-shadow:0 4px 12px rgba(0,0,0,0.4);
-            }
+            QFrame{background:white;border:2px solid #aaa;border-radius:6px;
+                   box-shadow:0 4px 12px rgba(0,0,0,0.4);}
         """)
         self.preview_frame.setFixedSize(850, 1100)
-        self.preview_layout.addWidget(self.preview_frame)
-        scroll.setWidget(self.preview_container)
+        container_layout.addWidget(self.preview_frame)
+        scroll.setWidget(container)
         main.addWidget(scroll, 1)
 
-    # ------------------------------------------------------------------
-    # Rendering (same as before – unchanged)
-    # ------------------------------------------------------------------
+    # === Render Document ===
     def render_preview(self):
         if self.preview_frame.layout():
             QWidget().setLayout(self.preview_frame.layout())
@@ -147,9 +127,6 @@ class ProductionPrintPreview(QWidget):
         self._add_materials_table(layout)
         layout.addStretch()
         self._add_footer(layout)
-
-    # ──────────────────────  ALL _add_* helpers (copy-paste from previous answer) ──────────────────────
-    # (They are **exactly** the same – just paste them here)
 
     def _add_header(self, layout):
         header = QHBoxLayout()
@@ -320,18 +297,15 @@ class ProductionPrintPreview(QWidget):
 
     def calculate_batch_info(self):
         try:
-            req = float(self.production_data.get('qty_required',0))
-            per = float(self.production_data.get('qty_per_batch',0))
+            req = float(self.production_data.get('qty_required', 0))
+            per = float(self.production_data.get('qty_per_batch', 0))
             if per > 0:
-                batches = req / per
-                return f"{batches:.0f} batch(es) × {per:.2f} KG"
+                return f"{req / per:.0f} batch(es) × {per:.2f} KG"
             return "N/A"
         except:
             return "N/A"
 
-    # ------------------------------------------------------------------
-    # Zoom
-    # ------------------------------------------------------------------
+    # === Zoom ===
     def on_zoom_changed(self, txt):
         try:
             self.current_zoom = int(txt.rstrip('%'))
@@ -367,9 +341,7 @@ class ProductionPrintPreview(QWidget):
             QLabel{{font-size:{base}pt;}}
         """)
 
-    # ------------------------------------------------------------------
-    # PRINT – safe & audited
-    # ------------------------------------------------------------------
+    # === PRINT ===
     def print_document(self):
         printer = QPrinter(QPrinter.PrinterMode.HighResolution)
         printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))
@@ -380,6 +352,7 @@ class ProductionPrintPreview(QWidget):
         if dlg.exec() != QPrintDialog.DialogCode.Accepted:
             return
 
+        # Print at 100%
         old_zoom = self.current_zoom
         self.current_zoom = 100
         self.apply_zoom()
@@ -391,17 +364,15 @@ class ProductionPrintPreview(QWidget):
         self.preview_frame.render(painter)
         painter.end()
 
+        # Restore
         self.current_zoom = old_zoom
         self.apply_zoom()
         self.render_preview()
 
+        # Emit audit
         prod_id = self.production_data.get('prod_id', 'Unknown')
         self.printed.emit(prod_id)
 
-        msg = QMessageBox(self)
-        msg.setWindowTitle("Print Complete")
-        msg.setText(f"Production document <b>{prod_id}</b> sent to printer.")
-        msg.setIcon(QMessageBox.Icon.Information)
-        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msg.buttonClicked.connect(self.close)
-        msg.exec()
+        # Show success
+        QMessageBox.information(self, "Print Complete", f"Document <b>{prod_id}</b> sent to printer.")
+        self.accept()  # Close dialog

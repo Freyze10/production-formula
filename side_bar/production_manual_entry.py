@@ -827,12 +827,12 @@ class ManualProductionPage(QWidget):
             QMessageBox.critical(self, "Error", f"Failed to {action}: {e}")
 
     def print_production(self):
-        """Open print preview in its own window – audit only on real print."""
+        """Open print preview – stays open, no crash."""
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
 
-        # ── collect data ───────────────────────────────────────
+        # === Collect Data ===
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
@@ -866,23 +866,20 @@ class ManualProductionPage(QWidget):
                 'total_weight': self.materials_table.item(row, 3).text() if self.materials_table.item(row, 3) else '0'
             })
 
-        # ── open preview (no parent) ─────────────────────────────
-        preview = ProductionPrintPreview(production_data, materials_data)
+        # === Open Preview with exec() – NO CRASH, STAYS OPEN ===
+        preview = ProductionPrintPreview(production_data, materials_data, self)
 
-        # Connect **after** the object is fully created
-        preview.printed.connect(
-            lambda pid: self.log_audit_trail(
+        # Connect audit log
+        def on_printed(prod_id):
+            self.log_audit_trail(
                 "Print Production",
-                f"Printed production record: {pid} | "
-                f"Qty: {production_data['qty_produced']} KG | "
-                f"Customer: {production_data['customer']}"
+                f"Printed: {prod_id} | Qty: {production_data['qty_produced']} KG | Customer: {production_data['customer']}"
             )
-        )
 
-        preview.resize(1150, 820)
-        preview.show()
-        preview.activateWindow()
-        preview.raise_()
+        preview.printed.connect(on_printed)
+
+        # This blocks until user closes or prints
+        preview.exec()
 
     def print_with_wip(self):
         """Print production with WIP number."""
