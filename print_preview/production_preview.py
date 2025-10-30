@@ -52,7 +52,7 @@ class ProductionPrintPreview(QWidget):
 
         # Print button
         print_btn = QPushButton("Print")
-        print_btn.setIcon(fa.icon('fa5s.print_prev', color='white'))
+        print_btn.setIcon(fa.icon('mdi.printer-eye', color='white'))
         print_btn.setObjectName("SuccessButton")
         print_btn.clicked.connect(self.print_document)
         toolbar.addWidget(print_btn)
