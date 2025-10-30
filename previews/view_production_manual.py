@@ -90,7 +90,7 @@ class ProductionPrintPreview(QDialog):
         layout.setSpacing(0)
 
         self.add_header(layout)
-        layout.addSpacing(20)
+        layout.addSpacing(30)
         self.add_details(layout)
         layout.addSpacing(15)
         self.add_batch(layout)
@@ -117,7 +117,7 @@ class ProductionPrintPreview(QDialog):
         left.addWidget(prod_entry)
 
         form = QLabel(f"FORM NO. {self.data.get('form_type', 'FM00012A1')}")
-        form.setFont(QFont("Arial", 10))
+        form.setFont(QFont("Arial", 10))44444444444444444444444444
         left.addWidget(form)
 
         hbox.addLayout(left)

@@ -67,7 +67,7 @@
     "Python.sync_formula.executor": "Run",
     "Python.view.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "44b6fc7b",
+    "git-widget-placeholder": "4fac9492",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00149" summary="added manual entry">
-      <option name="closed" value="true" />
-      <created>1761617558798</created>
-      <option name="number" value="00149" />
-      <option name="presentableId" value="LOCAL-00149" />
-      <option name="project" value="LOCAL" />
-      <updated>1761617558798</updated>
     </task>
     <task id="LOCAL-00150" summary="created numeric_table for refactoring">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761793961200</updated>
     </task>
-    <option name="localTasksCounter" value="198" />
+    <task id="LOCAL-00198" summary="spacing only">
+      <option name="closed" value="true" />
+      <created>1761794350656</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1761794350656</updated>
+    </task>
+    <option name="localTasksCounter" value="199" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added clear table function" />
     <MESSAGE value="connected clear table function" />
     <MESSAGE value="added update total on clear" />
     <MESSAGE value="repositioned select formula icon" />
@@ -700,7 +699,8 @@
     <MESSAGE value="working print Preview" />
     <MESSAGE value="updating manual print prev" />
     <MESSAGE value="working manual prod preview" />
-    <option name="LAST_COMMIT_MESSAGE" value="working manual prod preview" />
+    <MESSAGE value="spacing only" />
+    <option name="LAST_COMMIT_MESSAGE" value="spacing only" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
