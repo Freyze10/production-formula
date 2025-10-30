@@ -830,7 +830,44 @@ class ManualProductionPage(QWidget):
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
-        QMessageBox.information(self, "Print", "Print functionality to be implemented.")
+
+        # Gather production data
+        production_data = {
+            'prod_id': self.production_id_input.text().strip(),
+            'form_type': self.form_type_combo.currentText(),
+            'production_date': self.production_date_input.text(),
+            'order_form_no': self.order_form_no_input.text().strip(),
+            'formulation_id': self.formula_input.text().strip(),
+            'product_code': self.product_code_input.text().strip(),
+            'product_color': self.product_color_input.text().strip(),
+            'dosage': self.sum_cons_input.text().strip(),
+            'customer': self.customer_input.text().strip(),
+            'lot_number': self.lot_no_input.text().strip(),
+            'mixing_time': self.mixing_time_input.text().strip(),
+            'machine_no': self.machine_no_input.text().strip(),
+            'qty_required': self.qty_required_input.text().strip(),
+            'qty_per_batch': self.qty_per_batch_input.text().strip(),
+            'qty_produced': self.total_weight_label.text().strip(),
+            'prepared_by': self.prepared_by_input.text().strip(),
+            'notes': self.notes_input.toPlainText().strip(),
+            'approved_by': 'M. VERDE'
+        }
+
+        # Gather materials data
+        materials_data = []
+        for row in range(self.materials_table.rowCount()):
+            material = {
+                'material_code': self.materials_table.item(row, 0).text(),
+                'large_scale': self.materials_table.item(row, 1).text(),
+                'small_scale': self.materials_table.item(row, 2).text(),
+                'total_weight': self.materials_table.item(row, 3).text()
+            }
+            materials_data.append(material)
+
+        # Show print preview
+        preview = ProductionPrintPreview(production_data, materials_data, self)
+        preview.show()
+
         self.log_audit_trail("Manual Production", f"Printed production: {self.production_id_input.text()}")
 
     def print_with_wip(self):

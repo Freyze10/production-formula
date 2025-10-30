@@ -251,30 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00141" summary="added value var">
-      <option name="closed" value="true" />
-      <created>1761613339929</created>
-      <option name="number" value="00141" />
-      <option name="presentableId" value="LOCAL-00141" />
-      <option name="project" value="LOCAL" />
-      <updated>1761613339929</updated>
-    </task>
-    <task id="LOCAL-00142" summary="connected update func">
-      <option name="closed" value="true" />
-      <created>1761613935940</created>
-      <option name="number" value="00142" />
-      <option name="presentableId" value="LOCAL-00142" />
-      <option name="project" value="LOCAL" />
-      <updated>1761613935940</updated>
-    </task>
-    <task id="LOCAL-00143" summary="finished update">
-      <option name="closed" value="true" />
-      <created>1761614592698</created>
-      <option name="number" value="00143" />
-      <option name="presentableId" value="LOCAL-00143" />
-      <option name="project" value="LOCAL" />
-      <updated>1761614592699</updated>
-    </task>
     <task id="LOCAL-00144" summary="created debounce method">
       <option name="closed" value="true" />
       <created>1761614794813</created>
@@ -643,7 +619,31 @@
       <option name="project" value="LOCAL" />
       <updated>1761726332846</updated>
     </task>
-    <option name="localTasksCounter" value="190" />
+    <task id="LOCAL-00190" summary="debugging">
+      <option name="closed" value="true" />
+      <created>1761786414811</created>
+      <option name="number" value="00190" />
+      <option name="presentableId" value="LOCAL-00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1761786414811</updated>
+    </task>
+    <task id="LOCAL-00191" summary="created production preview">
+      <option name="closed" value="true" />
+      <created>1761786447713</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1761786447713</updated>
+    </task>
+    <task id="LOCAL-00192" summary="created production preview">
+      <option name="closed" value="true" />
+      <created>1761786453032</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1761786453032</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed close button" />
-    <MESSAGE value="reduced table column" />
     <MESSAGE value="rearranged buttons" />
     <MESSAGE value="modified new formulation" />
     <MESSAGE value="edit material code initial val" />
@@ -700,7 +698,9 @@
     <MESSAGE value="connected frfom the first widget" />
     <MESSAGE value="fixing edit display manual" />
     <MESSAGE value="fixed edit and view connect to manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed edit and view connect to manual" />
+    <MESSAGE value="debugging" />
+    <MESSAGE value="created production preview" />
+    <option name="LAST_COMMIT_MESSAGE" value="created production preview" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
