@@ -762,16 +762,10 @@ class ProductionManagementPage(QWidget):
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
             return
-        try:
-            print(db_call.get_is_manual(self.current_production_id))
-            if db_call.get_is_manual(self.current_production_id):
-                self.manual_entry_tab.view_production_details(self.current_production_id)
-                self.tab_widget.setCurrentIndex(2)
-            else:
-                self.edit_production()
-                self.enable_fields(enable=False)
-        except Exception as e:
-            print("view: ", e)
+                # self.manual_entry_tab.view_production_details(self.current_production_id)
+                # self.tab_widget.setCurrentIndex(2)
+        self.edit_production()
+        self.enable_fields(enable=False)
 
     def view_manual_prod(self):
         if not self.current_production_id:
