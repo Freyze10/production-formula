@@ -67,7 +67,7 @@
     "Python.sync_formula.executor": "Run",
     "Python.view.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "65f329c1",
+    "git-widget-placeholder": "d34beb5c",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00158" summary="added double click on formula selection">
-      <option name="closed" value="true" />
-      <created>1761623860939</created>
-      <option name="number" value="00158" />
-      <option name="presentableId" value="LOCAL-00158" />
-      <option name="project" value="LOCAL" />
-      <updated>1761623860939</updated>
     </task>
     <task id="LOCAL-00159" summary="modified checkbox func">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762133393248</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="removed left over dbcall iss_manual">
+      <option name="closed" value="true" />
+      <created>1762133461379</created>
+      <option name="number" value="00207" />
+      <option name="presentableId" value="LOCAL-00207" />
+      <option name="project" value="LOCAL" />
+      <updated>1762133461379</updated>
+    </task>
+    <option name="localTasksCounter" value="208" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed float format sum cons" />
     <MESSAGE value="added return on enter" />
     <MESSAGE value="modified focus after add" />
     <MESSAGE value="modified material entry fields" />
@@ -700,7 +699,8 @@
     <MESSAGE value="removed is_manual in view prod" />
     <MESSAGE value="created view manual prod" />
     <MESSAGE value="connected the manual func to button" />
-    <option name="LAST_COMMIT_MESSAGE" value="connected the manual func to button" />
+    <MESSAGE value="removed left over dbcall iss_manual" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed left over dbcall iss_manual" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
