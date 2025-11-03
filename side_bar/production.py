@@ -217,12 +217,12 @@ class ProductionManagementPage(QWidget):
         self.refresh_btn.clicked.connect(self.refresh_btn_clicked)
         controls_layout.addWidget(self.refresh_btn)
 
-        self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
+        self.view_btn = QPushButton("View - Auto", objectName="PrimaryButton")
         self.view_btn.setIcon(fa.icon('fa5s.eye', color='white'))
         self.view_btn.clicked.connect(self.view_production_details)
         controls_layout.addWidget(self.view_btn)
 
-        self.edit_btn = QPushButton("View M", objectName="InfoButton")
+        self.edit_btn = QPushButton("View - Manual", objectName="InfoButton")
         self.edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
         self.edit_btn.clicked.connect(self.edit_production)
         controls_layout.addWidget(self.edit_btn)
@@ -772,6 +772,11 @@ class ProductionManagementPage(QWidget):
                 self.enable_fields(enable=False)
         except Exception as e:
             print("view: ", e)
+
+    def view_manual_prod(self):
+        if not self.current_production_id:
+            QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
+            return
 
     def edit_production(self):
         """Load selected production into entry tab for editing."""

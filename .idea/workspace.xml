@@ -52,33 +52,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
-    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.view.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;88a0e154&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.dfr.executor": "Run",
+    "Python.fg_endorsement.executor": "Run",
+    "Python.fgendorsement.executor": "Run",
+    "Python.fgmain.executor": "Run",
+    "Python.formulation (1).executor": "Debug",
+    "Python.formulation.executor": "Run",
+    "Python.main-2.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.sync-formula.executor": "Run",
+    "Python.sync_formula (1).executor": "Run",
+    "Python.sync_formula.executor": "Run",
+    "Python.view.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "e3b81873",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
+    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00151" summary="refactored prod">
-      <option name="closed" value="true" />
-      <created>1761617815928</created>
-      <option name="number" value="00151" />
-      <option name="presentableId" value="LOCAL-00151" />
-      <option name="project" value="LOCAL" />
-      <updated>1761617815928</updated>
     </task>
     <task id="LOCAL-00152" summary="modified layout manual entryu">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761809220046</updated>
     </task>
-    <option name="localTasksCounter" value="200" />
+    <task id="LOCAL-00200" summary="removed edit button in production">
+      <option name="closed" value="true" />
+      <created>1762132135724</created>
+      <option name="number" value="00200" />
+      <option name="presentableId" value="LOCAL-00200" />
+      <option name="project" value="LOCAL" />
+      <updated>1762132135724</updated>
+    </task>
+    <option name="localTasksCounter" value="201" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added update total on clear" />
     <MESSAGE value="repositioned select formula icon" />
     <MESSAGE value="removed formtype layout" />
     <MESSAGE value="clean float calc save func" />
@@ -700,7 +699,8 @@
     <MESSAGE value="working manual prod preview" />
     <MESSAGE value="spacing only" />
     <MESSAGE value="fixing spacing" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing spacing" />
+    <MESSAGE value="removed edit button in production" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed edit button in production" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
