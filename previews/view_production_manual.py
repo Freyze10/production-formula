@@ -165,13 +165,19 @@ class ProductionPrintPreview(QDialog):
     # ------------------------------------------------------------------ #
     # Layout helpers (unchanged, but now used only once)
     # ------------------------------------------------------------------ #
+    from PyQt6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QFrame, QWidget
+    from PyQt6.QtGui import QFont
+    from PyQt6.QtCore import Qt
+
     def add_header(self, layout):
         hbox = QHBoxLayout()
         hbox.setSpacing(0)
 
-        # Left – Company info (NO BOX)
-        left = QVBoxLayout()
-        left.setSpacing(0)
+        # Left – Company info
+        left_widget = QWidget()
+        left = QVBoxLayout(left_widget)
+        left.setSpacing(2)
+        left.setContentsMargins(0, 0, 0, 0)
 
         company = QLabel("MASTERBATCH PHILIPPINES, INC.")
         company.setFont(QFont("Arial", 10))
@@ -185,10 +191,10 @@ class ProductionPrintPreview(QDialog):
         form.setFont(QFont("Arial", 10))
         left.addWidget(form)
 
-        hbox.addLayout(left)
+        hbox.addWidget(left_widget, alignment=Qt.AlignmentFlag.AlignVCenter)
         hbox.addStretch()
 
-        # Right – Info box (ONLY outer border)
+        # Right – Info box
         box = QFrame()
         box.setObjectName("infoBox")
         box.setFixedWidth(310)
@@ -197,8 +203,9 @@ class ProductionPrintPreview(QDialog):
                 border: 1px solid black;
             }
         """)
+
         bl = QVBoxLayout(box)
-        bl.setSpacing(0)
+        bl.setSpacing(12)
         bl.setContentsMargins(10, 10, 10, 10)
 
         info = [
@@ -210,7 +217,6 @@ class ProductionPrintPreview(QDialog):
 
         for k, v in info:
             row = QHBoxLayout()
-            row.setSpacing(12)
 
             key_label = QLabel(k)
             key_label.setFont(QFont("Arial", 10))
