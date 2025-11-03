@@ -287,7 +287,7 @@ class ProductionPrintPreview(QDialog):
         top_line.setStyleSheet("background-color: black;")
         top_line.setFixedHeight(1)
         layout.addWidget(top_line)
-
+        layout.addSpacing(6)
         # Table header
         hdr = QWidget()
         hl = QHBoxLayout(hdr)
@@ -319,6 +319,7 @@ class ProductionPrintPreview(QDialog):
         hl.addWidget(weight)
 
         layout.addWidget(hdr)
+        layout.addSpacing(6)
 
         # Header bottom line
         hdr_line = QFrame()
@@ -368,7 +369,6 @@ class ProductionPrintPreview(QDialog):
 
             if i < len(self.mats) - 1:
                 layout.addSpacing(6)
-
         # Footer top line
         foot_line = QFrame()
         foot_line.setFrameShape(QFrame.Shape.HLine)
@@ -376,6 +376,7 @@ class ProductionPrintPreview(QDialog):
         foot_line.setStyleSheet("background-color: black;")
         foot_line.setFixedHeight(1)
         layout.addWidget(foot_line)
+        layout.addSpacing(6)
 
         # Footer
         foot = QWidget()
@@ -402,14 +403,6 @@ class ProductionPrintPreview(QDialog):
         fl.addWidget(tot)
 
         layout.addWidget(foot)
-
-        # Bottom border line
-        bottom_line = QFrame()
-        bottom_line.setFrameShape(QFrame.Shape.HLine)
-        bottom_line.setFrameShadow(QFrame.Shadow.Plain)
-        bottom_line.setStyleSheet("background-color: black;")
-        bottom_line.setFixedHeight(1)
-        layout.addWidget(bottom_line)
 
     def add_footer(self, layout):
         hbox = QHBoxLayout()
