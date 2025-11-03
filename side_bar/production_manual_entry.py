@@ -9,7 +9,7 @@ from PyQt6.QtGui import QFont
 import qtawesome as fa
 
 from db import db_call
-from previews.production_manual import ProductionPrintPreview
+from previews.view_production_manual import ProductionPrintPreview
 from utils.date import SmartDateEdit
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
@@ -415,6 +415,15 @@ class ManualProductionPage(QWidget):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
+        self.print_wip_btn = QPushButton("Print with WIP", objectName="InfoButton")
+        self.print_wip_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        self.print_wip_btn.clicked.connect(self.print_with_wip)
+        button_layout.addWidget(self.print_wip_btn)
+
+        self.print_btn = QPushButton("Print", objectName="SecondaryButton")
+        self.print_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        self.print_btn.clicked.connect(self.print_production)
+        button_layout.addWidget(self.print_btn)
         print_wip_btn = QPushButton("Print with WIP", objectName="InfoButton")
         print_wip_btn.setIcon(fa.icon('mdi.printer-eye', color='white'))
         print_wip_btn.clicked.connect(self.print_with_wip)
@@ -425,15 +434,15 @@ class ManualProductionPage(QWidget):
         print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
 
-        new_btn = QPushButton("New", objectName="PrimaryButton")
-        new_btn.setIcon(fa.icon('fa5s.file', color='white'))
-        new_btn.clicked.connect(self.new_production)
-        button_layout.addWidget(new_btn)
+        self.new_btn = QPushButton("New", objectName="PrimaryButton")
+        self.new_btn.setIcon(fa.icon('fa5s.file', color='white'))
+        self.new_btn.clicked.connect(self.new_production)
+        button_layout.addWidget(self.new_btn)
 
-        save_btn = QPushButton("Save", objectName="SuccessButton")
-        save_btn.setIcon(fa.icon('fa5s.save', color='white'))
-        save_btn.clicked.connect(self.save_production)
-        button_layout.addWidget(save_btn)
+        self.save_btn = QPushButton("Save", objectName="SuccessButton")
+        self.save_btn.setIcon(fa.icon('fa5s.save', color='white'))
+        self.save_btn.clicked.connect(self.save_production)
+        button_layout.addWidget(self.save_btn)
 
         main_layout.addLayout(button_layout)
 
@@ -636,7 +645,9 @@ class ManualProductionPage(QWidget):
             self.raw_material_check, self.non_raw_material_check,
             self.material_code_combo, self.material_code_lineedit,
             self.large_scale_input, self.small_scale_input, self.total_weight_input,
-            self.materials_table
+            self.materials_table,
+
+            self.save_btn
         ]
         for w in widgets:
             w.setEnabled(enable)
@@ -826,12 +837,12 @@ class ManualProductionPage(QWidget):
             QMessageBox.critical(self, "Error", f"Failed to {action}: {e}")
 
     def print_production(self):
-        """Print the production record."""
+        """Open print preview – stays open, no crash."""
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
 
-        # Gather production data
+        # === Collect Data ===
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
@@ -853,22 +864,32 @@ class ManualProductionPage(QWidget):
             'approved_by': 'M. VERDE'
         }
 
-        # Gather materials data
         materials_data = []
         for row in range(self.materials_table.rowCount()):
-            material = {
-                'material_code': self.materials_table.item(row, 0).text(),
-                'large_scale': self.materials_table.item(row, 1).text(),
-                'small_scale': self.materials_table.item(row, 2).text(),
-                'total_weight': self.materials_table.item(row, 3).text()
-            }
-            materials_data.append(material)
+            it0 = self.materials_table.item(row, 0)
+            if not it0 or not it0.text().strip():
+                continue
+            materials_data.append({
+                'material_code': it0.text(),
+                'large_scale': self.materials_table.item(row, 1).text() if self.materials_table.item(row, 1) else '0',
+                'small_scale': self.materials_table.item(row, 2).text() if self.materials_table.item(row, 2) else '0',
+                'total_weight': self.materials_table.item(row, 3).text() if self.materials_table.item(row, 3) else '0'
+            })
 
-        # Show preview preview
+        # === Open Preview with exec() – NO CRASH, STAYS OPEN ===
         preview = ProductionPrintPreview(production_data, materials_data, self)
-        preview.show()
 
-        self.log_audit_trail("Manual Production", f"Printed production: {self.production_id_input.text()}")
+        # Connect audit log
+        def on_printed(prod_id):
+            self.log_audit_trail(
+                "Print Production",
+                f"Printed: {prod_id} | Qty: {production_data['qty_produced']} KG | Customer: {production_data['customer']}"
+            )
+
+        preview.printed.connect(on_printed)
+
+        # This blocks until user closes or prints
+        preview.exec()
 
     def print_with_wip(self):
         """Print production with WIP number."""

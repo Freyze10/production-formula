@@ -217,14 +217,14 @@ class ProductionManagementPage(QWidget):
         self.refresh_btn.clicked.connect(self.refresh_btn_clicked)
         controls_layout.addWidget(self.refresh_btn)
 
-        self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
+        self.view_btn = QPushButton("View - Auto", objectName="PrimaryButton")
         self.view_btn.setIcon(fa.icon('fa5s.eye', color='white'))
         self.view_btn.clicked.connect(self.view_production_details)
         controls_layout.addWidget(self.view_btn)
 
-        self.edit_btn = QPushButton("Edit", objectName="InfoButton")
-        self.edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
-        self.edit_btn.clicked.connect(self.edit_production)
+        self.edit_btn = QPushButton("View - Manual", objectName="InfoButton")
+        self.edit_btn.setIcon(fa.icon('fa5.eye', color='white'))
+        self.edit_btn.clicked.connect(self.view_manual_prod)
         controls_layout.addWidget(self.edit_btn)
 
         layout.addLayout(controls_layout)
@@ -762,26 +762,21 @@ class ProductionManagementPage(QWidget):
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
             return
-        try:
-            print(db_call.get_is_manual(self.current_production_id))
-            if db_call.get_is_manual(self.current_production_id):
-                self.manual_entry_tab.view_production_details(self.current_production_id)
-                self.tab_widget.setCurrentIndex(2)
-            else:
-                self.edit_production()
-                self.enable_fields(enable=False)
-        except Exception as e:
-            print("view: ", e)
+        self.edit_production()
+        self.enable_fields(enable=False)
+
+    def view_manual_prod(self):
+        if not self.current_production_id:
+            QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
+            return
+
+        self.manual_entry_tab.view_production_details(self.current_production_id)
+        self.tab_widget.setCurrentIndex(2)
 
     def edit_production(self):
         """Load selected production into entry tab for editing."""
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to edit.")
-            return
-
-        if db_call.get_is_manual(self.current_production_id):
-            self.manual_entry_tab.edit_production(self.current_production_id)
-            self.tab_widget.setCurrentIndex(2)
             return
 
         self.tab_widget.blockSignals(True)
