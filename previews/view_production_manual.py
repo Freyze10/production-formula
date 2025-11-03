@@ -108,9 +108,9 @@ class ProductionPrintPreview(QDialog):
         self.add_batch(lay)
         lay.addSpacing(14)
         self.add_table(lay)
-        lay.addStretch()
-        lay.addSpacing(60)
+        lay.addSpacing(80)
         self.add_footer(lay)
+        lay.addStretch()
 
         # paint the frame into a pixmap
         self.page_pixmap = QPixmap(page.size())
@@ -161,13 +161,6 @@ class ProductionPrintPreview(QDialog):
             self.zoom = levels[idx - 1]
             self.zoom_combo.setCurrentText(f"{self.zoom}%")
             self.update_zoom()
-
-    # ------------------------------------------------------------------ #
-    # Layout helpers (unchanged, but now used only once)
-    # ------------------------------------------------------------------ #
-    from PyQt6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QFrame, QWidget
-    from PyQt6.QtGui import QFont
-    from PyQt6.QtCore import Qt
 
     def add_header(self, layout):
         hbox = QHBoxLayout()
