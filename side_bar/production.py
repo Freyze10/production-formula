@@ -779,11 +779,6 @@ class ProductionManagementPage(QWidget):
             QMessageBox.warning(self, "No Selection", "Please select a production record to edit.")
             return
 
-        if db_call.get_is_manual(self.current_production_id):
-            self.manual_entry_tab.edit_production(self.current_production_id)
-            self.tab_widget.setCurrentIndex(2)
-            return
-
         self.tab_widget.blockSignals(True)
         self.tab_widget.setCurrentIndex(1)
 
