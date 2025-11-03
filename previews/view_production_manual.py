@@ -359,9 +359,7 @@ class ProductionPrintPreview(QDialog):
             rl.addWidget(wlbl)
 
             layout.addWidget(row)
-
-            if i < len(self.mats) - 1:
-                layout.addSpacing(6)
+            layout.addSpacing(6)
         # Footer top line
         foot_line = QFrame()
         foot_line.setFrameShape(QFrame.Shape.HLine)
@@ -401,42 +399,56 @@ class ProductionPrintPreview(QDialog):
         hbox = QHBoxLayout()
         hbox.setSpacing(120)
 
-        # Left
+        # --- LEFT SECTION ---
         left = QVBoxLayout()
-        left.setSpacing(0)
+        left.setSpacing(2)
+        left.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         prep = QLabel(f"PREPARED BY : {self.data.get('prepared_by', '')}")
         prep.setFont(QFont("Arial", 10))
+        prep.setAlignment(Qt.AlignmentFlag.AlignLeft)
         left.addWidget(prep)
 
         printed = QLabel(f"PRINTED ON : {datetime.now().strftime('%m/%d/%y %I:%M:%S %p')}")
         printed.setFont(QFont("Arial", 10))
+        printed.setAlignment(Qt.AlignmentFlag.AlignLeft)
         left.addWidget(printed)
 
         system = QLabel("MBPI-SYSTEM-2022")
         system.setFont(QFont("Arial", 10))
+        system.setAlignment(Qt.AlignmentFlag.AlignLeft)
         left.addWidget(system)
 
-        hbox.addLayout(left)
-        hbox.addStretch()
+        left_widget = QWidget()
+        left_widget.setLayout(left)
 
-        # Right
+        # --- RIGHT SECTION ---
         right = QVBoxLayout()
-        right.setSpacing(0)
+        right.setSpacing(2)
+        right.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         approved = QLabel(f"APPROVED BY        : {self.data.get('approved_by', 'M. VERDE')}")
         approved.setFont(QFont("Arial", 10))
+        approved.setAlignment(Qt.AlignmentFlag.AlignLeft)
         right.addWidget(approved)
 
         released = QLabel("MAT'L RELEASED BY : _________________")
         released.setFont(QFont("Arial", 10))
+        released.setAlignment(Qt.AlignmentFlag.AlignLeft)
         right.addWidget(released)
 
         processed = QLabel("PROCESSED BY           : _________________")
         processed.setFont(QFont("Arial", 10))
+        processed.setAlignment(Qt.AlignmentFlag.AlignLeft)
         right.addWidget(processed)
 
-        hbox.addLayout(right)
+        right_widget = QWidget()
+        right_widget.setLayout(right)
+
+        # --- Add both widgets equally ---
+        hbox.addWidget(left_widget, 1)
+        hbox.addWidget(right_widget, 1)
+
         layout.addLayout(hbox)
 
     def kv_row(self, k, v, key_width):

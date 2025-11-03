@@ -68,7 +68,7 @@
     "Python.view.executor": "Run",
     "Python.view_production_manual.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "5eb519b9",
+    "git-widget-placeholder": "9f14c988",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -251,14 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00166" summary="edit material code initial val">
-      <option name="closed" value="true" />
-      <created>1761641034510</created>
-      <option name="number" value="00166" />
-      <option name="presentableId" value="LOCAL-00166" />
-      <option name="project" value="LOCAL" />
-      <updated>1761641034510</updated>
     </task>
     <task id="LOCAL-00167" summary="edit material code initial val">
       <option name="closed" value="true" />
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762157348772</updated>
     </task>
-    <option name="localTasksCounter" value="215" />
+    <task id="LOCAL-00215" summary="fixing spacing and layout">
+      <option name="closed" value="true" />
+      <created>1762158434912</created>
+      <option name="number" value="00215" />
+      <option name="presentableId" value="LOCAL-00215" />
+      <option name="project" value="LOCAL" />
+      <updated>1762158434912</updated>
+    </task>
+    <option name="localTasksCounter" value="216" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added check if manual" />
     <MESSAGE value="connected frfom the first widget" />
     <MESSAGE value="fixing edit display manual" />
     <MESSAGE value="fixed edit and view connect to manual" />
@@ -701,7 +700,8 @@
     <MESSAGE value="fixed preview zoom func" />
     <MESSAGE value="changing spacing" />
     <MESSAGE value="fixing spacing layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing spacing layout" />
+    <MESSAGE value="fixing spacing and layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing spacing and layout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
