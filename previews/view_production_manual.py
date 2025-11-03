@@ -399,57 +399,68 @@ class ProductionPrintPreview(QDialog):
         hbox = QHBoxLayout()
         hbox.setSpacing(120)
 
-        # --- LEFT SECTION ---
+        # --- LEFT COLUMN ---
         left = QVBoxLayout()
         left.setSpacing(8)
-        left.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        prep = QLabel(f"PREPARED BY : {self.data.get('prepared_by', '')}")
-        prep.setFont(QFont("Arial", 10))
-        prep.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        left.addWidget(prep)
+        # PREPARED BY
+        left.addLayout(self.footer_row("PREPARED BY", self.data.get('prepared_by', '')))
 
-        printed = QLabel(f"PRINTED ON : {datetime.now().strftime('%m/%d/%y %I:%M:%S %p')}")
-        printed.setFont(QFont("Arial", 10))
-        printed.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        left.addWidget(printed)
+        # PRINTED ON
+        printed_text = datetime.now().strftime('%m/%d/%y %I:%M:%S %p')
+        left.addLayout(self.footer_row("PRINTED ON", printed_text))
 
-        system = QLabel("MBPI-SYSTEM-2022")
-        system.setFont(QFont("Arial", 10))
-        system.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        left.addWidget(system)
+        # SYSTEM
+        left.addLayout(self.footer_row("MBPI-SYSTEM-2022", "", bold_key=True))
 
-        left_widget = QWidget()
-        left_widget.setLayout(left)
-
-        # --- RIGHT SECTION ---
+        # --- RIGHT COLUMN ---
         right = QVBoxLayout()
         right.setSpacing(8)
-        right.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        approved = QLabel(f"APPROVED BY        : {self.data.get('approved_by', 'M. VERDE')}")
-        approved.setFont(QFont("Arial", 10))
-        approved.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        right.addWidget(approved)
+        # APPROVED BY
+        right.addLayout(self.footer_row("APPROVED BY", self.data.get('approved_by', 'M. VERDE')))
 
-        released = QLabel("MAT'L RELEASED BY : _________________")
-        released.setFont(QFont("Arial", 10))
-        released.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        right.addWidget(released)
+        # RELEASED & PROCESSED (blank lines)
+        right.addLayout(self.footer_row("MAT'L RELEASED BY", "_________________", underline=True))
+        right.addLayout(self.footer_row("PROCESSED BY", "_________________", underline=True))
 
-        processed = QLabel("PROCESSED BY           : _________________")
-        processed.setFont(QFont("Arial", 10))
-        processed.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        right.addWidget(processed)
-
-        right_widget = QWidget()
-        right_widget.setLayout(right)
-
-        # --- Add both widgets equally ---
-        hbox.addWidget(left_widget, 1)
-        hbox.addWidget(right_widget, 1)
-
+        # Add to main layout
+        hbox.addLayout(left)
+        hbox.addLayout(right)
         layout.addLayout(hbox)
+
+    # === NEW HELPER: Creates aligned "KEY : VALUE" row ===
+    def footer_row(self, key, value, bold_key=False, underline=False):
+        row = QHBoxLayout()
+        row.setSpacing(10)
+
+        # Key label
+        key_label = QLabel(key)
+        font = QFont("Arial", 10)
+        if bold_key:
+            font.setBold(True)
+        key_label.setFont(font)
+        key_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        key_label.setFixedWidth(140)  # Adjust for perfect centering
+        row.addWidget(key_label)
+
+        # Colon
+        colon = QLabel(":")
+        colon.setFont(QFont("Arial", 10))
+        colon.setFixedWidth(15)
+        colon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        row.addWidget(colon)
+
+        # Value
+        val_label = QLabel(value)
+        val_font = QFont("Arial", 10)
+        if underline:
+            val_font.setUnderline(True)
+        val_label.setFont(val_font)
+        row.addWidget(val_label)
+        row.addStretch()
+
+        return row
 
     def kv_row(self, k, v, key_width):
         row = QHBoxLayout()

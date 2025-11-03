@@ -68,7 +68,7 @@
     "Python.view.executor": "Run",
     "Python.view_production_manual.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "9f14c988",
+    "git-widget-placeholder": "d1639766",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -251,22 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00167" summary="edit material code initial val">
-      <option name="closed" value="true" />
-      <created>1761643609502</created>
-      <option name="number" value="00167" />
-      <option name="presentableId" value="LOCAL-00167" />
-      <option name="project" value="LOCAL" />
-      <updated>1761643609502</updated>
-    </task>
-    <task id="LOCAL-00168" summary="added clear table function">
-      <option name="closed" value="true" />
-      <created>1761697820144</created>
-      <option name="number" value="00168" />
-      <option name="presentableId" value="LOCAL-00168" />
-      <option name="project" value="LOCAL" />
-      <updated>1761697820144</updated>
     </task>
     <task id="LOCAL-00169" summary="connected clear table function">
       <option name="closed" value="true" />
@@ -644,7 +628,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762158434912</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="fixing footer">
+      <option name="closed" value="true" />
+      <created>1762159714850</created>
+      <option name="number" value="00216" />
+      <option name="presentableId" value="LOCAL-00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1762159714850</updated>
+    </task>
+    <task id="LOCAL-00217" summary="fixing footer">
+      <option name="closed" value="true" />
+      <created>1762159885160</created>
+      <option name="number" value="00217" />
+      <option name="presentableId" value="LOCAL-00217" />
+      <option name="project" value="LOCAL" />
+      <updated>1762159885160</updated>
+    </task>
+    <option name="localTasksCounter" value="218" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="connected frfom the first widget" />
     <MESSAGE value="fixing edit display manual" />
     <MESSAGE value="fixed edit and view connect to manual" />
     <MESSAGE value="created print preview for manual" />
@@ -701,7 +700,8 @@
     <MESSAGE value="changing spacing" />
     <MESSAGE value="fixing spacing layout" />
     <MESSAGE value="fixing spacing and layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing spacing and layout" />
+    <MESSAGE value="fixing footer" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing footer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
