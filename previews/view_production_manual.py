@@ -102,9 +102,9 @@ class ProductionPrintPreview(QDialog):
         lay.setSpacing(0)
 
         self.add_header(lay)
-        lay.addSpacing(30)
+        lay.addSpacing(36)
         self.add_details(lay)
-        lay.addSpacing(15)
+        lay.addSpacing(18)
         self.add_batch(lay)
         lay.addSpacing(8)
         self.add_table(lay)
@@ -244,7 +244,7 @@ class ProductionPrintPreview(QDialog):
 
         # Left column
         left = QVBoxLayout()
-        left.setSpacing(0)
+        left.setSpacing(12)
         items_l = [
             ("PRODUCT CODE", self.data.get('product_code', '')),
             ("PRODUCT COLOR", self.data.get('product_color', '')),
@@ -257,7 +257,7 @@ class ProductionPrintPreview(QDialog):
 
         # Right column
         right = QVBoxLayout()
-        right.setSpacing(0)
+        right.setSpacing(12)
         items_r = [
             ("MIXING TIME", self.data.get('mixing_time', '')),
             ("MACHINE NO", self.data.get('machine_no', '')),
