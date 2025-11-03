@@ -67,7 +67,7 @@
     "Python.sync_formula.executor": "Run",
     "Python.view.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "d34beb5c",
+    "git-widget-placeholder": "cfceb245",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00159" summary="modified checkbox func">
-      <option name="closed" value="true" />
-      <created>1761629153870</created>
-      <option name="number" value="00159" />
-      <option name="presentableId" value="LOCAL-00159" />
-      <option name="project" value="LOCAL" />
-      <updated>1761629153870</updated>
     </task>
     <task id="LOCAL-00160" summary="fixed the rm code init">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762133461379</updated>
     </task>
-    <option name="localTasksCounter" value="208" />
+    <task id="LOCAL-00208" summary="updated db init error">
+      <option name="closed" value="true" />
+      <created>1762133758793</created>
+      <option name="number" value="00208" />
+      <option name="presentableId" value="LOCAL-00208" />
+      <option name="project" value="LOCAL" />
+      <updated>1762133758793</updated>
+    </task>
+    <option name="localTasksCounter" value="209" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added return on enter" />
     <MESSAGE value="modified focus after add" />
     <MESSAGE value="modified material entry fields" />
     <MESSAGE value="removed wip placeholder" />
@@ -700,7 +699,8 @@
     <MESSAGE value="created view manual prod" />
     <MESSAGE value="connected the manual func to button" />
     <MESSAGE value="removed left over dbcall iss_manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed left over dbcall iss_manual" />
+    <MESSAGE value="updated db init error" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated db init error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
