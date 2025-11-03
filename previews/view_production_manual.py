@@ -401,7 +401,7 @@ class ProductionPrintPreview(QDialog):
 
         # --- LEFT SECTION ---
         left = QVBoxLayout()
-        left.setSpacing(2)
+        left.setSpacing(8)
         left.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         prep = QLabel(f"PREPARED BY : {self.data.get('prepared_by', '')}")
@@ -424,7 +424,7 @@ class ProductionPrintPreview(QDialog):
 
         # --- RIGHT SECTION ---
         right = QVBoxLayout()
-        right.setSpacing(2)
+        right.setSpacing(8)
         right.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
         approved = QLabel(f"APPROVED BY        : {self.data.get('approved_by', 'M. VERDE')}")
