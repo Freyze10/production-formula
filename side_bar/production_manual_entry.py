@@ -637,7 +637,9 @@ class ManualProductionPage(QWidget):
             self.raw_material_check, self.non_raw_material_check,
             self.material_code_combo, self.material_code_lineedit,
             self.large_scale_input, self.small_scale_input, self.total_weight_input,
-            self.materials_table
+            self.materials_table,
+
+            self.save_btn
         ]
         for w in widgets:
             w.setEnabled(enable)

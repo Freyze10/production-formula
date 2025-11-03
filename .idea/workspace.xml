@@ -67,7 +67,7 @@
     "Python.sync_formula.executor": "Run",
     "Python.view.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "772f768e",
+    "git-widget-placeholder": "9dae2987",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00160" summary="fixed the rm code init">
-      <option name="closed" value="true" />
-      <created>1761629445216</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
-      <option name="project" value="LOCAL" />
-      <updated>1761629445216</updated>
     </task>
     <task id="LOCAL-00161" summary="modified material code entry">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762133758793</updated>
     </task>
-    <option name="localTasksCounter" value="209" />
+    <task id="LOCAL-00209" summary="globalized some buttons">
+      <option name="closed" value="true" />
+      <created>1762137551897</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1762137551897</updated>
+    </task>
+    <option name="localTasksCounter" value="210" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified focus after add" />
     <MESSAGE value="modified material entry fields" />
     <MESSAGE value="removed wip placeholder" />
     <MESSAGE value="added is_manual in db" />
@@ -700,7 +699,8 @@
     <MESSAGE value="connected the manual func to button" />
     <MESSAGE value="removed left over dbcall iss_manual" />
     <MESSAGE value="updated db init error" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated db init error" />
+    <MESSAGE value="globalized some buttons" />
+    <option name="LAST_COMMIT_MESSAGE" value="globalized some buttons" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -717,7 +717,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>828</line>
+          <line>830</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
