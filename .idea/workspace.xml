@@ -67,7 +67,7 @@
     "Python.sync_formula.executor": "Run",
     "Python.view.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "9dae2987",
+    "git-widget-placeholder": "a58ef490",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00161" summary="modified material code entry">
-      <option name="closed" value="true" />
-      <created>1761634222858</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1761634222858</updated>
     </task>
     <task id="LOCAL-00162" summary="removed close button">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762137551897</updated>
     </task>
-    <option name="localTasksCounter" value="210" />
+    <task id="LOCAL-00210" summary="disable save button in view">
+      <option name="closed" value="true" />
+      <created>1762138645601</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1762138645601</updated>
+    </task>
+    <option name="localTasksCounter" value="211" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified material entry fields" />
     <MESSAGE value="removed wip placeholder" />
     <MESSAGE value="added is_manual in db" />
     <MESSAGE value="added view and edit in manual" />
@@ -700,7 +699,8 @@
     <MESSAGE value="removed left over dbcall iss_manual" />
     <MESSAGE value="updated db init error" />
     <MESSAGE value="globalized some buttons" />
-    <option name="LAST_COMMIT_MESSAGE" value="globalized some buttons" />
+    <MESSAGE value="disable save button in view" />
+    <option name="LAST_COMMIT_MESSAGE" value="disable save button in view" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
