@@ -355,21 +355,6 @@ def get_latest_prod_id():
     return record[0]
 
 
-def get_is_manual(prod_id):
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""SELECT is_manual
-                    FROM production_primary
-                    WHERE prod_id = %s""", (prod_id,))
-    record = cur.fetchone()
-
-    cur.close()
-    conn.close()
-    return record[0]
-
-
-
 def save_production(production_data, material_data):
     conn = get_connection()
     cur = None
