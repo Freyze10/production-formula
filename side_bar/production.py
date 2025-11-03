@@ -224,7 +224,7 @@ class ProductionManagementPage(QWidget):
 
         self.edit_btn = QPushButton("View - Manual", objectName="InfoButton")
         self.edit_btn.setIcon(fa.icon('fa5s.edit', color='white'))
-        self.edit_btn.clicked.connect(self.edit_production)
+        self.edit_btn.clicked.connect(self.view_manual_prod)
         controls_layout.addWidget(self.edit_btn)
 
         layout.addLayout(controls_layout)

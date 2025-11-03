@@ -67,7 +67,7 @@
     "Python.sync_formula.executor": "Run",
     "Python.view.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "034b50b3",
+    "git-widget-placeholder": "e29da1fc",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00156" summary="modified field  layout">
-      <option name="closed" value="true" />
-      <created>1761622466359</created>
-      <option name="number" value="00156" />
-      <option name="presentableId" value="LOCAL-00156" />
-      <option name="project" value="LOCAL" />
-      <updated>1761622466359</updated>
     </task>
     <task id="LOCAL-00157" summary="refactored numeric table">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762132909835</updated>
     </task>
-    <option name="localTasksCounter" value="205" />
+    <task id="LOCAL-00205" summary="created view manual prod">
+      <option name="closed" value="true" />
+      <created>1762133310421</created>
+      <option name="number" value="00205" />
+      <option name="presentableId" value="LOCAL-00205" />
+      <option name="project" value="LOCAL" />
+      <updated>1762133310421</updated>
+    </task>
+    <option name="localTasksCounter" value="206" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified fields to save" />
     <MESSAGE value="fixed float formatt lower dosage" />
     <MESSAGE value="fixed float format sum cons" />
     <MESSAGE value="added return on enter" />
@@ -700,7 +699,8 @@
     <MESSAGE value="removed db check if manual" />
     <MESSAGE value="removed schema is_manual" />
     <MESSAGE value="removed is_manual in view prod" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed is_manual in view prod" />
+    <MESSAGE value="created view manual prod" />
+    <option name="LAST_COMMIT_MESSAGE" value="created view manual prod" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
