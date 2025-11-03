@@ -117,7 +117,7 @@ class ProductionPrintPreview(QDialog):
         left.addWidget(prod_entry)
 
         form = QLabel(f"FORM NO. {self.data.get('form_type', 'FM00012A1')}")
-        form.setFont(QFont("Arial", 10))44444444444444444444444444
+        form.setFont(QFont("Arial", 10))
         left.addWidget(form)
 
         hbox.addLayout(left)
@@ -137,7 +137,7 @@ class ProductionPrintPreview(QDialog):
 
         bl = QVBoxLayout(box)
         bl.setSpacing(0)
-        bl.setContentsMargins(10, 6, 10, 6)
+        bl.setContentsMargins(10, 10, 10, 10)
 
         info = [
             ("PRODUCTION ID", self.data.get('prod_id', '')),
@@ -148,7 +148,7 @@ class ProductionPrintPreview(QDialog):
 
         for k, v in info:
             row = QHBoxLayout()
-            row.setSpacing(5)
+            row.setSpacing(12)
 
             key_label = QLabel(k)
             key_label.setFont(QFont("Arial", 10))
@@ -220,13 +220,12 @@ class ProductionPrintPreview(QDialog):
         top_line.setFixedHeight(1)
         layout.addWidget(top_line)
 
-        # Table header (NO BACKGROUND COLOR)
+        # Table header (NO BACKGROUND)
         hdr = QWidget()
         hl = QHBoxLayout(hdr)
         hl.setContentsMargins(5, 4, 5, 4)
         hl.setSpacing(0)
 
-        # Column headers with exact widths
         mat_code = QLabel("MATERIAL CODE")
         mat_code.setFont(QFont("Arial", 10))
         mat_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
@@ -261,9 +260,9 @@ class ProductionPrintPreview(QDialog):
         hdr_line.setFixedHeight(1)
         layout.addWidget(hdr_line)
 
-        # Table rows (NO BACKGROUND, NO BORDERS)
+        # === ROWS WITH SPACING ===
         total = 0.0
-        for m in self.mats:
+        for i, m in enumerate(self.mats):
             row = QWidget()
             rl = QHBoxLayout(row)
             rl.setContentsMargins(5, 2, 5, 2)
@@ -299,6 +298,10 @@ class ProductionPrintPreview(QDialog):
 
             layout.addWidget(row)
 
+            # ADD SPACING BETWEEN ROWS (except after last)
+            if i < len(self.mats) - 1:
+                layout.addSpacing(6)  # 2px gap between rows
+
         # Footer top line
         foot_line = QFrame()
         foot_line.setFrameShape(QFrame.Shape.HLine)
@@ -307,7 +310,7 @@ class ProductionPrintPreview(QDialog):
         foot_line.setFixedHeight(1)
         layout.addWidget(foot_line)
 
-        # Footer (NO BACKGROUND COLOR)
+        # Footer
         foot = QWidget()
         fl = QHBoxLayout(foot)
         fl.setContentsMargins(5, 5, 5, 5)
