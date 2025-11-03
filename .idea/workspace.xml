@@ -702,6 +702,32 @@
     <MESSAGE value="fixing footer" />
     <MESSAGE value="trying new footer" />
     <option name="LAST_COMMIT_MESSAGE" value="trying new footer" />
+    <MESSAGE value="added clear table function" />
+    <MESSAGE value="connected clear table function" />
+    <MESSAGE value="added update total on clear" />
+    <MESSAGE value="repositioned select formula icon" />
+    <MESSAGE value="removed formtype layout" />
+    <MESSAGE value="clean float calc save func" />
+    <MESSAGE value="edited fields to save" />
+    <MESSAGE value="modified fields to save" />
+    <MESSAGE value="fixed float formatt lower dosage" />
+    <MESSAGE value="fixed float format sum cons" />
+    <MESSAGE value="added return on enter" />
+    <MESSAGE value="modified focus after add" />
+    <MESSAGE value="modified material entry fields" />
+    <MESSAGE value="removed wip placeholder" />
+    <MESSAGE value="added is_manual in db" />
+    <MESSAGE value="added view and edit in manual" />
+    <MESSAGE value="added check if manual" />
+    <MESSAGE value="connected frfom the first widget" />
+    <MESSAGE value="fixing edit display manual" />
+    <MESSAGE value="fixed edit and view connect to manual" />
+    <MESSAGE value="debugging" />
+    <MESSAGE value="created production preview" />
+    <MESSAGE value="modified manual print prev" />
+    <MESSAGE value="refactored file name" />
+    <MESSAGE value="delete trouble files" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete trouble files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -15,7 +15,6 @@ from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var
 
-
 class ManualProductionPage(QWidget):
     def __init__(self, engine, username, user_role, log_audit_trail):
         super().__init__()
@@ -425,6 +424,15 @@ class ManualProductionPage(QWidget):
         self.print_btn.setIcon(fa.icon('fa5s.print', color='white'))
         self.print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(self.print_btn)
+        print_wip_btn = QPushButton("Print with WIP", objectName="InfoButton")
+        print_wip_btn.setIcon(fa.icon('mdi.printer-eye', color='white'))
+        print_wip_btn.clicked.connect(self.print_with_wip)
+        button_layout.addWidget(print_wip_btn)
+
+        print_btn = QPushButton("Print", objectName="SecondaryButton")
+        print_btn.setIcon(fa.icon('mdi.printer-eye', color='white'))
+        print_btn.clicked.connect(self.print_production)
+        button_layout.addWidget(print_btn)
 
         self.new_btn = QPushButton("New", objectName="PrimaryButton")
         self.new_btn.setIcon(fa.icon('fa5s.file', color='white'))
@@ -458,7 +466,7 @@ class ManualProductionPage(QWidget):
         """Disable certain features for viewers."""
         if user_role == 'Viewer':
             self.enable_fields(enable=False)
-            # Allow print buttons
+            # Allow preview buttons
             for btn in self.findChildren(QPushButton):
                 if "PRINT" in btn.text():
                     btn.setEnabled(True)

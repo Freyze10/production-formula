@@ -1,4 +1,4 @@
-# production.py
+# production_preview.py
 
 from datetime import datetime
 from time import strftime
@@ -505,7 +505,7 @@ class ProductionManagementPage(QWidget):
         button_layout.addWidget(generate_advance_btn)
 
         print_btn = QPushButton("Print", objectName="SecondaryButton")
-        print_btn.setIcon(fa.icon('fa5s.print', color='white'))
+        print_btn.setIcon(fa.icon('fa5s.preview', color='white'))
         print_btn.clicked.connect(self.print_production)
         button_layout.addWidget(print_btn)
 
@@ -1197,6 +1197,7 @@ class ProductionManagementPage(QWidget):
             self.materials_table.setItem(new_row, 5, NumericTableWidgetItem(total_consumption, is_float=True))
 
         self.update_totals()
+        print(self.formulation_index.text())
         dialog.accept()
         QMessageBox.information(self, "Success", "Formula loaded successfully!")
 
