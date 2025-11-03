@@ -762,8 +762,6 @@ class ProductionManagementPage(QWidget):
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
             return
-                # self.manual_entry_tab.view_production_details(self.current_production_id)
-                # self.tab_widget.setCurrentIndex(2)
         self.edit_production()
         self.enable_fields(enable=False)
 
@@ -771,6 +769,9 @@ class ProductionManagementPage(QWidget):
         if not self.current_production_id:
             QMessageBox.warning(self, "No Selection", "Please select a production record to view.")
             return
+
+        self.manual_entry_tab.view_production_details(self.current_production_id)
+        self.tab_widget.setCurrentIndex(2)
 
     def edit_production(self):
         """Load selected production into entry tab for editing."""
