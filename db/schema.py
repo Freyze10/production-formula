@@ -120,7 +120,6 @@ def initialize_database(engine):
                         scheduled_date TIMESTAMP,
                         form_type VARCHAR(100),
                         last_synced_on TIMESTAMP DEFAULT NOW(),
-                        is_manual BOOLEAN DEFAULT False
                     );"""))
                 connection.execute(text("""
                     CREATE TABLE IF NOT EXISTS production_items (
