@@ -398,11 +398,11 @@ class ProductionPrintPreview(QDialog):
 
     def add_footer(self, layout):
         hbox = QHBoxLayout()
-        hbox.setSpacing(120)
+        hbox.setSpacing(0)
 
         # --- LEFT COLUMN ---
         left = QVBoxLayout()
-        left.setSpacing(8)
+        left.setSpacing(12)
 
         # PREPARED BY
         left.addLayout(self.footer_row("PREPARED BY", self.data.get('prepared_by', '')))
@@ -433,7 +433,7 @@ class ProductionPrintPreview(QDialog):
         layout.addLayout(hbox)
 
     # === NEW HELPER: Creates aligned "KEY : VALUE" row ===
-    def footer_row(self, key, value, bold_key=False, underline=False):
+    def footer_row(self, key, value, underline=False):
         row = QHBoxLayout()
         row.setSpacing(10)
 
