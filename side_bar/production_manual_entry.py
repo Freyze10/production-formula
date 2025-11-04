@@ -875,7 +875,7 @@ class ManualProductionPage(QWidget):
         def on_printed(prod_id):
             self.log_audit_trail(
                 "Print Production",
-                f"Printed: {prod_id} | Qty: {production_data['qty_produced']} KG | Customer: {production_data['customer']}"
+                f"(Manual) Prod ID: {prod_id} | Production Date: {production_data['production_date']}"
             )
 
         preview.printed.connect(on_printed)
