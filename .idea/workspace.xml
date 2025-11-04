@@ -68,7 +68,7 @@
     "Python.view.executor": "Run",
     "Python.view_production_manual.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "b3c13570",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
@@ -93,7 +93,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.view_production_manual">
+  <component name="RunManager" selected="Python.main">
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -228,8 +228,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
         <item itemvalue="Python.formulation" />
@@ -710,11 +710,6 @@
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
           <line>748</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/db/db_call.py</url>
-          <line>312</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
