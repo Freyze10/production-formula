@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00174" summary="edited fields to save">
-      <option name="closed" value="true" />
-      <created>1761709193018</created>
-      <option name="number" value="00174" />
-      <option name="presentableId" value="LOCAL-00174" />
-      <option name="project" value="LOCAL" />
-      <updated>1761709193018</updated>
-    </task>
     <task id="LOCAL-00175" summary="modified fields to save">
       <option name="closed" value="true" />
       <created>1761710066543</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762218803276</updated>
     </task>
-    <option name="localTasksCounter" value="223" />
+    <task id="LOCAL-00223" summary="fixed audit trail print">
+      <option name="closed" value="true" />
+      <created>1762219612144</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1762219612144</updated>
+    </task>
+    <option name="localTasksCounter" value="224" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated print Preview" />
     <MESSAGE value="working print Preview" />
     <MESSAGE value="updating manual print prev" />
     <MESSAGE value="working manual prod preview" />
@@ -701,7 +700,8 @@
     <MESSAGE value="trying new footer" />
     <MESSAGE value="fixed merge" />
     <MESSAGE value="comment out test value print" />
-    <option name="LAST_COMMIT_MESSAGE" value="comment out test value print" />
+    <MESSAGE value="fixed audit trail print" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed audit trail print" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

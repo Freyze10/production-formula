@@ -338,14 +338,14 @@ class ProductionPrintPreview(QDialog):
 
             large_val = float(m.get('large_scale', 0))
             large_lbl = QLabel(f"{large_val:.6f}")
-            large_lbl.setFont(QFont("Arial", 10))
+            large_lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             large_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
             large_lbl.setFixedWidth(195)
             rl.addWidget(large_lbl)
 
             small_val = float(m.get('small_scale', 0))
             small_lbl = QLabel(f"{small_val:.6f}")
-            small_lbl.setFont(QFont("Arial", 10))
+            small_lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             small_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
             small_lbl.setFixedWidth(195)
             rl.addWidget(small_lbl)
@@ -353,7 +353,7 @@ class ProductionPrintPreview(QDialog):
             wt = float(m.get('total_weight', 0))
             total += wt
             wlbl = QLabel(f"{wt:.6f}")
-            wlbl.setFont(QFont("Arial", 10))
+            wlbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             wlbl.setAlignment(Qt.AlignmentFlag.AlignRight)
             wlbl.setFixedWidth(195)
             rl.addWidget(wlbl)
