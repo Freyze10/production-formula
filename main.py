@@ -363,8 +363,12 @@ class ModernMainWindow(QMainWindow):
             print("Initializing pages...")
             self.formulation_page = FormulationManagementPage(self.engine, self.username, self.user_role,
                                                               self.log_audit_trail)
-            self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role,
-                                                            self.log_audit_trail)
+            try:
+                self.production_page = ProductionManagementPage(self.engine, self.username, self.user_role,
+                                                                self.log_audit_trail)
+            except Exception as e:
+                print(f"PRODUCTION PAGE INIT ERROR: {e}")
+
             self.audit_trail_page = AuditTrailPage(self.engine)
             self.user_management_page = UserManagementPage(self.engine, self.username, self.log_audit_trail)
 

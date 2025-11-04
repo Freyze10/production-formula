@@ -346,7 +346,7 @@ def get_latest_prod_id():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""SELECT MAX(prod_id)
+    cur.execute("""SELECT COALESCE(MAX(prod_id), 0)
                     FROM production_primary""")
     record = cur.fetchone()
 

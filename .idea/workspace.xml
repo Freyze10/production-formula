@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00185" summary="added view and edit in manual">
-      <option name="closed" value="true" />
-      <created>1761723206749</created>
-      <option name="number" value="00185" />
-      <option name="presentableId" value="LOCAL-00185" />
-      <option name="project" value="LOCAL" />
-      <updated>1761723206749</updated>
-    </task>
     <task id="LOCAL-00186" summary="added check if manual">
       <option name="closed" value="true" />
       <created>1761723394911</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762228390535</updated>
     </task>
-    <option name="localTasksCounter" value="234" />
+    <task id="LOCAL-00234" summary="added wip in dict">
+      <option name="closed" value="true" />
+      <created>1762228956619</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
+      <option name="project" value="LOCAL" />
+      <updated>1762228956619</updated>
+    </task>
+    <option name="localTasksCounter" value="235" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
