@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdi
                              QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
                              QScrollArea, QCheckBox, QSpinBox, QDoubleSpinBox, QSizePolicy, QCompleter)
-from PyQt6.QtCore import Qt, QDate
+from PyQt6.QtCore import Qt, QDate, QEvent
 from PyQt6.QtGui import QFont
 import qtawesome as fa
 
@@ -321,8 +321,6 @@ class ManualProductionPage(QWidget):
         self.total_weight_input.returnPressed.connect(self.add_material)
         input_layout.addWidget(QLabel("Total Weight (KG):"), 3, 0)
         input_layout.addWidget(self.total_weight_input, 3, 1)
-
-        self.setTabOrder(self.total_weight_input, self.material_code_lineedit)
 
         # Action Buttons
         action_layout = QHBoxLayout()
