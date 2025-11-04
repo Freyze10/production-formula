@@ -868,7 +868,7 @@ class ManualProductionPage(QWidget):
                 'total_weight': self.materials_table.item(row, 3).text() if self.materials_table.item(row, 3) else '0'
             })
 
-        # === Open Preview with exec() – NO CRASH, STAYS OPEN ===
+        # === Open Preview with exec()===
         preview = ProductionPrintPreview(production_data, materials_data, self)
 
         # Connect audit log

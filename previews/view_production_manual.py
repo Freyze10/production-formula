@@ -523,33 +523,33 @@ class ProductionPrintPreview(QDialog):
 # ---------------------------------------------------------------------- #
 # Example usage (uncomment to test)
 # ---------------------------------------------------------------------- #
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-
-    prod_data = {
-        "prod_id": "P12345",
-        "production_date": "2025-11-03",
-        "order_form_no": "OF9876",
-        "formulation_id": "F001",
-        "product_code": "PC-001",
-        "product_color": "RED",
-        "dosage": "2%",
-        "customer": "ABC Corp",
-        "lot_number": "L2025-001",
-        "mixing_time": "30 min",
-        "machine_no": "M01",
-        "qty_required": "500",
-        "qty_per_batch": "100",
-        "qty_produced": "500",
-        "prepared_by": "J. Doe",
-        "approved_by": "M. Verde",
-    }
-
-    materials = [
-        {"material_code": "MC001", "large_scale": 45.123456, "small_scale": 12.345678, "total_weight": 57.469134},
-        {"material_code": "MC002", "large_scale": 20.000000, "small_scale": 5.000000,  "total_weight": 25.000000},
-    ]
-
-    dlg = ProductionPrintPreview(prod_data, materials)
-    dlg.exec()
+# if __name__ == "__main__":
+#     import sys
+#     app = QApplication(sys.argv)
+#
+#     prod_data = {
+#         "prod_id": "P12345",
+#         "production_date": "2025-11-03",
+#         "order_form_no": "OF9876",
+#         "formulation_id": "F001",
+#         "product_code": "PC-001",
+#         "product_color": "RED",
+#         "dosage": "2%",
+#         "customer": "ABC Corp",
+#         "lot_number": "L2025-001",
+#         "mixing_time": "30 min",
+#         "machine_no": "M01",
+#         "qty_required": "500",
+#         "qty_per_batch": "100",
+#         "qty_produced": "500",
+#         "prepared_by": "J. Doe",
+#         "approved_by": "M. Verde",
+#     }
+#
+#     materials = [
+#         {"material_code": "MC001", "large_scale": 45.123456, "small_scale": 12.345678, "total_weight": 57.469134},
+#         {"material_code": "MC002", "large_scale": 20.000000, "small_scale": 5.000000,  "total_weight": 25.000000},
+#     ]
+#
+#     dlg = ProductionPrintPreview(prod_data, materials)
+#     dlg.exec()
