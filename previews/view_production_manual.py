@@ -184,7 +184,7 @@ class ProductionPrintPreview(QDialog):
         form.setFont(QFont("Arial", 10))
         left.addWidget(form)
 
-        hbox.addWidget(left_widget, alignment=Qt.AlignmentFlag.AlignVCenter)
+        hbox.addWidget(left_widget, alignment=Qt.AlignmentFlag.AlignTop)
         hbox.addStretch()
 
         # Right – Info box
