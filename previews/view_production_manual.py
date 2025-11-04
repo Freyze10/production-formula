@@ -506,11 +506,14 @@ class ProductionPrintPreview(QDialog):
         try:
             req = float(self.data.get('qty_required', 0))
             per = float(self.data.get('qty_per_batch', 0))
-            if per > 0:
-                n = req / per
-                return f"{int(n)} BATCHES BY {per:.7f} KG."
-            return "N/A"
-        except Exception:
+
+            if per <= 0 or req <= 0:
+                return "N/A"
+            n = req / per
+            batches = int(n)
+            batch_label = "BATCH" if batches == 1 else "BATCHES"
+            return f"{batches} {batch_label} BY {per:.7f} KG."
+        except (ValueError, ZeroDivisionError, TypeError):
             return "N/A"
 
     # ------------------------------------------------------------------ #
