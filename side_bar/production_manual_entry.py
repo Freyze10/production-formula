@@ -341,7 +341,6 @@ class ManualProductionPage(QWidget):
         clear_btn.clicked.connect(self.clear_material_table)
         action_layout.addWidget(clear_btn)
 
-        add_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         remove_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         clear_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
