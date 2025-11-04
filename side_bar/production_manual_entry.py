@@ -833,7 +833,6 @@ class ManualProductionPage(QWidget):
             QMessageBox.critical(self, "Error", f"Failed to {action}: {e}")
 
     def print_production(self):
-        """Open print preview – stays open, no crash."""
         if not self.production_id_input.text().strip():
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
