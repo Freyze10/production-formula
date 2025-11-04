@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00192" summary="updated print Preview">
-      <option name="closed" value="true" />
-      <created>1761791354647</created>
-      <option name="number" value="00192" />
-      <option name="presentableId" value="LOCAL-00192" />
-      <option name="project" value="LOCAL" />
-      <updated>1761791354647</updated>
-    </task>
     <task id="LOCAL-00193" summary="working print Preview">
       <option name="closed" value="true" />
       <created>1761791812737</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762237366017</updated>
     </task>
-    <option name="localTasksCounter" value="241" />
+    <task id="LOCAL-00241" summary="added preview left header spacing">
+      <option name="closed" value="true" />
+      <created>1762238520982</created>
+      <option name="number" value="00241" />
+      <option name="presentableId" value="LOCAL-00241" />
+      <option name="project" value="LOCAL" />
+      <updated>1762238520982</updated>
+    </task>
+    <option name="localTasksCounter" value="242" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed preview zoom func" />
     <MESSAGE value="changing spacing" />
     <MESSAGE value="fixing spacing layout" />
     <MESSAGE value="fixing spacing and layout" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added WIP for saving" />
     <MESSAGE value="changed position of left header" />
     <MESSAGE value="changed width size footer" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed width size footer" />
+    <MESSAGE value="added preview left header spacing" />
+    <option name="LAST_COMMIT_MESSAGE" value="added preview left header spacing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
