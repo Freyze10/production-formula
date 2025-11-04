@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00201" summary="create new view manual func">
-      <option name="closed" value="true" />
-      <created>1762132705119</created>
-      <option name="number" value="00201" />
-      <option name="presentableId" value="LOCAL-00201" />
-      <option name="project" value="LOCAL" />
-      <updated>1762132705119</updated>
-    </task>
     <task id="LOCAL-00202" summary="removed db check if manual">
       <option name="closed" value="true" />
       <created>1762132779817</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762243747467</updated>
     </task>
-    <option name="localTasksCounter" value="250" />
+    <task id="LOCAL-00250" summary="removed unnecessary line">
+      <option name="closed" value="true" />
+      <created>1762245161299</created>
+      <option name="number" value="00250" />
+      <option name="presentableId" value="LOCAL-00250" />
+      <option name="project" value="LOCAL" />
+      <updated>1762245161299</updated>
+    </task>
+    <option name="localTasksCounter" value="251" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="comment out test value print" />
     <MESSAGE value="fixed audit trail print" />
     <MESSAGE value="adjust font weight of the table texts" />
     <MESSAGE value="adjust font weights and positions" />
@@ -701,7 +700,8 @@
     <MESSAGE value="connected manual completer" />
     <MESSAGE value="added field completers" />
     <MESSAGE value="fixing tab orders" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing tab orders" />
+    <MESSAGE value="removed unnecessary line" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary line" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

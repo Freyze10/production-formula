@@ -212,8 +212,13 @@ class ProductionManagementPage(QWidget):
 
         controls_layout.addStretch()
 
-        self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
+        self.refresh_btn = QPushButton("Sync", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
+        # self.refresh_btn.clicked.connect(self.refresh_btn_clicked)
+        controls_layout.addWidget(self.refresh_btn)
+
+        self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
+        self.refresh_btn.setIcon(fa.icon('ei.refresh', color='white'))
         self.refresh_btn.clicked.connect(self.refresh_btn_clicked)
         controls_layout.addWidget(self.refresh_btn)
 
