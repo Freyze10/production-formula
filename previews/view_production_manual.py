@@ -450,14 +450,14 @@ class ProductionPrintPreview(QDialog):
         font = QFont("Arial", 10)
         key_label.setFont(font)
         key_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        fix_width = 90 if not right_side else 140
+        fix_width = 94 if not right_side else 140
         key_label.setFixedWidth(fix_width)
         row.addWidget(key_label)
 
         # --- Colon ---
         colon = QLabel(":")
         colon.setFont(QFont("Arial", 10))
-        colon.setFixedWidth(15)
+        colon.setFixedWidth(10)
         colon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         row.addWidget(colon)
 

@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00190" summary="created print preview for manual">
-      <option name="closed" value="true" />
-      <created>1761789896271</created>
-      <option name="number" value="00190" />
-      <option name="presentableId" value="LOCAL-00190" />
-      <option name="project" value="LOCAL" />
-      <updated>1761789896271</updated>
-    </task>
     <task id="LOCAL-00191" summary="updated print Preview">
       <option name="closed" value="true" />
       <created>1761790352060</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762237074146</updated>
     </task>
-    <option name="localTasksCounter" value="239" />
+    <task id="LOCAL-00239" summary="changed position of left header">
+      <option name="closed" value="true" />
+      <created>1762237258268</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
+      <option name="project" value="LOCAL" />
+      <updated>1762237258268</updated>
+    </task>
+    <option name="localTasksCounter" value="240" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="globalized some buttons" />
     <MESSAGE value="disable save button in view" />
     <MESSAGE value="fixed preview zoom func" />
     <MESSAGE value="changing spacing" />
@@ -701,7 +700,8 @@
     <MESSAGE value="changed singular or plural batches" />
     <MESSAGE value="added WIP in preview" />
     <MESSAGE value="added WIP for saving" />
-    <option name="LAST_COMMIT_MESSAGE" value="added WIP for saving" />
+    <MESSAGE value="changed position of left header" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed position of left header" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
