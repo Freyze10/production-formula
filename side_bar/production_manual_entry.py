@@ -859,6 +859,7 @@ class ManualProductionPage(QWidget):
         # === Collect Data ===
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
+            'wip': self.wip_no_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
             'production_date': production_date,
             'order_form_no': self.order_form_no_input.text().strip(),
