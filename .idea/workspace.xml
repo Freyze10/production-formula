@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00184" summary="added is_manual in db">
-      <option name="closed" value="true" />
-      <created>1761721883520</created>
-      <option name="number" value="00184" />
-      <option name="presentableId" value="LOCAL-00184" />
-      <option name="project" value="LOCAL" />
-      <updated>1761721883520</updated>
-    </task>
     <task id="LOCAL-00185" summary="added view and edit in manual">
       <option name="closed" value="true" />
       <created>1761723206749</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762228100141</updated>
     </task>
-    <option name="localTasksCounter" value="233" />
+    <task id="LOCAL-00233" summary="added wip in dict">
+      <option name="closed" value="true" />
+      <created>1762228390534</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
+      <option name="project" value="LOCAL" />
+      <updated>1762228390535</updated>
+    </task>
+    <option name="localTasksCounter" value="234" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed is_manual in view prod" />
     <MESSAGE value="created view manual prod" />
     <MESSAGE value="connected the manual func to button" />
     <MESSAGE value="removed left over dbcall iss_manual" />
@@ -701,7 +700,8 @@
     <MESSAGE value="updated production date handling" />
     <MESSAGE value="removed comment" />
     <MESSAGE value="creating print with WIP" />
-    <option name="LAST_COMMIT_MESSAGE" value="creating print with WIP" />
+    <MESSAGE value="added wip in dict" />
+    <option name="LAST_COMMIT_MESSAGE" value="added wip in dict" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
