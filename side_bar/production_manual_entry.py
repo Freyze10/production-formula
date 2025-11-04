@@ -84,14 +84,9 @@ class ManualProductionPage(QWidget):
         row += 1
 
         # Product Code
-        product_code_completer = QCompleter(global_var.production_product_code_lists)
-        product_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        product_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
-
         self.product_code_input = QLineEdit()
         self.product_code_input.setPlaceholderText("Enter product code")
         self.product_code_input.setStyleSheet("background-color: #fff9c4;")
-        self.product_code_input.setCompleter(product_code_completer)
         primary_layout.addWidget(QLabel("Product Code:"), row, 0)
         primary_layout.addWidget(self.product_code_input, row, 1)
         row += 1
@@ -443,6 +438,13 @@ class ManualProductionPage(QWidget):
         button_layout.addWidget(self.save_btn)
 
         main_layout.addLayout(button_layout)
+
+    def manual_setup_autocompleter(self):
+        product_code_completer = QCompleter(global_var.production_product_code_lists)
+        product_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        product_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+
+        self.product_code_input.setCompleter(product_code_completer)
 
     def validate_rm_code(self):
         """Prevent invalid input."""

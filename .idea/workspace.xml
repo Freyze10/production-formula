@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00196" summary="updating manual print prev">
-      <option name="closed" value="true" />
-      <created>1761793848335</created>
-      <option name="number" value="00196" />
-      <option name="presentableId" value="LOCAL-00196" />
-      <option name="project" value="LOCAL" />
-      <updated>1761793848335</updated>
-    </task>
     <task id="LOCAL-00197" summary="working manual prod preview">
       <option name="closed" value="true" />
       <created>1761793961200</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762240328466</updated>
     </task>
-    <option name="localTasksCounter" value="245" />
+    <task id="LOCAL-00245" summary="trying  completer in manual">
+      <option name="closed" value="true" />
+      <created>1762240426600</created>
+      <option name="number" value="00245" />
+      <option name="presentableId" value="LOCAL-00245" />
+      <option name="project" value="LOCAL" />
+      <updated>1762240426600</updated>
+    </task>
+    <option name="localTasksCounter" value="246" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -713,7 +713,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>841</line>
+          <line>843</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
