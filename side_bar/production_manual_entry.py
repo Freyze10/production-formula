@@ -663,6 +663,7 @@ class ManualProductionPage(QWidget):
         # ------------------------------------------------------------------ #
         #  Basic fields – direct access (keys are guaranteed by the query)
         # ------------------------------------------------------------------ #
+        self.wip_no_input.setText(str(self.result['formula_index']))
         self.production_id_input.setText(str(self.result['prod_id']))
         self.form_type_combo.setCurrentText(str(self.result['form_type']))
         self.product_code_input.setText(str(self.result['product_code']))
@@ -756,6 +757,7 @@ class ManualProductionPage(QWidget):
 
         required_fields = [
             ("Production ID", self.production_id_input.text().strip()),
+            ("WIP NO", self.wip_no_input.text().strip()),
             ("Product Code", self.product_code_input.text().strip()),
             ("Customer", self.customer_input.text().strip()),
             ("Lot Number", self.lot_no_input.text().strip()),
@@ -780,6 +782,7 @@ class ManualProductionPage(QWidget):
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
             'formulation_id': self.formula_input.text().strip(),
+            'formula_index': self.wip_no_input.text().strip(),
             'dosage': dosage,
             'ld_percent': ld_dosage,
             'customer': self.customer_input.text().strip(),
@@ -799,8 +802,7 @@ class ManualProductionPage(QWidget):
             'encoded_by': self.encoded_by_display.text().strip(),
             'user_id': self.user_id,
             'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            'conf_encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            'is_manual': True
+            'conf_encoded_on': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
 
         material_data = []

@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00188" summary="fixing edit display manual">
-      <option name="closed" value="true" />
-      <created>1761725916625</created>
-      <option name="number" value="00188" />
-      <option name="presentableId" value="LOCAL-00188" />
-      <option name="project" value="LOCAL" />
-      <updated>1761725916625</updated>
-    </task>
     <task id="LOCAL-00189" summary="fixed edit and view connect to manual">
       <option name="closed" value="true" />
       <created>1761726332846</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762235488249</updated>
     </task>
-    <option name="localTasksCounter" value="237" />
+    <task id="LOCAL-00237" summary="added WIP in preview">
+      <option name="closed" value="true" />
+      <created>1762236566375</created>
+      <option name="number" value="00237" />
+      <option name="presentableId" value="LOCAL-00237" />
+      <option name="project" value="LOCAL" />
+      <updated>1762236566375</updated>
+    </task>
+    <option name="localTasksCounter" value="238" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed left over dbcall iss_manual" />
     <MESSAGE value="updated db init error" />
     <MESSAGE value="globalized some buttons" />
     <MESSAGE value="disable save button in view" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added wip in dict" />
     <MESSAGE value="changed prod return value" />
     <MESSAGE value="changed singular or plural batches" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed singular or plural batches" />
+    <MESSAGE value="added WIP in preview" />
+    <option name="LAST_COMMIT_MESSAGE" value="added WIP in preview" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,7 +713,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>834</line>
+          <line>836</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
