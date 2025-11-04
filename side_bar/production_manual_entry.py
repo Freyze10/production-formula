@@ -322,6 +322,8 @@ class ManualProductionPage(QWidget):
         input_layout.addWidget(QLabel("Total Weight (KG):"), 3, 0)
         input_layout.addWidget(self.total_weight_input, 3, 1)
 
+        self.setTabOrder(self.total_weight_input, self.material_code_lineedit)
+
         # Action Buttons
         action_layout = QHBoxLayout()
         action_layout.addStretch()
@@ -340,6 +342,10 @@ class ManualProductionPage(QWidget):
         clear_btn.setObjectName("SecondaryButton")
         clear_btn.clicked.connect(self.clear_material_table)
         action_layout.addWidget(clear_btn)
+
+        add_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        remove_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        clear_btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         input_layout.addLayout(action_layout, 4, 0, 1, 2)
 
