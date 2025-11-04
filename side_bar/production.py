@@ -622,6 +622,7 @@ class ProductionManagementPage(QWidget):
         lot_no_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         lot_no_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
         self.lot_no_input.setCompleter(lot_no_completer)
+
         self.manual_entry_tab.manual_setup_autocompleter()
 
     def populate_production_table(self):

@@ -143,7 +143,7 @@ class ManualProductionPage(QWidget):
         primary_layout.addWidget(self.lot_no_input, row, 1)
         row += 1
 
-        # Production Date
+        # Production Datey
         self.production_date_input = SmartDateEdit()
         self.production_date_input.setStyleSheet("background-color: #fff9c4;")
         primary_layout.addWidget(QLabel("Production Date:"), row, 0)
@@ -440,11 +440,23 @@ class ManualProductionPage(QWidget):
         main_layout.addLayout(button_layout)
 
     def manual_setup_autocompleter(self):
+        # product code completer
         product_code_completer = QCompleter(global_var.production_product_code_lists)
         product_code_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         product_code_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
-
         self.product_code_input.setCompleter(product_code_completer)
+
+        # customer completer
+        customer_completer = QCompleter(global_var.production_customer_lists)
+        customer_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        customer_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.customer_input.setCompleter(customer_completer)
+
+        # Lot number autocomplete
+        lot_no_completer = QCompleter(global_var.production_lot_no_lists)
+        lot_no_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        lot_no_completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
+        self.lot_no_input.setCompleter(lot_no_completer)
 
     def validate_rm_code(self):
         """Prevent invalid input."""

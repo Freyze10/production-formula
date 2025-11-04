@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00197" summary="working manual prod preview">
-      <option name="closed" value="true" />
-      <created>1761793961200</created>
-      <option name="number" value="00197" />
-      <option name="presentableId" value="LOCAL-00197" />
-      <option name="project" value="LOCAL" />
-      <updated>1761793961200</updated>
-    </task>
     <task id="LOCAL-00198" summary="spacing only">
       <option name="closed" value="true" />
       <created>1761794350656</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762240426600</updated>
     </task>
-    <option name="localTasksCounter" value="246" />
+    <task id="LOCAL-00246" summary="connected manual completer">
+      <option name="closed" value="true" />
+      <created>1762241714314</created>
+      <option name="number" value="00246" />
+      <option name="presentableId" value="LOCAL-00246" />
+      <option name="project" value="LOCAL" />
+      <updated>1762241714314</updated>
+    </task>
+    <option name="localTasksCounter" value="247" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing footer" />
     <MESSAGE value="trying new footer" />
     <MESSAGE value="fixed merge" />
     <MESSAGE value="comment out test value print" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added different form number" />
     <MESSAGE value="cleaned database query" />
     <MESSAGE value="trying  completer in manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying  completer in manual" />
+    <MESSAGE value="connected manual completer" />
+    <option name="LAST_COMMIT_MESSAGE" value="connected manual completer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,7 +713,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>843</line>
+          <line>855</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
