@@ -93,7 +93,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.view_production_manual">
+  <component name="RunManager" selected="Python.main">
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -228,8 +228,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
         <item itemvalue="Python.formulation" />
@@ -251,14 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00180" summary="modified focus after add">
-      <option name="closed" value="true" />
-      <created>1761717254116</created>
-      <option name="number" value="00180" />
-      <option name="presentableId" value="LOCAL-00180" />
-      <option name="project" value="LOCAL" />
-      <updated>1761717254116</updated>
     </task>
     <task id="LOCAL-00181" summary="modified material entry fields">
       <option name="closed" value="true" />
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762222938442</updated>
     </task>
-    <option name="localTasksCounter" value="229" />
+    <task id="LOCAL-00229" summary="globalized result var">
+      <option name="closed" value="true" />
+      <created>1762224110791</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
+      <option name="project" value="LOCAL" />
+      <updated>1762224110791</updated>
+    </task>
+    <option name="localTasksCounter" value="230" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed edit button in production" />
     <MESSAGE value="create new view manual func" />
     <MESSAGE value="removed db check if manual" />
     <MESSAGE value="removed schema is_manual" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adjust font weights" />
     <MESSAGE value="fixed underlines and font weights" />
     <MESSAGE value="comment out preview tester" />
-    <option name="LAST_COMMIT_MESSAGE" value="comment out preview tester" />
+    <MESSAGE value="globalized result var" />
+    <option name="LAST_COMMIT_MESSAGE" value="globalized result var" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,7 +713,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>830</line>
+          <line>834</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>

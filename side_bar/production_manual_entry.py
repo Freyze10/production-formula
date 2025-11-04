@@ -28,6 +28,7 @@ class ManualProductionPage(QWidget):
 
         # Track current production for edit/view
         self.current_production_id = None
+        self.result = None
 
         self.setup_ui()
         self.new_production()
@@ -536,6 +537,9 @@ class ManualProductionPage(QWidget):
         self.production_encoded_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
         self.production_confirmation_display.clear()
 
+        if self.result:
+            self.result = None
+
         self.materials_table.setRowCount(0)
         self.clear_material_inputs()
         self.update_totals()
@@ -834,11 +838,30 @@ class ManualProductionPage(QWidget):
             QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
 
+        try:
+            production_date = ''
+
+            # Check if self.result exists and contains the key
+            if self.result and self.result.get('production_date'):
+                production_date = self.result['production_date'].strftime("%m/%d/%y")
+            else:
+                # Handle the case where it's missing or None
+                text_date = self.production_date_input.text().strip()
+
+                # Check if text_date is already in "MM/dd/yyyy" or "yyyy-MM-dd"
+                if "-" in text_date:
+                    production_date = datetime.strptime(text_date, "%Y-%m-%d").strftime("%m/%d/%y")
+                else:
+                    production_date = datetime.strptime(text_date, "%m/%d/%Y").strftime("%m/%d/%y")
+
+        except Exception as e:
+            print("Error:", e)
+            production_date = ""
         # === Collect Data ===
         production_data = {
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
-            'production_date': self.production_date_input.text(),
+            'production_date': production_date,
             'order_form_no': self.order_form_no_input.text().strip(),
             'formulation_id': self.formula_input.text().strip(),
             'product_code': self.product_code_input.text().strip(),
