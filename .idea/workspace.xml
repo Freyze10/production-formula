@@ -252,22 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00178" summary="added return on enter">
-      <option name="closed" value="true" />
-      <created>1761716761709</created>
-      <option name="number" value="00178" />
-      <option name="presentableId" value="LOCAL-00178" />
-      <option name="project" value="LOCAL" />
-      <updated>1761716761709</updated>
-    </task>
-    <task id="LOCAL-00179" summary="added return on enter">
-      <option name="closed" value="true" />
-      <created>1761716917464</created>
-      <option name="number" value="00179" />
-      <option name="presentableId" value="LOCAL-00179" />
-      <option name="project" value="LOCAL" />
-      <updated>1761716917464</updated>
-    </task>
     <task id="LOCAL-00180" summary="modified focus after add">
       <option name="closed" value="true" />
       <created>1761717254116</created>
@@ -644,7 +628,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762221594691</updated>
     </task>
-    <option name="localTasksCounter" value="227" />
+    <task id="LOCAL-00227" summary="fixed underlines and font weights">
+      <option name="closed" value="true" />
+      <created>1762222910897</created>
+      <option name="number" value="00227" />
+      <option name="presentableId" value="LOCAL-00227" />
+      <option name="project" value="LOCAL" />
+      <updated>1762222910897</updated>
+    </task>
+    <task id="LOCAL-00228" summary="comment out preview tester">
+      <option name="closed" value="true" />
+      <created>1762222938442</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1762222938442</updated>
+    </task>
+    <option name="localTasksCounter" value="229" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="spacing only" />
-    <MESSAGE value="fixing spacing" />
     <MESSAGE value="removed edit button in production" />
     <MESSAGE value="create new view manual func" />
     <MESSAGE value="removed db check if manual" />
@@ -701,7 +699,9 @@
     <MESSAGE value="adjust font weight of the table texts" />
     <MESSAGE value="adjust font weights and positions" />
     <MESSAGE value="adjust font weights" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust font weights" />
+    <MESSAGE value="fixed underlines and font weights" />
+    <MESSAGE value="comment out preview tester" />
+    <option name="LAST_COMMIT_MESSAGE" value="comment out preview tester" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

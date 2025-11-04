@@ -647,8 +647,8 @@ class ManualProductionPage(QWidget):
     def load_production(self, prod_id):
         """Load production data into the form using direct dict access."""
         try:
-            result = db_call.get_single_production_data(prod_id)
-            if not result:
+            self.result = db_call.get_single_production_data(prod_id)
+            if not self.result:
                 QMessageBox.warning(self, "Not Found",
                                     f"Production {prod_id} not found.")
                 return False
@@ -659,19 +659,19 @@ class ManualProductionPage(QWidget):
         # ------------------------------------------------------------------ #
         #  Basic fields – direct access (keys are guaranteed by the query)
         # ------------------------------------------------------------------ #
-        self.production_id_input.setText(str(result['prod_id']))
-        self.form_type_combo.setCurrentText(str(result['form_type']))
-        self.product_code_input.setText(str(result['product_code']))
-        self.product_color_input.setText(str(result['product_color']))
-        self.formula_input.setText(str(result['formulation_id']))
-        self.sum_cons_input.setText(f"{result['dosage']:.6f}")
-        self.dosage_input.setText(f"{result['ld_percent']:.6f}")
-        self.customer_input.setText(str(result['customer']))
-        self.lot_no_input.setText(str(result['lot_number']))
-        self.order_form_no_input.setText(str(result['order_form_no']))
-        self.colormatch_no_input.setText(str(result['colormatch_no']))
-        self.prepared_by_input.setText(str(result['prepared_by']))
-        self.notes_input.setPlainText(str(result['notes']))
+        self.production_id_input.setText(str(self.result['prod_id']))
+        self.form_type_combo.setCurrentText(str(self.result['form_type']))
+        self.product_code_input.setText(str(self.result['product_code']))
+        self.product_color_input.setText(str(self.result['product_color']))
+        self.formula_input.setText(str(self.result['formulation_id']))
+        self.sum_cons_input.setText(f"{self.result['dosage']:.6f}")
+        self.dosage_input.setText(f"{self.result['ld_percent']:.6f}")
+        self.customer_input.setText(str(self.result['customer']))
+        self.lot_no_input.setText(str(self.result['lot_number']))
+        self.order_form_no_input.setText(str(self.result['order_form_no']))
+        self.colormatch_no_input.setText(str(self.result['colormatch_no']))
+        self.prepared_by_input.setText(str(self.result['prepared_by']))
+        self.notes_input.setPlainText(str(self.result['notes']))
 
         # ------------------------------------------------------------------ #
         #  Date fields – inline helper to keep the code tidy
@@ -682,25 +682,25 @@ class ManualProductionPage(QWidget):
             else:
                 widget.clear()
 
-        _set_date(self.production_date_input, result.get('production_date'))
-        _set_date(self.confirmation_date_input, result.get('confirmation_date'))
-        _set_date(self.matched_date_input, result.get('colormatch_date'))
+        _set_date(self.production_date_input, self.result.get('production_date'))
+        _set_date(self.confirmation_date_input, self.result.get('confirmation_date'))
+        _set_date(self.matched_date_input, self.result.get('colormatch_date'))
 
         # ------------------------------------------------------------------ #
         #  Other fields
         # ------------------------------------------------------------------ #
-        self.mixing_time_input.setText(str(result['mixing_time']))
-        self.machine_no_input.setText(str(result['machine_no']))
-        self.qty_required_input.setText(f"{result['qty_required']:.6f}")
-        self.qty_per_batch_input.setText(f"{result['qty_per_batch']:.6f}")
+        self.mixing_time_input.setText(str(self.result['mixing_time']))
+        self.machine_no_input.setText(str(self.result['machine_no']))
+        self.qty_required_input.setText(f"{self.result['qty_required']:.6f}")
+        self.qty_per_batch_input.setText(f"{self.result['qty_per_batch']:.6f}")
 
-        self.encoded_by_display.setText(str(result['encoded_by']))
-        if result.get('encoded_on'):
+        self.encoded_by_display.setText(str(self.result['encoded_by']))
+        if self.result.get('encoded_on'):
             self.production_encoded_display.setText(
-                result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
-        if result.get('conf_encoded_on'):
+                self.result['encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+        if self.result.get('conf_encoded_on'):
             self.production_confirmation_display.setText(
-                result['conf_encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
+                self.result['conf_encoded_on'].strftime("%m/%d/%Y %I:%M:%S %p"))
 
         # ------------------------------------------------------------------ #
         #  Materials table
