@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00193" summary="working print Preview">
-      <option name="closed" value="true" />
-      <created>1761791812737</created>
-      <option name="number" value="00193" />
-      <option name="presentableId" value="LOCAL-00193" />
-      <option name="project" value="LOCAL" />
-      <updated>1761791812737</updated>
-    </task>
     <task id="LOCAL-00194" summary="working print Preview">
       <option name="closed" value="true" />
       <created>1761792356753</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762238520982</updated>
     </task>
-    <option name="localTasksCounter" value="242" />
+    <task id="LOCAL-00242" summary="added different form number">
+      <option name="closed" value="true" />
+      <created>1762238780189</created>
+      <option name="number" value="00242" />
+      <option name="presentableId" value="LOCAL-00242" />
+      <option name="project" value="LOCAL" />
+      <updated>1762238780189</updated>
+    </task>
+    <option name="localTasksCounter" value="243" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changing spacing" />
     <MESSAGE value="fixing spacing layout" />
     <MESSAGE value="fixing spacing and layout" />
     <MESSAGE value="fixing footer" />
@@ -701,7 +700,8 @@
     <MESSAGE value="changed position of left header" />
     <MESSAGE value="changed width size footer" />
     <MESSAGE value="added preview left header spacing" />
-    <option name="LAST_COMMIT_MESSAGE" value="added preview left header spacing" />
+    <MESSAGE value="added different form number" />
+    <option name="LAST_COMMIT_MESSAGE" value="added different form number" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
