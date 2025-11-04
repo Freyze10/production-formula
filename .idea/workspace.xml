@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00187" summary="connected frfom the first widget">
-      <option name="closed" value="true" />
-      <created>1761725121160</created>
-      <option name="number" value="00187" />
-      <option name="presentableId" value="LOCAL-00187" />
-      <option name="project" value="LOCAL" />
-      <updated>1761725121160</updated>
-    </task>
     <task id="LOCAL-00188" summary="fixing edit display manual">
       <option name="closed" value="true" />
       <created>1761725916625</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762234580760</updated>
     </task>
-    <option name="localTasksCounter" value="236" />
+    <task id="LOCAL-00236" summary="changed singular or plural batches">
+      <option name="closed" value="true" />
+      <created>1762235488249</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
+      <option name="project" value="LOCAL" />
+      <updated>1762235488249</updated>
+    </task>
+    <option name="localTasksCounter" value="237" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="connected the manual func to button" />
     <MESSAGE value="removed left over dbcall iss_manual" />
     <MESSAGE value="updated db init error" />
     <MESSAGE value="globalized some buttons" />
@@ -701,7 +700,8 @@
     <MESSAGE value="creating print with WIP" />
     <MESSAGE value="added wip in dict" />
     <MESSAGE value="changed prod return value" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed prod return value" />
+    <MESSAGE value="changed singular or plural batches" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed singular or plural batches" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

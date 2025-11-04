@@ -200,13 +200,21 @@ class ProductionPrintPreview(QDialog):
         bl = QVBoxLayout(box)
         bl.setSpacing(12)
         bl.setContentsMargins(10, 10, 10, 10)
-
-        info = [
-            ("PRODUCTION ID", self.data.get('prod_id', '')),
-            ("PRODUCTION DATE", self.data.get('production_date', '')),
-            ("ORDER FORM NO.", self.data.get('order_form_no', '')),
-            ("FORMULATION NO.", self.data.get('formulation_id', ''))
-        ]
+        if 'wip' in self.data:
+            info = [
+                ("PRODUCTION ID", self.data.get('prod_id', '')),
+                ("PRODUCTION DATE", self.data.get('production_date', '')),
+                ("ORDER FORM NO.", self.data.get('order_form_no', '')),
+                ("FORMULATION NO.", self.data.get('formulation_id', '')),
+                ("WIP", self.data.get('wip', ''))
+            ]
+        else:
+            info = [
+                ("PRODUCTION ID", self.data.get('prod_id', '')),
+                ("PRODUCTION DATE", self.data.get('production_date', '')),
+                ("ORDER FORM NO.", self.data.get('order_form_no', '')),
+                ("FORMULATION NO.", self.data.get('formulation_id', ''))
+            ]
 
         for k, v in info:
             row = QHBoxLayout()
