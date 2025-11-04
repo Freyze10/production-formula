@@ -93,7 +93,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.view_production_manual">
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -228,8 +228,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.view_production_manual" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
         <item itemvalue="Python.formulation" />
@@ -251,14 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00175" summary="modified fields to save">
-      <option name="closed" value="true" />
-      <created>1761710066543</created>
-      <option name="number" value="00175" />
-      <option name="presentableId" value="LOCAL-00175" />
-      <option name="project" value="LOCAL" />
-      <updated>1761710066543</updated>
     </task>
     <task id="LOCAL-00176" summary="fixed float formatt lower dosage">
       <option name="closed" value="true" />
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762219612144</updated>
     </task>
-    <option name="localTasksCounter" value="224" />
+    <task id="LOCAL-00224" summary="adjust font weight of the table texts">
+      <option name="closed" value="true" />
+      <created>1762220428226</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
+      <option name="project" value="LOCAL" />
+      <updated>1762220428226</updated>
+    </task>
+    <option name="localTasksCounter" value="225" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="working print Preview" />
     <MESSAGE value="updating manual print prev" />
     <MESSAGE value="working manual prod preview" />
     <MESSAGE value="spacing only" />
@@ -701,7 +700,8 @@
     <MESSAGE value="fixed merge" />
     <MESSAGE value="comment out test value print" />
     <MESSAGE value="fixed audit trail print" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed audit trail print" />
+    <MESSAGE value="adjust font weight of the table texts" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust font weight of the table texts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
