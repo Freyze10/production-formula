@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00191" summary="updated print Preview">
-      <option name="closed" value="true" />
-      <created>1761790352060</created>
-      <option name="number" value="00191" />
-      <option name="presentableId" value="LOCAL-00191" />
-      <option name="project" value="LOCAL" />
-      <updated>1761790352060</updated>
-    </task>
     <task id="LOCAL-00192" summary="updated print Preview">
       <option name="closed" value="true" />
       <created>1761791354647</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762237258268</updated>
     </task>
-    <option name="localTasksCounter" value="240" />
+    <task id="LOCAL-00240" summary="changed width size footer">
+      <option name="closed" value="true" />
+      <created>1762237366017</created>
+      <option name="number" value="00240" />
+      <option name="presentableId" value="LOCAL-00240" />
+      <option name="project" value="LOCAL" />
+      <updated>1762237366017</updated>
+    </task>
+    <option name="localTasksCounter" value="241" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="disable save button in view" />
     <MESSAGE value="fixed preview zoom func" />
     <MESSAGE value="changing spacing" />
     <MESSAGE value="fixing spacing layout" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added WIP in preview" />
     <MESSAGE value="added WIP for saving" />
     <MESSAGE value="changed position of left header" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed position of left header" />
+    <MESSAGE value="changed width size footer" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed width size footer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

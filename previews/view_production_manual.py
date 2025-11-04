@@ -170,6 +170,7 @@ class ProductionPrintPreview(QDialog):
         left_widget = QWidget()
         left = QVBoxLayout(left_widget)
         left.setSpacing(2)
+        left.addSpacing(30)
         left.setContentsMargins(0, 0, 0, 0)
 
         company = QLabel("MASTERBATCH PHILIPPINES, INC.")
@@ -180,7 +181,7 @@ class ProductionPrintPreview(QDialog):
         prod_entry.setFont(QFont("Arial", 10))
         left.addWidget(prod_entry)
 
-        form = QLabel(f"FORM NO. {self.data.get('form_type', 'FM00012A1')}")
+        form = QLabel(f"FORM NO. FM00012A1")
         form.setFont(QFont("Arial", 10))
         left.addWidget(form)
 
