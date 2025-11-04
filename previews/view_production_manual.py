@@ -421,11 +421,11 @@ class ProductionPrintPreview(QDialog):
         right.setSpacing(8)
 
         # APPROVED BY
-        right.addLayout(self.footer_row("APPROVED BY", self.data.get('approved_by', 'M. VERDE')))
+        right.addLayout(self.footer_row("APPROVED BY", self.data.get('approved_by', 'M. VERDE'), underline=True, right_side=True))
 
         # RELEASED & PROCESSED (blank lines)
-        right.addLayout(self.footer_row("MAT'L RELEASED BY", "_________________", underline=True))
-        right.addLayout(self.footer_row("PROCESSED BY", "_________________", underline=True))
+        right.addLayout(self.footer_row("MAT'L RELEASED BY", "", underline=True, right_side=True))
+        right.addLayout(self.footer_row("PROCESSED BY", "", underline=True, right_side=True))
 
         # Add to main layout
         hbox.addLayout(left)
@@ -433,32 +433,49 @@ class ProductionPrintPreview(QDialog):
         layout.addLayout(hbox)
 
     # === NEW HELPER: Creates aligned "KEY : VALUE" row ===
-    def footer_row(self, key, value, underline=False):
+    def footer_row(self, key, value, underline=False, right_side=False):
         row = QHBoxLayout()
         row.setSpacing(10)
 
-        # Key label
+        # --- Key label ---
         key_label = QLabel(key)
         font = QFont("Arial", 10)
         key_label.setFont(font)
         key_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        key_label.setFixedWidth(140)  # Adjust for perfect centering
+        fix_width = 90 if not right_side else 140
+        key_label.setFixedWidth(fix_width)
         row.addWidget(key_label)
 
-        # Colon
+        # --- Colon ---
         colon = QLabel(":")
         colon.setFont(QFont("Arial", 10))
         colon.setFixedWidth(15)
         colon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         row.addWidget(colon)
 
-        # Value
+        # --- Value section (text + underline) ---
+        val_container = QWidget()
+        val_layout = QVBoxLayout(val_container)
+        val_layout.setContentsMargins(0, 0, 0, 0)
+        val_layout.setSpacing(2)
+
         val_label = QLabel(value)
-        val_font = QFont("Arial", 10)
+        val_label.setFont(QFont("Arial", 10))
+        val_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         if underline:
-            val_font.setUnderline(True)
-        val_label.setFont(val_font)
-        row.addWidget(val_label)
+            line = QFrame()
+            line.setFrameShape(QFrame.Shape.HLine)
+            line.setFrameShadow(QFrame.Shadow.Plain)
+            line.setLineWidth(1)
+            line.setFixedWidth(180)  # adjust length of underline
+            line.setStyleSheet("color: black;")
+            val_layout.addWidget(val_label, alignment=Qt.AlignmentFlag.AlignCenter)
+            val_layout.addWidget(line, alignment=Qt.AlignmentFlag.AlignCenter)
+        else:
+            val_layout.addWidget(val_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        row.addWidget(val_container)
         row.addStretch()
 
         return row
