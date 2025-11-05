@@ -575,45 +575,41 @@ class ProductionManagementPage(QWidget):
         self.set_date_range()
 
     def refresh_data_from_db(self):
-        """Simple: Show GIF → Load data → Populate table → Close"""
-        # 1. Show loading dialog
-        dialog = SimpleLoadingDialog(self, gif_path="assets/loading.gif")
-        dialog.set_text("Fetching data...")
-        dialog.show()
-        self.repaint()  # Force UI update
+        """Show GIF → do all work → close GIF."""
+        dlg = SimpleLoadingDialog(self, gif_path="assets/loading.gif")
+        dlg.set_text("Fetching data…")
+        dlg.show_and_paint()  # <-- **IMPORTANT**
 
         try:
-            # 2. Fetch data (fast)
-            dialog.set_text("Loading records from database...")
-            self.repaint()
+            # 1. DB
+            dlg.set_text("Reading database…")
+            dlg.parent().repaint()
             global_var.all_production_data = db_call.get_all_production_data()
 
-            # 3. Update cache
-            dialog.set_text("Updating filters...")
-            self.repaint()
+            # 2. Cache
+            dlg.set_text("Updating filters…")
+            dlg.parent().repaint()
             self.update_cached_lists()
 
-            # 4. Populate table (SLOW PART)
-            dialog.set_text("Populating table... (please wait)")
-            self.repaint()
+            # 3. Table (the slow part)
+            dlg.set_text("Building table…")
+            dlg.parent().repaint()
 
             self.production_table.setUpdatesEnabled(False)
             self.production_table.setSortingEnabled(False)
-
-            self.populate_production_table()  # ← This is the slow part
-
+            self.populate_production_table()  # <-- heavy
             self.production_table.setUpdatesEnabled(True)
             self.production_table.setSortingEnabled(True)
 
-            # 5. Apply filters
+            # 4. Filters
             self.on_date_filter_changed()
 
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to load data:\n{e}")
+            QMessageBox.critical(self, "Error", f"Load failed:\n{e}")
             global_var.all_production_data = []
             self.populate_production_table()
         finally:
-            dialog.accept()  # Close dialog
+            dlg.accept()
 
     def refresh_productions(self):  # init
         """Load productions from database and cache them."""
