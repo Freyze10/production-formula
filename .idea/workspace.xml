@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00227" summary="fixed underlines and font weights">
-      <option name="closed" value="true" />
-      <created>1762222910897</created>
-      <option name="number" value="00227" />
-      <option name="presentableId" value="LOCAL-00227" />
-      <option name="project" value="LOCAL" />
-      <updated>1762222910897</updated>
-    </task>
     <task id="LOCAL-00228" summary="comment out preview tester">
       <option name="closed" value="true" />
       <created>1762222938442</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762323089806</updated>
     </task>
-    <option name="localTasksCounter" value="276" />
+    <task id="LOCAL-00276" summary="modified fields for print prev auto">
+      <option name="closed" value="true" />
+      <created>1762324754117</created>
+      <option name="number" value="00276" />
+      <option name="presentableId" value="LOCAL-00276" />
+      <option name="project" value="LOCAL" />
+      <updated>1762324754118</updated>
+    </task>
+    <option name="localTasksCounter" value="277" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="trying  completer in manual" />
     <MESSAGE value="connected manual completer" />
     <MESSAGE value="added field completers" />
     <MESSAGE value="fixing tab orders" />
@@ -701,7 +700,8 @@
     <MESSAGE value="connected sync function to btn" />
     <MESSAGE value="changed refresh icon" />
     <MESSAGE value="fixing print function auto" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing print function auto" />
+    <MESSAGE value="modified fields for print prev auto" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified fields for print prev auto" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -723,7 +723,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
-          <line>1259</line>
+          <line>1253</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

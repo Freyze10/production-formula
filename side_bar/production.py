@@ -1237,19 +1237,13 @@ class ProductionManagementPage(QWidget):
 
         try:
             production_date = ''
+            text_date = self.production_date_input.text().strip()
 
-            # Check if self.result exists and contains the key
-            if self.result and self.result.get('production_date'):
-                production_date = self.result['production_date'].strftime("%m/%d/%y")
+            # Check if text_date is already in "MM/dd/yyyy" or "yyyy-MM-dd"
+            if "-" in text_date:
+                production_date = datetime.strptime(text_date, "%Y-%m-%d").strftime("%m/%d/%y")
             else:
-                # Handle the case where it's missing or None
-                text_date = self.production_date_input.text().strip()
-
-                # Check if text_date is already in "MM/dd/yyyy" or "yyyy-MM-dd"
-                if "-" in text_date:
-                    production_date = datetime.strptime(text_date, "%Y-%m-%d").strftime("%m/%d/%y")
-                else:
-                    production_date = datetime.strptime(text_date, "%m/%d/%Y").strftime("%m/%d/%y")
+                production_date = datetime.strptime(text_date, "%m/%d/%Y").strftime("%m/%d/%y")
 
         except Exception as e:
             print("Error:", e)
