@@ -14,6 +14,7 @@ import pandas as pd
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from utils.debounce import finished_typing
+from utils.field_format import mixing_time
 from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils import global_var
@@ -342,7 +343,8 @@ class FormulationManagementPage(QWidget):
         formula_layout.addRow("Dosage:", self.dosage_input)
 
         # Mixing Time
-        self.mixing_time_input = QLineEdit("5 MIN")
+        self.mixing_time_input = QLineEdit("5 MIN.")
+        self.mixing_time_input.focusOutEvent = lambda event: mixing_time(event, self.mixing_time_input)
         formula_layout.addRow("Mixing Time:", self.mixing_time_input)
 
         # Resin Used

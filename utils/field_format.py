@@ -1,7 +1,8 @@
+# utils/field_format.py
 import re
 
 
-def mixing_time(self, event, line_edit):
+def mixing_time(event, line_edit):
     text = line_edit.text().strip()
 
     text = re.sub(r'\s*MIN\.?\s*$', '', text, flags=re.IGNORECASE).strip()
