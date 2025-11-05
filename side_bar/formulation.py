@@ -692,6 +692,10 @@ class FormulationManagementPage(QWidget):
         self.set_date_range_or_no_data()
         self.refresh_data_from_db()
 
+    def btn_sync_clicked(self):
+        self.run_formula_sync()
+        self.btn_refresh_clicked()
+
     def refresh_data_from_db(self):
         """Explicitly refresh data from database with loading dialog."""
         early_date = self.date_from_filter.date().toPyDate()
