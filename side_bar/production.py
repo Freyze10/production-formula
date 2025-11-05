@@ -212,7 +212,7 @@ class ProductionManagementPage(QWidget):
 
         controls_layout.addStretch()
 
-        self.refresh_btn = QPushButton("Sync", objectName="SecondaryButton")
+        self.refresh_btn = QPushButton("Sync", objectName="SuccessButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
         # self.refresh_btn.clicked.connect(self.refresh_btn_clicked)
         controls_layout.addWidget(self.refresh_btn)
