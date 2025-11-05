@@ -1,4 +1,3 @@
-# production_print_preview.py
 from datetime import datetime
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont, QPainter, QPageLayout, QPageSize, QPixmap
@@ -16,18 +15,16 @@ class ProductionPrintPreview(QDialog):
         self.mats = materials_data or []
         self.zoom = 100
 
-        # ---------- NEW ----------
-        self.page_pixmap = QPixmap()      # rendered page at 100%
-        self.page_label = QLabel()        # shows the (scaled) pixmap
-        # -------------------------
+        self.page_pixmap = QPixmap()
+        self.page_label = QLabel()
 
         self.setWindowTitle("Print Preview")
         self.setModal(False)
         self.resize(1150, 820)
 
         self.setup_ui()
-        self.render_page()        # render once
-        self.update_zoom()        # show at 100%
+        self.render_page()
+        self.update_zoom()
 
     # ------------------------------------------------------------------ #
     # UI
@@ -61,6 +58,14 @@ class ProductionPrintPreview(QDialog):
 
         tb.addStretch()
 
+        # Download PDF button
+        download_btn = QPushButton("Download PDF")
+        download_btn.setIcon(fa.icon('fa5s.download', color='white'))
+        download_btn.setStyleSheet(
+            "background:#007bff;color:white;padding:8px 16px;border-radius:6px;")
+        download_btn.clicked.connect(self.download_pdf)
+        tb.addWidget(download_btn)
+
         print_btn = QPushButton("Print")
         print_btn.setIcon(fa.icon('fa5s.print', color='white'))
         print_btn.setStyleSheet(
@@ -82,37 +87,34 @@ class ProductionPrintPreview(QDialog):
         scroll.setWidgetResizable(True)
         scroll.setStyleSheet("background:#2d2d2d;")
 
-        # the label will display the scaled pixmap
         self.page_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         scroll.setWidget(self.page_label)
 
         main.addWidget(scroll, 1)
 
     # ------------------------------------------------------------------ #
-    # Page rendering (once)
+    # Page rendering - Letter size (8.5" x 11" = 816 x 1056 pixels @ 96 DPI)
     # ------------------------------------------------------------------ #
     def render_page(self):
-        # temporary frame that holds the *exact* layout at 100%
         page = QFrame()
-        page.setFixedSize(850, 1100)                 # A4-ish @ ~100 dpi
+        page.setFixedSize(816, 1056)  # Letter size at 96 DPI
         page.setStyleSheet("background:white;")
 
         lay = QVBoxLayout(page)
-        lay.setContentsMargins(40, 40, 40, 40)
+        lay.setContentsMargins(36, 36, 36, 36)
         lay.setSpacing(0)
 
         self.add_header(lay)
-        lay.addSpacing(36)
+        lay.addSpacing(28)
         self.add_details(lay)
-        lay.addSpacing(20)
+        lay.addSpacing(18)
         self.add_batch(lay)
-        lay.addSpacing(14)
+        lay.addSpacing(12)
         self.add_table(lay)
-        lay.addSpacing(80)
+        lay.addSpacing(60)
         self.add_footer(lay)
         lay.addStretch()
 
-        # paint the frame into a pixmap
         self.page_pixmap = QPixmap(page.size())
         self.page_pixmap.fill(Qt.GlobalColor.white)
 
@@ -125,15 +127,15 @@ class ProductionPrintPreview(QDialog):
         page.deleteLater()
 
     # ------------------------------------------------------------------ #
-    # Zoom handling (only scales the pixmap)
+    # Zoom handling
     # ------------------------------------------------------------------ #
     def update_zoom(self):
         if self.page_pixmap.isNull():
             return
 
         scale = self.zoom / 100.0
-        w = int(850 * scale)
-        h = int(1100 * scale)
+        w = int(816 * scale)
+        h = int(1056 * scale)
 
         scaled = self.page_pixmap.scaled(
             w, h,
@@ -170,20 +172,20 @@ class ProductionPrintPreview(QDialog):
         left_widget = QWidget()
         left = QVBoxLayout(left_widget)
         left.setSpacing(2)
-        left.addSpacing(30)
+        left.addSpacing(25)
         left.setContentsMargins(0, 0, 0, 0)
 
         company = QLabel("MASTERBATCH PHILIPPINES, INC.")
-        company.setFont(QFont("Arial", 10))
+        company.setFont(QFont("Arial", 9))
         left.addWidget(company)
 
         prod_entry = QLabel("PRODUCTION ENTRY")
-        prod_entry.setFont(QFont("Arial", 10))
+        prod_entry.setFont(QFont("Arial", 9))
         left.addWidget(prod_entry)
 
         form_number = 'FM00012A2' if 'wip' in self.data else 'FM00012A1'
         form = QLabel(f"FORM NO. {form_number}")
-        form.setFont(QFont("Arial", 10))
+        form.setFont(QFont("Arial", 9))
         left.addWidget(form)
 
         hbox.addWidget(left_widget, alignment=Qt.AlignmentFlag.AlignTop)
@@ -192,7 +194,7 @@ class ProductionPrintPreview(QDialog):
         # Right – Info box
         box = QFrame()
         box.setObjectName("infoBox")
-        box.setFixedWidth(310)
+        box.setFixedWidth(290)
         box.setStyleSheet("""
             QFrame#infoBox {
                 border: 1px solid black;
@@ -200,8 +202,8 @@ class ProductionPrintPreview(QDialog):
         """)
 
         bl = QVBoxLayout(box)
-        bl.setSpacing(10)
-        bl.setContentsMargins(10, 10, 10, 10)
+        bl.setSpacing(8)
+        bl.setContentsMargins(8, 8, 8, 8)
         if 'wip' in self.data:
             info = [
                 ("PRODUCTION ID", self.data.get('prod_id', '')),
@@ -222,17 +224,17 @@ class ProductionPrintPreview(QDialog):
             row = QHBoxLayout()
 
             key_label = QLabel(k)
-            key_label.setFont(QFont("Arial", 10))
-            key_label.setFixedWidth(145)
+            key_label.setFont(QFont("Arial", 9))
+            key_label.setFixedWidth(135)
             row.addWidget(key_label)
 
             colon = QLabel(":")
-            colon.setFont(QFont("Arial", 10))
+            colon.setFont(QFont("Arial", 9))
             colon.setFixedWidth(8)
             row.addWidget(colon)
 
             val_label = QLabel(str(v))
-            val_label.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            val_label.setFont(QFont("Arial", 9, QFont.Weight.Bold))
             row.addWidget(val_label)
             row.addStretch()
 
@@ -243,11 +245,11 @@ class ProductionPrintPreview(QDialog):
 
     def add_details(self, layout):
         hbox = QHBoxLayout()
-        hbox.setSpacing(100)
+        hbox.setSpacing(80)
 
         # Left column
         left = QVBoxLayout()
-        left.setSpacing(11)
+        left.setSpacing(10)
         items_l = [
             ("PRODUCT CODE", self.data.get('product_code', '')),
             ("PRODUCT COLOR", self.data.get('product_color', '')),
@@ -256,11 +258,11 @@ class ProductionPrintPreview(QDialog):
             ("LOT NO.", self.data.get('lot_number', ''))
         ]
         for k, v in items_l:
-            left.addLayout(self.kv_row(k, v, 115))
+            left.addLayout(self.kv_row(k, v, 110))
 
         # Right column
         right = QVBoxLayout()
-        right.setSpacing(11)
+        right.setSpacing(10)
         items_r = [
             ("MIXING TIME", self.data.get('mixing_time', '')),
             ("MACHINE NO", self.data.get('machine_no', '')),
@@ -269,7 +271,7 @@ class ProductionPrintPreview(QDialog):
             ("QTY TO PRODUCE", self.data.get('qty_produced', ''))
         ]
         for k, v in items_r:
-            right.addLayout(self.kv_row(k, v, 120))
+            right.addLayout(self.kv_row(k, v, 115))
 
         hbox.addLayout(left)
         hbox.addLayout(right)
@@ -278,7 +280,7 @@ class ProductionPrintPreview(QDialog):
     def add_batch(self, layout):
         text = self.batch_text()
         lbl = QLabel(text)
-        lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+        lbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl)
 
@@ -290,39 +292,40 @@ class ProductionPrintPreview(QDialog):
         top_line.setStyleSheet("background-color: black;")
         top_line.setFixedHeight(1)
         layout.addWidget(top_line)
-        layout.addSpacing(6)
+        layout.addSpacing(5)
+
         # Table header
         hdr = QWidget()
         hl = QHBoxLayout(hdr)
-        hl.setContentsMargins(5, 4, 5, 4)
+        hl.setContentsMargins(5, 3, 5, 3)
         hl.setSpacing(0)
 
         mat_code = QLabel("MATERIAL CODE")
-        mat_code.setFont(QFont("Arial", 10))
+        mat_code.setFont(QFont("Arial", 9))
         mat_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        mat_code.setFixedWidth(160)
+        mat_code.setFixedWidth(150)
         hl.addWidget(mat_code)
 
         large = QLabel("LARGE SCALE (Kg.)")
-        large.setFont(QFont("Arial", 10))
+        large.setFont(QFont("Arial", 9))
         large.setAlignment(Qt.AlignmentFlag.AlignRight)
-        large.setFixedWidth(195)
+        large.setFixedWidth(175)
         hl.addWidget(large)
 
         small = QLabel("SMALL SCALE (grm.)")
-        small.setFont(QFont("Arial", 10))
+        small.setFont(QFont("Arial", 9))
         small.setAlignment(Qt.AlignmentFlag.AlignRight)
-        small.setFixedWidth(195)
+        small.setFixedWidth(175)
         hl.addWidget(small)
 
         weight = QLabel("WEIGHT (Kg.)")
-        weight.setFont(QFont("Arial", 10))
+        weight.setFont(QFont("Arial", 9))
         weight.setAlignment(Qt.AlignmentFlag.AlignRight)
-        weight.setFixedWidth(195)
+        weight.setFixedWidth(175)
         hl.addWidget(weight)
 
         layout.addWidget(hdr)
-        layout.addSpacing(6)
+        layout.addSpacing(5)
 
         # Header bottom line
         hdr_line = QFrame()
@@ -331,7 +334,7 @@ class ProductionPrintPreview(QDialog):
         hdr_line.setStyleSheet("background-color: black;")
         hdr_line.setFixedHeight(1)
         layout.addWidget(hdr_line)
-        layout.addSpacing(6)
+        layout.addSpacing(5)
 
         # Rows
         total = 0.0
@@ -342,35 +345,36 @@ class ProductionPrintPreview(QDialog):
             rl.setSpacing(0)
 
             code = QLabel(m.get('material_code', ''))
-            code.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            code.setFont(QFont("Arial", 9, QFont.Weight.Bold))
             code.setAlignment(Qt.AlignmentFlag.AlignLeft)
-            code.setFixedWidth(160)
+            code.setFixedWidth(150)
             rl.addWidget(code)
 
             large_val = float(m.get('large_scale', 0))
             large_lbl = QLabel(f"{large_val:.6f}")
-            large_lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            large_lbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
             large_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
-            large_lbl.setFixedWidth(195)
+            large_lbl.setFixedWidth(175)
             rl.addWidget(large_lbl)
 
             small_val = float(m.get('small_scale', 0))
             small_lbl = QLabel(f"{small_val:.6f}")
-            small_lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            small_lbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
             small_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
-            small_lbl.setFixedWidth(195)
+            small_lbl.setFixedWidth(175)
             rl.addWidget(small_lbl)
 
             wt = float(m.get('total_weight', 0))
             total += wt
             wlbl = QLabel(f"{wt:.6f}")
-            wlbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            wlbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
             wlbl.setAlignment(Qt.AlignmentFlag.AlignRight)
-            wlbl.setFixedWidth(195)
+            wlbl.setFixedWidth(175)
             rl.addWidget(wlbl)
 
             layout.addWidget(row)
-            layout.addSpacing(6)
+            layout.addSpacing(5)
+
         # Footer top line
         foot_line = QFrame()
         foot_line.setFrameShape(QFrame.Shape.HLine)
@@ -378,29 +382,29 @@ class ProductionPrintPreview(QDialog):
         foot_line.setStyleSheet("background-color: black;")
         foot_line.setFixedHeight(1)
         layout.addWidget(foot_line)
-        layout.addSpacing(6)
+        layout.addSpacing(5)
 
         # Footer
         foot = QWidget()
         fl = QHBoxLayout(foot)
-        fl.setContentsMargins(5, 5, 5, 5)
+        fl.setContentsMargins(5, 4, 5, 4)
         fl.setSpacing(0)
 
         note = QLabel(f"NOTE: <b>{self.batch_text()}</b>")
-        note.setFont(QFont("Arial", 10))
+        note.setFont(QFont("Arial", 9))
         fl.addWidget(note)
         fl.addStretch()
 
         total_lbl = QLabel("TOTAL:")
-        total_lbl.setFont(QFont("Arial", 10))
+        total_lbl.setFont(QFont("Arial", 9))
         total_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
         fl.addWidget(total_lbl)
 
         fl.addSpacing(10)
 
         tot = QLabel(f"{total:.6f}")
-        tot.setFont(QFont("Arial", 10, QFont.Weight.Bold))
-        tot.setFixedWidth(195)
+        tot.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+        tot.setFixedWidth(175)
         tot.setAlignment(Qt.AlignmentFlag.AlignRight)
         fl.addWidget(tot)
 
@@ -412,7 +416,7 @@ class ProductionPrintPreview(QDialog):
 
         # --- LEFT COLUMN ---
         left = QVBoxLayout()
-        left.setSpacing(12)
+        left.setSpacing(10)
 
         # PREPARED BY
         left.addLayout(self.footer_row("PREPARED BY", self.data.get('prepared_by', '')))
@@ -423,15 +427,16 @@ class ProductionPrintPreview(QDialog):
 
         # SYSTEM
         system = QLabel("MBPI-SYSTEM-2022")
-        system.setFont(QFont("Arial", 10))
+        system.setFont(QFont("Arial", 9))
         left.addWidget(system)
 
         # --- RIGHT COLUMN ---
         right = QVBoxLayout()
-        right.setSpacing(8)
+        right.setSpacing(7)
 
         # APPROVED BY
-        right.addLayout(self.footer_row("APPROVED BY", self.data.get('approved_by', 'M. VERDE'), underline=True, right_side=True))
+        right.addLayout(
+            self.footer_row("APPROVED BY", self.data.get('approved_by', 'M. VERDE'), underline=True, right_side=True))
 
         # RELEASED & PROCESSED (blank lines)
         right.addLayout(self.footer_row("MAT'L RELEASED BY", "", underline=True, right_side=True))
@@ -442,24 +447,23 @@ class ProductionPrintPreview(QDialog):
         hbox.addLayout(right)
         layout.addLayout(hbox)
 
-    # === NEW HELPER: Creates aligned "KEY : VALUE" row ===
     def footer_row(self, key, value, underline=False, right_side=False):
         row = QHBoxLayout()
-        row.setSpacing(10)
+        row.setSpacing(8)
 
         # --- Key label ---
         key_label = QLabel(key)
-        font = QFont("Arial", 10)
+        font = QFont("Arial", 9)
         key_label.setFont(font)
         key_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        fix_width = 94 if not right_side else 140
+        fix_width = 90 if not right_side else 130
         key_label.setFixedWidth(fix_width)
         row.addWidget(key_label)
 
         # --- Colon ---
         colon = QLabel(":")
-        colon.setFont(QFont("Arial", 10))
-        colon.setFixedWidth(10)
+        colon.setFont(QFont("Arial", 9))
+        colon.setFixedWidth(8)
         colon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         row.addWidget(colon)
 
@@ -470,7 +474,7 @@ class ProductionPrintPreview(QDialog):
         val_layout.setSpacing(2)
 
         val_label = QLabel(value)
-        val_label.setFont(QFont("Arial", 10))
+        val_label.setFont(QFont("Arial", 9))
         val_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         if underline:
@@ -478,7 +482,7 @@ class ProductionPrintPreview(QDialog):
             line.setFrameShape(QFrame.Shape.HLine)
             line.setFrameShadow(QFrame.Shadow.Plain)
             line.setLineWidth(1)
-            line.setFixedWidth(180)  # adjust length of underline
+            line.setFixedWidth(165)
             line.setStyleSheet("color: black;")
             val_layout.addWidget(val_label, alignment=Qt.AlignmentFlag.AlignCenter)
             val_layout.addWidget(line, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -495,18 +499,17 @@ class ProductionPrintPreview(QDialog):
         row.setSpacing(5)
 
         key_label = QLabel(k)
-        key_label.setFont(QFont("Arial", 10))
+        key_label.setFont(QFont("Arial", 9))
         key_label.setFixedWidth(key_width)
         row.addWidget(key_label)
 
         colon = QLabel(":")
-        colon.setFont(QFont("Arial", 10))
+        colon.setFont(QFont("Arial", 9))
         colon.setFixedWidth(8)
         row.addWidget(colon)
 
         val_label = QLabel(str(v))
-        val_label.setFont(QFont("Arial", 10, QFont.Weight.Bold))
-        val_label.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+        val_label.setFont(QFont("Arial", 9, QFont.Weight.Bold))
         row.addWidget(val_label)
         row.addStretch()
 
@@ -527,11 +530,43 @@ class ProductionPrintPreview(QDialog):
             return "N/A"
 
     # ------------------------------------------------------------------ #
-    # Printing (always 100% original page)
+    # Download PDF
+    # ------------------------------------------------------------------ #
+    def download_pdf(self):
+        prod_id = self.data.get('prod_id', 'production')
+        default_name = f"{prod_id}_production_entry.pdf"
+
+        filename, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save PDF",
+            default_name,
+            "PDF Files (*.pdf)"
+        )
+
+        if not filename:
+            return
+
+        printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        printer.setOutputFormat(QPrinter.OutputFormat.PdfFormat)
+        printer.setOutputFileName(filename)
+        printer.setPageSize(QPageSize(QPageSize.PageSizeId.Letter))
+        printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+
+        painter = QPainter(printer)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setRenderHint(QPainter.RenderHint.TextAntialiasing)
+
+        painter.drawPixmap(0, 0, self.page_pixmap)
+        painter.end()
+
+        QMessageBox.information(self, "Success", f"PDF saved successfully:\n{filename}")
+
+    # ------------------------------------------------------------------ #
+    # Printing
     # ------------------------------------------------------------------ #
     def print_doc(self):
         printer = QPrinter(QPrinter.PrinterMode.HighResolution)
-        printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))
+        printer.setPageSize(QPageSize(QPageSize.PageSizeId.Letter))
         printer.setPageOrientation(QPageLayout.Orientation.Portrait)
 
         dlg = QPrintDialog(printer, self)
@@ -542,45 +577,9 @@ class ProductionPrintPreview(QDialog):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setRenderHint(QPainter.RenderHint.TextAntialiasing)
 
-        # draw the *original* 100% pixmap
         painter.drawPixmap(0, 0, self.page_pixmap)
         painter.end()
 
         self.printed.emit(self.data.get('prod_id', ''))
         QMessageBox.information(self, "Done", "Printed successfully.")
         self.accept()
-
-
-# ---------------------------------------------------------------------- #
-# Example usage (uncomment to test)
-# ---------------------------------------------------------------------- #
-# if __name__ == "__main__":
-#     import sys
-#     app = QApplication(sys.argv)
-#
-#     prod_data = {
-#         "prod_id": "P12345",
-#         "production_date": "2025-11-03",
-#         "order_form_no": "OF9876",
-#         "formulation_id": "F001",
-#         "product_code": "PC-001",
-#         "product_color": "RED",
-#         "dosage": "2%",
-#         "customer": "ABC Corp",
-#         "lot_number": "L2025-001",
-#         "mixing_time": "30 min",
-#         "machine_no": "M01",
-#         "qty_required": "500",
-#         "qty_per_batch": "100",
-#         "qty_produced": "500",
-#         "prepared_by": "J. Doe",
-#         "approved_by": "M. Verde",
-#     }
-#
-#     materials = [
-#         {"material_code": "MC001", "large_scale": 45.123456, "small_scale": 12.345678, "total_weight": 57.469134},
-#         {"material_code": "MC002", "large_scale": 20.000000, "small_scale": 5.000000,  "total_weight": 25.000000},
-#     ]
-#
-#     dlg = ProductionPrintPreview(prod_data, materials)
-#     dlg.exec()
