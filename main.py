@@ -136,7 +136,7 @@ class AppStyles:
         QPushButton#DangerButton {{ background-color: {DANGER_COLOR}; color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
         QPushButton#DangerButton:hover {{ background-color: #DC2626; }}
         QPushButton#WarningButton {{ background-color: {WARNING_COLOR}; color: {TEXT_PRIMARY}; font-weight: 600; border: none; }}
-        QPushButton#WarningButton:hover {{ background-color: #D97706; }}
+        QPushButton#WarningButton:hover {{ background-color: #B45309; }}
         QPushButton#InfoButton {{ background-color: {INFO_COLOR}; color: {TEXT_LIGHT}; font-weight: 600; border: none; }}
         QPushButton#InfoButton:hover {{ background-color: #2563EB; }}
         QTableWidget {{ border: 1px solid {BORDER_COLOR}; gridline-color: {BORDER_COLOR}; background-color: {BG_PRIMARY}; border-radius: 8px; alternate-background-color: {BG_SECONDARY}; }}
