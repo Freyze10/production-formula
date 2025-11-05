@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00224" summary="adjust font weight of the table texts">
-      <option name="closed" value="true" />
-      <created>1762220428226</created>
-      <option name="number" value="00224" />
-      <option name="presentableId" value="LOCAL-00224" />
-      <option name="project" value="LOCAL" />
-      <updated>1762220428226</updated>
-    </task>
     <task id="LOCAL-00225" summary="adjust font weights and positions">
       <option name="closed" value="true" />
       <created>1762221220506</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762321139724</updated>
     </task>
-    <option name="localTasksCounter" value="273" />
+    <task id="LOCAL-00273" summary="changed refresh icon">
+      <option name="closed" value="true" />
+      <created>1762321263056</created>
+      <option name="number" value="00273" />
+      <option name="presentableId" value="LOCAL-00273" />
+      <option name="project" value="LOCAL" />
+      <updated>1762321263056</updated>
+    </task>
+    <option name="localTasksCounter" value="274" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added different form number" />
     <MESSAGE value="cleaned database query" />
     <MESSAGE value="trying  completer in manual" />
     <MESSAGE value="connected manual completer" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added sync button" />
     <MESSAGE value="added sync formula function" />
     <MESSAGE value="connected sync function to btn" />
-    <option name="LAST_COMMIT_MESSAGE" value="connected sync function to btn" />
+    <MESSAGE value="changed refresh icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed refresh icon" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
