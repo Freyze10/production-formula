@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00230" summary="updated production date handling">
-      <option name="closed" value="true" />
-      <created>1762227649320</created>
-      <option name="number" value="00230" />
-      <option name="presentableId" value="LOCAL-00230" />
-      <option name="project" value="LOCAL" />
-      <updated>1762227649320</updated>
-    </task>
     <task id="LOCAL-00231" summary="removed comment">
       <option name="closed" value="true" />
       <created>1762227934933</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762325825683</updated>
     </task>
-    <option name="localTasksCounter" value="279" />
+    <task id="LOCAL-00279" summary="removed auto restart after switching tab">
+      <option name="closed" value="true" />
+      <created>1762327190530</created>
+      <option name="number" value="00279" />
+      <option name="presentableId" value="LOCAL-00279" />
+      <option name="project" value="LOCAL" />
+      <updated>1762327190530</updated>
+    </task>
+    <option name="localTasksCounter" value="280" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing tab orders" />
     <MESSAGE value="removed unnecessary line" />
     <MESSAGE value="fixing refresh icon button" />
     <MESSAGE value="changed warning color" />
@@ -701,7 +700,8 @@
     <MESSAGE value="modified fields for print prev auto" />
     <MESSAGE value="connected to print preview" />
     <MESSAGE value="adjust spacing and font weight" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust spacing and font weight" />
+    <MESSAGE value="removed auto restart after switching tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed auto restart after switching tab" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
