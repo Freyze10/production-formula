@@ -14,7 +14,7 @@ import pandas as pd
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from utils.debounce import finished_typing
-from utils.field_format import mixing_time
+from utils.field_format import mixing_time, format_to_float
 from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils import global_var
@@ -333,13 +333,13 @@ class FormulationManagementPage(QWidget):
         # Sum of Concentration
         self.sum_conc_input = QLineEdit()
         self.sum_conc_input.setStyleSheet("background-color: #fff9c4;")
-        self.sum_conc_input.focusOutEvent = lambda event: self.format_to_float(event, self.sum_conc_input)
+        self.sum_conc_input.focusOutEvent = lambda event: format_to_float(self, event, self.sum_conc_input)
         formula_layout.addRow("Sum of Concentration:", self.sum_conc_input)
 
         # Dosage
         self.dosage_input = QLineEdit()
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
-        self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
+        self.dosage_input.focusOutEvent = lambda event: format_to_float(self, event, self.dosage_input)
         formula_layout.addRow("Dosage:", self.dosage_input)
 
         # Mixing Time
@@ -633,20 +633,6 @@ class FormulationManagementPage(QWidget):
         current_text = self.material_code_input.currentText()
         if current_text not in global_var.rm_list:
             self.material_code_input.setCurrentIndex(0)
-
-    def format_to_float(self, event, line_edit):
-        """Format the input to a float with 6 decimal places when focus is lost."""
-        text = line_edit.text().strip()
-        try:
-            if text:
-                value = float(text)
-                line_edit.setText(f"{value:.6f}")
-        except ValueError:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a valid number.")
-            line_edit.setFocus()
-            line_edit.selectAll()
-            return
-        QLineEdit.focusOutEvent(line_edit, event)
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file."""

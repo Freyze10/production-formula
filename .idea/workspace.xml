@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00233" summary="added wip in dict">
-      <option name="closed" value="true" />
-      <created>1762228390534</created>
-      <option name="number" value="00233" />
-      <option name="presentableId" value="LOCAL-00233" />
-      <option name="project" value="LOCAL" />
-      <updated>1762228390535</updated>
-    </task>
     <task id="LOCAL-00234" summary="added wip in dict">
       <option name="closed" value="true" />
       <created>1762228956619</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762327245210</updated>
     </task>
-    <option name="localTasksCounter" value="282" />
+    <task id="LOCAL-00282" summary="modified field format func">
+      <option name="closed" value="true" />
+      <created>1762327785719</created>
+      <option name="number" value="00282" />
+      <option name="presentableId" value="LOCAL-00282" />
+      <option name="project" value="LOCAL" />
+      <updated>1762327785719</updated>
+    </task>
+    <option name="localTasksCounter" value="283" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing refresh icon button" />
     <MESSAGE value="changed warning color" />
     <MESSAGE value="changed refresh btn connection" />
     <MESSAGE value="added sync btn function" />
@@ -701,14 +700,15 @@
     <MESSAGE value="adjust spacing and font weight" />
     <MESSAGE value="removed auto restart after switching tab" />
     <MESSAGE value="added field format func" />
-    <option name="LAST_COMMIT_MESSAGE" value="added field format func" />
+    <MESSAGE value="modified field format func" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified field format func" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>772</line>
+          <line>758</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
