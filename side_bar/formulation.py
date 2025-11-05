@@ -1138,10 +1138,10 @@ class FormulationManagementPage(QWidget):
                 self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
                 self.encoded_by_display.setText(self.work_station['u'])
                 self.updated_by_display.setText(self.work_station['u'])
-            if self.tab_widget.widget(index) == self.records_tab:
-                self.populate_formulation_table()  # Use cached data
-                self.enable_fields(enable=True)
-                self.new_formulation()
+            # if self.tab_widget.widget(index) == self.records_tab:
+            #     self.populate_formulation_table()  # Use cached data
+            #     self.enable_fields(enable=True)
+            #     self.new_formulation()
         except Exception as e:
             print(e)
 
