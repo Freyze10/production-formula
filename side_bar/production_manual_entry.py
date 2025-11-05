@@ -11,7 +11,7 @@ import qtawesome as fa
 from db import db_call
 from previews.view_production_manual import ProductionPrintPreview
 from utils.date import SmartDateEdit
-from utils.field_format import format_to_float, mixing_time
+from utils.field_format import format_to_float, production_mixing_time
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var
@@ -184,7 +184,7 @@ class ManualProductionPage(QWidget):
 
         self.mixing_time_input = QLineEdit()
         self.mixing_time_input.setPlaceholderText("Enter mixing time")
-        self.mixing_time_input.focusOutEvent = lambda event: mixing_time(event, self.mixing_time_input)
+        self.mixing_time_input.focusOutEvent = lambda event: production_mixing_time(event, self.mixing_time_input)
         mixing_machine_layout.addWidget(self.mixing_time_input)
 
         machine_no_label = QLabel("Machine No:")
