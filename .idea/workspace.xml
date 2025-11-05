@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00239" summary="changed position of left header">
-      <option name="closed" value="true" />
-      <created>1762237258268</created>
-      <option name="number" value="00239" />
-      <option name="presentableId" value="LOCAL-00239" />
-      <option name="project" value="LOCAL" />
-      <updated>1762237258268</updated>
-    </task>
     <task id="LOCAL-00240" summary="changed width size footer">
       <option name="closed" value="true" />
       <created>1762237366017</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762328308150</updated>
     </task>
-    <option name="localTasksCounter" value="288" />
+    <task id="LOCAL-00288" summary="changed mix time to formula and prod format">
+      <option name="closed" value="true" />
+      <created>1762328916099</created>
+      <option name="number" value="00288" />
+      <option name="presentableId" value="LOCAL-00288" />
+      <option name="project" value="LOCAL" />
+      <updated>1762328916099</updated>
+    </task>
+    <option name="localTasksCounter" value="289" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added loading gif" />
     <MESSAGE value="created simple loading dialog" />
     <MESSAGE value="updated loading dialog" />
     <MESSAGE value="make statis loading dialog" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added format to production manual" />
     <MESSAGE value="added mixing time function in production" />
     <MESSAGE value="added mixing time function in production manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="added mixing time function in production manual" />
+    <MESSAGE value="changed mix time to formula and prod format" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed mix time to formula and prod format" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
