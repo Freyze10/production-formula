@@ -5,7 +5,7 @@ from datetime import datetime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
-                             QScrollArea, QFormLayout, QCompleter, QSizePolicy, QFileDialog)
+                             QScrollArea, QFormLayout, QCompleter, QSizePolicy, QFileDialog, QApplication)
 from PyQt6.QtCore import Qt, QDate, QThread
 from PyQt6.QtGui import QFont
 import qtawesome as fa
@@ -14,6 +14,7 @@ import pandas as pd
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from utils.debounce import finished_typing
+from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils import global_var
 
@@ -687,18 +688,26 @@ class FormulationManagementPage(QWidget):
         self.refresh_data_from_db()
 
     def refresh_data_from_db(self):
-        """Explicitly refresh data from database (called by refresh button or date change)."""
+        """Explicitly refresh data from database with loading dialog."""
         early_date = self.date_from_filter.date().toPyDate()
         late_date = self.date_to_filter.date().toPyDate()
+
+        # SHOW LOADING DIALOG
+        dlg = StaticLoadingDialog(self)
+        dlg.show()
+        QApplication.processEvents()  # Force show
 
         try:
             global_var.all_formula_data = db_call.get_formula_data(early_date, late_date)
             self.update_cached_lists()
             self.populate_formulation_table()
+
         except Exception as e:
             QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
             global_var.all_formula_data = []
             self.populate_formulation_table()
+        finally:
+            dlg.accept()  # Close dialog
 
     def set_date_range_or_no_data(self):
         """Enable/disable date filters based on DB content."""
