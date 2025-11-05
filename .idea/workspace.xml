@@ -252,22 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00237" summary="added WIP in preview">
-      <option name="closed" value="true" />
-      <created>1762236566375</created>
-      <option name="number" value="00237" />
-      <option name="presentableId" value="LOCAL-00237" />
-      <option name="project" value="LOCAL" />
-      <updated>1762236566375</updated>
-    </task>
-    <task id="LOCAL-00238" summary="added WIP for saving">
-      <option name="closed" value="true" />
-      <created>1762237074146</created>
-      <option name="number" value="00238" />
-      <option name="presentableId" value="LOCAL-00238" />
-      <option name="project" value="LOCAL" />
-      <updated>1762237074146</updated>
-    </task>
     <task id="LOCAL-00239" summary="changed position of left header">
       <option name="closed" value="true" />
       <created>1762237258268</created>
@@ -644,7 +628,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762328081333</updated>
     </task>
-    <option name="localTasksCounter" value="286" />
+    <task id="LOCAL-00286" summary="added mixing time function in production">
+      <option name="closed" value="true" />
+      <created>1762328274131</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1762328274131</updated>
+    </task>
+    <task id="LOCAL-00287" summary="added mixing time function in production manual">
+      <option name="closed" value="true" />
+      <created>1762328308150</created>
+      <option name="number" value="00287" />
+      <option name="presentableId" value="LOCAL-00287" />
+      <option name="project" value="LOCAL" />
+      <updated>1762328308150</updated>
+    </task>
+    <option name="localTasksCounter" value="288" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="connected the function to button" />
-    <MESSAGE value="added a loading dialog" />
     <MESSAGE value="added loading gif" />
     <MESSAGE value="created simple loading dialog" />
     <MESSAGE value="updated loading dialog" />
@@ -701,7 +699,9 @@
     <MESSAGE value="refactored format to float function" />
     <MESSAGE value="added format to production" />
     <MESSAGE value="added format to production manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="added format to production manual" />
+    <MESSAGE value="added mixing time function in production" />
+    <MESSAGE value="added mixing time function in production manual" />
+    <option name="LAST_COMMIT_MESSAGE" value="added mixing time function in production manual" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,7 +713,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>845</line>
+          <line>846</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
