@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00234" summary="added wip in dict">
-      <option name="closed" value="true" />
-      <created>1762228956619</created>
-      <option name="number" value="00234" />
-      <option name="presentableId" value="LOCAL-00234" />
-      <option name="project" value="LOCAL" />
-      <updated>1762228956619</updated>
-    </task>
     <task id="LOCAL-00235" summary="changed prod return value">
       <option name="closed" value="true" />
       <created>1762234580760</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762327785719</updated>
     </task>
-    <option name="localTasksCounter" value="283" />
+    <task id="LOCAL-00283" summary="refactored format to float function">
+      <option name="closed" value="true" />
+      <created>1762327957877</created>
+      <option name="number" value="00283" />
+      <option name="presentableId" value="LOCAL-00283" />
+      <option name="project" value="LOCAL" />
+      <updated>1762327957877</updated>
+    </task>
+    <option name="localTasksCounter" value="284" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed warning color" />
     <MESSAGE value="changed refresh btn connection" />
     <MESSAGE value="added sync btn function" />
     <MESSAGE value="connected the function to button" />
@@ -701,7 +700,8 @@
     <MESSAGE value="removed auto restart after switching tab" />
     <MESSAGE value="added field format func" />
     <MESSAGE value="modified field format func" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified field format func" />
+    <MESSAGE value="refactored format to float function" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored format to float function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -723,7 +723,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
-          <line>1253</line>
+          <line>1239</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
