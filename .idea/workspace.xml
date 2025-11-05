@@ -252,22 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00213" summary="changing spacing">
-      <option name="closed" value="true" />
-      <created>1762155796035</created>
-      <option name="number" value="00213" />
-      <option name="presentableId" value="LOCAL-00213" />
-      <option name="project" value="LOCAL" />
-      <updated>1762155796035</updated>
-    </task>
-    <task id="LOCAL-00214" summary="fixing spacing layout">
-      <option name="closed" value="true" />
-      <created>1762157348772</created>
-      <option name="number" value="00214" />
-      <option name="presentableId" value="LOCAL-00214" />
-      <option name="project" value="LOCAL" />
-      <updated>1762157348772</updated>
-    </task>
     <task id="LOCAL-00215" summary="fixing spacing and layout">
       <option name="closed" value="true" />
       <created>1762158434912</created>
@@ -644,7 +628,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762309085437</updated>
     </task>
-    <option name="localTasksCounter" value="262" />
+    <task id="LOCAL-00262" summary="updated loading dialog">
+      <option name="closed" value="true" />
+      <created>1762309424006</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
+      <option name="project" value="LOCAL" />
+      <updated>1762309424006</updated>
+    </task>
+    <task id="LOCAL-00263" summary="updated loading dialog">
+      <option name="closed" value="true" />
+      <created>1762309437402</created>
+      <option name="number" value="00263" />
+      <option name="presentableId" value="LOCAL-00263" />
+      <option name="project" value="LOCAL" />
+      <updated>1762309437402</updated>
+    </task>
+    <option name="localTasksCounter" value="264" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -699,9 +699,9 @@
     <MESSAGE value="connected the function to button" />
     <MESSAGE value="added a loading dialog" />
     <MESSAGE value="added loading gif" />
-    <MESSAGE value="updated loading dialog" />
     <MESSAGE value="created simple loading dialog" />
-    <option name="LAST_COMMIT_MESSAGE" value="created simple loading dialog" />
+    <MESSAGE value="updated loading dialog" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated loading dialog" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

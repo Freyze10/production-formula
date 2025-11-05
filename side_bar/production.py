@@ -6,7 +6,7 @@ from time import strftime
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                              QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
-                             QScrollArea, QFormLayout, QCompleter, QSizePolicy, QFileDialog, QDialog)
+                             QScrollArea, QFormLayout, QCompleter, QSizePolicy, QFileDialog, QDialog, QApplication)
 from PyQt6.QtCore import Qt, QDate, QThread
 from PyQt6.QtGui import QFont
 import qtawesome as fa
@@ -17,7 +17,7 @@ from db.sync_formula import SyncProductionWorker, LoadingDialog
 from side_bar.production_manual_entry import ManualProductionPage
 from utils.date import SmartDateEdit
 from utils.debounce import finished_typing
-from utils.loading import SimpleLoadingDialog
+from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var, calendar_design
@@ -575,41 +575,30 @@ class ProductionManagementPage(QWidget):
         self.set_date_range()
 
     def refresh_data_from_db(self):
-        """Show GIF → do all work → close GIF."""
-        dlg = SimpleLoadingDialog(self, gif_path="assets/loading.gif")
-        dlg.set_text("Fetching data…")
-        dlg.show_and_paint()  # <-- **IMPORTANT**
+        from PyQt6.QtWidgets import QApplication
+
+        # Show static spinner dialog
+        dlg = StaticLoadingDialog(self)
+        dlg.show()
+        QApplication.processEvents()  # Force immediate display
 
         try:
-            # 1. DB
-            dlg.set_text("Reading database…")
-            dlg.parent().repaint()
             global_var.all_production_data = db_call.get_all_production_data()
-
-            # 2. Cache
-            dlg.set_text("Updating filters…")
-            dlg.parent().repaint()
             self.update_cached_lists()
 
-            # 3. Table (the slow part)
-            dlg.set_text("Building table…")
-            dlg.parent().repaint()
-
+            # Heavy table fill (no freeze thanks to setUpdatesEnabled)
             self.production_table.setUpdatesEnabled(False)
             self.production_table.setSortingEnabled(False)
-            self.populate_production_table()  # <-- heavy
+            self.populate_production_table()
             self.production_table.setUpdatesEnabled(True)
             self.production_table.setSortingEnabled(True)
 
-            # 4. Filters
             self.on_date_filter_changed()
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Load failed:\n{e}")
-            global_var.all_production_data = []
-            self.populate_production_table()
         finally:
-            dlg.accept()
+            dlg.accept()  # Close dialog
 
     def refresh_productions(self):  # init
         """Load productions from database and cache them."""
