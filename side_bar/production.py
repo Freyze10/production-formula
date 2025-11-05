@@ -568,7 +568,10 @@ class ProductionManagementPage(QWidget):
     def refresh_btn_clicked(self):
         self.set_date_range()
         self.refresh_data_from_db()
+
+    def btn_sync_clicked(self):
         self.run_production_sync()
+        self.set_date_range()
 
     def refresh_data_from_db(self):
         """Explicitly refresh data from database (called by refresh button or date change)."""
