@@ -14,6 +14,7 @@ import pandas as pd
 
 from db import db_call
 from db.sync_formula import SyncProductionWorker, LoadingDialog
+from previews.view_production_manual import ProductionPrintPreview
 from side_bar.production_manual_entry import ManualProductionPage
 from utils.date import SmartDateEdit
 from utils.debounce import finished_typing
@@ -1232,13 +1233,77 @@ class ProductionManagementPage(QWidget):
         self.log_audit_trail("Production Action", "Generated advance production")
 
     def print_production(self):
-        """Print production record."""
         if not self.production_id_input.text().strip():
-            QMessageBox.warning(self, "No Data", "Please load or create a production record first.")
+            QMessageBox.warning(self, "No Data", "Please create or load a production record first.")
             return
 
-        QMessageBox.information(self, "Print", "Print functionality to be implemented.")
-        self.log_audit_trail("Production Action", f"Printed production: {self.production_id_input.text()}")
+        try:
+            production_date = ''
+
+            # Check if self.result exists and contains the key
+            if self.result and self.result.get('production_date'):
+                production_date = self.result['production_date'].strftime("%m/%d/%y")
+            else:
+                # Handle the case where it's missing or None
+                text_date = self.production_date_input.text().strip()
+
+                # Check if text_date is already in "MM/dd/yyyy" or "yyyy-MM-dd"
+                if "-" in text_date:
+                    production_date = datetime.strptime(text_date, "%Y-%m-%d").strftime("%m/%d/%y")
+                else:
+                    production_date = datetime.strptime(text_date, "%m/%d/%Y").strftime("%m/%d/%y")
+
+        except Exception as e:
+            print("Error:", e)
+            production_date = ""
+        # === Collect Data ===
+        production_data = {
+            'prod_id': self.production_id_input.text().strip(),
+            'form_type': self.form_type_combo.currentText(),
+            'production_date': production_date,
+            'order_form_no': self.order_form_no_input.text().strip(),
+            'formulation_id': self.formula_input.text().strip(),
+            'product_code': self.product_code_input.text().strip(),
+            'product_color': self.product_color_input.text().strip(),
+            'dosage': self.sum_cons_input.text().strip(),
+            'customer': self.customer_input.text().strip(),
+            'lot_number': self.lot_no_input.text().strip(),
+            'mixing_time': self.mixing_time_input.text().strip(),
+            'machine_no': self.machine_no_input.text().strip(),
+            'qty_required': self.qty_required_input.text().strip(),
+            'qty_per_batch': self.qty_per_batch_input.text().strip(),
+            'qty_produced': self.total_weight_label.text().strip(),
+            'prepared_by': self.prepared_by_input.text().strip(),
+            'notes': self.notes_input.toPlainText().strip(),
+            'approved_by': 'M. VERDE'
+        }
+
+        materials_data = []
+        for row in range(self.materials_table.rowCount()):
+            it0 = self.materials_table.item(row, 0)
+            if not it0 or not it0.text().strip():
+                continue
+            materials_data.append({
+                'material_code': it0.text(),
+                'large_scale': self.materials_table.item(row, 1).text() if self.materials_table.item(row, 1) else '0',
+                'small_scale': self.materials_table.item(row, 2).text() if self.materials_table.item(row, 2) else '0',
+                'total_weight': self.materials_table.item(row, 3).text() if self.materials_table.item(row, 3) else '0'
+            })
+
+        # === Open Preview with exec()===
+        preview = ProductionPrintPreview(production_data, materials_data, self)
+
+        # Connect audit log
+        def on_printed(prod_id):
+            self.log_audit_trail(
+                "Print Production",
+                f"(Manual) Prod ID: {prod_id} | Production Date: {production_data['production_date']}"
+            )
+
+        preview.printed.connect(on_printed)
+
+        # This blocks until user closes or prints
+        preview.exec()
 
     def run_production_sync(self):
         thread = QThread()
