@@ -575,8 +575,6 @@ class ProductionManagementPage(QWidget):
         self.set_date_range()
 
     def refresh_data_from_db(self):
-        from PyQt6.QtWidgets import QApplication
-
         # Show static spinner dialog
         dlg = StaticLoadingDialog(self)
         dlg.show()
