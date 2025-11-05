@@ -11,6 +11,7 @@ import qtawesome as fa
 from db import db_call
 from previews.view_production_manual import ProductionPrintPreview
 from utils.date import SmartDateEdit
+from utils.field_format import format_to_float
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var
@@ -111,7 +112,7 @@ class ManualProductionPage(QWidget):
 
         self.sum_cons_input = QLineEdit()
         self.sum_cons_input.setPlaceholderText("0.00000")
-        self.sum_cons_input.focusOutEvent = lambda event: self.format_to_float(event, self.sum_cons_input)
+        self.sum_cons_input.focusOutEvent = lambda event: format_to_float(self, event, self.sum_cons_input)
         sum_dosage_layout.addWidget(self.sum_cons_input)
 
         dosage_label = QLabel("Dosage:")
@@ -120,7 +121,7 @@ class ManualProductionPage(QWidget):
         self.dosage_input = QLineEdit()
         self.dosage_input.setPlaceholderText("0.000000")
         self.dosage_input.setStyleSheet("background-color: #fff9c4;")
-        self.dosage_input.focusOutEvent = lambda event: self.format_to_float(event, self.dosage_input)
+        self.dosage_input.focusOutEvent = lambda event: format_to_float(self, event, self.dosage_input)
         sum_dosage_layout.addWidget(self.dosage_input)
 
         primary_layout.addWidget(QLabel("Sum of Cons:"), row, 0)
@@ -203,7 +204,7 @@ class ManualProductionPage(QWidget):
         self.qty_required_input = QLineEdit()
         self.qty_required_input.setPlaceholderText("0.0000000")
         self.qty_required_input.setStyleSheet("background-color: #fff9c4;")
-        self.qty_required_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_required_input)
+        self.qty_required_input.focusOutEvent = lambda event: format_to_float(self, event, self.qty_required_input)
         qty_layout.addWidget(self.qty_required_input)
 
         qty_batch_label = QLabel("Qty. Per Batch:")
@@ -212,7 +213,7 @@ class ManualProductionPage(QWidget):
         self.qty_per_batch_input = QLineEdit()
         self.qty_per_batch_input.setPlaceholderText("0.0000000")
         self.qty_per_batch_input.setStyleSheet("background-color: #fff9c4;")
-        self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
+        self.qty_per_batch_input.focusOutEvent = lambda event: format_to_float(self, event, self.qty_per_batch_input)
         qty_layout.addWidget(self.qty_per_batch_input)
 
         primary_layout.addWidget(QLabel("Qty. Required:"), row, 0)
@@ -511,20 +512,6 @@ class ManualProductionPage(QWidget):
             return self.material_code_combo.currentText().strip()
         else:
             return self.material_code_lineedit.text().strip()
-
-    def format_to_float(self, event, line_edit):
-        """Format the input to a float with 6 decimal places when focus is lost."""
-        text = line_edit.text().strip()
-        try:
-            if text:
-                value = float(text)
-                line_edit.setText(f"{value:.6f}")
-        except ValueError:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a valid number.")
-            line_edit.setFocus()
-            line_edit.selectAll()
-            return
-        QLineEdit.focusOutEvent(line_edit, event)
 
     def new_production(self):
         """Initialize a new production entry."""

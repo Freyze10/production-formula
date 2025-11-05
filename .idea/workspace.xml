@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00235" summary="changed prod return value">
-      <option name="closed" value="true" />
-      <created>1762234580760</created>
-      <option name="number" value="00235" />
-      <option name="presentableId" value="LOCAL-00235" />
-      <option name="project" value="LOCAL" />
-      <updated>1762234580760</updated>
-    </task>
     <task id="LOCAL-00236" summary="changed singular or plural batches">
       <option name="closed" value="true" />
       <created>1762235488249</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762327957877</updated>
     </task>
-    <option name="localTasksCounter" value="284" />
+    <task id="LOCAL-00284" summary="added format to production">
+      <option name="closed" value="true" />
+      <created>1762328022118</created>
+      <option name="number" value="00284" />
+      <option name="presentableId" value="LOCAL-00284" />
+      <option name="project" value="LOCAL" />
+      <updated>1762328022118</updated>
+    </task>
+    <option name="localTasksCounter" value="285" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed refresh btn connection" />
     <MESSAGE value="added sync btn function" />
     <MESSAGE value="connected the function to button" />
     <MESSAGE value="added a loading dialog" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added field format func" />
     <MESSAGE value="modified field format func" />
     <MESSAGE value="refactored format to float function" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored format to float function" />
+    <MESSAGE value="added format to production" />
+    <option name="LAST_COMMIT_MESSAGE" value="added format to production" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,17 +713,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
-          <line>858</line>
+          <line>845</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
-          <line>346</line>
+          <line>347</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
-          <line>1239</line>
+          <line>1240</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
