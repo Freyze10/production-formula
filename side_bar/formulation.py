@@ -234,7 +234,7 @@ class FormulationManagementPage(QWidget):
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        self.refresh_btn.clicked.connect(self.refresh_data_from_db)
+        self.refresh_btn.clicked.connect(self.btn_refresh_clicked)
         controls_layout.addWidget(self.refresh_btn)
 
         self.view_btn = QPushButton("View Details", objectName="PrimaryButton")
@@ -680,6 +680,10 @@ class FormulationManagementPage(QWidget):
 
     def on_date_filter_changed(self):
         """Handle date filter changes - refresh data from database."""
+        self.refresh_data_from_db()
+
+    def btn_refresh_clicked(self):
+        self.set_date_range_or_no_data()
         self.refresh_data_from_db()
 
     def refresh_data_from_db(self):

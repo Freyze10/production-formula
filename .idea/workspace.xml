@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00217" summary="fixing footer">
-      <option name="closed" value="true" />
-      <created>1762159885160</created>
-      <option name="number" value="00217" />
-      <option name="presentableId" value="LOCAL-00217" />
-      <option name="project" value="LOCAL" />
-      <updated>1762159885160</updated>
-    </task>
     <task id="LOCAL-00218" summary="trying new footer">
       <option name="closed" value="true" />
       <created>1762160166048</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762311592856</updated>
     </task>
-    <option name="localTasksCounter" value="266" />
+    <task id="LOCAL-00266" summary="removed table load sort and update">
+      <option name="closed" value="true" />
+      <created>1762313706885</created>
+      <option name="number" value="00266" />
+      <option name="presentableId" value="LOCAL-00266" />
+      <option name="project" value="LOCAL" />
+      <updated>1762313706885</updated>
+    </task>
+    <option name="localTasksCounter" value="267" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed prod return value" />
     <MESSAGE value="changed singular or plural batches" />
     <MESSAGE value="added WIP in preview" />
     <MESSAGE value="added WIP for saving" />
@@ -701,14 +700,15 @@
     <MESSAGE value="updated loading dialog" />
     <MESSAGE value="make statis loading dialog" />
     <MESSAGE value="removed unnecessary import" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary import" />
+    <MESSAGE value="removed table load sort and update" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed table load sort and update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>748</line>
+          <line>752</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
