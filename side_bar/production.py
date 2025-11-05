@@ -583,14 +583,7 @@ class ProductionManagementPage(QWidget):
         try:
             global_var.all_production_data = db_call.get_all_production_data()
             self.update_cached_lists()
-
-            # Heavy table fill (no freeze thanks to setUpdatesEnabled)
-            self.production_table.setUpdatesEnabled(False)
-            self.production_table.setSortingEnabled(False)
             self.populate_production_table()
-            self.production_table.setUpdatesEnabled(True)
-            self.production_table.setSortingEnabled(True)
-
             self.on_date_filter_changed()
 
         except Exception as e:
