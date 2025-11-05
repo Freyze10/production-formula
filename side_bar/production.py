@@ -564,9 +564,11 @@ class ProductionManagementPage(QWidget):
             else:
                 show_row = False
             self.production_table.setRowHidden(row, not show_row)
+
     def refresh_btn_clicked(self):
-        self.run_production_sync()
         self.set_date_range()
+        self.refresh_data_from_db()
+        self.run_production_sync()
 
     def refresh_data_from_db(self):
         """Explicitly refresh data from database (called by refresh button or date change)."""
@@ -581,7 +583,7 @@ class ProductionManagementPage(QWidget):
             global_var.all_production_data = []
             self.populate_production_table()
 
-    def refresh_productions(self):
+    def refresh_productions(self):  # init
         """Load productions from database and cache them."""
         try:
             global_var.all_production_data = db_call.get_all_production_data()

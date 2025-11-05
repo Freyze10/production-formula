@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00203" summary="removed schema is_manual">
-      <option name="closed" value="true" />
-      <created>1762132818182</created>
-      <option name="number" value="00203" />
-      <option name="presentableId" value="LOCAL-00203" />
-      <option name="project" value="LOCAL" />
-      <updated>1762132818182</updated>
-    </task>
     <task id="LOCAL-00204" summary="removed is_manual in view prod">
       <option name="closed" value="true" />
       <created>1762132909835</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762246954641</updated>
     </task>
-    <option name="localTasksCounter" value="252" />
+    <task id="LOCAL-00252" summary="changed warning color">
+      <option name="closed" value="true" />
+      <created>1762303482395</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1762303482396</updated>
+    </task>
+    <option name="localTasksCounter" value="253" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjust font weight of the table texts" />
     <MESSAGE value="adjust font weights and positions" />
     <MESSAGE value="adjust font weights" />
     <MESSAGE value="fixed underlines and font weights" />
@@ -701,7 +700,8 @@
     <MESSAGE value="fixing tab orders" />
     <MESSAGE value="removed unnecessary line" />
     <MESSAGE value="fixing refresh icon button" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing refresh icon button" />
+    <MESSAGE value="changed warning color" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed warning color" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
