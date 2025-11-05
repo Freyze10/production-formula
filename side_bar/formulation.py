@@ -235,7 +235,7 @@ class FormulationManagementPage(QWidget):
 
         self.refresh_btn = QPushButton("Sync", objectName="SuccessButton")
         self.refresh_btn.setIcon(fa.icon('fa5s.sync-alt', color='white'))
-        # self.refresh_btn.clicked.connect(self.btn_refresh_clicked)
+        self.refresh_btn.clicked.connect(self.btn_sync_clicked)
         controls_layout.addWidget(self.refresh_btn)
 
         self.refresh_btn = QPushButton("Refresh", objectName="SecondaryButton")
