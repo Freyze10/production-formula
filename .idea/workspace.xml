@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00228" summary="comment out preview tester">
-      <option name="closed" value="true" />
-      <created>1762222938442</created>
-      <option name="number" value="00228" />
-      <option name="presentableId" value="LOCAL-00228" />
-      <option name="project" value="LOCAL" />
-      <updated>1762222938442</updated>
-    </task>
     <task id="LOCAL-00229" summary="globalized result var">
       <option name="closed" value="true" />
       <created>1762224110791</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762324754118</updated>
     </task>
-    <option name="localTasksCounter" value="277" />
+    <task id="LOCAL-00277" summary="connected to print preview">
+      <option name="closed" value="true" />
+      <created>1762325583137</created>
+      <option name="number" value="00277" />
+      <option name="presentableId" value="LOCAL-00277" />
+      <option name="project" value="LOCAL" />
+      <updated>1762325583137</updated>
+    </task>
+    <option name="localTasksCounter" value="278" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="connected manual completer" />
     <MESSAGE value="added field completers" />
     <MESSAGE value="fixing tab orders" />
     <MESSAGE value="removed unnecessary line" />
@@ -701,7 +700,8 @@
     <MESSAGE value="changed refresh icon" />
     <MESSAGE value="fixing print function auto" />
     <MESSAGE value="modified fields for print prev auto" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified fields for print prev auto" />
+    <MESSAGE value="connected to print preview" />
+    <option name="LAST_COMMIT_MESSAGE" value="connected to print preview" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

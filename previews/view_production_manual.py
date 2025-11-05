@@ -104,7 +104,7 @@ class ProductionPrintPreview(QDialog):
         self.add_header(lay)
         lay.addSpacing(36)
         self.add_details(lay)
-        lay.addSpacing(16)
+        lay.addSpacing(20)
         self.add_batch(lay)
         lay.addSpacing(14)
         self.add_table(lay)
@@ -200,7 +200,7 @@ class ProductionPrintPreview(QDialog):
         """)
 
         bl = QVBoxLayout(box)
-        bl.setSpacing(12)
+        bl.setSpacing(10)
         bl.setContentsMargins(10, 10, 10, 10)
         if 'wip' in self.data:
             info = [
@@ -247,7 +247,7 @@ class ProductionPrintPreview(QDialog):
 
         # Left column
         left = QVBoxLayout()
-        left.setSpacing(12)
+        left.setSpacing(11)
         items_l = [
             ("PRODUCT CODE", self.data.get('product_code', '')),
             ("PRODUCT COLOR", self.data.get('product_color', '')),
@@ -260,7 +260,7 @@ class ProductionPrintPreview(QDialog):
 
         # Right column
         right = QVBoxLayout()
-        right.setSpacing(12)
+        right.setSpacing(11)
         items_r = [
             ("MIXING TIME", self.data.get('mixing_time', '')),
             ("MACHINE NO", self.data.get('machine_no', '')),
@@ -278,7 +278,7 @@ class ProductionPrintPreview(QDialog):
     def add_batch(self, layout):
         text = self.batch_text()
         lbl = QLabel(text)
-        lbl.setFont(QFont("Arial", 10))
+        lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl)
 
