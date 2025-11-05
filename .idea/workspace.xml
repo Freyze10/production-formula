@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00226" summary="adjust font weights">
-      <option name="closed" value="true" />
-      <created>1762221594691</created>
-      <option name="number" value="00226" />
-      <option name="presentableId" value="LOCAL-00226" />
-      <option name="project" value="LOCAL" />
-      <updated>1762221594691</updated>
-    </task>
     <task id="LOCAL-00227" summary="fixed underlines and font weights">
       <option name="closed" value="true" />
       <created>1762222910897</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762321292719</updated>
     </task>
-    <option name="localTasksCounter" value="275" />
+    <task id="LOCAL-00275" summary="fixing print function auto">
+      <option name="closed" value="true" />
+      <created>1762323089806</created>
+      <option name="number" value="00275" />
+      <option name="presentableId" value="LOCAL-00275" />
+      <option name="project" value="LOCAL" />
+      <updated>1762323089806</updated>
+    </task>
+    <option name="localTasksCounter" value="276" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="cleaned database query" />
     <MESSAGE value="trying  completer in manual" />
     <MESSAGE value="connected manual completer" />
     <MESSAGE value="added field completers" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added sync formula function" />
     <MESSAGE value="connected sync function to btn" />
     <MESSAGE value="changed refresh icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed refresh icon" />
+    <MESSAGE value="fixing print function auto" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing print function auto" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -715,6 +715,16 @@
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
           <line>858</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/side_bar/production.py</url>
+          <line>346</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/side_bar/production.py</url>
+          <line>1259</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

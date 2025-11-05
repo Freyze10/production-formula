@@ -386,8 +386,6 @@ class ProductionManagementPage(QWidget):
         self.qty_per_batch_input.focusOutEvent = lambda event: self.format_to_float(event, self.qty_per_batch_input)
         qty_layout.addWidget(self.qty_per_batch_input)
 
-
-
         primary_layout.addWidget(QLabel("Qty. Req:"), 12, 0)
         primary_layout.addLayout(qty_layout, 12, 1)
 
@@ -1261,18 +1259,18 @@ class ProductionManagementPage(QWidget):
             'prod_id': self.production_id_input.text().strip(),
             'form_type': self.form_type_combo.currentText(),
             'production_date': production_date,
-            'order_form_no': self.order_form_no_input.text().strip(),
-            'formulation_id': self.formula_input.text().strip(),
+            'order_form_no': self.order_form_no_combo.currentText().strip(),
+            'formulation_id': self.formulation_id_input.text().strip(),
             'product_code': self.product_code_input.text().strip(),
             'product_color': self.product_color_input.text().strip(),
-            'dosage': self.sum_cons_input.text().strip(),
+            'dosage': self.dosage_input.text().strip(),
             'customer': self.customer_input.text().strip(),
             'lot_number': self.lot_no_input.text().strip(),
             'mixing_time': self.mixing_time_input.text().strip(),
             'machine_no': self.machine_no_input.text().strip(),
             'qty_required': self.qty_required_input.text().strip(),
             'qty_per_batch': self.qty_per_batch_input.text().strip(),
-            'qty_produced': self.total_weight_label.text().strip(),
+            'qty_produced': self.qty_required_input.text().strip(),
             'prepared_by': self.prepared_by_input.text().strip(),
             'notes': self.notes_input.toPlainText().strip(),
             'approved_by': 'M. VERDE'
@@ -1304,7 +1302,6 @@ class ProductionManagementPage(QWidget):
 
         # This blocks until user closes or prints
         preview.exec()
-
     def run_production_sync(self):
         thread = QThread()
         worker = SyncProductionWorker()
