@@ -581,6 +581,31 @@ class ProductionManagementPage(QWidget):
             self.populate_production_table()
             # Re-apply date filter after refresh.
             self.on_date_filter_changed()
+
+            thread = QThread()
+            worker = RefreshProductionWorker()
+            worker.moveToThread(thread)
+
+            # Just point to your local GIF!
+            loading_dialog = LoadingDialog(
+                title="Refreshing Production Data",
+                gif_path="assets/loading.gif",  # relative to project root
+                parent=self
+            )
+
+            worker.progress.connect(loading_dialog.update_progress)
+            worker.finished.connect(
+                lambda success, msg: self.on_refresh_finished(success, msg, thread, loading_dialog)
+            )
+
+            thread.started.connect(worker.run)
+            worker.finished.connect(thread.quit)
+            thread.finished.connect(thread.deleteLater)
+            worker.finished.connect(worker.deleteLater)
+
+            thread.start()
+            loading_dialog.exec()
+
         except Exception as e:
             QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
             global_var.all_production_data = []
