@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00242" summary="added different form number">
-      <option name="closed" value="true" />
-      <created>1762238780189</created>
-      <option name="number" value="00242" />
-      <option name="presentableId" value="LOCAL-00242" />
-      <option name="project" value="LOCAL" />
-      <updated>1762238780189</updated>
-    </task>
     <task id="LOCAL-00243" summary="cleaned database query">
       <option name="closed" value="true" />
       <created>1762239411166</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762329270015</updated>
     </task>
-    <option name="localTasksCounter" value="291" />
+    <task id="LOCAL-00291" summary="testing of new print preview size">
+      <option name="closed" value="true" />
+      <created>1762332789933</created>
+      <option name="number" value="00291" />
+      <option name="presentableId" value="LOCAL-00291" />
+      <option name="project" value="LOCAL" />
+      <updated>1762332789933</updated>
+    </task>
+    <option name="localTasksCounter" value="292" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated loading dialog" />
     <MESSAGE value="make statis loading dialog" />
     <MESSAGE value="removed unnecessary import" />
     <MESSAGE value="removed table load sort and update" />
@@ -701,7 +700,8 @@
     <MESSAGE value="added mixing time function in production manual" />
     <MESSAGE value="changed mix time to formula and prod format" />
     <MESSAGE value="changed mix time to formula and prod func" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed mix time to formula and prod func" />
+    <MESSAGE value="testing of new print preview size" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing of new print preview size" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

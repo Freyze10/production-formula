@@ -176,16 +176,16 @@ class ProductionPrintPreview(QDialog):
         left.setContentsMargins(0, 0, 0, 0)
 
         company = QLabel("MASTERBATCH PHILIPPINES, INC.")
-        company.setFont(QFont("Arial", 9))
+        company.setFont(QFont("Arial", 10))
         left.addWidget(company)
 
         prod_entry = QLabel("PRODUCTION ENTRY")
-        prod_entry.setFont(QFont("Arial", 9))
+        prod_entry.setFont(QFont("Arial", 10))
         left.addWidget(prod_entry)
 
         form_number = 'FM00012A2' if 'wip' in self.data else 'FM00012A1'
         form = QLabel(f"FORM NO. {form_number}")
-        form.setFont(QFont("Arial", 9))
+        form.setFont(QFont("Arial", 10))
         left.addWidget(form)
 
         hbox.addWidget(left_widget, alignment=Qt.AlignmentFlag.AlignTop)
@@ -224,17 +224,17 @@ class ProductionPrintPreview(QDialog):
             row = QHBoxLayout()
 
             key_label = QLabel(k)
-            key_label.setFont(QFont("Arial", 9))
+            key_label.setFont(QFont("Arial", 10))
             key_label.setFixedWidth(135)
             row.addWidget(key_label)
 
             colon = QLabel(":")
-            colon.setFont(QFont("Arial", 9))
+            colon.setFont(QFont("Arial", 10))
             colon.setFixedWidth(8)
             row.addWidget(colon)
 
             val_label = QLabel(str(v))
-            val_label.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+            val_label.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             row.addWidget(val_label)
             row.addStretch()
 
@@ -280,7 +280,7 @@ class ProductionPrintPreview(QDialog):
     def add_batch(self, layout):
         text = self.batch_text()
         lbl = QLabel(text)
-        lbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+        lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
         lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(lbl)
 
@@ -301,25 +301,25 @@ class ProductionPrintPreview(QDialog):
         hl.setSpacing(0)
 
         mat_code = QLabel("MATERIAL CODE")
-        mat_code.setFont(QFont("Arial", 9))
+        mat_code.setFont(QFont("Arial", 10))
         mat_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
         mat_code.setFixedWidth(150)
         hl.addWidget(mat_code)
 
         large = QLabel("LARGE SCALE (Kg.)")
-        large.setFont(QFont("Arial", 9))
+        large.setFont(QFont("Arial", 10))
         large.setAlignment(Qt.AlignmentFlag.AlignRight)
         large.setFixedWidth(175)
         hl.addWidget(large)
 
         small = QLabel("SMALL SCALE (grm.)")
-        small.setFont(QFont("Arial", 9))
+        small.setFont(QFont("Arial", 10))
         small.setAlignment(Qt.AlignmentFlag.AlignRight)
         small.setFixedWidth(175)
         hl.addWidget(small)
 
         weight = QLabel("WEIGHT (Kg.)")
-        weight.setFont(QFont("Arial", 9))
+        weight.setFont(QFont("Arial", 10))
         weight.setAlignment(Qt.AlignmentFlag.AlignRight)
         weight.setFixedWidth(175)
         hl.addWidget(weight)
@@ -345,21 +345,21 @@ class ProductionPrintPreview(QDialog):
             rl.setSpacing(0)
 
             code = QLabel(m.get('material_code', ''))
-            code.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+            code.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             code.setAlignment(Qt.AlignmentFlag.AlignLeft)
             code.setFixedWidth(150)
             rl.addWidget(code)
 
             large_val = float(m.get('large_scale', 0))
             large_lbl = QLabel(f"{large_val:.6f}")
-            large_lbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+            large_lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             large_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
             large_lbl.setFixedWidth(175)
             rl.addWidget(large_lbl)
 
             small_val = float(m.get('small_scale', 0))
             small_lbl = QLabel(f"{small_val:.6f}")
-            small_lbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+            small_lbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             small_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
             small_lbl.setFixedWidth(175)
             rl.addWidget(small_lbl)
@@ -367,7 +367,7 @@ class ProductionPrintPreview(QDialog):
             wt = float(m.get('total_weight', 0))
             total += wt
             wlbl = QLabel(f"{wt:.6f}")
-            wlbl.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+            wlbl.setFont(QFont("Arial", 10, QFont.Weight.Bold))
             wlbl.setAlignment(Qt.AlignmentFlag.AlignRight)
             wlbl.setFixedWidth(175)
             rl.addWidget(wlbl)
@@ -391,19 +391,19 @@ class ProductionPrintPreview(QDialog):
         fl.setSpacing(0)
 
         note = QLabel(f"NOTE: <b>{self.batch_text()}</b>")
-        note.setFont(QFont("Arial", 9))
+        note.setFont(QFont("Arial", 10))
         fl.addWidget(note)
         fl.addStretch()
 
         total_lbl = QLabel("TOTAL:")
-        total_lbl.setFont(QFont("Arial", 9))
+        total_lbl.setFont(QFont("Arial", 10))
         total_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
         fl.addWidget(total_lbl)
 
         fl.addSpacing(10)
 
         tot = QLabel(f"{total:.6f}")
-        tot.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+        tot.setFont(QFont("Arial", 10, QFont.Weight.Bold))
         tot.setFixedWidth(175)
         tot.setAlignment(Qt.AlignmentFlag.AlignRight)
         fl.addWidget(tot)
@@ -427,7 +427,7 @@ class ProductionPrintPreview(QDialog):
 
         # SYSTEM
         system = QLabel("MBPI-SYSTEM-2022")
-        system.setFont(QFont("Arial", 9))
+        system.setFont(QFont("Arial", 10))
         left.addWidget(system)
 
         # --- RIGHT COLUMN ---
@@ -453,7 +453,7 @@ class ProductionPrintPreview(QDialog):
 
         # --- Key label ---
         key_label = QLabel(key)
-        font = QFont("Arial", 9)
+        font = QFont("Arial", 10)
         key_label.setFont(font)
         key_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         fix_width = 90 if not right_side else 130
@@ -462,7 +462,7 @@ class ProductionPrintPreview(QDialog):
 
         # --- Colon ---
         colon = QLabel(":")
-        colon.setFont(QFont("Arial", 9))
+        colon.setFont(QFont("Arial", 10))
         colon.setFixedWidth(8)
         colon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         row.addWidget(colon)
@@ -474,7 +474,7 @@ class ProductionPrintPreview(QDialog):
         val_layout.setSpacing(2)
 
         val_label = QLabel(value)
-        val_label.setFont(QFont("Arial", 9))
+        val_label.setFont(QFont("Arial", 10))
         val_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         if underline:
@@ -499,17 +499,17 @@ class ProductionPrintPreview(QDialog):
         row.setSpacing(5)
 
         key_label = QLabel(k)
-        key_label.setFont(QFont("Arial", 9))
+        key_label.setFont(QFont("Arial", 10))
         key_label.setFixedWidth(key_width)
         row.addWidget(key_label)
 
         colon = QLabel(":")
-        colon.setFont(QFont("Arial", 9))
+        colon.setFont(QFont("Arial", 10))
         colon.setFixedWidth(8)
         row.addWidget(colon)
 
         val_label = QLabel(str(v))
-        val_label.setFont(QFont("Arial", 9, QFont.Weight.Bold))
+        val_label.setFont(QFont("Arial", 10, QFont.Weight.Bold))
         row.addWidget(val_label)
         row.addStretch()
 
