@@ -17,6 +17,7 @@ from db.sync_formula import SyncProductionWorker, LoadingDialog
 from side_bar.production_manual_entry import ManualProductionPage
 from utils.date import SmartDateEdit
 from utils.debounce import finished_typing
+from utils.loading import SimpleLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils.numeric_table import NumericTableWidgetItem
 from utils import global_var, calendar_design
@@ -574,42 +575,45 @@ class ProductionManagementPage(QWidget):
         self.set_date_range()
 
     def refresh_data_from_db(self):
-        """Explicitly refresh data from database (called by refresh button or date change)."""
+        """Simple: Show GIF → Load data → Populate table → Close"""
+        # 1. Show loading dialog
+        dialog = SimpleLoadingDialog(self, gif_path="assets/loading.gif")
+        dialog.set_text("Fetching data...")
+        dialog.show()
+        self.repaint()  # Force UI update
+
         try:
+            # 2. Fetch data (fast)
+            dialog.set_text("Loading records from database...")
+            self.repaint()
             global_var.all_production_data = db_call.get_all_production_data()
+
+            # 3. Update cache
+            dialog.set_text("Updating filters...")
+            self.repaint()
             self.update_cached_lists()
-            self.populate_production_table()
-            # Re-apply date filter after refresh.
+
+            # 4. Populate table (SLOW PART)
+            dialog.set_text("Populating table... (please wait)")
+            self.repaint()
+
+            self.production_table.setUpdatesEnabled(False)
+            self.production_table.setSortingEnabled(False)
+
+            self.populate_production_table()  # ← This is the slow part
+
+            self.production_table.setUpdatesEnabled(True)
+            self.production_table.setSortingEnabled(True)
+
+            # 5. Apply filters
             self.on_date_filter_changed()
 
-            thread = QThread()
-            worker = RefreshProductionWorker()
-            worker.moveToThread(thread)
-
-            # Just point to your local GIF!
-            loading_dialog = LoadingDialog(
-                title="Refreshing Production Data",
-                gif_path="assets/loading.gif",  # relative to project root
-                parent=self
-            )
-
-            worker.progress.connect(loading_dialog.update_progress)
-            worker.finished.connect(
-                lambda success, msg: self.on_refresh_finished(success, msg, thread, loading_dialog)
-            )
-
-            thread.started.connect(worker.run)
-            worker.finished.connect(thread.quit)
-            thread.finished.connect(thread.deleteLater)
-            worker.finished.connect(worker.deleteLater)
-
-            thread.start()
-            loading_dialog.exec()
-
         except Exception as e:
-            QMessageBox.critical(self, "Refresh Error", f"Failed to refresh data: {str(e)}")
+            QMessageBox.critical(self, "Error", f"Failed to load data:\n{e}")
             global_var.all_production_data = []
             self.populate_production_table()
+        finally:
+            dialog.accept()  # Close dialog
 
     def refresh_productions(self):  # init
         """Load productions from database and cache them."""
