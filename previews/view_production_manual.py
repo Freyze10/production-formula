@@ -7,9 +7,24 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-# FORCE MuPDF — NEVER FAILS
+# === REGISTER ARIAL FROM WINDOWS FONTS (NEVER FAILS) ===
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 import os
 
+# Force Arial from the exact path you showed
+ARIAL_PATH = r"C:\Windows\Fonts\arial.ttf"
+ARIAL_BOLD_PATH = r"C:\Windows\Fonts\arialbd.ttf"  # arialbd = Arial Bold
+
+if os.path.exists(ARIAL_PATH):
+    pdfmetrics.registerFont(TTFont("Arial", ARIAL_PATH))
+    pdfmetrics.registerFont(TTFont("Arial-Bold", ARIAL_BOLD_PATH if os.path.exists(ARIAL_BOLD_PATH) else ARIAL_PATH))
+    print("Arial fonts registered successfully!")
+else:
+    print("Arial not found! Falling back to Helvetica.")
+    # If somehow missing, ReportLab will use Helvetica automatically
+
+# FORCE MuPDF — NEVER FAILS
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
 from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
@@ -39,7 +54,7 @@ class ProductionPrintPreview(QDialog):
         self.generate_pdf()
         self.pdf_bytes = self.pdf_buffer.getvalue()
 
-        # QBuffer — same as your working COA
+        # QBuffer for QPdfDocument
         self.qbuffer = QBuffer(self)
         self.qbuffer.setData(self.pdf_bytes)
         self.qbuffer.open(QIODevice.OpenModeFlag.ReadOnly)
@@ -56,7 +71,6 @@ class ProductionPrintPreview(QDialog):
         layout.setSpacing(12)
 
         # === TOOLBAR ===
-        # Toolbar container with nice background
         toolbar_container = QWidget()
         toolbar_container.setStyleSheet("background:#f8f9fa; border-bottom: 2px solid #dee2e6; padding: 8px;")
         tb = QHBoxLayout(toolbar_container)
@@ -75,7 +89,6 @@ class ProductionPrintPreview(QDialog):
         self.zoom_combo.currentTextChanged.connect(self.on_zoom_changed)
         tb.addWidget(self.zoom_combo)
 
-        # Zoom buttons
         zoom_in_btn = QPushButton()
         zoom_in_btn.setIcon(fa.icon('fa5s.search-plus', color='#495057'))
         zoom_in_btn.setFixedSize(36, 36)
@@ -92,7 +105,6 @@ class ProductionPrintPreview(QDialog):
 
         tb.addStretch()
 
-        # Action buttons
         download_btn = QPushButton(" Download PDF")
         download_btn.setIcon(fa.icon('fa5s.download', color='white'))
         download_btn.setStyleSheet(
@@ -114,11 +126,9 @@ class ProductionPrintPreview(QDialog):
         close_btn.clicked.connect(self.reject)
         tb.addWidget(close_btn)
 
-        layout.addLayout(QVBoxLayout())
-        layout.itemAt(layout.count() - 1).addWidget(toolbar_container)
+        layout.addWidget(toolbar_container)
 
-        # === SIMPLE CENTERED PDF VIEW ===
-        # Letter size: 8.5" x 11" - use larger size to show full page
+        # === PDF VIEW ===
         LETTER_WIDTH = 850
         LETTER_HEIGHT = 1100
 
@@ -127,13 +137,11 @@ class ProductionPrintPreview(QDialog):
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
         scroll.setStyleSheet("QScrollArea { background:white; border:none; }")
 
-        # Container to hold PDF view and center it
         container = QWidget()
         container_layout = QVBoxLayout(container)
         container_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
         container_layout.setContentsMargins(20, 20, 20, 20)
 
-        # PDF View with fixed letter size
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
         self.pdf_view.setPageMode(QPdfView.PageMode.SinglePage)
@@ -141,8 +149,6 @@ class ProductionPrintPreview(QDialog):
         self.pdf_view.setFixedSize(LETTER_WIDTH, LETTER_HEIGHT)
         self.pdf_view.setZoomFactor(1.0)
         self.pdf_view.setStyleSheet("background:white;")
-
-        # Disable scrollbars on the PDF view itself
         self.pdf_view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.pdf_view.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
@@ -150,13 +156,13 @@ class ProductionPrintPreview(QDialog):
         scroll.setWidget(container)
         layout.addWidget(scroll, 1)
 
-        # Ctrl+P
+        # Ctrl+P shortcut
         self.print_action = QAction(self)
         self.print_action.setShortcut("Ctrl+P")
         self.print_action.triggered.connect(self.print_pdf)
         self.addAction(self.print_action)
 
-    # === ZOOM LOGIC ===
+    # === ZOOM ===
     def on_zoom_changed(self, text):
         if not text:
             return
@@ -192,7 +198,7 @@ class ProductionPrintPreview(QDialog):
             self.zoom_combo.setCurrentText(text)
         self.zoom_combo.blockSignals(False)
 
-    # === PDF GENERATION ===
+    # === PDF GENERATION WITH ARIAL ===
     def generate_pdf(self):
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(
@@ -202,31 +208,35 @@ class ProductionPrintPreview(QDialog):
             topMargin=36, bottomMargin=36
         )
 
-        self.styles = getSampleStyleSheet()
-        self.styles.add(ParagraphStyle(name='N10', fontName='Helvetica', fontSize=10, leading=12))
-        self.styles.add(ParagraphStyle(name='B10', fontName='Helvetica-Bold', fontSize=10, leading=12))
-        self.styles.add(ParagraphStyle(name='CB10', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER))
+        styles = getSampleStyleSheet()
+        # === USE ARIAL EVERYWHERE ===
+        styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
+        styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
+        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
 
-        story = self.build_story()
+        story = self.build_story(styles)
         doc.build(story)
 
         buffer.seek(0)
         self.pdf_buffer = io.BytesIO(buffer.getvalue())
         buffer.close()
 
-    def build_story(self):
+    def build_story(self, styles):
         story = []
 
+        # Header
         header_left = Table([
             ["MASTERBATCH PHILIPPINES, INC."],
             ["PRODUCTION ENTRY"],
             [f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}"]
         ], colWidths=[4.5 * inch])
         header_left.setStyle(TableStyle([
+            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('TOPPADDING', (0, 0), (-1, -1), 25),
         ]))
 
+        # Info table
         info_data = [
             ("PRODUCTION ID", self.data.get('prod_id', '')),
             ("PRODUCTION DATE", self.data.get('production_date', '')),
@@ -236,20 +246,22 @@ class ProductionPrintPreview(QDialog):
         if 'wip' in self.data:
             info_data.append(("WIP", self.data.get('wip', '')))
 
-        info_rows = [[Paragraph(k, self.styles['N10']), Paragraph(":", self.styles['N10']),
-                      Paragraph(str(v), self.styles['B10'])] for k, v in info_data]
+        info_rows = [[Paragraph(k, styles['N10']), Paragraph(":", styles['N10']),
+                      Paragraph(str(v), styles['B10'])] for k, v in info_data]
 
-        info_table = Table(info_rows, colWidths=[1.8 * inch, 0.2 * inch, 2 * inch])
+        info_table = Table(info_rows, colWidths=[1.8 * inch, 0.2 * inch, 1.4 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 1, colors.black),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+            # ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('LEFTPADDING', (0, 0), (-1, -1), 8),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
         ]))
 
-        story.append(Table([[header_left, info_table]], colWidths=[4.5 * inch, 3 * inch]))
+        story.append(Table([[header_left, info_table]], colWidths=[4 * inch, 3 * inch]))
         story.append(Spacer(1, 28))
 
+        # Product details
         left = [("PRODUCT CODE", self.data.get('product_code', '')),
                 ("PRODUCT COLOR", self.data.get('product_color', '')),
                 ("DOSAGE", self.data.get('dosage', '')),
@@ -263,16 +275,18 @@ class ProductionPrintPreview(QDialog):
 
         for (lk, lv), (rk, rv) in zip(left, right):
             row = Table([
-                [Paragraph(f"{lk}: <b>{lv}</b>", self.styles['N10']), "",
-                 Paragraph(f"{rk}: <b>{rv}</b>", self.styles['N10'])]
+                [Paragraph(f"{lk}: <b>{lv}</b>", styles['N10']), "",
+                 Paragraph(f"{rk}: <b>{rv}</b>", styles['N10'])]
             ], colWidths=[2.8 * inch, 0.4 * inch, 3.0 * inch])
+            row.setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
             story.append(row)
             story.append(Spacer(1, 8))
 
         story.append(Spacer(1, 18))
-        story.append(Paragraph(self.batch_text(), self.styles['CB10']))
+        story.append(Paragraph(self.batch_text(), styles['CB10']))
         story.append(Spacer(1, 12))
 
+        # Materials table
         data = [["MATERIAL CODE", "LARGE SCALE (Kg.)", "SMALL SCALE (grm.)", "WEIGHT (Kg.)"]]
         total = 0.0
         for m in self.mats:
@@ -281,10 +295,10 @@ class ProductionPrintPreview(QDialog):
             wt = float(m.get('total_weight', 0))
             total += wt
             data.append([
-                Paragraph(m.get('material_code', ''), self.styles['B10']),
-                Paragraph(f"{large:.6f}", self.styles['B10']),
-                Paragraph(f"{small:.6f}", self.styles['B10']),
-                Paragraph(f"{wt:.6f}", self.styles['B10']),
+                Paragraph(m.get('material_code', ''), styles['B10']),
+                Paragraph(f"{large:.6f}", styles['B10']),
+                Paragraph(f"{small:.6f}", styles['B10']),
+                Paragraph(f"{wt:.6f}", styles['B10']),
             ])
 
         mat_table = Table(data, colWidths=[1.8 * inch] * 4)
@@ -292,7 +306,8 @@ class ProductionPrintPreview(QDialog):
             ('BOX', (0, 0), (-1, -1), 0.75, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#f0f0f0')),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
             ('LEFTPADDING', (0, 0), (-1, -1), 5),
         ]))
@@ -300,11 +315,12 @@ class ProductionPrintPreview(QDialog):
         story.append(Spacer(1, 10))
 
         story.append(Table([
-            [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", self.styles['N10']), "", "TOTAL:",
-             Paragraph(f"{total:.6f}", self.styles['B10'])]
+            [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['N10']), "", "TOTAL:",
+             Paragraph(f"{total:.6f}", styles['B10'])]
         ], colWidths=[1.8 * inch] * 4))
         story.append(Spacer(1, 60))
 
+        # Signatures
         story.append(Table([
             ["PREPARED BY:", self.data.get('prepared_by', ''), "", "APPROVED BY:",
              self.data.get('approved_by', 'M. VERDE')],
@@ -312,6 +328,8 @@ class ProductionPrintPreview(QDialog):
              "_________________"],
             ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
         ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch]))
+        # Force Arial on signature table too
+        story[-1].setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
 
         return story
 
@@ -352,10 +370,9 @@ class ProductionPrintPreview(QDialog):
             return "N/A"
 
 
-# TEST
+# === TEST ===
 if __name__ == "__main__":
     import sys
-
     app = QApplication(sys.argv)
     data = {
         "prod_id": "P12345", "production_date": "2025-11-03", "order_form_no": "OF9876",
