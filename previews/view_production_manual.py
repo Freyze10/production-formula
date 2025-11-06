@@ -9,6 +9,7 @@ from reportlab.lib.enums import TA_CENTER
 
 # FORCE MuPDF — NEVER FAILS
 import os
+
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
 from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
@@ -64,7 +65,8 @@ class ProductionPrintPreview(QDialog):
         self.zoom_combo.setEditable(True)
         self.zoom_combo.setValidator(QIntValidator(10, 1000))
         self.zoom_combo.setFixedWidth(100)
-        self.zoom_combo.setStyleSheet("QComboBox { color: white; background: #444; border: 1px solid #555; padding: 5px; }")
+        self.zoom_combo.setStyleSheet(
+            "QComboBox { color: white; background: #444; border: 1px solid #555; padding: 5px; }")
         self.zoom_combo.currentTextChanged.connect(self.on_zoom_changed)
         tb.addWidget(self.zoom_combo)
 
@@ -88,59 +90,71 @@ class ProductionPrintPreview(QDialog):
         # Action buttons
         download_btn = QPushButton(" Download PDF")
         download_btn.setIcon(fa.icon('fa5s.download', color='white'))
-        download_btn.setStyleSheet("background:#007bff; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
+        download_btn.setStyleSheet(
+            "background:#007bff; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
         download_btn.clicked.connect(self.download_pdf)
         tb.addWidget(download_btn)
 
         print_btn = QPushButton(" Print")
         print_btn.setIcon(fa.icon('fa5s.print', color='white'))
-        print_btn.setStyleSheet("background:#28a745; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
+        print_btn.setStyleSheet(
+            "background:#28a745; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
         print_btn.clicked.connect(self.print_pdf)
         tb.addWidget(print_btn)
 
         close_btn = QPushButton(" Close")
         close_btn.setIcon(fa.icon('fa5s.times', color='white'))
-        close_btn.setStyleSheet("background:#dc3545; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
+        close_btn.setStyleSheet(
+            "background:#dc3545; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
         close_btn.clicked.connect(self.reject)
         tb.addWidget(close_btn)
 
         layout.addLayout(tb)
 
-        # === REAL LETTER SIZE PAGE (8.5" × 11") ===
-        LETTER_WIDTH_PX = 816   # 8.5 inches × 96 DPI
+        # === CENTERED SCROLL AREA WITH LETTER SIZE PAGE ===
+        LETTER_WIDTH_PX = 820  # 8.5 inches × 96 DPI
         LETTER_HEIGHT_PX = 1056  # 11 inches × 96 DPI
 
+        # Main scroll area
         scroll = QScrollArea()
-        scroll.setWidgetResizable(False)
+        scroll.setWidgetResizable(True)  # Changed to True for proper centering
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         scroll.setStyleSheet("QScrollArea { background:#1e1e1e; border:none; }")
 
-        # White paper with shadow
+        # Container widget that centers the page
+        container = QWidget()
+        container_layout = QVBoxLayout(container)
+        container_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        container_layout.setContentsMargins(40, 40, 40, 40)  # Add padding around the page
+
+        # White paper (simple styling, no shadow for performance)
         self.page_widget = QWidget()
-        self.page_widget.setFixedSize(LETTER_WIDTH_PX + 20, LETTER_HEIGHT_PX + 20)
+        self.page_widget.setFixedSize(LETTER_WIDTH_PX, LETTER_HEIGHT_PX)
         self.page_widget.setStyleSheet("""
-            background:white;
-            border:1px solid #ccc;
-            border-radius:8px;
-            margin:10px;
+            QWidget {
+                background: white;
+                border: 2px solid #666;
+            }
         """)
 
-        # PDF View inside paper
+        # PDF View inside paper (no margins, fills the page)
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
-        self.pdf_view.setPageMode(QPdfView.PageMode.MultiPage)
-        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
-        self.pdf_view.setZoomFactor(1.0)
+        self.pdf_view.setPageMode(QPdfView.PageMode.SinglePage)  # Changed to SinglePage for better clarity
+        self.pdf_view.setZoomMode(QPdfView.ZoomMode.FitToWidth)  # Start with FitToWidth
 
         page_layout = QVBoxLayout(self.page_widget)
-        page_layout.setContentsMargins(10, 10, 10, 10)
+        page_layout.setContentsMargins(0, 0, 0, 0)  # No margins for full page view
         page_layout.addWidget(self.pdf_view)
 
-        scroll.setWidget(self.page_widget)
+        # Add page to centered container
+        container_layout.addWidget(self.page_widget)
+
+        scroll.setWidget(container)
         layout.addWidget(scroll, 1)
 
-        # Ctrl+P
+        # Ctrl+P shortcut
         self.print_action = QAction(self)
         self.print_action.setShortcut("Ctrl+P")
         self.print_action.triggered.connect(self.print_pdf)
@@ -160,11 +174,13 @@ class ProductionPrintPreview(QDialog):
             pass
 
     def zoom_in(self):
+        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
         f = self.pdf_view.zoomFactor() * 1.25
         self.pdf_view.setZoomFactor(min(f, 6.0))
         self.sync_combo()
 
     def zoom_out(self):
+        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
         f = self.pdf_view.zoomFactor() * 0.8
         self.pdf_view.setZoomFactor(max(f, 0.2))
         self.sync_combo()
@@ -294,8 +310,10 @@ class ProductionPrintPreview(QDialog):
         story.append(Spacer(1, 60))
 
         story.append(Table([
-            ["PREPARED BY:", self.data.get('prepared_by', ''), "", "APPROVED BY:", self.data.get('approved_by', 'M. VERDE')],
-            ["PRINTED ON:", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "", "MAT'L RELEASED BY:", "_________________"],
+            ["PREPARED BY:", self.data.get('prepared_by', ''), "", "APPROVED BY:",
+             self.data.get('approved_by', 'M. VERDE')],
+            ["PRINTED ON:", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "", "MAT'L RELEASED BY:",
+             "_________________"],
             ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
         ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch]))
 
@@ -341,6 +359,7 @@ class ProductionPrintPreview(QDialog):
 # TEST
 if __name__ == "__main__":
     import sys
+
     app = QApplication(sys.argv)
     data = {
         "prod_id": "P12345", "production_date": "2025-11-03", "order_form_no": "OF9876",
