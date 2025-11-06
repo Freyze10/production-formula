@@ -112,14 +112,14 @@ class ProductionPrintPreview(QDialog):
         layout.addLayout(tb)
 
         # === SIMPLE CENTERED PDF VIEW ===
-        # Letter size: 8.5" x 11" at 96 DPI = 816 x 1056 pixels
-        LETTER_WIDTH = 816
-        LETTER_HEIGHT = 1056
+        # Letter size: 8.5" x 11" - use larger size to show full page
+        LETTER_WIDTH = 850
+        LETTER_HEIGHT = 1100
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(False)
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        scroll.setStyleSheet("QScrollArea { background:#1e1e1e; border:none; }")
+        scroll.setStyleSheet("QScrollArea { background:white; border:none; }")
 
         # Container to hold PDF view and center it
         container = QWidget()
@@ -133,8 +133,8 @@ class ProductionPrintPreview(QDialog):
         self.pdf_view.setPageMode(QPdfView.PageMode.SinglePage)
         self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
         self.pdf_view.setFixedSize(LETTER_WIDTH, LETTER_HEIGHT)
-        self.pdf_view.setZoomFactor(1.0)  # 100% zoom = actual letter size
-        self.pdf_view.setStyleSheet("background:white; border: 1px solid #999;")
+        self.pdf_view.setZoomFactor(1.0)
+        self.pdf_view.setStyleSheet("background:white;")
 
         # Disable scrollbars on the PDF view itself
         self.pdf_view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
