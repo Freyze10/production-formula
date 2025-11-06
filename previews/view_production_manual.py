@@ -7,7 +7,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QBuffer, QIODevice
 from PyQt6.QtGui import QPageSize
 from PyQt6.QtPdfWidgets import QPdfView
 from PyQt6.QtPdf import QPdfDocument
@@ -24,6 +24,7 @@ class ProductionPrintPreview(QDialog):
         self.setModal(False)
         self.resize(1150, 820)
 
+        # === BUILD PDF WITH REPORTLAB ===
         self.buffer = io.BytesIO()
         self.doc = SimpleDocTemplate(
             self.buffer,
@@ -36,10 +37,11 @@ class ProductionPrintPreview(QDialog):
 
         self.story = []
         self.build_pdf()
-        self.doc.build(self.story, onFirstPage=self._add_page_number)
+        self.doc.build(self.story)
 
+        # === UI ===
         self.setup_ui()
-        self.show_pdf()
+        self.show_pdf()  # Now works perfectly
 
     def _setup_styles(self):
         self.styles.add(ParagraphStyle(name='Normal10', fontName='Helvetica', fontSize=10, leading=12))
@@ -49,16 +51,10 @@ class ProductionPrintPreview(QDialog):
     def _kv(self, key, value):
         return Paragraph(f"{key}: <b>{value}</b>", self.styles['Normal10'])
 
-    def _add_page_number(self, canvas, doc):
-        canvas.saveState()
-        canvas.setFont('Helvetica', 9)
-        canvas.drawRightString(7.5*inch, 0.5*inch, f"Page {doc.page}")
-        canvas.restoreState()
-
     def build_pdf(self):
         s = self.story
 
-        # === HEADER ===
+        # HEADER
         header_left = Table([
             ["MASTERBATCH PHILIPPINES, INC."],
             ["PRODUCTION ENTRY"],
@@ -79,14 +75,7 @@ class ProductionPrintPreview(QDialog):
         if 'wip' in self.data:
             info_data.append(["WIP", self.data.get('wip', '')])
 
-        info_cells = []
-        for k, v in info_data:
-            info_cells.append([
-                Paragraph(k, self.styles['Normal10']),
-                Paragraph(":", self.styles['Normal10']),
-                Paragraph(str(v), self.styles['Bold10'])
-            ])
-
+        info_cells = [[Paragraph(k, self.styles['Normal10']), Paragraph(":", self.styles['Normal10']), Paragraph(str(v), self.styles['Bold10'])] for k, v in info_data]
         info_table = Table(info_cells, colWidths=[1.8*inch, 0.2*inch, 2*inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0,0), (-1,-1), 1, colors.black),
@@ -102,44 +91,32 @@ class ProductionPrintPreview(QDialog):
         s.append(top_header)
         s.append(Spacer(1, 28))
 
-        # === TWO COLUMN DETAILS - FIXED FOREVER ===
-        left = [
-            ("PRODUCT CODE", self.data.get('product_code', '')),
-            ("PRODUCT COLOR", self.data.get('product_color', '')),
-            ("DOSAGE", self.data.get('dosage', '')),
-            ("CUSTOMER", self.data.get('customer', '')),
-            ("LOT NO.", self.data.get('lot_number', ''))
-        ]
-        right = [
-            ("MIXING TIME", self.data.get('mixing_time', '')),
-            ("MACHINE NO", self.data.get('machine_no', '')),
-            ("QTY REQUIRED", self.data.get('qty_required', '')),
-            ("QTY PER BATCH", self.data.get('qty_per_batch', '')),
-            ("QTY TO PRODUCE", self.data.get('qty_produced', ''))
-        ]
+        # TWO COLUMN DETAILS
+        left = [("PRODUCT CODE", self.data.get('product_code', '')),
+                ("PRODUCT COLOR", self.data.get('product_color', '')),
+                ("DOSAGE", self.data.get('dosage', '')),
+                ("CUSTOMER", self.data.get('customer', '')),
+                ("LOT NO.", self.data.get('lot_number', ''))]
+
+        right = [("MIXING TIME", self.data.get('mixing_time', '')),
+                 ("MACHINE NO", self.data.get('machine_no', '')),
+                 ("QTY REQUIRED", self.data.get('qty_required', '')),
+                 ("QTY PER BATCH", self.data.get('qty_per_batch', '')),
+                 ("QTY TO PRODUCE", self.data.get('qty_produced', ''))]
 
         for (lk, lv), (rk, rv) in zip(left, right):
-            row = [
-                [self._kv(lk, lv)],   # Left cell
-                [" "],                 # Spacer column
-                [self._kv(rk, rv)]    # Right cell
-            ]
+            row = [[[self._kv(lk, lv)]], [[" "]], [[self._kv(rk, rv)]]]
             row_table = Table(row, colWidths=[2.8*inch, 0.4*inch, 3.0*inch])
-            row_table.setStyle(TableStyle([
-                ('VALIGN', (0,0), (-1,-1), 'TOP'),
-                ('LEFTPADDING', (0,0), (-1,-1), 0),
-                ('RIGHTPADDING', (0,0), (-1,-1), 0),
-            ]))
             s.append(row_table)
-            s.append(Spacer(1, 2))  # Tiny space between rows
+            s.append(Spacer(1, 2))
 
         s.append(Spacer(1, 18))
 
-        # === BATCH TEXT ===
+        # BATCH TEXT
         s.append(Paragraph(self.batch_text(), self.styles['CenterBold10']))
         s.append(Spacer(1, 12))
 
-        # === MATERIALS TABLE ===
+        # MATERIALS TABLE
         data = [["MATERIAL CODE", "LARGE SCALE (Kg.)", "SMALL SCALE (grm.)", "WEIGHT (Kg.)"]]
         total = 0.0
         for m in self.mats:
@@ -158,19 +135,17 @@ class ProductionPrintPreview(QDialog):
         mat_table.setStyle(TableStyle([
             ('BOX', (0,0), (-1,-1), 0.75, colors.black),
             ('GRID', (0,0), (-1,-1), 0.5, colors.black),
-            ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f0f0f0')),
             ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
             ('FONTSIZE', (0,0), (-1,-1), 10),
             ('ALIGN', (1,0), (-1,-1), 'RIGHT'),
             ('LEFTPADDING', (0,0), (-1,-1), 5),
-            ('RIGHTPADDING', (0,0), (-1,-1), 5),
             ('TOPPADDING', (0,0), (-1,-1), 4),
             ('BOTTOMPADDING', (0,0), (-1,-1), 4),
         ]))
         s.append(mat_table)
         s.append(Spacer(1, 10))
 
-        # === TOTAL ===
+        # TOTAL
         total_row = Table([[
             Paragraph(f"NOTE: <b>{self.batch_text()}</b>", self.styles['Normal10']),
             "", "TOTAL:", Paragraph(f"{total:.6f}", self.styles['Bold10'])
@@ -183,13 +158,12 @@ class ProductionPrintPreview(QDialog):
         s.append(total_row)
         s.append(Spacer(1, 60))
 
-        # === FOOTER ===
+        # FOOTER
         footer = Table([
             ["PREPARED BY:", self.data.get('prepared_by', ''), "", "APPROVED BY:", self.data.get('approved_by', 'M. VERDE')],
             ["PRINTED ON:", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "", "MAT'L RELEASED BY:", "_________________"],
             ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
         ], colWidths=[1.3*inch, 2*inch, 0.5*inch, 1.3*inch, 2*inch])
-
         footer.setStyle(TableStyle([
             ('FONTSIZE', (0,0), (-1,-1), 10),
             ('ALIGN', (1,0), (1,0), 'CENTER'),
@@ -229,20 +203,15 @@ class ProductionPrintPreview(QDialog):
         tb.addWidget(self.zoom_combo)
 
         for icon, func in [('fa5s.plus', self.zoom_in), ('fa5s.minus', self.zoom_out)]:
-            btn = QPushButton()
-            btn.setIcon(fa.icon(icon))
-            btn.setFixedSize(32, 32)
-            btn.clicked.connect(func)
-            tb.addWidget(btn)
+            btn = QPushButton(); btn.setIcon(fa.icon(icon)); btn.setFixedSize(32,32); btn.clicked.connect(func); tb.addWidget(btn)
 
         tb.addStretch()
 
-        buttons = [
+        for text, color, icon, func in [
             ("Download PDF", "#007bff", 'fa5s.download', self.download_pdf),
             ("Print", "#28a745", 'fa5s.print', self.print_pdf),
             ("Close", "#dc3545", 'fa5s.times', self.reject),
-        ]
-        for text, color, icon, func in buttons:
+        ]:
             btn = QPushButton(text)
             btn.setIcon(fa.icon(icon, color='white'))
             btn.setStyleSheet(f"background:{color};color:white;padding:8px 16px;border-radius:6px;")
@@ -251,7 +220,7 @@ class ProductionPrintPreview(QDialog):
 
         layout.addLayout(tb)
 
-        # PDF Viewer
+        # PDF Viewer - FIXED WITH QBuffer
         self.pdf_doc = QPdfDocument(self)
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
@@ -262,9 +231,18 @@ class ProductionPrintPreview(QDialog):
         scroll.setWidget(self.pdf_view)
         layout.addWidget(scroll, 1)
 
+        # Critical: Keep QBuffer alive
+        self.qbuffer = QBuffer(self)
+        self.qbuffer.open(QIODevice.OpenModeFlag.WriteOnly)
+        self.qbuffer.write(self.buffer.getvalue())
+        self.qbuffer.close()
+
     def show_pdf(self):
-        self.buffer.seek(0)
-        self.pdf_doc.load(self.buffer)
+        self.qbuffer.open(QIODevice.OpenModeFlag.ReadOnly)
+        self.qbuffer.seek(0)
+        self.pdf_doc.load(self.qbuffer)  # Now works!
+        self.qbuffer.close()
+
         zoom = int(self.zoom_combo.currentText().rstrip('%')) / 100
         self.pdf_view.setZoomFactor(zoom)
 
@@ -289,13 +267,15 @@ class ProductionPrintPreview(QDialog):
         printer.setPageSize(QPageSize(QPageSize.Letter))
         dlg = QPrintDialog(printer, self)
         if dlg.exec():
-            self.buffer.seek(0)
+            self.qbuffer.open(QIODevice.OpenModeFlag.ReadOnly)
+            self.qbuffer.seek(0)
             self.pdf_doc.print_(printer)
-            QMessageBox.information(self, "Printed", "Production entry sent to printer!")
+            self.qbuffer.close()
+            QMessageBox.information(self, "Printed", "Sent to printer!")
             self.accept()
 
 
-# TEST IT
+# TEST
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
