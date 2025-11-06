@@ -121,6 +121,12 @@ class ProductionPrintPreview(QDialog):
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
         scroll.setStyleSheet("QScrollArea { background:#1e1e1e; border:none; }")
 
+        # Container to hold PDF view and center it
+        container = QWidget()
+        container_layout = QVBoxLayout(container)
+        container_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
+        container_layout.setContentsMargins(20, 20, 20, 20)
+
         # PDF View with fixed letter size
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
@@ -130,7 +136,12 @@ class ProductionPrintPreview(QDialog):
         self.pdf_view.setZoomFactor(1.0)  # 100% zoom = actual letter size
         self.pdf_view.setStyleSheet("background:white; border: 1px solid #999;")
 
-        scroll.setWidget(self.pdf_view)
+        # Disable scrollbars on the PDF view itself
+        self.pdf_view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.pdf_view.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+
+        container_layout.addWidget(self.pdf_view)
+        scroll.setWidget(container)
         layout.addWidget(scroll, 1)
 
         # Ctrl+P
