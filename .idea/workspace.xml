@@ -52,34 +52,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
-    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.view.executor&quot;: &quot;Run&quot;,
-    &quot;Python.view_production_manual.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.dfr.executor": "Run",
+    "Python.fg_endorsement.executor": "Run",
+    "Python.fgendorsement.executor": "Run",
+    "Python.fgmain.executor": "Run",
+    "Python.formulation (1).executor": "Debug",
+    "Python.formulation.executor": "Run",
+    "Python.main-2.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.sync-formula.executor": "Run",
+    "Python.sync_formula (1).executor": "Run",
+    "Python.sync_formula.executor": "Run",
+    "Python.view.executor": "Run",
+    "Python.view_production_manual.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "stable",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
+    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
@@ -93,7 +93,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.view_production_manual">
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -228,8 +228,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.view_production_manual" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
         <item itemvalue="Python.formulation" />
