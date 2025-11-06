@@ -60,7 +60,7 @@ class ProductionPrintPreview(QDialog):
         tb.addWidget(QLabel("<b>Zoom:</b>", styleSheet="color:white;"))
 
         self.zoom_combo = QComboBox()
-        self.zoom_combo.addItems(["50%", "75%", "100%", "125%", "150%", "200%", "300%", "400%"])
+        self.zoom_combo.addItems(["50%", "75%", "100%", "125%", "150%", "200%"])
         self.zoom_combo.setCurrentText("100%")
         self.zoom_combo.setEditable(True)
         self.zoom_combo.setValidator(QIntValidator(10, 1000))
@@ -111,50 +111,29 @@ class ProductionPrintPreview(QDialog):
 
         layout.addLayout(tb)
 
-        # === CENTERED SCROLL AREA WITH LETTER SIZE PAGE ===
-        LETTER_WIDTH_PX = 820  # 8.5 inches × 96 DPI
-        LETTER_HEIGHT_PX = 1056  # 11 inches × 96 DPI
+        # === SIMPLE CENTERED PDF VIEW ===
+        # Letter size: 8.5" x 11" at 96 DPI = 816 x 1056 pixels
+        LETTER_WIDTH = 816
+        LETTER_HEIGHT = 1056
 
-        # Main scroll area
         scroll = QScrollArea()
-        scroll.setWidgetResizable(True)  # Changed to True for proper centering
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setWidgetResizable(False)
+        scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
         scroll.setStyleSheet("QScrollArea { background:#1e1e1e; border:none; }")
 
-        # Container widget that centers the page
-        container = QWidget()
-        container_layout = QVBoxLayout(container)
-        container_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        container_layout.setContentsMargins(40, 40, 40, 40)  # Add padding around the page
-
-        # White paper (simple styling, no shadow for performance)
-        self.page_widget = QWidget()
-        self.page_widget.setFixedSize(LETTER_WIDTH_PX, LETTER_HEIGHT_PX)
-        self.page_widget.setStyleSheet("""
-            QWidget {
-                background: white;
-                border: 2px solid #666;
-            }
-        """)
-
-        # PDF View inside paper (no margins, fills the page)
+        # PDF View with fixed letter size
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
-        self.pdf_view.setPageMode(QPdfView.PageMode.SinglePage)  # Changed to SinglePage for better clarity
-        self.pdf_view.setZoomMode(QPdfView.ZoomMode.FitToWidth)  # Start with FitToWidth
+        self.pdf_view.setPageMode(QPdfView.PageMode.SinglePage)
+        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
+        self.pdf_view.setFixedSize(LETTER_WIDTH, LETTER_HEIGHT)
+        self.pdf_view.setZoomFactor(1.0)  # 100% zoom = actual letter size
+        self.pdf_view.setStyleSheet("background:white; border: 1px solid #999;")
 
-        page_layout = QVBoxLayout(self.page_widget)
-        page_layout.setContentsMargins(0, 0, 0, 0)  # No margins for full page view
-        page_layout.addWidget(self.pdf_view)
-
-        # Add page to centered container
-        container_layout.addWidget(self.page_widget)
-
-        scroll.setWidget(container)
+        scroll.setWidget(self.pdf_view)
         layout.addWidget(scroll, 1)
 
-        # Ctrl+P shortcut
+        # Ctrl+P
         self.print_action = QAction(self)
         self.print_action.setShortcut("Ctrl+P")
         self.print_action.triggered.connect(self.print_pdf)
@@ -176,13 +155,13 @@ class ProductionPrintPreview(QDialog):
     def zoom_in(self):
         self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
         f = self.pdf_view.zoomFactor() * 1.25
-        self.pdf_view.setZoomFactor(min(f, 6.0))
+        self.pdf_view.setZoomFactor(min(f, 4.0))
         self.sync_combo()
 
     def zoom_out(self):
         self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
         f = self.pdf_view.zoomFactor() * 0.8
-        self.pdf_view.setZoomFactor(max(f, 0.2))
+        self.pdf_view.setZoomFactor(max(f, 0.5))
         self.sync_combo()
 
     def sync_combo(self):
