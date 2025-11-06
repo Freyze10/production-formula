@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00253" summary="changed refresh btn connection">
-      <option name="closed" value="true" />
-      <created>1762304226649</created>
-      <option name="number" value="00253" />
-      <option name="presentableId" value="LOCAL-00253" />
-      <option name="project" value="LOCAL" />
-      <updated>1762304226649</updated>
-    </task>
     <task id="LOCAL-00254" summary="added sync btn function">
       <option name="closed" value="true" />
       <created>1762304439905</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762417439600</updated>
     </task>
-    <option name="localTasksCounter" value="302" />
+    <task id="LOCAL-00302" summary="added ariaal font">
+      <option name="closed" value="true" />
+      <created>1762417473042</created>
+      <option name="number" value="00302" />
+      <option name="presentableId" value="LOCAL-00302" />
+      <option name="project" value="LOCAL" />
+      <updated>1762417473042</updated>
+    </task>
+    <option name="localTasksCounter" value="303" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added sync button" />
     <MESSAGE value="added sync formula function" />
     <MESSAGE value="connected sync function to btn" />
     <MESSAGE value="changed refresh icon" />
@@ -701,7 +700,8 @@
     <MESSAGE value="final color" />
     <MESSAGE value="fixing layout" />
     <MESSAGE value="fix box table positions" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix box table positions" />
+    <MESSAGE value="added ariaal font" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ariaal font" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

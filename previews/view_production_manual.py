@@ -233,7 +233,7 @@ class ProductionPrintPreview(QDialog):
         header_left.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
-            ('TOPPADDING', (0, 0), (-1, -1), 25),
+            # ('TOPPADDING', (0, 0), (-1, -1), 25),
         ]))
 
         # Info table
@@ -259,8 +259,13 @@ class ProductionPrintPreview(QDialog):
             ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
         ]))
 
-        story.append(Table([[header_left, info_table]], colWidths=[4 * inch, 3 * inch]))
-        story.append(Spacer(1, 28))
+        outer_table = Table([[header_left, info_table]], colWidths=[4 * inch, 3 * inch])
+        outer_table.setStyle(TableStyle([
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # ⬅ Center both header_left and info_table vertically
+        ]))
+
+        story.append(outer_table)
+        story.append(Spacer(1, 20))
 
         # Product details
         left = [("PRODUCT CODE", self.data.get('product_code', '')),
@@ -278,10 +283,10 @@ class ProductionPrintPreview(QDialog):
             row = Table([
                 [Paragraph(f"{lk}: <b>{lv}</b>", styles['N10']), "",
                  Paragraph(f"{rk}: <b>{rv}</b>", styles['N10'])]
-            ], colWidths=[2.8 * inch, 0.4 * inch, 3.0 * inch])
+            ], colWidths=[3.3 * inch, 0.4 * inch, 3.3 * inch])
             row.setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
             story.append(row)
-            story.append(Spacer(1, 8))
+            # story.append(Spacer(1, 8))
 
         story.append(Spacer(1, 18))
         story.append(Paragraph(self.batch_text(), styles['CB10']))
