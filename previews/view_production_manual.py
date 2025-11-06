@@ -56,8 +56,13 @@ class ProductionPrintPreview(QDialog):
         layout.setSpacing(12)
 
         # === TOOLBAR ===
-        tb = QHBoxLayout()
-        tb.addWidget(QLabel("<b>Zoom:</b>", styleSheet="color:white;"))
+        # Toolbar container with nice background
+        toolbar_container = QWidget()
+        toolbar_container.setStyleSheet("background:#f8f9fa; border-bottom: 2px solid #dee2e6; padding: 8px;")
+        tb = QHBoxLayout(toolbar_container)
+        tb.setContentsMargins(10, 8, 10, 8)
+
+        tb.addWidget(QLabel("<b>Zoom:</b>", styleSheet="color:#495057; font-size: 13px;"))
 
         self.zoom_combo = QComboBox()
         self.zoom_combo.addItems(["50%", "75%", "100%", "125%", "150%", "200%"])
@@ -66,22 +71,22 @@ class ProductionPrintPreview(QDialog):
         self.zoom_combo.setValidator(QIntValidator(10, 1000))
         self.zoom_combo.setFixedWidth(100)
         self.zoom_combo.setStyleSheet(
-            "QComboBox { color: white; background: #444; border: 1px solid #555; padding: 5px; }")
+            "QComboBox { color: #495057; background: white; border: 1px solid #ced4da; padding: 5px; border-radius: 4px; }")
         self.zoom_combo.currentTextChanged.connect(self.on_zoom_changed)
         tb.addWidget(self.zoom_combo)
 
         # Zoom buttons
         zoom_in_btn = QPushButton()
-        zoom_in_btn.setIcon(fa.icon('fa5s.search-plus', color='white'))
+        zoom_in_btn.setIcon(fa.icon('fa5s.search-plus', color='#495057'))
         zoom_in_btn.setFixedSize(36, 36)
-        zoom_in_btn.setStyleSheet("background:#555; border-radius:6px;")
+        zoom_in_btn.setStyleSheet("background:white; border: 1px solid #ced4da; border-radius:4px;")
         zoom_in_btn.clicked.connect(self.zoom_in)
         tb.addWidget(zoom_in_btn)
 
         zoom_out_btn = QPushButton()
-        zoom_out_btn.setIcon(fa.icon('fa5s.search-minus', color='white'))
+        zoom_out_btn.setIcon(fa.icon('fa5s.search-minus', color='#495057'))
         zoom_out_btn.setFixedSize(36, 36)
-        zoom_out_btn.setStyleSheet("background:#555; border-radius:6px;")
+        zoom_out_btn.setStyleSheet("background:white; border: 1px solid #ced4da; border-radius:4px;")
         zoom_out_btn.clicked.connect(self.zoom_out)
         tb.addWidget(zoom_out_btn)
 
@@ -91,25 +96,26 @@ class ProductionPrintPreview(QDialog):
         download_btn = QPushButton(" Download PDF")
         download_btn.setIcon(fa.icon('fa5s.download', color='white'))
         download_btn.setStyleSheet(
-            "background:#007bff; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
+            "background:#007bff; color:white; padding:10px 20px; border-radius:6px; font-weight:bold; border:none;")
         download_btn.clicked.connect(self.download_pdf)
         tb.addWidget(download_btn)
 
         print_btn = QPushButton(" Print")
         print_btn.setIcon(fa.icon('fa5s.print', color='white'))
         print_btn.setStyleSheet(
-            "background:#28a745; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
+            "background:#28a745; color:white; padding:10px 20px; border-radius:6px; font-weight:bold; border:none;")
         print_btn.clicked.connect(self.print_pdf)
         tb.addWidget(print_btn)
 
         close_btn = QPushButton(" Close")
         close_btn.setIcon(fa.icon('fa5s.times', color='white'))
         close_btn.setStyleSheet(
-            "background:#dc3545; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
+            "background:#dc3545; color:white; padding:10px 20px; border-radius:6px; font-weight:bold; border:none;")
         close_btn.clicked.connect(self.reject)
         tb.addWidget(close_btn)
 
-        layout.addLayout(tb)
+        layout.addLayout(QVBoxLayout())
+        layout.itemAt(layout.count() - 1).addWidget(toolbar_container)
 
         # === SIMPLE CENTERED PDF VIEW ===
         # Letter size: 8.5" x 11" - use larger size to show full page

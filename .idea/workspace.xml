@@ -252,46 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00245" summary="trying  completer in manual">
-      <option name="closed" value="true" />
-      <created>1762240426600</created>
-      <option name="number" value="00245" />
-      <option name="presentableId" value="LOCAL-00245" />
-      <option name="project" value="LOCAL" />
-      <updated>1762240426600</updated>
-    </task>
-    <task id="LOCAL-00246" summary="connected manual completer">
-      <option name="closed" value="true" />
-      <created>1762241714314</created>
-      <option name="number" value="00246" />
-      <option name="presentableId" value="LOCAL-00246" />
-      <option name="project" value="LOCAL" />
-      <updated>1762241714314</updated>
-    </task>
-    <task id="LOCAL-00247" summary="added field completers">
-      <option name="closed" value="true" />
-      <created>1762242203851</created>
-      <option name="number" value="00247" />
-      <option name="presentableId" value="LOCAL-00247" />
-      <option name="project" value="LOCAL" />
-      <updated>1762242203851</updated>
-    </task>
-    <task id="LOCAL-00248" summary="fixing tab orders">
-      <option name="closed" value="true" />
-      <created>1762242624331</created>
-      <option name="number" value="00248" />
-      <option name="presentableId" value="LOCAL-00248" />
-      <option name="project" value="LOCAL" />
-      <updated>1762242624331</updated>
-    </task>
-    <task id="LOCAL-00249" summary="fixing tab orders">
-      <option name="closed" value="true" />
-      <created>1762243747467</created>
-      <option name="number" value="00249" />
-      <option name="presentableId" value="LOCAL-00249" />
-      <option name="project" value="LOCAL" />
-      <updated>1762243747467</updated>
-    </task>
     <task id="LOCAL-00250" summary="removed unnecessary line">
       <option name="closed" value="true" />
       <created>1762245161299</created>
@@ -644,7 +604,47 @@
       <option name="project" value="LOCAL" />
       <updated>1762407220691</updated>
     </task>
-    <option name="localTasksCounter" value="294" />
+    <task id="LOCAL-00294" summary="fixing new print">
+      <option name="closed" value="true" />
+      <created>1762413937173</created>
+      <option name="number" value="00294" />
+      <option name="presentableId" value="LOCAL-00294" />
+      <option name="project" value="LOCAL" />
+      <updated>1762413937173</updated>
+    </task>
+    <task id="LOCAL-00295" summary="fixing new print">
+      <option name="closed" value="true" />
+      <created>1762414144661</created>
+      <option name="number" value="00295" />
+      <option name="presentableId" value="LOCAL-00295" />
+      <option name="project" value="LOCAL" />
+      <updated>1762414144661</updated>
+    </task>
+    <task id="LOCAL-00296" summary="removed scroll bar insided">
+      <option name="closed" value="true" />
+      <created>1762414228648</created>
+      <option name="number" value="00296" />
+      <option name="presentableId" value="LOCAL-00296" />
+      <option name="project" value="LOCAL" />
+      <updated>1762414228648</updated>
+    </task>
+    <task id="LOCAL-00297" summary="chaanging bg color">
+      <option name="closed" value="true" />
+      <created>1762414337462</created>
+      <option name="number" value="00297" />
+      <option name="presentableId" value="LOCAL-00297" />
+      <option name="project" value="LOCAL" />
+      <updated>1762414337462</updated>
+    </task>
+    <task id="LOCAL-00298" summary="chaanging bg color">
+      <option name="closed" value="true" />
+      <created>1762414424041</created>
+      <option name="number" value="00298" />
+      <option name="presentableId" value="LOCAL-00298" />
+      <option name="project" value="LOCAL" />
+      <updated>1762414424041</updated>
+    </task>
+    <option name="localTasksCounter" value="299" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed unnecessary import" />
-    <MESSAGE value="removed table load sort and update" />
     <MESSAGE value="added refresh btn func" />
     <MESSAGE value="deleted gif" />
     <MESSAGE value="added loading table func formula" />
@@ -701,7 +699,9 @@
     <MESSAGE value="changed mix time to formula and prod func" />
     <MESSAGE value="testing of new print preview size" />
     <MESSAGE value="fixing new print" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing new print" />
+    <MESSAGE value="removed scroll bar insided" />
+    <MESSAGE value="chaanging bg color" />
+    <option name="LAST_COMMIT_MESSAGE" value="chaanging bg color" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
