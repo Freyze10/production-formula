@@ -584,7 +584,6 @@ class ProductionPrintPreview(QDialog):
         QMessageBox.information(self, "Done", "Printed successfully.")
         self.accept()
 
----------------------------------------------------------------------- #
 # Example usage (uncomment to test)
 # ---------------------------------------------------------------------- #
 if __name__ == "__main__":
