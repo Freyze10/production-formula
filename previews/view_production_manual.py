@@ -24,7 +24,7 @@ class ProductionPrintPreview(QDialog):
         self.setModal(False)
         self.resize(1150, 820)
 
-        # === BUILD PDF WITH REPORTLAB ===
+        # Build PDF
         self.buffer = io.BytesIO()
         self.doc = SimpleDocTemplate(
             self.buffer,
@@ -39,9 +39,9 @@ class ProductionPrintPreview(QDialog):
         self.build_pdf()
         self.doc.build(self.story)
 
-        # === UI ===
+        # UI
         self.setup_ui()
-        self.show_pdf()  # Now works perfectly
+        self.show_pdf()
 
     def _setup_styles(self):
         self.styles.add(ParagraphStyle(name='Normal10', fontName='Helvetica', fontSize=10, leading=12))
@@ -54,29 +54,37 @@ class ProductionPrintPreview(QDialog):
     def build_pdf(self):
         s = self.story
 
-        # HEADER
+        # HEADER LEFT
         header_left = Table([
-            ["MASTERBATCH PHILIPPINES, INC."],
-            ["PRODUCTION ENTRY"],
-            [f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}"]
+            [Paragraph("MASTERBATCH PHILIPPINES, INC.", self.styles['Normal10'])],
+            [Paragraph("PRODUCTION ENTRY", self.styles['Normal10'])],
+            [Paragraph(f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}", self.styles['Normal10'])],
         ], colWidths=[4.5*inch])
         header_left.setStyle(TableStyle([
-            ('FONTSIZE', (0,0), (-1,-1), 10),
             ('TOPPADDING', (0,0), (-1,-1), 25),
+            ('LEFTPADDING', (0,0), (-1,-1), 0),
             ('ALIGN', (0,0), (-1,-1), 'LEFT'),
         ]))
 
+        # INFO BOX
         info_data = [
-            ["PRODUCTION ID", self.data.get('prod_id', '')],
-            ["PRODUCTION DATE", self.data.get('production_date', '')],
-            ["ORDER FORM NO.", self.data.get('order_form_no', '')],
-            ["FORMULATION NO.", self.data.get('formulation_id', '')],
+            ("PRODUCTION ID", self.data.get('prod_id', '')),
+            ("PRODUCTION DATE", self.data.get('production_date', '')),
+            ("ORDER FORM NO.", self.data.get('order_form_no', '')),
+            ("FORMULATION NO.", self.data.get('formulation_id', '')),
         ]
         if 'wip' in self.data:
-            info_data.append(["WIP", self.data.get('wip', '')])
+            info_data.append(("WIP", self.data.get('wip', '')))
 
-        info_cells = [[Paragraph(k, self.styles['Normal10']), Paragraph(":", self.styles['Normal10']), Paragraph(str(v), self.styles['Bold10'])] for k, v in info_data]
-        info_table = Table(info_cells, colWidths=[1.8*inch, 0.2*inch, 2*inch])
+        info_rows = []
+        for k, v in info_data:
+            info_rows.append([
+                Paragraph(k, self.styles['Normal10']),
+                Paragraph(":", self.styles['Normal10']),
+                Paragraph(str(v), self.styles['Bold10'])
+            ])
+
+        info_table = Table(info_rows, colWidths=[1.8*inch, 0.2*inch, 2*inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0,0), (-1,-1), 1, colors.black),
             ('GRID', (0,0), (-1,-1), 0.5, colors.black),
@@ -91,24 +99,33 @@ class ProductionPrintPreview(QDialog):
         s.append(top_header)
         s.append(Spacer(1, 28))
 
-        # TWO COLUMN DETAILS
-        left = [("PRODUCT CODE", self.data.get('product_code', '')),
-                ("PRODUCT COLOR", self.data.get('product_color', '')),
-                ("DOSAGE", self.data.get('dosage', '')),
-                ("CUSTOMER", self.data.get('customer', '')),
-                ("LOT NO.", self.data.get('lot_number', ''))]
-
-        right = [("MIXING TIME", self.data.get('mixing_time', '')),
-                 ("MACHINE NO", self.data.get('machine_no', '')),
-                 ("QTY REQUIRED", self.data.get('qty_required', '')),
-                 ("QTY PER BATCH", self.data.get('qty_per_batch', '')),
-                 ("QTY TO PRODUCE", self.data.get('qty_produced', ''))]
+        # TWO COLUMN DETAILS - FIXED 100%
+        left = [
+            ("PRODUCT CODE", self.data.get('product_code', '')),
+            ("PRODUCT COLOR", self.data.get('product_color', '')),
+            ("DOSAGE", self.data.get('dosage', '')),
+            ("CUSTOMER", self.data.get('customer', '')),
+            ("LOT NO.", self.data.get('lot_number', ''))
+        ]
+        right = [
+            ("MIXING TIME", self.data.get('mixing_time', '')),
+            ("MACHINE NO", self.data.get('machine_no', '')),
+            ("QTY REQUIRED", self.data.get('qty_required', '')),
+            ("QTY PER BATCH", self.data.get('qty_per_batch', '')),
+            ("QTY TO PRODUCE", self.data.get('qty_produced', ''))
+        ]
 
         for (lk, lv), (rk, rv) in zip(left, right):
-            row = [[[self._kv(lk, lv)]], [[" "]], [[self._kv(rk, rv)]]]
-            row_table = Table(row, colWidths=[2.8*inch, 0.4*inch, 3.0*inch])
-            s.append(row_table)
-            s.append(Spacer(1, 2))
+            row = Table([
+                [self._kv(lk, lv), "", self._kv(rk, rv)]
+            ], colWidths=[2.8*inch, 0.4*inch, 3.0*inch])
+            row.setStyle(TableStyle([
+                ('VALIGN', (0,0), (-1,-1), 'TOP'),
+                ('LEFTPADDING', (0,0), (-1,-1), 0),
+                ('RIGHTPADDING', (0,0), (-1,-1), 0),
+            ]))
+            s.append(row)
+            s.append(Spacer(1, 8))  # Space between rows
 
         s.append(Spacer(1, 18))
 
@@ -203,7 +220,11 @@ class ProductionPrintPreview(QDialog):
         tb.addWidget(self.zoom_combo)
 
         for icon, func in [('fa5s.plus', self.zoom_in), ('fa5s.minus', self.zoom_out)]:
-            btn = QPushButton(); btn.setIcon(fa.icon(icon)); btn.setFixedSize(32,32); btn.clicked.connect(func); tb.addWidget(btn)
+            btn = QPushButton()
+            btn.setIcon(fa.icon(icon))
+            btn.setFixedSize(32, 32)
+            btn.clicked.connect(func)
+            tb.addWidget(btn)
 
         tb.addStretch()
 
@@ -220,7 +241,7 @@ class ProductionPrintPreview(QDialog):
 
         layout.addLayout(tb)
 
-        # PDF Viewer - FIXED WITH QBuffer
+        # PDF Viewer
         self.pdf_doc = QPdfDocument(self)
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
@@ -231,7 +252,7 @@ class ProductionPrintPreview(QDialog):
         scroll.setWidget(self.pdf_view)
         layout.addWidget(scroll, 1)
 
-        # Critical: Keep QBuffer alive
+        # QBuffer for PyQt6
         self.qbuffer = QBuffer(self)
         self.qbuffer.open(QIODevice.OpenModeFlag.WriteOnly)
         self.qbuffer.write(self.buffer.getvalue())
@@ -240,7 +261,7 @@ class ProductionPrintPreview(QDialog):
     def show_pdf(self):
         self.qbuffer.open(QIODevice.OpenModeFlag.ReadOnly)
         self.qbuffer.seek(0)
-        self.pdf_doc.load(self.qbuffer)  # Now works!
+        self.pdf_doc.load(self.qbuffer)
         self.qbuffer.close()
 
         zoom = int(self.zoom_combo.currentText().rstrip('%')) / 100
