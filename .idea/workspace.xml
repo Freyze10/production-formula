@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00247" summary="added field completers">
-      <option name="closed" value="true" />
-      <created>1762242203851</created>
-      <option name="number" value="00247" />
-      <option name="presentableId" value="LOCAL-00247" />
-      <option name="project" value="LOCAL" />
-      <updated>1762242203851</updated>
-    </task>
     <task id="LOCAL-00248" summary="fixing tab orders">
       <option name="closed" value="true" />
       <created>1762242624331</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762392369296</updated>
     </task>
-    <option name="localTasksCounter" value="296" />
+    <task id="LOCAL-00296" summary="testing of new print reportlab">
+      <option name="closed" value="true" />
+      <created>1762393816851</created>
+      <option name="number" value="00296" />
+      <option name="presentableId" value="LOCAL-00296" />
+      <option name="project" value="LOCAL" />
+      <updated>1762393816851</updated>
+    </task>
+    <option name="localTasksCounter" value="297" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
