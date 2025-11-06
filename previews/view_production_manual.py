@@ -7,12 +7,12 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-# FORCE MuPDF — ELIMINATES ALL POPPLER BUGS
+# FORCE MuPDF — NEVER FAILS
 import os
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
 from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
-from PyQt6.QtGui import QPixmap, QPainter, QPageSize, QAction, QIntValidator
+from PyQt6.QtGui import QPainter, QPageSize, QAction, QIntValidator
 from PyQt6.QtPrintSupport import QPrinter, QPrintDialog
 from PyQt6.QtPdf import QPdfDocument
 from PyQt6.QtPdfWidgets import QPdfView
@@ -27,18 +27,18 @@ class ProductionPrintPreview(QDialog):
         super().__init__(parent)
         self.data = production_data or {}
         self.mats = materials_data or []
-        self.zoom_level = 100
 
-        self.setWindowTitle("Print Preview")
+        self.setWindowTitle("Print Preview - Production Entry")
         self.setModal(False)
-        self.resize(1200, 900)
+        self.resize(1250, 920)
+        self.setStyleSheet("background:#2b2b2b;")
 
         # Generate PDF in memory
         self.pdf_buffer = io.BytesIO()
         self.generate_pdf()
         self.pdf_bytes = self.pdf_buffer.getvalue()
 
-        # QBuffer — same method as your working COA
+        # QBuffer — same as your working COA
         self.qbuffer = QBuffer(self)
         self.qbuffer.setData(self.pdf_bytes)
         self.qbuffer.open(QIODevice.OpenModeFlag.ReadOnly)
@@ -47,77 +47,106 @@ class ProductionPrintPreview(QDialog):
         self.pdf_doc = QPdfDocument(self)
         self.pdf_doc.load(self.qbuffer)
 
-        # Setup UI
         self.setup_ui()
 
     def setup_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setContentsMargins(15, 15, 15, 15)
+        layout.setSpacing(12)
 
-        # Toolbar
+        # === TOOLBAR ===
         tb = QHBoxLayout()
-        tb.addWidget(QLabel("Zoom:"))
+        tb.addWidget(QLabel("<b>Zoom:</b>", styleSheet="color:white;"))
 
         self.zoom_combo = QComboBox()
-        self.zoom_combo.addItems(["50%", "75%", "100%", "125%", "150%", "200%", "300%"])
+        self.zoom_combo.addItems(["50%", "75%", "100%", "125%", "150%", "200%", "300%", "400%"])
         self.zoom_combo.setCurrentText("100%")
         self.zoom_combo.setEditable(True)
         self.zoom_combo.setValidator(QIntValidator(10, 1000))
+        self.zoom_combo.setFixedWidth(100)
+        self.zoom_combo.setStyleSheet("QComboBox { color: white; background: #444; border: 1px solid #555; padding: 5px; }")
         self.zoom_combo.currentTextChanged.connect(self.on_zoom_changed)
         tb.addWidget(self.zoom_combo)
 
         # Zoom buttons
-        for icon, func in [('fa5s.plus', self.zoom_in), ('fa5s.minus', self.zoom_out)]:
-            btn = QPushButton()
-            btn.setIcon(fa.icon(icon))
-            btn.setFixedSize(32, 32)
-            btn.clicked.connect(func)
-            tb.addWidget(btn)
+        zoom_in_btn = QPushButton()
+        zoom_in_btn.setIcon(fa.icon('fa5s.search-plus', color='white'))
+        zoom_in_btn.setFixedSize(36, 36)
+        zoom_in_btn.setStyleSheet("background:#555; border-radius:6px;")
+        zoom_in_btn.clicked.connect(self.zoom_in)
+        tb.addWidget(zoom_in_btn)
+
+        zoom_out_btn = QPushButton()
+        zoom_out_btn.setIcon(fa.icon('fa5s.search-minus', color='white'))
+        zoom_out_btn.setFixedSize(36, 36)
+        zoom_out_btn.setStyleSheet("background:#555; border-radius:6px;")
+        zoom_out_btn.clicked.connect(self.zoom_out)
+        tb.addWidget(zoom_out_btn)
 
         tb.addStretch()
 
         # Action buttons
-        download_btn = QPushButton("Download PDF")
+        download_btn = QPushButton(" Download PDF")
         download_btn.setIcon(fa.icon('fa5s.download', color='white'))
-        download_btn.setStyleSheet("background:#007bff;color:white;padding:8px 16px;border-radius:6px;")
+        download_btn.setStyleSheet("background:#007bff; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
         download_btn.clicked.connect(self.download_pdf)
         tb.addWidget(download_btn)
 
-        print_btn = QPushButton("Print")
+        print_btn = QPushButton(" Print")
         print_btn.setIcon(fa.icon('fa5s.print', color='white'))
-        print_btn.setStyleSheet("background:#28a745;color:white;padding:8px 16px;border-radius:6px;")
+        print_btn.setStyleSheet("background:#28a745; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
         print_btn.clicked.connect(self.print_pdf)
         tb.addWidget(print_btn)
 
-        close_btn = QPushButton("Close")
+        close_btn = QPushButton(" Close")
         close_btn.setIcon(fa.icon('fa5s.times', color='white'))
-        close_btn.setStyleSheet("background:#dc3545;color:white;padding:8px 16px;border-radius:6px;")
+        close_btn.setStyleSheet("background:#dc3545; color:white; padding:10px 20px; border-radius:8px; font-weight:bold;")
         close_btn.clicked.connect(self.reject)
         tb.addWidget(close_btn)
 
         layout.addLayout(tb)
 
-        # PDF Viewer — SMOOTH & ZOOMABLE
+        # === REAL LETTER SIZE PAGE (8.5" × 11") ===
+        LETTER_WIDTH_PX = 816   # 8.5 inches × 96 DPI
+        LETTER_HEIGHT_PX = 1056  # 11 inches × 96 DPI
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(False)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setStyleSheet("QScrollArea { background:#1e1e1e; border:none; }")
+
+        # White paper with shadow
+        self.page_widget = QWidget()
+        self.page_widget.setFixedSize(LETTER_WIDTH_PX + 20, LETTER_HEIGHT_PX + 20)
+        self.page_widget.setStyleSheet("""
+            background:white;
+            border:1px solid #ccc;
+            border-radius:8px;
+            margin:10px;
+        """)
+
+        # PDF View inside paper
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.pdf_doc)
         self.pdf_view.setPageMode(QPdfView.PageMode.MultiPage)
-        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)   # Manual zoom
+        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
         self.pdf_view.setZoomFactor(1.0)
 
-        # Center viewer
-        container = QHBoxLayout()
-        container.addStretch()
-        container.addWidget(self.pdf_view)
-        container.addStretch()
-        layout.addLayout(container, 1)
+        page_layout = QVBoxLayout(self.page_widget)
+        page_layout.setContentsMargins(10, 10, 10, 10)
+        page_layout.addWidget(self.pdf_view)
 
-        # Ctrl+P shortcut
+        scroll.setWidget(self.page_widget)
+        layout.addWidget(scroll, 1)
+
+        # Ctrl+P
         self.print_action = QAction(self)
         self.print_action.setShortcut("Ctrl+P")
         self.print_action.triggered.connect(self.print_pdf)
         self.addAction(self.print_action)
 
-    # ZOOM LOGIC — 100% WORKING
+    # === ZOOM LOGIC ===
     def on_zoom_changed(self, text):
         if not text:
             return
@@ -127,26 +156,22 @@ class ProductionPrintPreview(QDialog):
             factor = percent / 100.0
             self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
             self.pdf_view.setZoomFactor(factor)
-        except ValueError:
+        except:
             pass
 
     def zoom_in(self):
-        current = self.pdf_view.zoomFactor()
-        new_factor = min(current * 1.25, 5.0)
-        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
-        self.pdf_view.setZoomFactor(new_factor)
-        self.sync_combo_to_viewer()
+        f = self.pdf_view.zoomFactor() * 1.25
+        self.pdf_view.setZoomFactor(min(f, 6.0))
+        self.sync_combo()
 
     def zoom_out(self):
-        current = self.pdf_view.zoomFactor()
-        new_factor = max(current * 0.8, 0.25)
-        self.pdf_view.setZoomMode(QPdfView.ZoomMode.Custom)
-        self.pdf_view.setZoomFactor(new_factor)
-        self.sync_combo_to_viewer()
+        f = self.pdf_view.zoomFactor() * 0.8
+        self.pdf_view.setZoomFactor(max(f, 0.2))
+        self.sync_combo()
 
-    def sync_combo_to_viewer(self):
-        factor = self.pdf_view.zoomFactor()
-        percent = int(round(factor * 100))
+    def sync_combo(self):
+        f = self.pdf_view.zoomFactor()
+        percent = int(round(f * 100))
         text = f"{percent}%"
         self.zoom_combo.blockSignals(True)
         if self.zoom_combo.findText(text) == -1:
@@ -155,7 +180,7 @@ class ProductionPrintPreview(QDialog):
             self.zoom_combo.setCurrentText(text)
         self.zoom_combo.blockSignals(False)
 
-    # PDF GENERATION
+    # === PDF GENERATION ===
     def generate_pdf(self):
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(
@@ -282,7 +307,7 @@ class ProductionPrintPreview(QDialog):
         if path:
             with open(path, 'wb') as f:
                 f.write(self.pdf_bytes)
-            QMessageBox.information(self, "Success", "PDF saved successfully!")
+            QMessageBox.information(self, "Success", f"PDF saved!\n{path}")
 
     def print_pdf(self):
         printer = QPrinter(QPrinter.PrinterMode.HighResolution)
@@ -296,7 +321,7 @@ class ProductionPrintPreview(QDialog):
                 self.pdf_doc.render(painter, page=i)
             painter.end()
             self.printed.emit(self.data.get('prod_id', ''))
-            QMessageBox.information(self, "Printed", "Document sent to printer!")
+            QMessageBox.information(self, "Printed", "Sent to printer!")
             self.accept()
 
     def batch_text(self):
