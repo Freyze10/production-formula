@@ -32,7 +32,7 @@ class ProductionPrintPreview(QDialog):
         self.setWindowTitle("Print Preview - Production Entry")
         self.setModal(False)
         self.resize(1250, 920)
-        self.setStyleSheet("background:#2b2b2b;")
+        self.setStyleSheet("background:white;")
 
         # Generate PDF in memory
         self.pdf_buffer = io.BytesIO()
