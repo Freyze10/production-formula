@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00290" summary="changed mix time to formula and prod func">
-      <option name="closed" value="true" />
-      <created>1762329270015</created>
-      <option name="number" value="00290" />
-      <option name="presentableId" value="LOCAL-00290" />
-      <option name="project" value="LOCAL" />
-      <updated>1762329270015</updated>
-    </task>
     <task id="LOCAL-00291" summary="testing of new print preview size">
       <option name="closed" value="true" />
       <created>1762332789933</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762500927145</updated>
     </task>
-    <option name="localTasksCounter" value="339" />
+    <task id="LOCAL-00339" summary="removed spacer">
+      <option name="closed" value="true" />
+      <created>1762501100304</created>
+      <option name="number" value="00339" />
+      <option name="presentableId" value="LOCAL-00339" />
+      <option name="project" value="LOCAL" />
+      <updated>1762501100304</updated>
+    </task>
+    <option name="localTasksCounter" value="340" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changing font and font size" />
     <MESSAGE value="adjusted header" />
     <MESSAGE value="adjusted header table" />
     <MESSAGE value="fixing table sizes" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adjusted note field row" />
     <MESSAGE value="created table for the footer" />
     <MESSAGE value="removed s[acer" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed s[acer" />
+    <MESSAGE value="removed spacer" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed spacer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
