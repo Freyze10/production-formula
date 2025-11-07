@@ -340,17 +340,19 @@ class ProductionPrintPreview(QDialog):
         sig_table = Table([
             ["PREPARED BY", ":", self.data.get('prepared_by', ''), "",
              "APPROVED BY", ":", self.data.get('approved_by', 'M. VERDE')],
-            ["PRINTED ON", ":", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "",
+            ["PRINTED ON", ":", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'),
              "MAT'L RELEASED BY", ":", "_________________"],
             ["SYSTEM", ":", "MBPI-SYSTEM-2022", "",
              "PROCESSED BY", ":", "_________________"],
-        ], colWidths=[1 * inch, 0.2 * inch, 1.8 * inch, 0.3 * inch, 1.5 * inch, 0.2 * inch, 2.3 * inch])
+        ], colWidths=[1 * inch, 0.2 * inch, 2.8 * inch * inch, 1.5 * inch, 0.2 * inch, 2 * inch])
 
         sig_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
             ('TOPPADDING', (0, 0), (-1, -1), 4),
+            ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
         ]))
 
         story.append(sig_table)
