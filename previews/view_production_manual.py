@@ -39,12 +39,6 @@ from PyQt6.QtPdfWidgets import QPdfView
 from PyQt6.QtWidgets import *
 import qtawesome as fa
 
-class SpacedParagraph(Paragraph):
-    def __init__(self, text, style, spacing="&nbsp;"):
-        if isinstance(text, str):
-            text = spacing.join(list(text))
-        super().__init__(text, style)
-
 
 class ProductionPrintPreview(QDialog):
     printed = pyqtSignal(str)
