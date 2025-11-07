@@ -7,12 +7,12 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-# ==================== FONT FIX: EXACT MBPI LOOK ====================
+# ==================== FONT FIX - NOW WORKING ====================
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import os
 
-# Register Arial + Arial Narrow (this is what the original form actually uses)
+# Register Arial + Arial Narrow (EXACT MBPI LOOK)
 fonts = {
     "Arial": r"C:\Windows\Fonts\arial.ttf",
     "Arial-Bold": r"C:\Windows\Fonts\arialbd.ttf",
@@ -20,16 +20,15 @@ fonts = {
     "ArialNarrow-Bold": r"C:\Windows\Fonts\arialnb.ttf",
 }
 
-for name, path in fonts.items:
+for name, path in fonts.items():  # ← ← ← ← HERE WAS THE BUG: missing ()
     if os.path.exists(path):
         pdfmetrics.registerFont(TTFont(name, path))
 
 # Fallback if Arial Narrow missing
-if "ArialNarrow-Bold" not in [f.name for f in pdfmetrics.getRegisteredFonts()]:
+if "ArialNarrow-Bold" not in pdfmetrics.getRegisteredFontNames():
     pdfmetrics.registerFont(TTFont("ArialNarrow-Bold", fonts["Arial-Bold"]))
     pdfmetrics.registerFont(TTFont("ArialNarrow", fonts["Arial"]))
 
-# FORCE MuPDF
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
 from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
@@ -208,7 +207,6 @@ class ProductionPrintPreview(QDialog):
         )
 
         styles = getSampleStyleSheet()
-        # === FONT FIX: Use correct Arial variants ===
         styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
@@ -224,7 +222,7 @@ class ProductionPrintPreview(QDialog):
     def build_story(self, styles):
         story = []
 
-        # Header - NOW USING ARIAL NARROW BOLD FOR COMPANY NAME
+        # Header - COMPANY NAME NOW IN ARIAL NARROW BOLD
         header_left = Table([
             [Paragraph("MASTERBATCH PHILIPPINES, INC.", styles['HeaderTitle'])],
             ["PRODUCTION ENTRY"],
@@ -267,7 +265,7 @@ class ProductionPrintPreview(QDialog):
         story.append(outer_table)
         story.append(Spacer(1, 20))
 
-        # Product details - unchanged
+        # Product details
         left = [("PRODUCT CODE", self.data.get('product_code', '')),
                 ("PRODUCT COLOR", self.data.get('product_color', '')),
                 ("DOSAGE", self.data.get('dosage', '')),
@@ -326,14 +324,15 @@ class ProductionPrintPreview(QDialog):
         story.append(Spacer(1, 60))
 
         # Signatures
-        story.append(Table([
+        sig_table = Table([
             ["PREPARED BY:", self.data.get('prepared_by', ''), "", "APPROVED BY:",
              self.data.get('approved_by', 'M. VERDE')],
             ["PRINTED ON:", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "", "MAT'L RELEASED BY:",
              "_________________"],
             ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
-        ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch]))
-        story[-1].setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
+        ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch])
+        sig_table.setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
+        story.append(sig_table)
 
         return story
 
@@ -374,20 +373,35 @@ class ProductionPrintPreview(QDialog):
             return "N/A"
 
 
+# === TEST ===
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
     data = {
-        "prod_id": "99078", "production_date": "11/06/25", "order_form_no": "41866",
-        "formulation_id": "0", "wip": "12-09347", "product_code": "CA8905E",
-        "product_color": "BLACK", "dosage": "100.0000", "customer": "SAN MIGUEL YAMAMURA PACKAGING",
-        "lot_number": "2431AN-2434AN", "mixing_time": "3", "machine_no": "2",
-        "qty_required": "1200.000000", "qty_per_batch": "50.000000", "qty_produced": "1200.000000"
+        "prod_id": "99078",
+        "production_date": "11/06/25",
+        "order_form_no": "41866",
+        "formulation_id": "0",
+        "wip": "12-09347",
+        "product_code": "CA8905E",
+        "product_color": "BLACK",
+        "dosage": "100.0000",
+        "customer": "SAN MIGUEL YAMAMURA PACKAGING",
+        "lot_number": "2431AN-2434AN",
+        "mixing_time": "3",
+        "machine_no": "2",
+        "qty_required": "1200.000000",
+        "qty_per_batch": "50.000000",
+        "qty_produced": "1200.000000",
+        "prepared_by": "R. MAGSALIN"
     }
     mats = [
-        {"material_code": "C31", "large_scale": 20.0, "small_scale": 0.0, "total_weight": 480.0},
-        {"material_code": "L37", "large_scale": 21.4, "small_scale": 0.0, "total_weight": 33.6},
-        # ... add rest
+        {"material_code": "C31", "large_scale": 20.000000, "small_scale": 0.000000, "total_weight": 480.000000},
+        {"material_code": "L37", "large_scale": 21.400000, "small_scale": 0.000000, "total_weight": 33.600000},
+        {"material_code": "J5",  "large_scale": 5.000000,  "small_scale": 0.000000, "total_weight": 120.000000},
+        {"material_code": "K907","large_scale": 16.850000,"small_scale": 0.000000, "total_weight": 284.400000},
+        {"material_code": "LL31","large_scale": 11.000000,"small_scale": 0.000000, "total_weight": 264.000000},
+        {"material_code": "CAB383E(2697AC)", "large_scale": 0.750000, "small_scale": 0.000000, "total_weight": 18.000000},
     ]
     dlg = ProductionPrintPreview(data, mats)
     dlg.exec()
