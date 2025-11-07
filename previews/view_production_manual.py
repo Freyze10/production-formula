@@ -207,10 +207,10 @@ class ProductionPrintPreview(QDialog):
         )
 
         styles = getSampleStyleSheet()
-        styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Arial', fontSize=10))
+        styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=11, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Arial', fontSize=11))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -248,7 +248,7 @@ class ProductionPrintPreview(QDialog):
         info_rows = [[Paragraph(k, styles['N10']), Paragraph(":", styles['N10']),
                       Paragraph(str(v), styles['B10'])] for k, v in info_data]
 
-        info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.4 * inch])
+        info_table = Table(info_rows, colWidths=[1.68 * inch, 0.2 * inch, 1.32 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
@@ -282,15 +282,18 @@ class ProductionPrintPreview(QDialog):
             row = Table([
                 [Paragraph(lk, styles['N10']), ":", Paragraph(f"{lv}", styles['B10']),
                  Paragraph(rk, styles['N10']), ":", Paragraph(f"{rv}", styles['B10'])]
-            ], colWidths=[1.4 * inch, 0.2 * inch, 2.9 * inch, 1.4 * inch, 0.2 * inch, 1.4 * inch])
+            ], colWidths=[1.4 * inch, 0.1 * inch, 2.9 * inch, 1.5 * inch, 0.1 * inch, 1.4 * inch])
 
             row.setStyle(TableStyle([
                 ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-                ('LEFTPADDING', (0, 0), (-1, -1), 2),
+                ('LEFTPADDING', (0, 0), (-1, -1), 0),
+                ('LEFTPADDING', (0, 0), (0, -1), 8),
                 ('RIGHTPADDING', (0, 0), (-1, -1), 0),
                 ('TOPPADDING', (0, 0), (-1, -1), 1),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 1),
+                ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
+                # ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ]))
             story.append(row)
 
