@@ -210,7 +210,7 @@ class ProductionPrintPreview(QDialog):
         styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow-Bold', fontSize=10, leading=12))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow', fontSize=10, leading=12))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -229,8 +229,8 @@ class ProductionPrintPreview(QDialog):
             [f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}"]
         ], colWidths=[4.5 * inch])
         header_left.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (0, 0), 'ArialNarrow-Bold'),
-            ('FONTNAME', (0, 1), (-1, -1), 'Arial-Bold'),
+            ('FONTNAME', (0, 0), (0, 0), 'ArialNarrow'),
+            ('FONTNAME', (0, 1), (-1, -1), 'ArialNarrow'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
         ]))
 
@@ -247,7 +247,7 @@ class ProductionPrintPreview(QDialog):
         info_rows = [[Paragraph(k, styles['N10']), Paragraph(":", styles['N10']),
                       Paragraph(str(v), styles['B10'])] for k, v in info_data]
 
-        info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.4 * inch])
+        info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.3 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 1, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
@@ -257,9 +257,10 @@ class ProductionPrintPreview(QDialog):
             ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
         ]))
 
-        outer_table = Table([[header_left, info_table]], colWidths=[4 * inch, 3 * inch])
+        outer_table = Table([[header_left, info_table]], colWidths=[4.3 * inch, 3.2 * inch])
         outer_table.setStyle(TableStyle([
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('BOX', (0, 0), (-1, -1), 1, colors.black)
         ]))
 
         story.append(outer_table)
