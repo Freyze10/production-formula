@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00273" summary="changed refresh icon">
-      <option name="closed" value="true" />
-      <created>1762321263056</created>
-      <option name="number" value="00273" />
-      <option name="presentableId" value="LOCAL-00273" />
-      <option name="project" value="LOCAL" />
-      <updated>1762321263056</updated>
-    </task>
     <task id="LOCAL-00274" summary="changed refresh icon">
       <option name="closed" value="true" />
       <created>1762321292719</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762486395041</updated>
     </task>
-    <option name="localTasksCounter" value="322" />
+    <task id="LOCAL-00322" summary="changed all font">
+      <option name="closed" value="true" />
+      <created>1762487005984</created>
+      <option name="number" value="00322" />
+      <option name="presentableId" value="LOCAL-00322" />
+      <option name="project" value="LOCAL" />
+      <updated>1762487005984</updated>
+    </task>
+    <option name="localTasksCounter" value="323" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="testing of new print preview size" />
     <MESSAGE value="fixing new print" />
     <MESSAGE value="removed scroll bar insided" />
     <MESSAGE value="chaanging bg color" />
@@ -701,7 +700,8 @@
     <MESSAGE value="fixing product details" />
     <MESSAGE value="adjusted font size and layout" />
     <MESSAGE value="modified product details" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified product details" />
+    <MESSAGE value="changed all font" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed all font" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

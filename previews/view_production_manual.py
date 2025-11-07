@@ -188,10 +188,10 @@ class ProductionPrintPreview(QDialog):
 
         styles = getSampleStyleSheet()
         # COURIER FONTS ONLY — BUILT-IN
-        styles.add(ParagraphStyle(name='N10', fontName='Courier', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=12, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier-Bold', fontSize=11))
+        styles.add(ParagraphStyle(name='N10', fontName='Courier', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=11, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=11))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -241,7 +241,8 @@ class ProductionPrintPreview(QDialog):
 
         outer_table = Table([[header_left, info_table]], colWidths=[4.3 * inch, 3.2 * inch])
         outer_table.setStyle(TableStyle([
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('VALIGN', (0, 0), (0, -1), 'TOP'),
+            ('TOPPADDING', (0, 0), (0, -1), 20),
         ]))
 
         story.append(outer_table)
