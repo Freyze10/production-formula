@@ -11,10 +11,10 @@ from reportlab.lib.enums import TA_CENTER, TA_RIGHT
 # NO FONT IMPORTS — USING BUILT-IN COURIER ONLY
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
-from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
+from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice, QSize, QPointF
 from PyQt6.QtGui import QPainter, QPageSize, QAction, QIntValidator
 from PyQt6.QtPrintSupport import QPrinter, QPrintDialog
-from PyQt6.QtPdf import QPdfDocument
+from PyQt6.QtPdf import QPdfDocument, QPdfDocumentRenderOptions
 from PyQt6.QtPdfWidgets import QPdfView
 from PyQt6.QtWidgets import *
 import qtawesome as fa
@@ -373,44 +373,61 @@ class ProductionPrintPreview(QDialog):
             QMessageBox.information(self, "Success", f"PDF saved!\n{path}")
 
     def print_pdf(self):
-        printer = QPrinter(QPrinter.PrinterMode.HighResolution)
-        printer.setPageSize(QPageSize(QPageSize.PageSizeId.Letter))
-        dialog = QPrintDialog(printer, self)
+        try:
+            if not self.pdf_doc or self.pdf_doc.pageCount() == 0:
+                return  # nothing to print
 
-        if dialog.exec():
-            painter = QPainter(printer)
+            printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+            printer.setPageSize(QPageSize(QPageSize.PageSizeId.Letter))
 
-            for page_num in range(self.pdf_doc.pageCount()):
-                if page_num > 0:
-                    printer.newPage()
+            dialog = QPrintDialog(printer, self)
+            dialog.setWindowTitle("Print Production Entry")
 
-                # Get the page image and render it
-                page_size = self.pdf_doc.pagePointSize(page_num)
-                image = self.pdf_doc.render(page_num, page_size.toSize() * 2)  # 2x for better quality
+            if dialog.exec():
+                painter = QPainter(printer)
+                render_options = QPdfDocumentRenderOptions()
 
-                # Calculate scaling to fit printer page
-                printer_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
-                image_rect = image.rect()
+                # Render at 300 DPI for print quality
+                render_dpi = 300
 
-                # Scale image to fit page while maintaining aspect ratio
-                scale = min(printer_rect.width() / image_rect.width(),
-                            printer_rect.height() / image_rect.height())
+                for i in range(self.pdf_doc.pageCount()):
+                    if i > 0:
+                        printer.newPage()
 
-                scaled_width = int(image_rect.width() * scale)
-                scaled_height = int(image_rect.height() * scale)
+                    pdf_page_size_points = self.pdf_doc.pagePointSize(i)
 
-                # Center the image on the page
-                x = (printer_rect.width() - scaled_width) // 2
-                y = (printer_rect.height() - scaled_height) // 2
+                    # Calculate render size in pixels
+                    image_render_width_pixels = int(pdf_page_size_points.width() / 72.0 * render_dpi)
+                    image_render_height_pixels = int(pdf_page_size_points.height() / 72.0 * render_dpi)
 
-                painter.drawImage(x, y, image.scaled(scaled_width, scaled_height,
-                                                     Qt.AspectRatioMode.KeepAspectRatio,
-                                                     Qt.TransformationMode.SmoothTransformation))
+                    pdf_image = self.pdf_doc.render(
+                        i,
+                        QSize(image_render_width_pixels, image_render_height_pixels),
+                        render_options
+                    )
 
-            painter.end()
-            self.printed.emit(self.data.get('prod_id', ''))
-            QMessageBox.information(self, "Printed", "Sent to printer!")
-            self.accept()
+                    if not pdf_image.isNull():
+                        # Use the full page, not the printable area
+                        full_page_pixels = printer.paperRect(QPrinter.Unit.DevicePixel)
+
+                        scaled_image = pdf_image.scaled(
+                            full_page_pixels.size().toSize(),
+                            Qt.AspectRatioMode.KeepAspectRatio,
+                            Qt.TransformationMode.SmoothTransformation
+                        )
+
+                        # Align to the top (no margin)
+                        x = full_page_pixels.x() + (full_page_pixels.width() - scaled_image.width()) / 2
+                        y = full_page_pixels.y()  # start at the very top
+
+                        painter.drawImage(QPointF(x, y), scaled_image)
+
+                painter.end()
+                self.printed.emit(self.data.get('prod_id', ''))
+                QMessageBox.information(self, "Printed", "Sent to printer!")
+                self.accept()
+        except Exception as e:
+            print(f"An error occurred during printing: {e}")
 
     def batch_text(self):
         try:

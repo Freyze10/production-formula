@@ -69,7 +69,7 @@
     "Python.view_production_manual.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
   "keyToStringList": {
@@ -93,7 +93,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.view_production_manual">
+  <component name="RunManager" selected="Python.main">
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -228,8 +228,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
         <item itemvalue="Python.formulation" />
@@ -251,14 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00292" summary="fixing new print">
-      <option name="closed" value="true" />
-      <created>1762407042777</created>
-      <option name="number" value="00292" />
-      <option name="presentableId" value="LOCAL-00292" />
-      <option name="project" value="LOCAL" />
-      <updated>1762407042777</updated>
     </task>
     <task id="LOCAL-00293" summary="fixing new print">
       <option name="closed" value="true" />
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762501357361</updated>
     </task>
-    <option name="localTasksCounter" value="341" />
+    <task id="LOCAL-00341" summary="changed mbpi system text">
+      <option name="closed" value="true" />
+      <created>1762501892862</created>
+      <option name="number" value="00341" />
+      <option name="presentableId" value="LOCAL-00341" />
+      <option name="project" value="LOCAL" />
+      <updated>1762501892862</updated>
+    </task>
+    <option name="localTasksCounter" value="342" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjusted header table" />
     <MESSAGE value="fixing table sizes" />
     <MESSAGE value="adjusting table size and font" />
     <MESSAGE value="computing 2nd table width" />
@@ -701,7 +700,8 @@
     <MESSAGE value="removed s[acer" />
     <MESSAGE value="removed spacer" />
     <MESSAGE value="finished layouting" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished layouting" />
+    <MESSAGE value="changed mbpi system text" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed mbpi system text" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
