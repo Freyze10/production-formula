@@ -6,7 +6,7 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_RIGHT
 
 # NO FONT IMPORTS — USING BUILT-IN COURIER ONLY
 os.environ["QT_PDF_RENDERER"] = "mupdf"
@@ -188,10 +188,10 @@ class ProductionPrintPreview(QDialog):
 
         styles = getSampleStyleSheet()
         # COURIER FONTS ONLY — BUILT-IN
-        styles.add(ParagraphStyle(name='N10', fontName='Courier', fontSize=11, leading=12))
-        styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=11, leading=12))
-        styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=11, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=14, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='c11', fontName='Courier', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='c11B', fontName='Courier-Bold', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='c11B_right', parent=styles['c11B'], alignment=TA_RIGHT))
+        styles.add(ParagraphStyle(name='c14B', fontName='Courier-Bold', fontSize=14, alignment=TA_CENTER))
         styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=11))
 
         story = self.build_story(styles)
@@ -227,8 +227,8 @@ class ProductionPrintPreview(QDialog):
         if 'wip' in self.data:
             info_data.append(("WIP", self.data.get('wip', '')))
 
-        info_rows = [[Paragraph(k, styles['N10']), Paragraph(":", styles['N10']),
-                      Paragraph(str(v), styles['B10'])] for k, v in info_data]
+        info_rows = [[Paragraph(k, styles['c11']), Paragraph(":", styles['c11']),
+                      Paragraph(str(v), styles['c11B'])] for k, v in info_data]
 
         info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.4 * inch])
         info_table.setStyle(TableStyle([
@@ -265,8 +265,8 @@ class ProductionPrintPreview(QDialog):
 
         for (lk, lv), (rk, rv) in zip(left, right):
             row = Table([
-                [Paragraph(lk, styles['N10']), ":", Paragraph(f"{lv}", styles['B10']),
-                 Paragraph(rk, styles['N10']), ":", Paragraph(f"{rv}", styles['B10'])]
+                [Paragraph(lk, styles['c11']), ":", Paragraph(f"{lv}", styles['c11B']),
+                 Paragraph(rk, styles['c11']), ":", Paragraph(f"{rv}", styles['c11B'])]
             ], colWidths=[1.2 * inch, 0.16 * inch, 3.20 * inch, 1.3 * inch, 0.16 * inch, 1.48 * inch])
 
             row.setStyle(TableStyle([
@@ -280,7 +280,7 @@ class ProductionPrintPreview(QDialog):
             story.append(row)
 
         story.append(Spacer(1, 16))
-        story.append(Paragraph(self.batch_text(), styles['CB10']))
+        story.append(Paragraph(self.batch_text(), styles['c14B']))
         story.append(Spacer(1, 18))
 
         # Materials table
@@ -292,10 +292,10 @@ class ProductionPrintPreview(QDialog):
             small = float(m.get('small_scale', 0))
             wt = float(m.get('total_weight', 0))
             data.append([
-                Paragraph(m.get('material_code', ''), styles['B10']),
-                Paragraph(f"{large:.6f}", styles['B10']),
-                Paragraph(f"{small:.6f}", styles['B10']),
-                Paragraph(f"{wt:.6f}", styles['B10']),
+                Paragraph(m.get('material_code', ''), styles['c11B']),
+                Paragraph(f"{large:.6f}", styles['c11B']),
+                Paragraph(f"{small:.6f}", styles['c11B']),
+                Paragraph(f"{wt:.6f}", styles['c11B']),
             ])
 
         mat_table = Table(data, colWidths=[2.7 * inch, 1.6 * inch, 1.6 * inch, 1.6 * inch])
@@ -323,8 +323,8 @@ class ProductionPrintPreview(QDialog):
         story.append(Spacer(1, 10))
 
         story.append(Table([
-            [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['N10']), "", "TOTAL:",
-             Paragraph(f"{total}", styles['B10'])]
+            [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['c11']), "", "TOTAL:",
+             Paragraph(f"{total}", styles['c11B'])]
         ], colWidths=[1.8 * inch] * 4))
         story.append(Spacer(1, 60))
 
