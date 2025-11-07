@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00277" summary="connected to print preview">
-      <option name="closed" value="true" />
-      <created>1762325583137</created>
-      <option name="number" value="00277" />
-      <option name="presentableId" value="LOCAL-00277" />
-      <option name="project" value="LOCAL" />
-      <updated>1762325583137</updated>
-    </task>
     <task id="LOCAL-00278" summary="adjust spacing and font weight">
       <option name="closed" value="true" />
       <created>1762325825683</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762492168844</updated>
     </task>
-    <option name="localTasksCounter" value="326" />
+    <task id="LOCAL-00326" summary="adjusting table size">
+      <option name="closed" value="true" />
+      <created>1762494309638</created>
+      <option name="number" value="00326" />
+      <option name="presentableId" value="LOCAL-00326" />
+      <option name="project" value="LOCAL" />
+      <updated>1762494309638</updated>
+    </task>
+    <option name="localTasksCounter" value="327" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -687,7 +687,6 @@
     <MESSAGE value="changed fonts" />
     <MESSAGE value="adjusted page margin to narrow" />
     <MESSAGE value="adjusted page margin to very narrow" />
-    <MESSAGE value="adjusting table size" />
     <MESSAGE value="changing font and font size" />
     <MESSAGE value="adjusted header" />
     <MESSAGE value="adjusted header table" />
@@ -701,7 +700,8 @@
     <MESSAGE value="modified header spacing" />
     <MESSAGE value="adjusted product spacing" />
     <MESSAGE value="removed debugger border" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed debugger border" />
+    <MESSAGE value="adjusting table size" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusting table size" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

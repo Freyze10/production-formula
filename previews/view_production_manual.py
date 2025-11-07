@@ -298,24 +298,25 @@ class ProductionPrintPreview(QDialog):
             ])
 
         mat_table = Table(data, colWidths=[2.7 * inch, 1.6 * inch, 1.6 * inch, 1.6 * inch])
+
         mat_table.setStyle(TableStyle([
-            ('BOX', (0, 0), (-1, -1), 0.75, colors.black),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
 
-            # Align first column (Material Code) to LEFT
+            # Alignments
             ('ALIGN', (0, 0), (0, -1), 'LEFT'),
-
-            # Align remaining columns (numbers) to RIGHT
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
-
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('LEFTPADDING', (0, 0), (-1, -1), 5),
+
+            ('LEFTPADDING', (0, 0), (0, -1), 5),
+            ('TOPPADDING', (0, 0), (0, -1), 5),
+            ('BOTTOMPADDING', (0, 0), (0, -1), 5),
             ('RIGHTPADDING', (0, 0), (-1, -1), 5),
 
+            # Remove all inner grid lines
             ('LINEBELOW', (0, 0), (-1, 0), 0.75, colors.black),  # Top border for header
-            ('LINEABOVE', (0, -1), (-1, -1), 0.75, colors.black),
+            ('LINEABOVE', (0, 0), (-1, 0), 0.75, colors.black),
+            ('LINEBELOW', (0, -1), (-1, -1), 0.75, colors.black), # Bottom border for last row
         ]))
         story.append(mat_table)
         story.append(Spacer(1, 10))
