@@ -68,8 +68,8 @@
     "Python.view.executor": "Run",
     "Python.view_production_manual.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File",
+    "git-widget-placeholder": "stable",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
   "keyToStringList": {
@@ -251,30 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00252" summary="changed warning color">
-      <option name="closed" value="true" />
-      <created>1762303482395</created>
-      <option name="number" value="00252" />
-      <option name="presentableId" value="LOCAL-00252" />
-      <option name="project" value="LOCAL" />
-      <updated>1762303482396</updated>
-    </task>
-    <task id="LOCAL-00253" summary="changed refresh btn connection">
-      <option name="closed" value="true" />
-      <created>1762304226649</created>
-      <option name="number" value="00253" />
-      <option name="presentableId" value="LOCAL-00253" />
-      <option name="project" value="LOCAL" />
-      <updated>1762304226649</updated>
-    </task>
-    <task id="LOCAL-00254" summary="added sync btn function">
-      <option name="closed" value="true" />
-      <created>1762304439905</created>
-      <option name="number" value="00254" />
-      <option name="presentableId" value="LOCAL-00254" />
-      <option name="project" value="LOCAL" />
-      <updated>1762304439905</updated>
     </task>
     <task id="LOCAL-00255" summary="connected the function to button">
       <option name="closed" value="true" />
@@ -572,79 +548,103 @@
       <option name="project" value="LOCAL" />
       <updated>1762332789933</updated>
     </task>
-    <task id="LOCAL-00292" summary="testing of new print preview size">
+    <task id="LOCAL-00292" summary="fixing new print">
       <option name="closed" value="true" />
-      <created>1762333120196</created>
+      <created>1762407042777</created>
       <option name="number" value="00292" />
       <option name="presentableId" value="LOCAL-00292" />
       <option name="project" value="LOCAL" />
-      <updated>1762333120196</updated>
+      <updated>1762407042777</updated>
     </task>
-    <task id="LOCAL-00293" summary="testing of new print preview size">
+    <task id="LOCAL-00293" summary="fixing new print">
       <option name="closed" value="true" />
-      <created>1762391149486</created>
+      <created>1762407220691</created>
       <option name="number" value="00293" />
       <option name="presentableId" value="LOCAL-00293" />
       <option name="project" value="LOCAL" />
-      <updated>1762391149486</updated>
+      <updated>1762407220691</updated>
     </task>
-    <task id="LOCAL-00294" summary="testing of new print preview size">
+    <task id="LOCAL-00294" summary="fixing new print">
       <option name="closed" value="true" />
-      <created>1762391254131</created>
+      <created>1762413937173</created>
       <option name="number" value="00294" />
       <option name="presentableId" value="LOCAL-00294" />
       <option name="project" value="LOCAL" />
-      <updated>1762391254131</updated>
+      <updated>1762413937173</updated>
     </task>
-    <task id="LOCAL-00295" summary="testing of new print reportlab">
+    <task id="LOCAL-00295" summary="fixing new print">
       <option name="closed" value="true" />
-      <created>1762392369296</created>
+      <created>1762414144661</created>
       <option name="number" value="00295" />
       <option name="presentableId" value="LOCAL-00295" />
       <option name="project" value="LOCAL" />
-      <updated>1762392369296</updated>
+      <updated>1762414144661</updated>
     </task>
-    <task id="LOCAL-00296" summary="testing of new print reportlab">
+    <task id="LOCAL-00296" summary="removed scroll bar insided">
       <option name="closed" value="true" />
-      <created>1762393816851</created>
+      <created>1762414228648</created>
       <option name="number" value="00296" />
       <option name="presentableId" value="LOCAL-00296" />
       <option name="project" value="LOCAL" />
-      <updated>1762393816851</updated>
+      <updated>1762414228648</updated>
     </task>
-    <task id="LOCAL-00297" summary="testing new print reportlab">
+    <task id="LOCAL-00297" summary="chaanging bg color">
       <option name="closed" value="true" />
-      <created>1762395559308</created>
+      <created>1762414337462</created>
       <option name="number" value="00297" />
       <option name="presentableId" value="LOCAL-00297" />
       <option name="project" value="LOCAL" />
-      <updated>1762395559308</updated>
+      <updated>1762414337462</updated>
     </task>
-    <task id="LOCAL-00298" summary="testing new print reportlab">
+    <task id="LOCAL-00298" summary="chaanging bg color">
       <option name="closed" value="true" />
-      <created>1762395697775</created>
+      <created>1762414424041</created>
       <option name="number" value="00298" />
       <option name="presentableId" value="LOCAL-00298" />
       <option name="project" value="LOCAL" />
-      <updated>1762395697775</updated>
+      <updated>1762414424041</updated>
     </task>
-    <task id="LOCAL-00299" summary="trying reportlab">
+    <task id="LOCAL-00299" summary="final color">
       <option name="closed" value="true" />
-      <created>1762395818463</created>
+      <created>1762414527280</created>
       <option name="number" value="00299" />
       <option name="presentableId" value="LOCAL-00299" />
       <option name="project" value="LOCAL" />
-      <updated>1762395818465</updated>
+      <updated>1762414527280</updated>
     </task>
-    <task id="LOCAL-00300" summary="fixing error reportlab">
+    <task id="LOCAL-00300" summary="fixing layout">
       <option name="closed" value="true" />
-      <created>1762395886268</created>
+      <created>1762416990595</created>
       <option name="number" value="00300" />
       <option name="presentableId" value="LOCAL-00300" />
       <option name="project" value="LOCAL" />
-      <updated>1762395886268</updated>
+      <updated>1762416990595</updated>
     </task>
-    <option name="localTasksCounter" value="301" />
+    <task id="LOCAL-00301" summary="fix box table positions">
+      <option name="closed" value="true" />
+      <created>1762417439600</created>
+      <option name="number" value="00301" />
+      <option name="presentableId" value="LOCAL-00301" />
+      <option name="project" value="LOCAL" />
+      <updated>1762417439600</updated>
+    </task>
+    <task id="LOCAL-00302" summary="added ariaal font">
+      <option name="closed" value="true" />
+      <created>1762417473042</created>
+      <option name="number" value="00302" />
+      <option name="presentableId" value="LOCAL-00302" />
+      <option name="project" value="LOCAL" />
+      <updated>1762417473042</updated>
+    </task>
+    <task id="LOCAL-00303" summary="adjusting table column">
+      <option name="closed" value="true" />
+      <created>1762417989090</created>
+      <option name="number" value="00303" />
+      <option name="presentableId" value="LOCAL-00303" />
+      <option name="project" value="LOCAL" />
+      <updated>1762417989090</updated>
+    </task>
+    <option name="localTasksCounter" value="304" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,10 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="deleted gif" />
-    <MESSAGE value="added loading table func formula" />
-    <MESSAGE value="added sync button" />
-    <MESSAGE value="added sync formula function" />
     <MESSAGE value="connected sync function to btn" />
     <MESSAGE value="changed refresh icon" />
     <MESSAGE value="fixing print function auto" />
@@ -697,11 +693,15 @@
     <MESSAGE value="changed mix time to formula and prod format" />
     <MESSAGE value="changed mix time to formula and prod func" />
     <MESSAGE value="testing of new print preview size" />
-    <MESSAGE value="testing of new print reportlab" />
-    <MESSAGE value="testing new print reportlab" />
-    <MESSAGE value="trying reportlab" />
-    <MESSAGE value="fixing error reportlab" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing error reportlab" />
+    <MESSAGE value="fixing new print" />
+    <MESSAGE value="removed scroll bar insided" />
+    <MESSAGE value="chaanging bg color" />
+    <MESSAGE value="final color" />
+    <MESSAGE value="fixing layout" />
+    <MESSAGE value="fix box table positions" />
+    <MESSAGE value="added ariaal font" />
+    <MESSAGE value="adjusting table column" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusting table column" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
