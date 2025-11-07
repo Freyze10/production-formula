@@ -293,9 +293,9 @@ class ProductionPrintPreview(QDialog):
             wt = float(m.get('total_weight', 0))
             data.append([
                 Paragraph(m.get('material_code', ''), styles['c11B']),
-                Paragraph(f"{large:.6f}", styles['c11B']),
-                Paragraph(f"{small:.6f}", styles['c11B']),
-                Paragraph(f"{wt:.6f}", styles['c11B']),
+                Paragraph(f"{large:.6f}", styles['c11B_right']),
+                Paragraph(f"{small:.6f}", styles['c11B_right']),
+                Paragraph(f"{wt:.6f}", styles['c11B_right']),
             ])
 
         mat_table = Table(data, colWidths=[2.7 * inch, 1.6 * inch, 1.6 * inch, 1.6 * inch])
