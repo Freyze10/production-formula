@@ -334,20 +334,26 @@ class ProductionPrintPreview(QDialog):
             ('TOPPADDING', (0, 0), (-1, -1), 7),
         ]))
         story.append(note_table)
-        story.append(Spacer(1, 60))
+        story.append(Spacer(1, 70))
 
         # Signatures
         sig_table = Table([
-            ["PREPARED BY:", self.data.get('prepared_by', ''), "", "APPROVED BY:",
-             self.data.get('approved_by', 'M. VERDE')],
-            ["PRINTED ON:", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "", "MAT'L RELEASED BY:",
-             "_________________"],
-            ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
-        ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch])
+            ["PREPARED BY", ":", self.data.get('prepared_by', ''), "",
+             "APPROVED BY", ":", self.data.get('approved_by', 'M. VERDE')],
+            ["PRINTED ON", ":", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'), "",
+             "MAT'L RELEASED BY", ":", "_________________"],
+            ["SYSTEM", ":", "MBPI-SYSTEM-2022", "",
+             "PROCESSED BY", ":", "_________________"],
+        ], colWidths=[1.3 * inch, 0.2 * inch, 1.8 * inch, 0.3 * inch, 1.4 * inch, 0.2 * inch, 2.3 * inch])
+
         sig_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('TOPPADDING', (0, 0), (-1, -1), 4),
         ]))
+
         story.append(sig_table)
 
         return story
