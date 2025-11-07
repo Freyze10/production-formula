@@ -280,15 +280,15 @@ class ProductionPrintPreview(QDialog):
 
         for (lk, lv), (rk, rv) in zip(left, right):
             row = Table([
-                [Paragraph(lk, styles['N10']), ":", Paragraph(f"<b>{lv}</b>", styles['N10']),
-                 Paragraph(rk, styles['N10']), ":", Paragraph(f"<b>{rv}</b>", styles['N10'])]
-            ], colWidths=[1.5 * inch, 0.2 * inch, 2 * inch, 1.4 * inch, 0.1 * inch, 1.5 * inch])
+                [Paragraph(lk, styles['N10']), ":", Paragraph(f"{lv}", styles['B10']),
+                 Paragraph(rk, styles['N10']), ":", Paragraph(f"{rv}", styles['B10'])]
+            ], colWidths=[1.4 * inch, 0.2 * inch, 2.9 * inch, 1.4 * inch, 0.2 * inch, 1.4 * inch])
 
             row.setStyle(TableStyle([
                 ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                 ('LEFTPADDING', (0, 0), (-1, -1), 2),
-                ('RIGHTPADDING', (0, 0), (-1, -1), 2),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 0),
                 ('TOPPADDING', (0, 0), (-1, -1), 1),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 1),
             ]))
@@ -397,7 +397,7 @@ if __name__ == "__main__":
         "dosage": "100.0000",
         "customer": "SAN MIGUEL YAMAMURA PACKAGING",
         "lot_number": "2431AN-2434AN",
-        "mixing_time": "3",
+        "mixing_time": "3 MINS.",
         "machine_no": "2",
         "qty_required": "1200.000000",
         "qty_per_batch": "50.000000",
