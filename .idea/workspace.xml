@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00263" summary="updated loading dialog">
-      <option name="closed" value="true" />
-      <created>1762309437402</created>
-      <option name="number" value="00263" />
-      <option name="presentableId" value="LOCAL-00263" />
-      <option name="project" value="LOCAL" />
-      <updated>1762309437402</updated>
-    </task>
     <task id="LOCAL-00264" summary="make statis loading dialog">
       <option name="closed" value="true" />
       <created>1762310598280</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762479542556</updated>
     </task>
-    <option name="localTasksCounter" value="312" />
+    <task id="LOCAL-00312" summary="adjusted header">
+      <option name="closed" value="true" />
+      <created>1762480162780</created>
+      <option name="number" value="00312" />
+      <option name="presentableId" value="LOCAL-00312" />
+      <option name="project" value="LOCAL" />
+      <updated>1762480162780</updated>
+    </task>
+    <option name="localTasksCounter" value="313" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added field format func" />
     <MESSAGE value="modified field format func" />
     <MESSAGE value="refactored format to float function" />
     <MESSAGE value="added format to production" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adjusted page margin to very narrow" />
     <MESSAGE value="adjusting table size" />
     <MESSAGE value="changing font and font size" />
-    <option name="LAST_COMMIT_MESSAGE" value="changing font and font size" />
+    <MESSAGE value="adjusted header" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted header" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

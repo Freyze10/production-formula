@@ -225,9 +225,9 @@ class ProductionPrintPreview(QDialog):
         # Header - COMPANY NAME NOW IN ARIAL NARROW BOLD
         header_left = Table([
             [Paragraph("MASTERBATCH PHILIPPINES, INC.", styles['HeaderTitle'])],
-            ["PRODUCTION ENTRY"],
-            [f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}"]
-        ], colWidths=[4.5 * inch])
+            [Paragraph("PRODUCTION ENTRY", styles['HeaderTitle'])],
+            [Paragraph(f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}", styles['HeaderTitle'])],
+        ], colWidths=[4.3 * inch])
         header_left.setStyle(TableStyle([
             ('LEFTPADDING', (0, 0), (-1, -1), 0),
             ('RIGHTPADDING', (0, 0), (-1, -1), 0),
