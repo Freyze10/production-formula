@@ -338,19 +338,21 @@ class ProductionPrintPreview(QDialog):
 
         # Signatures
         sig_table = Table([
-            ["PREPARED BY", ":", self.data.get('prepared_by', ''), "",
+            ["PREPARED BY", ":", self.data.get('prepared_by', ''),
              "APPROVED BY", ":", self.data.get('approved_by', 'M. VERDE')],
             ["PRINTED ON", ":", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'),
              "MAT'L RELEASED BY", ":", "_________________"],
-            ["SYSTEM", ":", "MBPI-SYSTEM-2022", "",
+            ["SYSTEM", ":", "MBPI-SYSTEM-2022",
              "PROCESSED BY", ":", "_________________"],
-        ], colWidths=[1 * inch, 0.2 * inch, 2.8 * inch * inch, 1.5 * inch, 0.2 * inch, 2 * inch])
+        ], colWidths=[1 * inch, 0.2 * inch, 2.6 * inch, 1.5 * inch, 0.2 * inch, 2 * inch])
 
         sig_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
             ('TOPPADDING', (0, 0), (-1, -1), 4),
+            ('LEFTPADDING', (0, 0), (-1, -1), 0),  # all 0
+            ('RIGHTPADDING', (0, 0), (-1, -1), 0),  # all 0
             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
         ]))
