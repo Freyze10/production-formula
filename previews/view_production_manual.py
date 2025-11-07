@@ -209,7 +209,7 @@ class ProductionPrintPreview(QDialog):
         styles = getSampleStyleSheet()
         styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=12, alignment=TA_CENTER))
         styles.add(ParagraphStyle(name='HeaderTitle', fontName='Arial', fontSize=10))
 
         story = self.build_story(styles)
