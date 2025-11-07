@@ -344,11 +344,10 @@ class ProductionPrintPreview(QDialog):
              "MAT'L RELEASED BY", ":", "_________________"],
             ["SYSTEM", ":", "MBPI-SYSTEM-2022", "",
              "PROCESSED BY", ":", "_________________"],
-        ], colWidths=[1.3 * inch, 0.2 * inch, 1.8 * inch, 0.3 * inch, 1.4 * inch, 0.2 * inch, 2.3 * inch])
+        ], colWidths=[1 * inch, 0.2 * inch, 1.8 * inch, 0.3 * inch, 1.5 * inch, 0.2 * inch, 2.3 * inch])
 
         sig_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
-            ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
             ('TOPPADDING', (0, 0), (-1, -1), 4),

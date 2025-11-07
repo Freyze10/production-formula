@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00287" summary="added mixing time function in production manual">
-      <option name="closed" value="true" />
-      <created>1762328308150</created>
-      <option name="number" value="00287" />
-      <option name="presentableId" value="LOCAL-00287" />
-      <option name="project" value="LOCAL" />
-      <updated>1762328308150</updated>
-    </task>
     <task id="LOCAL-00288" summary="changed mix time to formula and prod format">
       <option name="closed" value="true" />
       <created>1762328916099</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762496796132</updated>
     </task>
-    <option name="localTasksCounter" value="336" />
+    <task id="LOCAL-00336" summary="created table for the footer">
+      <option name="closed" value="true" />
+      <created>1762497436878</created>
+      <option name="number" value="00336" />
+      <option name="presentableId" value="LOCAL-00336" />
+      <option name="project" value="LOCAL" />
+      <updated>1762497436878</updated>
+    </task>
+    <option name="localTasksCounter" value="337" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjusted page margin to narrow" />
     <MESSAGE value="adjusted page margin to very narrow" />
     <MESSAGE value="changing font and font size" />
     <MESSAGE value="adjusted header" />
@@ -701,7 +700,8 @@
     <MESSAGE value="fixed padding of other rows" />
     <MESSAGE value="added notes and total" />
     <MESSAGE value="adjusted note field row" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted note field row" />
+    <MESSAGE value="created table for the footer" />
+    <option name="LAST_COMMIT_MESSAGE" value="created table for the footer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
