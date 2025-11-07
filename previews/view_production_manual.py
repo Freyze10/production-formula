@@ -7,24 +7,29 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-# === REGISTER ARIAL FROM WINDOWS FONTS (NEVER FAILS) ===
+# ==================== FONT FIX: EXACT MBPI LOOK ====================
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import os
 
-# Force Arial from the exact path you showed
-ARIAL_PATH = r"C:\Windows\Fonts\arial.ttf"
-ARIAL_BOLD_PATH = r"C:\Windows\Fonts\arialbd.ttf"  # arialbd = Arial Bold
+# Register Arial + Arial Narrow (this is what the original form actually uses)
+fonts = {
+    "Arial": r"C:\Windows\Fonts\arial.ttf",
+    "Arial-Bold": r"C:\Windows\Fonts\arialbd.ttf",
+    "ArialNarrow": r"C:\Windows\Fonts\arialn.ttf",
+    "ArialNarrow-Bold": r"C:\Windows\Fonts\arialnb.ttf",
+}
 
-if os.path.exists(ARIAL_PATH):
-    pdfmetrics.registerFont(TTFont("Arial", ARIAL_PATH))
-    pdfmetrics.registerFont(TTFont("Arial-Bold", ARIAL_BOLD_PATH if os.path.exists(ARIAL_BOLD_PATH) else ARIAL_PATH))
-    print("Arial fonts registered successfully!")
-else:
-    print("Arial not found! Falling back to Helvetica.")
-    # If somehow missing, ReportLab will use Helvetica automatically
+for name, path in fonts.items:
+    if os.path.exists(path):
+        pdfmetrics.registerFont(TTFont(name, path))
 
-# FORCE MuPDF — NEVER FAILS
+# Fallback if Arial Narrow missing
+if "ArialNarrow-Bold" not in [f.name for f in pdfmetrics.getRegisteredFonts()]:
+    pdfmetrics.registerFont(TTFont("ArialNarrow-Bold", fonts["Arial-Bold"]))
+    pdfmetrics.registerFont(TTFont("ArialNarrow", fonts["Arial"]))
+
+# FORCE MuPDF
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
 from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
@@ -49,17 +54,14 @@ class ProductionPrintPreview(QDialog):
         self.resize(1250, 920)
         self.setStyleSheet("background:white;")
 
-        # Generate PDF in memory
         self.pdf_buffer = io.BytesIO()
         self.generate_pdf()
         self.pdf_bytes = self.pdf_buffer.getvalue()
 
-        # QBuffer for QPdfDocument
         self.qbuffer = QBuffer(self)
         self.qbuffer.setData(self.pdf_bytes)
         self.qbuffer.open(QIODevice.OpenModeFlag.ReadOnly)
 
-        # Load PDF
         self.pdf_doc = QPdfDocument(self)
         self.pdf_doc.load(self.qbuffer)
 
@@ -156,13 +158,11 @@ class ProductionPrintPreview(QDialog):
         scroll.setWidget(container)
         layout.addWidget(scroll, 1)
 
-        # Ctrl+P shortcut
         self.print_action = QAction(self)
         self.print_action.setShortcut("Ctrl+P")
         self.print_action.triggered.connect(self.print_pdf)
         self.addAction(self.print_action)
 
-    # === ZOOM ===
     def on_zoom_changed(self, text):
         if not text:
             return
@@ -198,7 +198,6 @@ class ProductionPrintPreview(QDialog):
             self.zoom_combo.setCurrentText(text)
         self.zoom_combo.blockSignals(False)
 
-    # === PDF GENERATION WITH ARIAL ===
     def generate_pdf(self):
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(
@@ -209,10 +208,11 @@ class ProductionPrintPreview(QDialog):
         )
 
         styles = getSampleStyleSheet()
-        # === USE ARIAL EVERYWHERE ===
+        # === FONT FIX: Use correct Arial variants ===
         styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
         styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow-Bold', fontSize=10, leading=12))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -224,16 +224,16 @@ class ProductionPrintPreview(QDialog):
     def build_story(self, styles):
         story = []
 
-        # Header
+        # Header - NOW USING ARIAL NARROW BOLD FOR COMPANY NAME
         header_left = Table([
-            ["MASTERBATCH PHILIPPINES, INC."],
+            [Paragraph("MASTERBATCH PHILIPPINES, INC.", styles['HeaderTitle'])],
             ["PRODUCTION ENTRY"],
             [f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}"]
         ], colWidths=[4.5 * inch])
         header_left.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+            ('FONTNAME', (0, 0), (0, 0), 'ArialNarrow-Bold'),
+            ('FONTNAME', (0, 1), (-1, -1), 'Arial-Bold'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
-            # ('TOPPADDING', (0, 0), (-1, -1), 25),
         ]))
 
         # Info table
@@ -261,13 +261,13 @@ class ProductionPrintPreview(QDialog):
 
         outer_table = Table([[header_left, info_table]], colWidths=[4 * inch, 3 * inch])
         outer_table.setStyle(TableStyle([
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # ⬅ Center both header_left and info_table vertically
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ]))
 
         story.append(outer_table)
         story.append(Spacer(1, 20))
 
-        # Product details
+        # Product details - unchanged
         left = [("PRODUCT CODE", self.data.get('product_code', '')),
                 ("PRODUCT COLOR", self.data.get('product_color', '')),
                 ("DOSAGE", self.data.get('dosage', '')),
@@ -286,7 +286,6 @@ class ProductionPrintPreview(QDialog):
             ], colWidths=[3.3 * inch, 0.4 * inch, 3.3 * inch])
             row.setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
             story.append(row)
-            # story.append(Spacer(1, 8))
 
         story.append(Spacer(1, 18))
         story.append(Paragraph(self.batch_text(), styles['CB10']))
@@ -334,7 +333,6 @@ class ProductionPrintPreview(QDialog):
              "_________________"],
             ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
         ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch]))
-        # Force Arial on signature table too
         story[-1].setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
 
         return story
@@ -376,21 +374,20 @@ class ProductionPrintPreview(QDialog):
             return "N/A"
 
 
-# === TEST ===
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
     data = {
-        "prod_id": "P12345", "production_date": "2025-11-03", "order_form_no": "OF9876",
-        "formulation_id": "F001", "product_code": "PC-001", "product_color": "RED",
-        "dosage": "2%", "customer": "ABC Corp", "lot_number": "L2025-001",
-        "mixing_time": "30 min", "machine_no": "M01", "qty_required": "500",
-        "qty_per_batch": "100", "qty_produced": "500", "prepared_by": "J. Doe",
-        "approved_by": "M. VERDE",
+        "prod_id": "99078", "production_date": "11/06/25", "order_form_no": "41866",
+        "formulation_id": "0", "wip": "12-09347", "product_code": "CA8905E",
+        "product_color": "BLACK", "dosage": "100.0000", "customer": "SAN MIGUEL YAMAMURA PACKAGING",
+        "lot_number": "2431AN-2434AN", "mixing_time": "3", "machine_no": "2",
+        "qty_required": "1200.000000", "qty_per_batch": "50.000000", "qty_produced": "1200.000000"
     }
     mats = [
-        {"material_code": "MC001", "large_scale": 45.123456, "small_scale": 12.345678, "total_weight": 57.469134},
-        {"material_code": "MC002", "large_scale": 20.000000, "small_scale": 5.000000, "total_weight": 25.000000},
+        {"material_code": "C31", "large_scale": 20.0, "small_scale": 0.0, "total_weight": 480.0},
+        {"material_code": "L37", "large_scale": 21.4, "small_scale": 0.0, "total_weight": 33.6},
+        # ... add rest
     ]
     dlg = ProductionPrintPreview(data, mats)
     dlg.exec()
