@@ -1,4 +1,5 @@
 import io
+import os
 from datetime import datetime
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
@@ -7,28 +8,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-# ==================== FONT FIX - NOW WORKING ====================
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-import os
-
-# Register Arial + Arial Narrow (EXACT MBPI LOOK)
-fonts = {
-    "Arial": r"C:\Windows\Fonts\arial.ttf",
-    "Arial-Bold": r"C:\Windows\Fonts\arialbd.ttf",
-    "ArialNarrow": r"C:\Windows\Fonts\arialn.ttf",
-    "ArialNarrow-Bold": r"C:\Windows\Fonts\arialnb.ttf",
-}
-
-for name, path in fonts.items():  # ← ← ← ← HERE WAS THE BUG: missing ()
-    if os.path.exists(path):
-        pdfmetrics.registerFont(TTFont(name, path))
-
-# Fallback if Arial Narrow missing
-if "ArialNarrow-Bold" not in pdfmetrics.getRegisteredFontNames():
-    pdfmetrics.registerFont(TTFont("ArialNarrow-Bold", fonts["Arial-Bold"]))
-    pdfmetrics.registerFont(TTFont("ArialNarrow", fonts["Arial"]))
-
+# NO FONT IMPORTS — USING BUILT-IN COURIER ONLY
 os.environ["QT_PDF_RENDERER"] = "mupdf"
 
 from PyQt6.QtCore import Qt, pyqtSignal, QBuffer, QIODevice
@@ -71,7 +51,7 @@ class ProductionPrintPreview(QDialog):
         layout.setContentsMargins(15, 15, 15, 15)
         layout.setSpacing(12)
 
-        # === TOOLBAR ===
+        # TOOLBAR
         toolbar_container = QWidget()
         toolbar_container.setStyleSheet("background:#f8f9fa; border-bottom: 2px solid #dee2e6; padding: 8px;")
         tb = QHBoxLayout(toolbar_container)
@@ -129,7 +109,7 @@ class ProductionPrintPreview(QDialog):
 
         layout.addWidget(toolbar_container)
 
-        # === PDF VIEW ===
+        # PDF VIEW
         LETTER_WIDTH = 850
         LETTER_HEIGHT = 1100
 
@@ -207,10 +187,11 @@ class ProductionPrintPreview(QDialog):
         )
 
         styles = getSampleStyleSheet()
-        styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=12, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Arial', fontSize=10))
+        # COURIER FONTS ONLY — BUILT-IN
+        styles.add(ParagraphStyle(name='N10', fontName='Courier', fontSize=10, leading=12))
+        styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=10, leading=12))
+        styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=12, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier-Bold', fontSize=11))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -222,7 +203,7 @@ class ProductionPrintPreview(QDialog):
     def build_story(self, styles):
         story = []
 
-        # Header - COMPANY NAME NOW IN ARIAL NARROW BOLD
+        # Header
         header_left = Table([
             [Paragraph("MASTERBATCH PHILIPPINES, INC.", styles['HeaderTitle'])],
             [Paragraph("PRODUCTION ENTRY", styles['HeaderTitle'])],
@@ -255,7 +236,7 @@ class ProductionPrintPreview(QDialog):
             ('BOTTOMPADDING', (0, -1), (-1, -1), 10),
             ('LEFTPADDING', (0, 0), (-1, -1), 8),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
         ]))
 
         outer_table = Table([[header_left, info_table]], colWidths=[4.3 * inch, 3.2 * inch])
@@ -285,15 +266,12 @@ class ProductionPrintPreview(QDialog):
             ], colWidths=[1.3 * inch, 0.2 * inch, 3 * inch, 1.5 * inch, 0.2 * inch, 1.2 * inch])
 
             row.setStyle(TableStyle([
-                ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                 ('LEFTPADDING', (0, 0), (-1, -1), 0),
-                # ('LEFTPADDING', (0, 0), (0, -1), 8),
                 ('RIGHTPADDING', (0, 0), (-1, -1), 0),
                 ('TOPPADDING', (0, 0), (-1, -1), 3.5),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
-                # ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
-                # ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ]))
             story.append(row)
 
@@ -321,7 +299,7 @@ class ProductionPrintPreview(QDialog):
             ('BOX', (0, 0), (-1, -1), 0.75, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#f0f0f0')),
-            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
             ('LEFTPADDING', (0, 0), (-1, -1), 5),
@@ -343,7 +321,10 @@ class ProductionPrintPreview(QDialog):
              "_________________"],
             ["SYSTEM: MBPI-SYSTEM-2022", "", "", "PROCESSED BY:", "_________________"],
         ], colWidths=[1.3 * inch, 2 * inch, 0.5 * inch, 1.3 * inch, 2 * inch])
-        sig_table.setStyle(TableStyle([('FONTNAME', (0, 0), (-1, -1), 'Arial')]))
+        sig_table.setStyle(TableStyle([
+            ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ]))
         story.append(sig_table)
 
         return story
@@ -385,7 +366,7 @@ class ProductionPrintPreview(QDialog):
             return "N/A"
 
 
-# === TEST ===
+# TEST
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
