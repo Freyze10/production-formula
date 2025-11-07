@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00275" summary="fixing print function auto">
-      <option name="closed" value="true" />
-      <created>1762323089806</created>
-      <option name="number" value="00275" />
-      <option name="presentableId" value="LOCAL-00275" />
-      <option name="project" value="LOCAL" />
-      <updated>1762323089806</updated>
-    </task>
     <task id="LOCAL-00276" summary="modified fields for print prev auto">
       <option name="closed" value="true" />
       <created>1762324754117</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762487199860</updated>
     </task>
-    <option name="localTasksCounter" value="324" />
+    <task id="LOCAL-00324" summary="adjusted product spacing">
+      <option name="closed" value="true" />
+      <created>1762487872946</created>
+      <option name="number" value="00324" />
+      <option name="presentableId" value="LOCAL-00324" />
+      <option name="project" value="LOCAL" />
+      <updated>1762487872946</updated>
+    </task>
+    <option name="localTasksCounter" value="325" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed scroll bar insided" />
     <MESSAGE value="chaanging bg color" />
     <MESSAGE value="final color" />
     <MESSAGE value="fixing layout" />
@@ -701,7 +700,8 @@
     <MESSAGE value="modified product details" />
     <MESSAGE value="changed all font" />
     <MESSAGE value="modified header spacing" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified header spacing" />
+    <MESSAGE value="adjusted product spacing" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted product spacing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

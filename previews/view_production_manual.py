@@ -214,7 +214,6 @@ class ProductionPrintPreview(QDialog):
             ('RIGHTPADDING', (0, 0), (-1, -1), 0),
             ('TOPPADDING', (0, 0), (-1, -1), 0),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
-            ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
         ]))
 
         # Info table
@@ -246,7 +245,6 @@ class ProductionPrintPreview(QDialog):
             ('TOPPADDING', (0, 0), (0, -1), 20),
             ('LEFTPADDING', (0, 0), (-1, -1), 0),
             ('RIGHTPADDING', (0, 0), (-1, -1), 0),
-            ('BOX', (0, 0), (-1, -1), 0.5, colors.red),
         ]))
 
         story.append(outer_table)
