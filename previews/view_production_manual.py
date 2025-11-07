@@ -308,10 +308,10 @@ class ProductionPrintPreview(QDialog):
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
-            ('LEFTPADDING', (0, 0), (0, -1), 8),
-            ('TOPPADDING', (0, 0), (0, -1), 5),
-            ('BOTTOMPADDING', (0, 0), (0, -1), 7),
-            ('BOTTOMPADDING', (0, -1), (-1, -1), 7),
+            ('LEFTPADDING', (0, 0), (-1, 0), 8),
+            ('TOPPADDING', (0, 0), (-1, 0), 5),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+            ('BOTTOMPADDING', (0, -1), (-1, -1), 8),
 
             # Remove all inner grid lines
             ('LINEBELOW', (0, 0), (-1, 0), 0.75, colors.black),  # Top border for header
