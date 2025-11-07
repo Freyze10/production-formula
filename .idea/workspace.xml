@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00266" summary="removed table load sort and update">
-      <option name="closed" value="true" />
-      <created>1762313706885</created>
-      <option name="number" value="00266" />
-      <option name="presentableId" value="LOCAL-00266" />
-      <option name="project" value="LOCAL" />
-      <updated>1762313706885</updated>
-    </task>
     <task id="LOCAL-00267" summary="added refresh btn func">
       <option name="closed" value="true" />
       <created>1762314674913</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762480461483</updated>
     </task>
-    <option name="localTasksCounter" value="315" />
+    <task id="LOCAL-00315" summary="fixing table sizes">
+      <option name="closed" value="true" />
+      <created>1762482648141</created>
+      <option name="number" value="00315" />
+      <option name="presentableId" value="LOCAL-00315" />
+      <option name="project" value="LOCAL" />
+      <updated>1762482648141</updated>
+    </task>
+    <option name="localTasksCounter" value="316" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added format to production" />
     <MESSAGE value="added format to production manual" />
     <MESSAGE value="added mixing time function in production" />
     <MESSAGE value="added mixing time function in production manual" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adjusted header" />
     <MESSAGE value="adjusted header table" />
     <MESSAGE value="removed debugger border" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed debugger border" />
+    <MESSAGE value="fixing table sizes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing table sizes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
