@@ -321,12 +321,11 @@ class ProductionPrintPreview(QDialog):
             ('LINEBELOW', (0, -1), (-1, -1), 0.75, colors.black),  # Bottom border for last row
         ]))
         story.append(mat_table)
-        story.append(Spacer(1, 10))
 
         story.append(Table([
-            [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['c11']), "", "TOTAL:",
+            [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['c11']), "TOTAL:",
              Paragraph(f"{total}", styles['c11B'])]
-        ], colWidths=[1.8 * inch] * 4))
+        ], colWidths=[4.3 * inch, 1.6 * inch, 1.6 * inch]))
         story.append(Spacer(1, 60))
 
         # Signatures

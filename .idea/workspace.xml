@@ -252,22 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00283" summary="refactored format to float function">
-      <option name="closed" value="true" />
-      <created>1762327957877</created>
-      <option name="number" value="00283" />
-      <option name="presentableId" value="LOCAL-00283" />
-      <option name="project" value="LOCAL" />
-      <updated>1762327957877</updated>
-    </task>
-    <task id="LOCAL-00284" summary="added format to production">
-      <option name="closed" value="true" />
-      <created>1762328022118</created>
-      <option name="number" value="00284" />
-      <option name="presentableId" value="LOCAL-00284" />
-      <option name="project" value="LOCAL" />
-      <updated>1762328022118</updated>
-    </task>
     <task id="LOCAL-00285" summary="added format to production manual">
       <option name="closed" value="true" />
       <created>1762328081333</created>
@@ -644,7 +628,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762495824180</updated>
     </task>
-    <option name="localTasksCounter" value="332" />
+    <task id="LOCAL-00332" summary="modified spacing and padding">
+      <option name="closed" value="true" />
+      <created>1762496046508</created>
+      <option name="number" value="00332" />
+      <option name="presentableId" value="LOCAL-00332" />
+      <option name="project" value="LOCAL" />
+      <updated>1762496046508</updated>
+    </task>
+    <task id="LOCAL-00333" summary="fixed padding of other rows">
+      <option name="closed" value="true" />
+      <created>1762496195276</created>
+      <option name="number" value="00333" />
+      <option name="presentableId" value="LOCAL-00333" />
+      <option name="project" value="LOCAL" />
+      <updated>1762496195276</updated>
+    </task>
+    <option name="localTasksCounter" value="334" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjusting table column" />
-    <MESSAGE value="updated adjuusting print  preview" />
     <MESSAGE value="updating fonts" />
     <MESSAGE value="changed fonts" />
     <MESSAGE value="adjusted page margin to narrow" />
@@ -701,7 +699,9 @@
     <MESSAGE value="changed font name" />
     <MESSAGE value="changed text alignment" />
     <MESSAGE value="adjust table padding" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust table padding" />
+    <MESSAGE value="modified spacing and padding" />
+    <MESSAGE value="fixed padding of other rows" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed padding of other rows" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
