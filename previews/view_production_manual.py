@@ -344,7 +344,7 @@ class ProductionPrintPreview(QDialog):
             ["PRINTED ON", ":", datetime.now().strftime('%m/%d/%y %I:%M:%S %p'),
              "MAT'L RELEASED BY", ":", ""],
 
-            ["SYSTEM", ":", "MBPI-SYSTEM-2022",
+            ["MBPI-SYSTEM-2017", "", "",
              "PROCESSED BY", ":", ""],
         ], colWidths=[1 * inch, 0.2 * inch, 2.6 * inch, 1.5 * inch, 0.2 * inch, 2 * inch])
 
@@ -376,12 +376,37 @@ class ProductionPrintPreview(QDialog):
         printer = QPrinter(QPrinter.PrinterMode.HighResolution)
         printer.setPageSize(QPageSize(QPageSize.PageSizeId.Letter))
         dialog = QPrintDialog(printer, self)
+
         if dialog.exec():
             painter = QPainter(printer)
-            for i in range(self.pdf_doc.pageCount()):
-                if i > 0:
+
+            for page_num in range(self.pdf_doc.pageCount()):
+                if page_num > 0:
                     printer.newPage()
-                self.pdf_doc.render(painter, page=i)
+
+                # Get the page image and render it
+                page_size = self.pdf_doc.pagePointSize(page_num)
+                image = self.pdf_doc.render(page_num, page_size.toSize() * 2)  # 2x for better quality
+
+                # Calculate scaling to fit printer page
+                printer_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
+                image_rect = image.rect()
+
+                # Scale image to fit page while maintaining aspect ratio
+                scale = min(printer_rect.width() / image_rect.width(),
+                            printer_rect.height() / image_rect.height())
+
+                scaled_width = int(image_rect.width() * scale)
+                scaled_height = int(image_rect.height() * scale)
+
+                # Center the image on the page
+                x = (printer_rect.width() - scaled_width) // 2
+                y = (printer_rect.height() - scaled_height) // 2
+
+                painter.drawImage(x, y, image.scaled(scaled_width, scaled_height,
+                                                     Qt.AspectRatioMode.KeepAspectRatio,
+                                                     Qt.TransformationMode.SmoothTransformation))
+
             painter.end()
             self.printed.emit(self.data.get('prod_id', ''))
             QMessageBox.information(self, "Printed", "Sent to printer!")
