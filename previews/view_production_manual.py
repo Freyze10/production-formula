@@ -210,7 +210,7 @@ class ProductionPrintPreview(QDialog):
         styles.add(ParagraphStyle(name='N10', fontName='ArialNarrow', fontSize=11, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='ArialNarrow-Bold', fontSize=11, leading=12))
         styles.add(ParagraphStyle(name='CB10', fontName='ArialNarrow-Bold', fontSize=11, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow', fontSize=11))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -229,9 +229,10 @@ class ProductionPrintPreview(QDialog):
             [f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}"]
         ], colWidths=[4.5 * inch])
         header_left.setStyle(TableStyle([
-            ('FONTNAME', (0, 0), (0, 0), 'ArialNarrow'),
-            ('FONTNAME', (0, 1), (-1, -1), 'ArialNarrow'),
-            ('FONTSIZE', (0, 0), (-1, -1), 11),
+            ('LEFTPADDING', (0, 0), (-1, -1), 0),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+            ('TOPPADDING', (0, 0), (-1, -1), 0),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
         ]))
 
         # Info table
