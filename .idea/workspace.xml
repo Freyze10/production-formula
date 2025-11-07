@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00265" summary="removed unnecessary import">
-      <option name="closed" value="true" />
-      <created>1762311592855</created>
-      <option name="number" value="00265" />
-      <option name="presentableId" value="LOCAL-00265" />
-      <option name="project" value="LOCAL" />
-      <updated>1762311592856</updated>
-    </task>
     <task id="LOCAL-00266" summary="removed table load sort and update">
       <option name="closed" value="true" />
       <created>1762313706885</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762480298956</updated>
     </task>
-    <option name="localTasksCounter" value="314" />
+    <task id="LOCAL-00314" summary="removed debugger border">
+      <option name="closed" value="true" />
+      <created>1762480461483</created>
+      <option name="number" value="00314" />
+      <option name="presentableId" value="LOCAL-00314" />
+      <option name="project" value="LOCAL" />
+      <updated>1762480461483</updated>
+    </task>
+    <option name="localTasksCounter" value="315" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactored format to float function" />
     <MESSAGE value="added format to production" />
     <MESSAGE value="added format to production manual" />
     <MESSAGE value="added mixing time function in production" />
@@ -701,7 +700,8 @@
     <MESSAGE value="changing font and font size" />
     <MESSAGE value="adjusted header" />
     <MESSAGE value="adjusted header table" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted header table" />
+    <MESSAGE value="removed debugger border" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed debugger border" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
