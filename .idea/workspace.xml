@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00281" summary="added field format func">
-      <option name="closed" value="true" />
-      <created>1762327245210</created>
-      <option name="number" value="00281" />
-      <option name="presentableId" value="LOCAL-00281" />
-      <option name="project" value="LOCAL" />
-      <updated>1762327245210</updated>
-    </task>
     <task id="LOCAL-00282" summary="modified field format func">
       <option name="closed" value="true" />
       <created>1762327785719</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762495553947</updated>
     </task>
-    <option name="localTasksCounter" value="330" />
+    <task id="LOCAL-00330" summary="changed text alignment">
+      <option name="closed" value="true" />
+      <created>1762495588882</created>
+      <option name="number" value="00330" />
+      <option name="presentableId" value="LOCAL-00330" />
+      <option name="project" value="LOCAL" />
+      <updated>1762495588882</updated>
+    </task>
+    <option name="localTasksCounter" value="331" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix box table positions" />
     <MESSAGE value="added ariaal font" />
     <MESSAGE value="adjusting table column" />
     <MESSAGE value="updated adjuusting print  preview" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adding padding materials tbl" />
     <MESSAGE value="modifying materials table" />
     <MESSAGE value="changed font name" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed font name" />
+    <MESSAGE value="changed text alignment" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed text alignment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

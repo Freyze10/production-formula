@@ -293,23 +293,22 @@ class ProductionPrintPreview(QDialog):
             wt = float(m.get('total_weight', 0))
             data.append([
                 Paragraph(m.get('material_code', ''), styles['c11B']),
-                Paragraph(f"{large:.6f}", styles['c11B_right']),
-                Paragraph(f"{small:.6f}", styles['c11B_right']),
-                Paragraph(f"{wt:.6f}", styles['c11B_right']),
+                Paragraph(f"{large:.7f}", styles['c11B_right']),
+                Paragraph(f"{small:.7f}", styles['c11B_right']),
+                Paragraph(f"{wt:.7f}", styles['c11B_right']),
             ])
 
         mat_table = Table(data, colWidths=[2.7 * inch, 1.6 * inch, 1.6 * inch, 1.6 * inch])
 
         mat_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
-            ('FONTSIZE', (0, 0), (-1, -1), 10),
 
             # Alignments
             ('ALIGN', (0, 0), (0, -1), 'LEFT'),
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
-            ('LEFTPADDING', (0, 0), (0, -1), 5),
+            ('LEFTPADDING', (0, 0), (0, -1), 8),
             ('TOPPADDING', (0, 0), (0, -1), 5),
             ('BOTTOMPADDING', (0, 0), (0, -1), 7),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 7),
