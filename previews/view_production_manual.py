@@ -322,10 +322,18 @@ class ProductionPrintPreview(QDialog):
         ]))
         story.append(mat_table)
 
-        story.append(Table([
+        note_table = Table([
             [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['c11']), "TOTAL:",
              Paragraph(f"{total}", styles['c11B'])]
-        ], colWidths=[4.3 * inch, 1.6 * inch, 1.6 * inch]))
+        ], colWidths=[4.6 * inch, 1.6 * inch, 1.3 * inch])
+
+        note_table.setStyle(TableStyle([
+            ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
+            ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('TOPPADDING', (0, 0), (-1, -1), 7),
+        ]))
+        story.append(note_table)
         story.append(Spacer(1, 60))
 
         # Signatures
