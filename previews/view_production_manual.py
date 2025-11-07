@@ -39,6 +39,12 @@ from PyQt6.QtPdfWidgets import QPdfView
 from PyQt6.QtWidgets import *
 import qtawesome as fa
 
+class SpacedParagraph(Paragraph):
+    def __init__(self, text, style, spacing="&nbsp;"):
+        if isinstance(text, str):
+            text = spacing.join(list(text))
+        super().__init__(text, style)
+
 
 class ProductionPrintPreview(QDialog):
     printed = pyqtSignal(str)
@@ -207,10 +213,10 @@ class ProductionPrintPreview(QDialog):
         )
 
         styles = getSampleStyleSheet()
-        styles.add(ParagraphStyle(name='N10', fontName='Arial', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='B10', fontName='Arial-Bold', fontSize=10, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Arial-Bold', fontSize=10, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow', fontSize=10, leading=12))
+        styles.add(ParagraphStyle(name='N10', fontName='ArialNarrow', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='B10', fontName='ArialNarrow-Bold', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='CB10', fontName='ArialNarrow-Bold', fontSize=11, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='ArialNarrow', fontSize=11, leading=12))
 
         story = self.build_story(styles)
         doc.build(story)
@@ -231,7 +237,7 @@ class ProductionPrintPreview(QDialog):
         header_left.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (0, 0), 'ArialNarrow'),
             ('FONTNAME', (0, 1), (-1, -1), 'ArialNarrow'),
-            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('FONTSIZE', (0, 0), (-1, -1), 11),
         ]))
 
         # Info table
@@ -254,7 +260,7 @@ class ProductionPrintPreview(QDialog):
             ('BOTTOMPADDING', (0, -1), (-1, 3), 10),
             ('LEFTPADDING', (0, 0), (-1, -1), 8),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+            ('FONTNAME', (0, 0), (-1, -1), 'ArialNarrow'),
         ]))
 
         outer_table = Table([[header_left, info_table]], colWidths=[4.3 * inch, 3.2 * inch])
