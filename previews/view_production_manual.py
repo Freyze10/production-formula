@@ -308,7 +308,9 @@ class ProductionPrintPreview(QDialog):
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
-            ('LEFTPADDING', (0, 0), (-1, 0), 8),
+            ('LEFTPADDING', (0, 0), (-1, -1), 0),  #  all 0
+            ('RIGHTPADDING', (0, 0), (-1, -1), 0),  #  all 0
+            ('LEFTPADDING', (0, 0), (-1, 0), 14),
             ('TOPPADDING', (0, 0), (-1, 0), 5),
             ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 8),
