@@ -190,7 +190,7 @@ class ProductionPrintPreview(QDialog):
         # COURIER FONTS ONLY — BUILT-IN
         styles.add(ParagraphStyle(name='N10', fontName='Courier', fontSize=11, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=11, leading=12))
-        styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=11, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=14, alignment=TA_CENTER))
         styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=11))
 
         story = self.build_story(styles)
@@ -214,6 +214,7 @@ class ProductionPrintPreview(QDialog):
             ('RIGHTPADDING', (0, 0), (-1, -1), 0),
             ('TOPPADDING', (0, 0), (-1, -1), 0),
             ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+            ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
         ]))
 
         # Info table
@@ -243,6 +244,9 @@ class ProductionPrintPreview(QDialog):
         outer_table.setStyle(TableStyle([
             ('VALIGN', (0, 0), (0, -1), 'TOP'),
             ('TOPPADDING', (0, 0), (0, -1), 20),
+            ('LEFTPADDING', (0, 0), (-1, -1), 0),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+            ('BOX', (0, 0), (-1, -1), 0.5, colors.red),
         ]))
 
         story.append(outer_table)
@@ -264,7 +268,7 @@ class ProductionPrintPreview(QDialog):
             row = Table([
                 [Paragraph(lk, styles['N10']), ":", Paragraph(f"{lv}", styles['B10']),
                  Paragraph(rk, styles['N10']), ":", Paragraph(f"{rv}", styles['B10'])]
-            ], colWidths=[1.3 * inch, 0.2 * inch, 3 * inch, 1.5 * inch, 0.2 * inch, 1.2 * inch])
+            ], colWidths=[1.2 * inch, 0.16 * inch, 3.20 * inch, 1.3 * inch, 0.16 * inch, 1.48 * inch])
 
             row.setStyle(TableStyle([
                 ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
@@ -273,12 +277,13 @@ class ProductionPrintPreview(QDialog):
                 ('RIGHTPADDING', (0, 0), (-1, -1), 0),
                 ('TOPPADDING', (0, 0), (-1, -1), 3.5),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+                ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
             ]))
             story.append(row)
 
         story.append(Spacer(1, 18))
         story.append(Paragraph(self.batch_text(), styles['CB10']))
-        story.append(Spacer(1, 12))
+        story.append(Spacer(1, 18))
 
         # Materials table
         data = [["MATERIAL CODE", "LARGE SCALE (Kg.)", "SMALL SCALE (grm.)", "WEIGHT (Kg.)"]]
@@ -299,7 +304,6 @@ class ProductionPrintPreview(QDialog):
         mat_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.75, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#f0f0f0')),
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
