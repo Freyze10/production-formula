@@ -202,8 +202,8 @@ class ProductionPrintPreview(QDialog):
         doc = SimpleDocTemplate(
             buffer,
             pagesize=letter,
-            leftMargin=36, rightMargin=36,
-            topMargin=36, bottomMargin=36
+            leftMargin=24, rightMargin=24,
+            topMargin=24, bottomMargin=24
         )
 
         styles = getSampleStyleSheet()

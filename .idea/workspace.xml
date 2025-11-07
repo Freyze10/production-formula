@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00257" summary="added a loading dialog">
-      <option name="closed" value="true" />
-      <created>1762307430597</created>
-      <option name="number" value="00257" />
-      <option name="presentableId" value="LOCAL-00257" />
-      <option name="project" value="LOCAL" />
-      <updated>1762307430597</updated>
-    </task>
     <task id="LOCAL-00258" summary="added loading gif">
       <option name="closed" value="true" />
       <created>1762307807380</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762476562382</updated>
     </task>
-    <option name="localTasksCounter" value="306" />
+    <task id="LOCAL-00306" summary="changed fonts">
+      <option name="closed" value="true" />
+      <created>1762476767081</created>
+      <option name="number" value="00306" />
+      <option name="presentableId" value="LOCAL-00306" />
+      <option name="project" value="LOCAL" />
+      <updated>1762476767081</updated>
+    </task>
+    <option name="localTasksCounter" value="307" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing print function auto" />
     <MESSAGE value="modified fields for print prev auto" />
     <MESSAGE value="connected to print preview" />
     <MESSAGE value="adjust spacing and font weight" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adjusting table column" />
     <MESSAGE value="updated adjuusting print  preview" />
     <MESSAGE value="updating fonts" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating fonts" />
+    <MESSAGE value="changed fonts" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed fonts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
