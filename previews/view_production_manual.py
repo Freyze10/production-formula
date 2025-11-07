@@ -248,11 +248,11 @@ class ProductionPrintPreview(QDialog):
         info_rows = [[Paragraph(k, styles['N10']), Paragraph(":", styles['N10']),
                       Paragraph(str(v), styles['B10'])] for k, v in info_data]
 
-        info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.3 * inch])
+        info_table = Table(info_rows, colWidths=[1.5 * inch, 0.2 * inch, 1.4 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 1, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
-            ('BOTTOMPADDING', (0, -1), (-1, 3), 10),
+            ('BOTTOMPADDING', (0, -1), (-1, -1), 10),
             ('LEFTPADDING', (0, 0), (-1, -1), 8),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, -1), 'ArialNarrow'),
@@ -261,7 +261,6 @@ class ProductionPrintPreview(QDialog):
         outer_table = Table([[header_left, info_table]], colWidths=[4.3 * inch, 3.2 * inch])
         outer_table.setStyle(TableStyle([
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('BOX', (0, 0), (-1, -1), 1, colors.black)
         ]))
 
         story.append(outer_table)
