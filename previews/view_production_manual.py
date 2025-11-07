@@ -250,7 +250,7 @@ class ProductionPrintPreview(QDialog):
 
         info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.4 * inch])
         info_table.setStyle(TableStyle([
-            ('BOX', (0, 0), (-1, -1), 1, colors.black),
+            ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 10),
             ('LEFTPADDING', (0, 0), (-1, -1), 8),
@@ -282,7 +282,7 @@ class ProductionPrintPreview(QDialog):
             row = Table([
                 [Paragraph(lk, styles['N10']), ":", Paragraph(f"<b>{lv}</b>", styles['N10']),
                  Paragraph(rk, styles['N10']), ":", Paragraph(f"<b>{rv}</b>", styles['N10'])]
-            ], colWidths=[1.5 * inch, 0.2 * inch, 2 * inch, 1.4 * inch, 0.1 * inch, 1.8 * inch])
+            ], colWidths=[1.5 * inch, 0.2 * inch, 2 * inch, 1.4 * inch, 0.1 * inch, 1.5 * inch])
 
             row.setStyle(TableStyle([
                 ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
