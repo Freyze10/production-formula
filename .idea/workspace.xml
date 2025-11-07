@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00278" summary="adjust spacing and font weight">
-      <option name="closed" value="true" />
-      <created>1762325825683</created>
-      <option name="number" value="00278" />
-      <option name="presentableId" value="LOCAL-00278" />
-      <option name="project" value="LOCAL" />
-      <updated>1762325825683</updated>
-    </task>
     <task id="LOCAL-00279" summary="removed auto restart after switching tab">
       <option name="closed" value="true" />
       <created>1762327190530</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762494309638</updated>
     </task>
-    <option name="localTasksCounter" value="327" />
+    <task id="LOCAL-00327" summary="adding padding materials tbl">
+      <option name="closed" value="true" />
+      <created>1762494767964</created>
+      <option name="number" value="00327" />
+      <option name="presentableId" value="LOCAL-00327" />
+      <option name="project" value="LOCAL" />
+      <updated>1762494767964</updated>
+    </task>
+    <option name="localTasksCounter" value="328" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chaanging bg color" />
     <MESSAGE value="final color" />
     <MESSAGE value="fixing layout" />
     <MESSAGE value="fix box table positions" />
@@ -701,7 +700,8 @@
     <MESSAGE value="adjusted product spacing" />
     <MESSAGE value="removed debugger border" />
     <MESSAGE value="adjusting table size" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusting table size" />
+    <MESSAGE value="adding padding materials tbl" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding padding materials tbl" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

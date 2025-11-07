@@ -190,6 +190,7 @@ class ProductionPrintPreview(QDialog):
         # COURIER FONTS ONLY — BUILT-IN
         styles.add(ParagraphStyle(name='N10', fontName='Courier', fontSize=11, leading=12))
         styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='B10', fontName='Courier-Bold', fontSize=11, leading=12))
         styles.add(ParagraphStyle(name='CB10', fontName='Courier-Bold', fontSize=14, alignment=TA_CENTER))
         styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=11))
 
@@ -310,13 +311,13 @@ class ProductionPrintPreview(QDialog):
 
             ('LEFTPADDING', (0, 0), (0, -1), 5),
             ('TOPPADDING', (0, 0), (0, -1), 5),
-            ('BOTTOMPADDING', (0, 0), (0, -1), 5),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+            ('BOTTOMPADDING', (0, 0), (0, -1), 7),
+            ('BOTTOMPADDING', (0, -1), (-1, -1), 7),
 
             # Remove all inner grid lines
             ('LINEBELOW', (0, 0), (-1, 0), 0.75, colors.black),  # Top border for header
             ('LINEABOVE', (0, 0), (-1, 0), 0.75, colors.black),
-            ('LINEBELOW', (0, -1), (-1, -1), 0.75, colors.black), # Bottom border for last row
+            ('LINEBELOW', (0, -1), (-1, -1), 0.75, colors.black),  # Bottom border for last row
         ]))
         story.append(mat_table)
         story.append(Spacer(1, 10))
