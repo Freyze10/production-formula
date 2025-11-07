@@ -252,14 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00276" summary="modified fields for print prev auto">
-      <option name="closed" value="true" />
-      <created>1762324754117</created>
-      <option name="number" value="00276" />
-      <option name="presentableId" value="LOCAL-00276" />
-      <option name="project" value="LOCAL" />
-      <updated>1762324754118</updated>
-    </task>
     <task id="LOCAL-00277" summary="connected to print preview">
       <option name="closed" value="true" />
       <created>1762325583137</created>
@@ -644,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762487872946</updated>
     </task>
-    <option name="localTasksCounter" value="325" />
+    <task id="LOCAL-00325" summary="removed debugger border">
+      <option name="closed" value="true" />
+      <created>1762492168844</created>
+      <option name="number" value="00325" />
+      <option name="presentableId" value="LOCAL-00325" />
+      <option name="project" value="LOCAL" />
+      <updated>1762492168844</updated>
+    </task>
+    <option name="localTasksCounter" value="326" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -691,7 +691,6 @@
     <MESSAGE value="changing font and font size" />
     <MESSAGE value="adjusted header" />
     <MESSAGE value="adjusted header table" />
-    <MESSAGE value="removed debugger border" />
     <MESSAGE value="fixing table sizes" />
     <MESSAGE value="adjusting table size and font" />
     <MESSAGE value="computing 2nd table width" />
@@ -701,7 +700,8 @@
     <MESSAGE value="changed all font" />
     <MESSAGE value="modified header spacing" />
     <MESSAGE value="adjusted product spacing" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted product spacing" />
+    <MESSAGE value="removed debugger border" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed debugger border" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

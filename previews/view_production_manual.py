@@ -275,22 +275,21 @@ class ProductionPrintPreview(QDialog):
                 ('RIGHTPADDING', (0, 0), (-1, -1), 0),
                 ('TOPPADDING', (0, 0), (-1, -1), 3.5),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
-                ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
             ]))
             story.append(row)
 
-        story.append(Spacer(1, 18))
+        story.append(Spacer(1, 16))
         story.append(Paragraph(self.batch_text(), styles['CB10']))
         story.append(Spacer(1, 18))
 
         # Materials table
         data = [["MATERIAL CODE", "LARGE SCALE (Kg.)", "SMALL SCALE (grm.)", "WEIGHT (Kg.)"]]
-        total = 0.0
+        total = self.data.get('qty_required', '0.0')
+
         for m in self.mats:
             large = float(m.get('large_scale', 0))
             small = float(m.get('small_scale', 0))
             wt = float(m.get('total_weight', 0))
-            total += wt
             data.append([
                 Paragraph(m.get('material_code', ''), styles['B10']),
                 Paragraph(f"{large:.6f}", styles['B10']),
@@ -298,21 +297,32 @@ class ProductionPrintPreview(QDialog):
                 Paragraph(f"{wt:.6f}", styles['B10']),
             ])
 
-        mat_table = Table(data, colWidths=[1.8 * inch] * 4)
+        mat_table = Table(data, colWidths=[2.7 * inch, 1.6 * inch, 1.6 * inch, 1.6 * inch])
         mat_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.75, colors.black),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
+
+            # Align first column (Material Code) to LEFT
+            ('ALIGN', (0, 0), (0, -1), 'LEFT'),
+
+            # Align remaining columns (numbers) to RIGHT
             ('ALIGN', (1, 0), (-1, -1), 'RIGHT'),
+
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('LEFTPADDING', (0, 0), (-1, -1), 5),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+
+            ('LINEBELOW', (0, 0), (-1, 0), 0.75, colors.black),  # Top border for header
+            ('LINEABOVE', (0, -1), (-1, -1), 0.75, colors.black),
         ]))
         story.append(mat_table)
         story.append(Spacer(1, 10))
 
         story.append(Table([
             [Paragraph(f"NOTE: <b>{self.batch_text()}</b>", styles['N10']), "", "TOTAL:",
-             Paragraph(f"{total:.6f}", styles['B10'])]
+             Paragraph(f"{total}", styles['B10'])]
         ], colWidths=[1.8 * inch] * 4))
         story.append(Spacer(1, 60))
 
