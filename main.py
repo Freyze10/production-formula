@@ -408,7 +408,7 @@ class ModernMainWindow(QMainWindow):
         sep = QFrame(frameShape=QFrame.Shape.HLine, objectName="Separator")
         sep.setContentsMargins(0, 10, 0, 10)
 
-        self.btn_formulation = self.create_menu_button("  Formulation", 'fa5s.flask', 0)
+        self.btn_formulation = self.create_menu_button("  Formula", 'fa5s.flask', 0)
         self.btn_production = self.create_menu_button("  Production", 'fa5s.industry', 1)
         self.btn_audit_trail = self.create_menu_button("  Audit Trail", 'fa5s.history', 2)
         self.btn_user_mgmt = self.create_menu_button("  User Management", 'fa5s.users-cog', 3)
@@ -426,7 +426,7 @@ class ModernMainWindow(QMainWindow):
 
         layout.addWidget(profile)
         layout.addWidget(sep)
-        layout.addWidget(QLabel("FORMULA", objectName="MenuLabel"))
+        layout.addWidget(QLabel("FORMULATION", objectName="MenuLabel"))
         layout.addWidget(self.btn_formulation)
         layout.addWidget(QLabel("PRODUCTION", objectName="MenuLabel"))
         layout.addWidget(self.btn_production)

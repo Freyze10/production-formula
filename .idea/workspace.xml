@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2be6d282-a762-403d-a5ae-082db3b321d4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/formulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/formulation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +68,7 @@
     "Python.view_production_manual.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/Side-Production-Formula/FG-INV",
     "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
   "keyToStringList": {
@@ -251,22 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00293" summary="fixing new print">
-      <option name="closed" value="true" />
-      <created>1762407220691</created>
-      <option name="number" value="00293" />
-      <option name="presentableId" value="LOCAL-00293" />
-      <option name="project" value="LOCAL" />
-      <updated>1762407220691</updated>
-    </task>
-    <task id="LOCAL-00294" summary="fixing new print">
-      <option name="closed" value="true" />
-      <created>1762413937173</created>
-      <option name="number" value="00294" />
-      <option name="presentableId" value="LOCAL-00294" />
-      <option name="project" value="LOCAL" />
-      <updated>1762413937173</updated>
     </task>
     <task id="LOCAL-00295" summary="fixing new print">
       <option name="closed" value="true" />
@@ -644,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762501892862</updated>
     </task>
-    <option name="localTasksCounter" value="342" />
+    <task id="LOCAL-00342" summary="updated for testing">
+      <option name="closed" value="true" />
+      <created>1762562869372</created>
+      <option name="number" value="00342" />
+      <option name="presentableId" value="LOCAL-00342" />
+      <option name="project" value="LOCAL" />
+      <updated>1762562869372</updated>
+    </task>
+    <task id="LOCAL-00343" summary="deleted dfr">
+      <option name="closed" value="true" />
+      <created>1762564178816</created>
+      <option name="number" value="00343" />
+      <option name="presentableId" value="LOCAL-00343" />
+      <option name="project" value="LOCAL" />
+      <updated>1762564178816</updated>
+    </task>
+    <option name="localTasksCounter" value="344" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing table sizes" />
-    <MESSAGE value="adjusting table size and font" />
     <MESSAGE value="computing 2nd table width" />
     <MESSAGE value="fixing product details" />
     <MESSAGE value="adjusted font size and layout" />
@@ -701,7 +698,9 @@
     <MESSAGE value="removed spacer" />
     <MESSAGE value="finished layouting" />
     <MESSAGE value="changed mbpi system text" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed mbpi system text" />
+    <MESSAGE value="updated for testing" />
+    <MESSAGE value="deleted dfr" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted dfr" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
