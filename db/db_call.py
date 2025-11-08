@@ -1,14 +1,24 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+# LOCAL CONN
+# def get_connection():
+#     return psycopg2.connect(
+#         host="localhost",
+#         dbname="db_formula",
+#         user="postgres",
+#         password="password",
+#         port="5433"
+#     )
 
+#  SERVER CONN
 def get_connection():
     return psycopg2.connect(
-        host="localhost",
+        host="192.168.1.13",
         dbname="db_formula",
         user="postgres",
-        password="password",
-        port="5433"
+        password="mbpi",
+        port="5432"
     )
 
 

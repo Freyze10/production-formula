@@ -431,6 +431,7 @@ class FormulationManagementPage(QWidget):
         # Sync Button
         self.rm_code_sync_button = QPushButton("Sync RM Code", objectName="SecondaryButton")
         self.rm_code_sync_button.clicked.connect(self.run_rm_warehouse_sync)
+        self.rm_code_sync_button.setFocusPolicy(Qt.NoFocus)
         matched_by_layout.addWidget(self.rm_code_sync_button)
 
         material_layout.addLayout(matched_by_layout)
@@ -577,12 +578,12 @@ class FormulationManagementPage(QWidget):
         preview_btn = QPushButton("Preview", objectName="InfoButton")
         preview_btn.setIcon(fa.icon('fa5s.eye', color='white'))
         preview_btn.clicked.connect(self.preview_formulation)
-        button_layout.addWidget(preview_btn)
+        # button_layout.addWidget(preview_btn)
 
         pdf_btn = QPushButton("Generate PDF", objectName="SecondaryButton")
         pdf_btn.setIcon(fa.icon('fa5s.file-pdf', color='white'))
         pdf_btn.clicked.connect(self.generate_pdf)
-        button_layout.addWidget(pdf_btn)
+        # button_layout.addWidget(pdf_btn)
 
         new_btn = QPushButton("New", objectName="PrimaryButton")
         new_btn.setIcon(fa.icon('fa5s.file', color='white'))

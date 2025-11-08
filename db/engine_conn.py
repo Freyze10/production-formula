@@ -11,12 +11,22 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # --- CONFIGURATION ---
+# local host
+# DB_CONFIG = {
+#     "host": "localhost",
+#     "port": 5433,
+#     "dbname": "db_formula",
+#     "user": "postgres",
+#     "password": "password"
+# }
+
+# server
 DB_CONFIG = {
-    "host": "localhost",
-    "port": 5433,
+    "host": "192.168.1.13",
+    "port": 5432,
     "dbname": "db_formula",
     "user": "postgres",
-    "password": "password"
+    "password": "mbpi"
 }
 DBF_BASE_PATH = r'\\system-server\SYSTEM-NEW-OLD'
 PRODUCTION_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_prod01.dbf')
