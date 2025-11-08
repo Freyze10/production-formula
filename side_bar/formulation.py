@@ -443,7 +443,10 @@ class FormulationManagementPage(QWidget):
         matched_by_layout.addWidget(self.material_code_input)
 
         def apply_dropdown_icon(combo: QComboBox):
-            icon = fa.icon('fa5s.chevron-down', color='#666')
+            # This is a qtawesome icon → has .as_uri()
+            dropdown_icon = fa.icon('fa5s.chevron-down', color='#666')
+            uri = dropdown_icon.as_uri()  # Safe!
+
             combo.setStyleSheet(f"""
                 QComboBox {{
                     padding-right: 25px;
@@ -460,7 +463,7 @@ class FormulationManagementPage(QWidget):
                     border-radius: 0 4px 4px 0;
                 }}
                 QComboBox::down-arrow {{
-                    image: url({icon.as_uri()});
+                    image: url({uri});
                     width: 12px;
                     height: 12px;
                 }}
