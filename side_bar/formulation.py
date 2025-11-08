@@ -426,11 +426,20 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
         # Move to next tab when Enter is pressed
-        def simulate_tab():
+        def enter_like_tab():
+            # 1. If dropdown is open and item highlighted → select it
+            view = self.material_code_input.view()
+            if view.isVisible():
+                idx = view.currentIndex()
+                if idx.isValid():
+                    self.material_code_input.setCurrentIndex(idx.row())
+                view.close()
+
+            # 2. Simulate real Tab key
             tab_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_Tab, Qt.KeyboardModifier.NoModifier)
             QApplication.postEvent(self.material_code_input, tab_event)
 
-        self.material_code_input.lineEdit().returnPressed.connect(simulate_tab)
+        self.material_code_input.lineEdit().returnPressed.connect(enter_like_tab)
 
         matched_by_layout.addWidget(self.material_code_input)
 
@@ -960,9 +969,8 @@ class FormulationManagementPage(QWidget):
         self.materials_table.setItem(row, 0, rm_code)
         self.materials_table.setItem(row, 1, concentration_value)
 
-        self.material_code_input.clear()
         self.concentration_input.clear()
-        self.material_code_input.lineEdit().clear()
+        self.material_code_input.lineEdit().setText("")
         self.material_code_input.setFocus()
         self.update_total_concentration()
 
