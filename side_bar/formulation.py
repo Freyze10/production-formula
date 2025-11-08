@@ -427,12 +427,9 @@ class FormulationManagementPage(QWidget):
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
         # Move to next tab when Enter is pressed
         def simulate_tab():
-            # Create a real Tab key press event
             tab_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_Tab, Qt.KeyboardModifier.NoModifier)
-            # Send it to the parent (the QComboBox)
             QApplication.postEvent(self.material_code_input, tab_event)
 
-        # Connect Enter → simulate Tab
         self.material_code_input.lineEdit().returnPressed.connect(simulate_tab)
 
         matched_by_layout.addWidget(self.material_code_input)
@@ -643,18 +640,6 @@ class FormulationManagementPage(QWidget):
         current_text = self.material_code_input.currentText()
         if current_text not in global_var.rm_list:
             self.material_code_input.setCurrentIndex(0)
-
-    def handle_enter_in_material_code(self):
-        current_text = self.material_code_input.lineEdit().text().strip()
-        # If it matches an item in the combo, select it
-        index = self.material_code_input.findText(current_text, Qt.MatchFlag.MatchFixedString)
-        print(index)
-        if index >= 0:
-            self.material_code_input.setCurrentIndex(index)
-        else:
-            pass
-        self.validate_rm_code()
-        self.focusNextChild()
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file."""
