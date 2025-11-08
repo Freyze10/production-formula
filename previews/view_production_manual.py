@@ -233,9 +233,11 @@ class ProductionPrintPreview(QDialog):
         info_table = Table(info_rows, colWidths=[1.9 * inch, 0.2 * inch, 1.5 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 10),
-            ('LEFTPADDING', (0, 0), (-1, -1), 8),
+            ('LEFTPADDING', (0, 0), (-1, -1), 0),
+            ('LEFTPADDING', (0, 0), (0, -1), 8),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
         ]))
