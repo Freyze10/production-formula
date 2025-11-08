@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00313" summary="adjusted header table">
-      <option name="closed" value="true" />
-      <created>1762480298956</created>
-      <option name="number" value="00313" />
-      <option name="presentableId" value="LOCAL-00313" />
-      <option name="project" value="LOCAL" />
-      <updated>1762480298956</updated>
-    </task>
-    <task id="LOCAL-00314" summary="removed debugger border">
-      <option name="closed" value="true" />
-      <created>1762480461483</created>
-      <option name="number" value="00314" />
-      <option name="presentableId" value="LOCAL-00314" />
-      <option name="project" value="LOCAL" />
-      <updated>1762480461483</updated>
-    </task>
     <task id="LOCAL-00315" summary="fixing table sizes">
       <option name="closed" value="true" />
       <created>1762482648141</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762588913928</updated>
     </task>
-    <option name="localTasksCounter" value="362" />
+    <task id="LOCAL-00362" summary="adjusting width sizes">
+      <option name="closed" value="true" />
+      <created>1762589099290</created>
+      <option name="number" value="00362" />
+      <option name="presentableId" value="LOCAL-00362" />
+      <option name="project" value="LOCAL" />
+      <updated>1762589099290</updated>
+    </task>
+    <task id="LOCAL-00363" summary="adjusted left padding">
+      <option name="closed" value="true" />
+      <created>1762589202513</created>
+      <option name="number" value="00363" />
+      <option name="presentableId" value="LOCAL-00363" />
+      <option name="project" value="LOCAL" />
+      <updated>1762589202513</updated>
+    </task>
+    <option name="localTasksCounter" value="364" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added notes and total" />
-    <MESSAGE value="adjusted note field row" />
     <MESSAGE value="created table for the footer" />
     <MESSAGE value="removed s[acer" />
     <MESSAGE value="removed spacer" />
@@ -700,7 +698,9 @@
     <MESSAGE value="fixed dropdown arrow" />
     <MESSAGE value="debugging print" />
     <MESSAGE value="adjusted fonts" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted fonts" />
+    <MESSAGE value="adjusting width sizes" />
+    <MESSAGE value="adjusted left padding" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted left padding" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -230,10 +230,9 @@ class ProductionPrintPreview(QDialog):
         info_rows = [[Paragraph(k, styles['c11']), Paragraph(":", styles['c11']),
                       Paragraph(str(v), styles['c11B'])] for k, v in info_data]
 
-        info_table = Table(info_rows, colWidths=[1.9 * inch, 0.2 * inch, 1.5 * inch])
+        info_table = Table(info_rows, colWidths=[1.82 * inch, 0.2 * inch, 1.48 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 10),
             ('LEFTPADDING', (0, 0), (-1, -1), 0),
