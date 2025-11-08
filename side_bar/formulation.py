@@ -426,7 +426,9 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
         # Move to next tab when Enter is pressed
-        self.material_code_input.lineEdit().returnPressed.connect(self.handle_enter_in_material_code)
+        self.material_code_input.lineEdit().returnPressed.connect(
+            lambda: self.material_code_input.focusNextPrevChild(True)
+        )
 
         matched_by_layout.addWidget(self.material_code_input)
 
