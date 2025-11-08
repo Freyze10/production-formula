@@ -397,7 +397,7 @@ class FormulationManagementPage(QWidget):
         matched_by_label = QLabel("Matched by:")
         matched_by_layout.addWidget(matched_by_label)
 
-        self.matched_by_items = ["ANNA", "ERNIE", "JINKY", "ESA"]
+        self.matched_by_items = ["", "ANNA", "ERNIE", "JINKY", "ESA"]
         self.matched_by_input = QComboBox()
         self.matched_by_input.addItems(self.matched_by_items)
         self.matched_by_input.setEditable(True)
@@ -882,7 +882,7 @@ class FormulationManagementPage(QWidget):
             self.matching_no_input.setText(str(result[12]))
             date_matched = QDate(result[13].year, result[13].month, result[13].day)
             self.date_matched_input.setDate(date_matched)
-            self.notes_input.setPlainText(str(result[14]))
+            self.notes_input.setPlainText(str(result[16]))
             self.mb_dc_combo.setCurrentText(str(result[22]))
             self.html_input.setText(str(result[23]))
             self.cyan_input.setText(str(result[24]))

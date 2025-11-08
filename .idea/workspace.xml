@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00295" summary="fixing new print">
-      <option name="closed" value="true" />
-      <created>1762414144661</created>
-      <option name="number" value="00295" />
-      <option name="presentableId" value="LOCAL-00295" />
-      <option name="project" value="LOCAL" />
-      <updated>1762414144661</updated>
-    </task>
     <task id="LOCAL-00296" summary="removed scroll bar insided">
       <option name="closed" value="true" />
       <created>1762414228648</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762564178816</updated>
     </task>
-    <option name="localTasksCounter" value="344" />
+    <task id="LOCAL-00344" summary="modified user access">
+      <option name="closed" value="true" />
+      <created>1762568439179</created>
+      <option name="number" value="00344" />
+      <option name="presentableId" value="LOCAL-00344" />
+      <option name="project" value="LOCAL" />
+      <updated>1762568439179</updated>
+    </task>
+    <option name="localTasksCounter" value="345" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="computing 2nd table width" />
     <MESSAGE value="fixing product details" />
     <MESSAGE value="adjusted font size and layout" />
     <MESSAGE value="modified product details" />
@@ -700,7 +699,8 @@
     <MESSAGE value="changed mbpi system text" />
     <MESSAGE value="updated for testing" />
     <MESSAGE value="deleted dfr" />
-    <option name="LAST_COMMIT_MESSAGE" value="deleted dfr" />
+    <MESSAGE value="modified user access" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified user access" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
