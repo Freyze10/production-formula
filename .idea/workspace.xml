@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00299" summary="final color">
-      <option name="closed" value="true" />
-      <created>1762414527280</created>
-      <option name="number" value="00299" />
-      <option name="presentableId" value="LOCAL-00299" />
-      <option name="project" value="LOCAL" />
-      <updated>1762414527280</updated>
-    </task>
     <task id="LOCAL-00300" summary="fixing layout">
       <option name="closed" value="true" />
       <created>1762416990595</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762571160745</updated>
     </task>
-    <option name="localTasksCounter" value="348" />
+    <task id="LOCAL-00348" summary="comment out testing data value">
+      <option name="closed" value="true" />
+      <created>1762571926574</created>
+      <option name="number" value="00348" />
+      <option name="presentableId" value="LOCAL-00348" />
+      <option name="project" value="LOCAL" />
+      <updated>1762571926583</updated>
+    </task>
+    <option name="localTasksCounter" value="349" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified product details" />
     <MESSAGE value="changed all font" />
     <MESSAGE value="modified header spacing" />
     <MESSAGE value="adjusted product spacing" />
@@ -700,7 +699,8 @@
     <MESSAGE value="modified user access" />
     <MESSAGE value="updated view details" />
     <MESSAGE value="updated alchemy connection" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated alchemy connection" />
+    <MESSAGE value="comment out testing data value" />
+    <option name="LAST_COMMIT_MESSAGE" value="comment out testing data value" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

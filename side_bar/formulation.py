@@ -956,6 +956,7 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.clear()
         self.concentration_input.clear()
+        self.material_code_input.lineEdit().clear()
         self.material_code_input.setFocus()
         self.update_total_concentration()
 
