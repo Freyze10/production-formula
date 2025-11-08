@@ -426,9 +426,18 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
         # Move to next tab when Enter is pressed
-        self.material_code_input.lineEdit().returnPressed.connect(
-            lambda: self.material_code_input.focusNextPrevChild(True)
-        )
+        def move_to_next_widget():
+            # Select the current highlighted item (from arrow keys or typing)
+            if self.material_code_input.view().isVisible():
+                current_index = self.material_code_input.view().currentIndex()
+                if current_index.isValid():
+                    self.material_code_input.setCurrentIndex(current_index.row())
+
+            # Force focus to next widget in tab order
+            self.material_code_input.focusNextChild()
+
+        # Connect Return/Enter key
+        self.material_code_input.lineEdit().returnPressed.connect(move_to_next_widget)
 
         matched_by_layout.addWidget(self.material_code_input)
 
