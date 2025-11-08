@@ -425,6 +425,8 @@ class FormulationManagementPage(QWidget):
         self.material_code_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
+        # Move to next tab when Enter is pressed
+        self.material_code_input.lineEdit().returnPressed.connect(self.handle_enter_in_material_code)
 
         matched_by_layout.addWidget(self.material_code_input)
 
@@ -634,6 +636,18 @@ class FormulationManagementPage(QWidget):
         current_text = self.material_code_input.currentText()
         if current_text not in global_var.rm_list:
             self.material_code_input.setCurrentIndex(0)
+
+    def handle_enter_in_material_code(self):
+        current_text = self.material_code_input.lineEdit().text().strip()
+        # If it matches an item in the combo, select it
+        index = self.material_code_input.findText(current_text, Qt.MatchFlag.MatchFixedString)
+        print(index)
+        if index >= 0:
+            self.material_code_input.setCurrentIndex(index)
+        else:
+            pass
+        self.validate_rm_code()
+        self.focusNextChild()
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file."""
