@@ -188,8 +188,8 @@ class ProductionPrintPreview(QDialog):
 
         styles = getSampleStyleSheet()
         # COURIER FONTS ONLY — BUILT-IN
-        styles.add(ParagraphStyle(name='c11', fontName='Courier', fontSize=13, leading=12))
-        styles.add(ParagraphStyle(name='c11B', fontName='Courier-Bold', fontSize=13, leading=12))
+        styles.add(ParagraphStyle(name='c11', fontName='Courier', fontSize=13))
+        styles.add(ParagraphStyle(name='c11B', fontName='Courier-Bold', fontSize=13))
         styles.add(ParagraphStyle(name='c11B_right', parent=styles['c11B'], alignment=TA_RIGHT))
         styles.add(ParagraphStyle(name='c14B', fontName='Courier-Bold', fontSize=16, alignment=TA_CENTER))
         styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=13))
@@ -233,7 +233,7 @@ class ProductionPrintPreview(QDialog):
         info_table = Table(info_rows, colWidths=[1.82 * inch, 0.2 * inch, 1.48 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
-            ('TOPPADDING', (0, 0), (-1, 0), 10),
+            ('TOPPADDING', (0, 0), (-1, 0), 8),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 10),
             ('LEFTPADDING', (0, 0), (-1, -1), 0),
             ('LEFTPADDING', (0, 0), (0, -1), 8),
