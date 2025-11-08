@@ -349,10 +349,11 @@ class ProductionPrintPreview(QDialog):
 
             ["MBPI-SYSTEM-2017", "", "",
              "PROCESSED BY", ":", ""],
-        ], colWidths=[1 * inch, 0.2 * inch, 2.6 * inch, 1.5 * inch, 0.2 * inch, 2 * inch])
+        ], colWidths=[1.2 * inch, 0.2 * inch, 2.6 * inch, 1.8 * inch, 0.2 * inch, 2 * inch])
 
         sig_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
+            ('FONTSIZE', (0, 0), (-1, -1), 13),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('ALIGN', (-1, 0), (-1, -1), 'CENTER'),
 
