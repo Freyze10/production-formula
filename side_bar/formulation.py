@@ -397,7 +397,7 @@ class FormulationManagementPage(QWidget):
         matched_by_label = QLabel("Matched by:")
         matched_by_layout.addWidget(matched_by_label)
 
-        self.matched_by_items = ["", "ANNA", "ERNIE", "JINKY", "ESA"]
+        self.matched_by_items = ["ANNA", "ERNIE", "JINKY", "ESA"]
         self.matched_by_input = QComboBox()
         self.matched_by_input.addItems(self.matched_by_items)
         self.matched_by_input.setEditable(True)
