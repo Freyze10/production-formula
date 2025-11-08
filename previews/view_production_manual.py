@@ -302,7 +302,7 @@ class ProductionPrintPreview(QDialog):
                 Paragraph(f"{wt:.7f}", styles['c11B_right']),
             ])
 
-        mat_table = Table(data, colWidths=[2.7 * inch, 2.1 * inch, 1.9 * inch, 1.5 * inch])
+        mat_table = Table(data, colWidths=[2.3 * inch, 2.05 * inch, 2.15 * inch, 1.5 * inch])
 
         mat_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
