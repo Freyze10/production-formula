@@ -23,7 +23,7 @@ except ImportError as e:
     sys.exit(1)
 
 # --- CONFIGURATION ---
-DB_CONFIG = {"host": "localhost", "port": 5433, "dbname": "db_formula", "user": "postgres", "password": "password"}
+DB_CONFIG = {"host": "192.168.1.13", "port": 5432, "dbname": "db_formula", "user": "postgres", "password": "mbpi"}
 DBF_BASE_PATH = r'\\system-server\SYSTEM-NEW-OLD'
 DELIVERY_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_del01.dbf')
 DELIVERY_ITEMS_DBF_PATH = os.path.join(DBF_BASE_PATH, 'tbl_del02.dbf')
