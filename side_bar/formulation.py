@@ -456,9 +456,9 @@ class FormulationManagementPage(QWidget):
                 }
                 QComboBox::down-arrow {
                     width: 0; height: 0;
-                    border-left: 5px solid transparent;
-                    border-right: 5px solid transparent;
-                    border-top: 6px solid #555;
+                    border-left: 5px solid white;
+                    border-right: 5px solid white;
+                    border-top: 7px solid #555;
                 }
             """)
 
