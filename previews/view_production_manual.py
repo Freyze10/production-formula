@@ -285,7 +285,10 @@ class ProductionPrintPreview(QDialog):
         story.append(Spacer(1, 18))
 
         # Materials table
-        data = [["MATERIAL CODE", "LARGE SCALE (Kg.)", "SMALL SCALE (grm.)", "WEIGHT (Kg.)"]]
+        data = [[Paragraph("MATERIAL CODE", styles['c11B']),
+                 Paragraph("LARGE SCALE (Kg.)", styles['c11B']),
+                 Paragraph("SMALL SCALE (grm.)", styles['c11B']),
+                 Paragraph("WEIGHT (Kg.)", styles['c11B'])]]
         total = self.data.get('qty_required', '0.0')
 
         for m in self.mats:

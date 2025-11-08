@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00317" summary="computing 2nd table width">
-      <option name="closed" value="true" />
-      <created>1762483575329</created>
-      <option name="number" value="00317" />
-      <option name="presentableId" value="LOCAL-00317" />
-      <option name="project" value="LOCAL" />
-      <updated>1762483575329</updated>
-    </task>
     <task id="LOCAL-00318" summary="fixing product details">
       <option name="closed" value="true" />
       <created>1762483997910</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762589449137</updated>
     </task>
-    <option name="localTasksCounter" value="366" />
+    <task id="LOCAL-00366" summary="adjusted product spacing">
+      <option name="closed" value="true" />
+      <created>1762589703004</created>
+      <option name="number" value="00366" />
+      <option name="presentableId" value="LOCAL-00366" />
+      <option name="project" value="LOCAL" />
+      <updated>1762589703004</updated>
+    </task>
+    <option name="localTasksCounter" value="367" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed spacer" />
     <MESSAGE value="finished layouting" />
     <MESSAGE value="changed mbpi system text" />
     <MESSAGE value="updated for testing" />
@@ -700,7 +699,8 @@
     <MESSAGE value="adjusted left padding" />
     <MESSAGE value="modified spacing and grid view" />
     <MESSAGE value="removed leading" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed leading" />
+    <MESSAGE value="adjusted product spacing" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted product spacing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
