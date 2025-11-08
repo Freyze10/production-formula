@@ -209,7 +209,7 @@ class ProductionPrintPreview(QDialog):
             [Paragraph("MASTERBATCH PHILIPPINES, INC.", styles['HeaderTitle'])],
             [Paragraph("PRODUCTION ENTRY", styles['HeaderTitle'])],
             [Paragraph(f"FORM NO. {'FM00012A2' if 'wip' in self.data else 'FM00012A1'}", styles['HeaderTitle'])],
-        ], colWidths=[4.3 * inch])
+        ], colWidths=[4.5 * inch])
         header_left.setStyle(TableStyle([
             ('LEFTPADDING', (0, 0), (-1, -1), 0),
             ('RIGHTPADDING', (0, 0), (-1, -1), 0),
@@ -230,7 +230,7 @@ class ProductionPrintPreview(QDialog):
         info_rows = [[Paragraph(k, styles['c11']), Paragraph(":", styles['c11']),
                       Paragraph(str(v), styles['c11B'])] for k, v in info_data]
 
-        info_table = Table(info_rows, colWidths=[1.6 * inch, 0.2 * inch, 1.4 * inch])
+        info_table = Table(info_rows, colWidths=[1.9 * inch, 0.2 * inch, 1.5 * inch])
         info_table.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
             ('TOPPADDING', (0, 0), (-1, 0), 10),
@@ -240,7 +240,7 @@ class ProductionPrintPreview(QDialog):
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
         ]))
 
-        outer_table = Table([[header_left, info_table]], colWidths=[4.3 * inch, 3.2 * inch])
+        outer_table = Table([[header_left, info_table]], colWidths=[4.5 * inch, 3.5 * inch])
         outer_table.setStyle(TableStyle([
             ('VALIGN', (0, 0), (0, -1), 'TOP'),
             ('TOPPADDING', (0, 0), (0, -1), 20),

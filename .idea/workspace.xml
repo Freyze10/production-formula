@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00312" summary="adjusted header">
-      <option name="closed" value="true" />
-      <created>1762480162780</created>
-      <option name="number" value="00312" />
-      <option name="presentableId" value="LOCAL-00312" />
-      <option name="project" value="LOCAL" />
-      <updated>1762480162780</updated>
-    </task>
     <task id="LOCAL-00313" summary="adjusted header table">
       <option name="closed" value="true" />
       <created>1762480298956</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762585780915</updated>
     </task>
-    <option name="localTasksCounter" value="361" />
+    <task id="LOCAL-00361" summary="adjusted fonts">
+      <option name="closed" value="true" />
+      <created>1762588913928</created>
+      <option name="number" value="00361" />
+      <option name="presentableId" value="LOCAL-00361" />
+      <option name="project" value="LOCAL" />
+      <updated>1762588913928</updated>
+    </task>
+    <option name="localTasksCounter" value="362" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed padding of other rows" />
     <MESSAGE value="added notes and total" />
     <MESSAGE value="adjusted note field row" />
     <MESSAGE value="created table for the footer" />
@@ -700,7 +699,8 @@
     <MESSAGE value="manual css dropdown" />
     <MESSAGE value="fixed dropdown arrow" />
     <MESSAGE value="debugging print" />
-    <option name="LAST_COMMIT_MESSAGE" value="debugging print" />
+    <MESSAGE value="adjusted fonts" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted fonts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
