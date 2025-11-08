@@ -285,10 +285,10 @@ class ProductionPrintPreview(QDialog):
         story.append(Spacer(1, 18))
 
         # Materials table
-        data = [[Paragraph("MATERIAL CODE", styles['c11B']),
-                 Paragraph("LARGE SCALE (Kg.)", styles['c11B']),
-                 Paragraph("SMALL SCALE (grm.)", styles['c11B']),
-                 Paragraph("WEIGHT (Kg.)", styles['c11B'])]]
+        data = [[Paragraph("MATERIAL CODE", styles['c11']),
+                 Paragraph("LARGE SCALE (Kg.)", styles['c11']),
+                 Paragraph("SMALL SCALE (grm.)", styles['c11']),
+                 Paragraph("WEIGHT (Kg.)", styles['c11'])]]
         total = self.data.get('qty_required', '0.0')
 
         for m in self.mats:
@@ -302,7 +302,7 @@ class ProductionPrintPreview(QDialog):
                 Paragraph(f"{wt:.7f}", styles['c11B_right']),
             ])
 
-        mat_table = Table(data, colWidths=[2.7 * inch, 1.6 * inch, 1.6 * inch, 1.6 * inch])
+        mat_table = Table(data, colWidths=[2.7 * inch, 1.85 * inch, 1.85 * inch, 1.6 * inch])
 
         mat_table.setStyle(TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
