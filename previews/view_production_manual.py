@@ -268,7 +268,7 @@ class ProductionPrintPreview(QDialog):
             row = Table([
                 [Paragraph(lk, styles['c11']), ":", Paragraph(f"{lv}", styles['c11B']),
                  Paragraph(rk, styles['c11']), ":", Paragraph(f"{rv}", styles['c11B'])]
-            ], colWidths=[1.2 * inch, 0.16 * inch, 3.20 * inch, 1.3 * inch, 0.16 * inch, 1.48 * inch])
+            ], colWidths=[1.43 * inch, 0.16 * inch, 3.22 * inch, 1.55 * inch, 0.16 * inch, 1.48 * inch])
 
             row.setStyle(TableStyle([
                 ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
