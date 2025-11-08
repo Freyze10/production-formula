@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00302" summary="added ariaal font">
-      <option name="closed" value="true" />
-      <created>1762417473042</created>
-      <option name="number" value="00302" />
-      <option name="presentableId" value="LOCAL-00302" />
-      <option name="project" value="LOCAL" />
-      <updated>1762417473042</updated>
-    </task>
-    <task id="LOCAL-00303" summary="adjusting table column">
-      <option name="closed" value="true" />
-      <created>1762417989090</created>
-      <option name="number" value="00303" />
-      <option name="presentableId" value="LOCAL-00303" />
-      <option name="project" value="LOCAL" />
-      <updated>1762417989090</updated>
-    </task>
     <task id="LOCAL-00304" summary="updated adjuusting print  preview">
       <option name="closed" value="true" />
       <created>1762475329889</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762572880154</updated>
     </task>
-    <option name="localTasksCounter" value="351" />
+    <task id="LOCAL-00351" summary="trying of enter as tab">
+      <option name="closed" value="true" />
+      <created>1762579250132</created>
+      <option name="number" value="00351" />
+      <option name="presentableId" value="LOCAL-00351" />
+      <option name="project" value="LOCAL" />
+      <updated>1762579250132</updated>
+    </task>
+    <task id="LOCAL-00352" summary="trying of enter as tab">
+      <option name="closed" value="true" />
+      <created>1762579505861</created>
+      <option name="number" value="00352" />
+      <option name="presentableId" value="LOCAL-00352" />
+      <option name="project" value="LOCAL" />
+      <updated>1762579505861</updated>
+    </task>
+    <option name="localTasksCounter" value="353" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjusted product spacing" />
     <MESSAGE value="removed debugger border" />
     <MESSAGE value="adjusting table size" />
     <MESSAGE value="adding padding materials tbl" />
@@ -700,14 +699,15 @@
     <MESSAGE value="comment out testing data value" />
     <MESSAGE value="added clear on focus after add rm" />
     <MESSAGE value="trying when enterr clicked" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying when enterr clicked" />
+    <MESSAGE value="trying of enter as tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="trying of enter as tab" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>773</line>
+          <line>784</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

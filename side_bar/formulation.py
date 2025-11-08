@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdi
                              QDateEdit, QAbstractItemView, QFrame, QComboBox, QTextEdit, QGridLayout, QGroupBox,
                              QScrollArea, QFormLayout, QCompleter, QSizePolicy, QFileDialog, QApplication)
 from PyQt6.QtCore import Qt, QDate, QThread
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QKeyEvent
 import qtawesome as fa
 import pandas as pd
 
@@ -426,18 +426,14 @@ class FormulationManagementPage(QWidget):
 
         self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
         # Move to next tab when Enter is pressed
-        def move_to_next_widget():
-            # Select the current highlighted item (from arrow keys or typing)
-            if self.material_code_input.view().isVisible():
-                current_index = self.material_code_input.view().currentIndex()
-                if current_index.isValid():
-                    self.material_code_input.setCurrentIndex(current_index.row())
+        def simulate_tab():
+            # Create a real Tab key press event
+            tab_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_Tab, Qt.KeyboardModifier.NoModifier)
+            # Send it to the parent (the QComboBox)
+            QApplication.postEvent(self.material_code_input, tab_event)
 
-            # Force focus to next widget in tab order
-            self.material_code_input.focusNextChild()
-
-        # Connect Return/Enter key
-        self.material_code_input.lineEdit().returnPressed.connect(move_to_next_widget)
+        # Connect Enter → simulate Tab
+        self.material_code_input.lineEdit().returnPressed.connect(simulate_tab)
 
         matched_by_layout.addWidget(self.material_code_input)
 
