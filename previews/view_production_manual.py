@@ -444,34 +444,34 @@ class ProductionPrintPreview(QDialog):
 
 
 # TEST
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    data = {
-        "prod_id": "99078",
-        "production_date": "11/06/25",
-        "order_form_no": "41866",
-        "formulation_id": "0",
-        "wip": "12-09347",
-        "product_code": "CA8905E",
-        "product_color": "BLACK",
-        "dosage": "100.0000",
-        "customer": "SAN MIGUEL YAMAMURA PACKAGING",
-        "lot_number": "2431AN-2434AN",
-        "mixing_time": "3 MINS.",
-        "machine_no": "2",
-        "qty_required": "1200.000000",
-        "qty_per_batch": "50.000000",
-        "qty_produced": "1200.000000",
-        "prepared_by": "R. MAGSALIN"
-    }
-    mats = [
-        {"material_code": "C31", "large_scale": 20.000000, "small_scale": 0.000000, "total_weight": 480.000000},
-        {"material_code": "L37", "large_scale": 21.400000, "small_scale": 0.000000, "total_weight": 33.600000},
-        {"material_code": "J5",  "large_scale": 5.000000,  "small_scale": 0.000000, "total_weight": 120.000000},
-        {"material_code": "K907","large_scale": 16.850000,"small_scale": 0.000000, "total_weight": 284.400000},
-        {"material_code": "LL31","large_scale": 11.000000,"small_scale": 0.000000, "total_weight": 264.000000},
-        {"material_code": "CAB383E(2697AC)", "large_scale": 0.750000, "small_scale": 0.000000, "total_weight": 18.000000},
-    ]
-    dlg = ProductionPrintPreview(data, mats)
-    dlg.exec()
+# if __name__ == "__main__":
+#     import sys
+#     app = QApplication(sys.argv)
+#     data = {
+#         "prod_id": "99078",
+#         "production_date": "11/06/25",
+#         "order_form_no": "41866",
+#         "formulation_id": "0",
+#         "wip": "12-09347",
+#         "product_code": "CA8905E",
+#         "product_color": "BLACK",
+#         "dosage": "100.0000",
+#         "customer": "SAN MIGUEL YAMAMURA PACKAGING",
+#         "lot_number": "2431AN-2434AN",
+#         "mixing_time": "3 MINS.",
+#         "machine_no": "2",
+#         "qty_required": "1200.000000",
+#         "qty_per_batch": "50.000000",
+#         "qty_produced": "1200.000000",
+#         "prepared_by": "R. MAGSALIN"
+#     }
+#     mats = [
+#         {"material_code": "C31", "large_scale": 20.000000, "small_scale": 0.000000, "total_weight": 480.000000},
+#         {"material_code": "L37", "large_scale": 21.400000, "small_scale": 0.000000, "total_weight": 33.600000},
+#         {"material_code": "J5",  "large_scale": 5.000000,  "small_scale": 0.000000, "total_weight": 120.000000},
+#         {"material_code": "K907","large_scale": 16.850000,"small_scale": 0.000000, "total_weight": 284.400000},
+#         {"material_code": "LL31","large_scale": 11.000000,"small_scale": 0.000000, "total_weight": 264.000000},
+#         {"material_code": "CAB383E(2697AC)", "large_scale": 0.750000, "small_scale": 0.000000, "total_weight": 18.000000},
+#     ]
+#     dlg = ProductionPrintPreview(data, mats)
+#     dlg.exec()
