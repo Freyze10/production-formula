@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00307" summary="adjusted page margin to narrow">
-      <option name="closed" value="true" />
-      <created>1762476818313</created>
-      <option name="number" value="00307" />
-      <option name="presentableId" value="LOCAL-00307" />
-      <option name="project" value="LOCAL" />
-      <updated>1762476818313</updated>
-    </task>
-    <task id="LOCAL-00308" summary="adjusted page margin to very narrow">
-      <option name="closed" value="true" />
-      <created>1762476837393</created>
-      <option name="number" value="00308" />
-      <option name="presentableId" value="LOCAL-00308" />
-      <option name="project" value="LOCAL" />
-      <updated>1762476837393</updated>
-    </task>
     <task id="LOCAL-00309" summary="adjusting table size">
       <option name="closed" value="true" />
       <created>1762478631834</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762581623345</updated>
     </task>
-    <option name="localTasksCounter" value="356" />
+    <task id="LOCAL-00356" summary="trying to add drop down icon">
+      <option name="closed" value="true" />
+      <created>1762582329622</created>
+      <option name="number" value="00356" />
+      <option name="presentableId" value="LOCAL-00356" />
+      <option name="project" value="LOCAL" />
+      <updated>1762582329622</updated>
+    </task>
+    <task id="LOCAL-00357" summary="fixing error uri">
+      <option name="closed" value="true" />
+      <created>1762582352895</created>
+      <option name="number" value="00357" />
+      <option name="presentableId" value="LOCAL-00357" />
+      <option name="project" value="LOCAL" />
+      <updated>1762582352895</updated>
+    </task>
+    <option name="localTasksCounter" value="358" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modifying materials table" />
-    <MESSAGE value="changed font name" />
     <MESSAGE value="changed text alignment" />
     <MESSAGE value="adjust table padding" />
     <MESSAGE value="modified spacing and padding" />
@@ -700,14 +698,16 @@
     <MESSAGE value="enter key as tab key" />
     <MESSAGE value="removed trial enter as tab" />
     <MESSAGE value="fixed material entry" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed material entry" />
+    <MESSAGE value="trying to add drop down icon" />
+    <MESSAGE value="fixing error uri" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing error uri" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>800</line>
+          <line>796</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
