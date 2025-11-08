@@ -440,8 +440,34 @@ class FormulationManagementPage(QWidget):
             QApplication.postEvent(self.material_code_input, tab_event)
 
         self.material_code_input.lineEdit().returnPressed.connect(enter_like_tab)
-
         matched_by_layout.addWidget(self.material_code_input)
+
+        def apply_dropdown_icon(combo: QComboBox):
+            icon = fa.icon('fa5s.chevron-down', color='#666')
+            combo.setStyleSheet(f"""
+                QComboBox {{
+                    padding-right: 25px;
+                    border: 1px solid #aaa;
+                    border-radius: 4px;
+                    min-height: 28px;
+                    background: white;
+                }}
+                QComboBox::drop-down {{
+                    subcontrol-origin: padding;
+                    subcontrol-position: top right;
+                    width: 20px;
+                    border-left: 1px solid #ddd;
+                    border-radius: 0 4px 4px 0;
+                }}
+                QComboBox::down-arrow {{
+                    image: url({icon.as_uri()});
+                    width: 12px;
+                    height: 12px;
+                }}
+            """)
+
+        apply_dropdown_icon(self.matched_by_input)
+        apply_dropdown_icon(self.material_code_input)
 
         # Sync Button
         self.rm_code_sync_button = QPushButton("Sync RM Code", objectName="SecondaryButton")
