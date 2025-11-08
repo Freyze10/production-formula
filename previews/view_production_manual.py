@@ -188,11 +188,11 @@ class ProductionPrintPreview(QDialog):
 
         styles = getSampleStyleSheet()
         # COURIER FONTS ONLY — BUILT-IN
-        styles.add(ParagraphStyle(name='c11', fontName='Courier', fontSize=11, leading=12))
-        styles.add(ParagraphStyle(name='c11B', fontName='Courier-Bold', fontSize=11, leading=12))
+        styles.add(ParagraphStyle(name='c11', fontName='Courier', fontSize=13, leading=12))
+        styles.add(ParagraphStyle(name='c11B', fontName='Courier-Bold', fontSize=13, leading=12))
         styles.add(ParagraphStyle(name='c11B_right', parent=styles['c11B'], alignment=TA_RIGHT))
-        styles.add(ParagraphStyle(name='c14B', fontName='Courier-Bold', fontSize=14, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=11))
+        styles.add(ParagraphStyle(name='c14B', fontName='Courier-Bold', fontSize=16, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(name='HeaderTitle', fontName='Courier', fontSize=13))
 
         story = self.build_story(styles)
         doc.build(story)

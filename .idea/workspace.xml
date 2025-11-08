@@ -92,7 +92,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.view_production_manual">
     <configuration name="formulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -227,8 +227,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.view_production_manual" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.sync_formula (1)" />
         <item itemvalue="Python.sync_formula" />
         <item itemvalue="Python.formulation" />
@@ -250,14 +250,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00311" summary="changing font and font size">
-      <option name="closed" value="true" />
-      <created>1762479542556</created>
-      <option name="number" value="00311" />
-      <option name="presentableId" value="LOCAL-00311" />
-      <option name="project" value="LOCAL" />
-      <updated>1762479542556</updated>
     </task>
     <task id="LOCAL-00312" summary="adjusted header">
       <option name="closed" value="true" />
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762583345023</updated>
     </task>
-    <option name="localTasksCounter" value="360" />
+    <task id="LOCAL-00360" summary="debugging print">
+      <option name="closed" value="true" />
+      <created>1762585780915</created>
+      <option name="number" value="00360" />
+      <option name="presentableId" value="LOCAL-00360" />
+      <option name="project" value="LOCAL" />
+      <updated>1762585780915</updated>
+    </task>
+    <option name="localTasksCounter" value="361" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified spacing and padding" />
     <MESSAGE value="fixed padding of other rows" />
     <MESSAGE value="added notes and total" />
     <MESSAGE value="adjusted note field row" />
@@ -700,7 +699,8 @@
     <MESSAGE value="fixing error uri" />
     <MESSAGE value="manual css dropdown" />
     <MESSAGE value="fixed dropdown arrow" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed dropdown arrow" />
+    <MESSAGE value="debugging print" />
+    <option name="LAST_COMMIT_MESSAGE" value="debugging print" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
