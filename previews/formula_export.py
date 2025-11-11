@@ -45,7 +45,7 @@ class ExportPreviewDialog(QDialog):
         self.table = QTableWidget()
         self.table.setColumnCount(len(self.headers))
         self.table.setHorizontalHeaderLabels(self.headers)
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
         self.table.setAlternatingRowColors(True)
         layout.addWidget(self.table)
 
