@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00356" summary="trying to add drop down icon">
-      <option name="closed" value="true" />
-      <created>1762582329622</created>
-      <option name="number" value="00356" />
-      <option name="presentableId" value="LOCAL-00356" />
-      <option name="project" value="LOCAL" />
-      <updated>1762582329622</updated>
-    </task>
-    <task id="LOCAL-00357" summary="fixing error uri">
-      <option name="closed" value="true" />
-      <created>1762582352895</created>
-      <option name="number" value="00357" />
-      <option name="presentableId" value="LOCAL-00357" />
-      <option name="project" value="LOCAL" />
-      <updated>1762582352895</updated>
-    </task>
     <task id="LOCAL-00358" summary="manual css dropdown">
       <option name="closed" value="true" />
       <created>1762582673450</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762847217529</updated>
     </task>
-    <option name="localTasksCounter" value="405" />
+    <task id="LOCAL-00405" summary="updated download excel">
+      <option name="closed" value="true" />
+      <created>1762849133608</created>
+      <option name="number" value="00405" />
+      <option name="presentableId" value="LOCAL-00405" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849133608</updated>
+    </task>
+    <task id="LOCAL-00406" summary="updated download excel">
+      <option name="closed" value="true" />
+      <created>1762849180645</created>
+      <option name="number" value="00406" />
+      <option name="presentableId" value="LOCAL-00406" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849180645</updated>
+    </task>
+    <option name="localTasksCounter" value="407" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
