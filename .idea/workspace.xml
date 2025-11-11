@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00343" summary="deleted dfr">
-      <option name="closed" value="true" />
-      <created>1762564178816</created>
-      <option name="number" value="00343" />
-      <option name="presentableId" value="LOCAL-00343" />
-      <option name="project" value="LOCAL" />
-      <updated>1762564178816</updated>
-    </task>
-    <task id="LOCAL-00344" summary="modified user access">
-      <option name="closed" value="true" />
-      <created>1762568439179</created>
-      <option name="number" value="00344" />
-      <option name="presentableId" value="LOCAL-00344" />
-      <option name="project" value="LOCAL" />
-      <updated>1762568439179</updated>
-    </task>
     <task id="LOCAL-00345" summary="updated view details">
       <option name="closed" value="true" />
       <created>1762568768351</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762833028650</updated>
     </task>
-    <option name="localTasksCounter" value="392" />
+    <task id="LOCAL-00392" summary="changed export file name">
+      <option name="closed" value="true" />
+      <created>1762841799219</created>
+      <option name="number" value="00392" />
+      <option name="presentableId" value="LOCAL-00392" />
+      <option name="project" value="LOCAL" />
+      <updated>1762841799219</updated>
+    </task>
+    <task id="LOCAL-00393" summary="added new file for preview export">
+      <option name="closed" value="true" />
+      <created>1762842876541</created>
+      <option name="number" value="00393" />
+      <option name="presentableId" value="LOCAL-00393" />
+      <option name="project" value="LOCAL" />
+      <updated>1762842876541</updated>
+    </task>
+    <option name="localTasksCounter" value="394" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed leading" />
-    <MESSAGE value="adjusted product spacing" />
     <MESSAGE value="changed plain text" />
     <MESSAGE value="modifying table  size" />
     <MESSAGE value="modifying material  font size" />
@@ -700,7 +698,9 @@
     <MESSAGE value="removed connection to function date filter" />
     <MESSAGE value="trying nw format" />
     <MESSAGE value="reset back to originalformat" />
-    <option name="LAST_COMMIT_MESSAGE" value="reset back to originalformat" />
+    <MESSAGE value="changed export file name" />
+    <MESSAGE value="added new file for preview export" />
+    <option name="LAST_COMMIT_MESSAGE" value="added new file for preview export" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

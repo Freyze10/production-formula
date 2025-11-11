@@ -1,0 +1,172 @@
+from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
+                             QTableWidget, QTableWidgetItem, QComboBox, QLabel,
+                             QFileDialog, QMessageBox, QHeaderView)
+from PyQt5.QtCore import Qt, QDate
+import pandas as pd
+from datetime import datetime
+
+
+class ExportPreviewDialog(QDialog):
+    def __init__(self, parent, date_from, date_to):
+        super().__init__(parent)
+        self.parent_widget = parent
+        self.date_from = date_from
+        self.date_to = date_to
+        self.filtered_data = None
+        self.headers = ["uid", "Date", "Customer", "Product Code", "Mat Code", "Con", "Deleted"]
+
+        self.setWindowTitle("Export Preview")
+        self.setMinimumSize(900, 600)
+        self.setup_ui()
+        self.load_data()
+
+    def setup_ui(self):
+        layout = QVBoxLayout()
+
+        # Filter section
+        filter_layout = QHBoxLayout()
+        filter_layout.addWidget(QLabel("Filter by Month:"))
+
+        self.month_combo = QComboBox()
+        self.populate_months()
+        self.month_combo.currentIndexChanged.connect(self.apply_filter)
+        filter_layout.addWidget(self.month_combo)
+
+        filter_layout.addStretch()
+        layout.addLayout(filter_layout)
+
+        # Table preview
+        self.table = QTableWidget()
+        self.table.setColumnCount(len(self.headers))
+        self.table.setHorizontalHeaderLabels(self.headers)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table.setAlternatingRowColors(True)
+        layout.addWidget(self.table)
+
+        # Info label
+        self.info_label = QLabel()
+        layout.addWidget(self.info_label)
+
+        # Buttons
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+
+        self.download_btn = QPushButton("Download Excel")
+        self.download_btn.clicked.connect(self.download_excel)
+        button_layout.addWidget(self.download_btn)
+
+        cancel_btn = QPushButton("Cancel")
+        cancel_btn.clicked.connect(self.reject)
+        button_layout.addWidget(cancel_btn)
+
+        layout.addLayout(button_layout)
+        self.setLayout(layout)
+
+    def populate_months(self):
+        """Populate month dropdown with available months in date range."""
+        self.month_combo.addItem("All Months", None)
+
+        current_date = QDate(self.date_from.year(), self.date_from.month(), 1)
+        end_date = QDate(self.date_to.year(), self.date_to.month(), 1)
+
+        months = []
+        while current_date <= end_date:
+            month_str = current_date.toString("MMMM yyyy")
+            month_value = (current_date.year(), current_date.month())
+            months.append((month_str, month_value))
+            current_date = current_date.addMonths(1)
+
+        for month_str, month_value in months:
+            self.month_combo.addItem(month_str, month_value)
+
+    def load_data(self):
+        """Load data from database."""
+        try:
+            self.full_data = db_call.get_export_data(self.date_from, self.date_to)
+            self.apply_filter()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to load data: {str(e)}")
+            self.reject()
+
+    def apply_filter(self):
+        """Apply month filter to data."""
+        selected_month = self.month_combo.currentData()
+
+        if selected_month is None:
+            # Show all data
+            self.filtered_data = self.full_data
+        else:
+            # Filter by selected month
+            year, month = selected_month
+            self.filtered_data = []
+
+            for row in self.full_data:
+                # Assuming date is in index 1 (second column)
+                row_date = row[1]
+                if isinstance(row_date, str):
+                    row_date = datetime.strptime(row_date, "%Y-%m-%d")
+
+                if row_date.year == year and row_date.month == month:
+                    self.filtered_data.append(row)
+
+        self.update_table()
+
+    def update_table(self):
+        """Update table with filtered data."""
+        self.table.setRowCount(len(self.filtered_data))
+
+        for row_idx, row_data in enumerate(self.filtered_data):
+            for col_idx, cell_data in enumerate(row_data):
+                item = QTableWidgetItem(str(cell_data))
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # Make read-only
+                self.table.setItem(row_idx, col_idx, item)
+
+        self.info_label.setText(f"Showing {len(self.filtered_data)} records")
+
+    def download_excel(self):
+        """Download filtered data to Excel."""
+        if not self.filtered_data:
+            QMessageBox.warning(self, "No Data", "No data to export.")
+            return
+
+        # Generate default filename
+        selected_month = self.month_combo.currentData()
+        if selected_month:
+            year, month = selected_month
+            default_filename = f"prod_formula_{year}_{month:02d}.xlsx"
+        else:
+            default_filename = f"prod_formula_{self.date_from.toString('yyyy-MM-dd')}_to_{self.date_to.toString('yyyy-MM-dd')}.xlsx"
+
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Excel File",
+            default_filename,
+            "Excel Files (*.xlsx)"
+        )
+
+        if not file_path:
+            return
+
+        try:
+            df = pd.DataFrame(self.filtered_data, columns=self.headers)
+            df.to_excel(file_path, index=False)
+
+            QMessageBox.information(
+                self,
+                "Export Successful",
+                f"Exported {len(self.filtered_data)} records to {file_path}"
+            )
+
+            self.parent_widget.log_audit_trail(
+                "Data Export",
+                f"Exported formulation table to {file_path}"
+            )
+
+            self.accept()
+
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Export Error",
+                f"Failed to export table data: {str(e)}"
+            )
