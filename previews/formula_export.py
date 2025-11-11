@@ -54,8 +54,12 @@ class ExportPreviewDialog(QDialog):
             self.table.horizontalHeader().setMinimumSectionSize(80)
 
         # Set initial widths
-        default_width = 40
+        default_width = 50
         for col in range(len(self.headers)):
+            if col == 0:  # Customer column (index 0)
+                self.table.setColumnWidth(col, 30)
+            if col == 1:  # Customer column (index 1)
+                self.table.setColumnWidth(col, 100)
             if col == 2:  # Customer column (index 2)
                 self.table.setColumnWidth(col, 300)
             else:

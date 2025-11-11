@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00362" summary="adjusting width sizes">
-      <option name="closed" value="true" />
-      <created>1762589099290</created>
-      <option name="number" value="00362" />
-      <option name="presentableId" value="LOCAL-00362" />
-      <option name="project" value="LOCAL" />
-      <updated>1762589099290</updated>
-    </task>
     <task id="LOCAL-00363" summary="adjusted left padding">
       <option name="closed" value="true" />
       <created>1762589202513</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762850975819</updated>
     </task>
-    <option name="localTasksCounter" value="411" />
+    <task id="LOCAL-00411" summary="adjusting column width">
+      <option name="closed" value="true" />
+      <created>1762851233513</created>
+      <option name="number" value="00411" />
+      <option name="presentableId" value="LOCAL-00411" />
+      <option name="project" value="LOCAL" />
+      <updated>1762851233513</updated>
+    </task>
+    <option name="localTasksCounter" value="412" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added export datas on db_call" />
     <MESSAGE value="changed export excel headers" />
     <MESSAGE value="chaged date init" />
     <MESSAGE value="call export call" />
@@ -700,7 +699,8 @@
     <MESSAGE value="modify excel alignment" />
     <MESSAGE value="added btn download design" />
     <MESSAGE value="adjustable table column width" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjustable table column width" />
+    <MESSAGE value="adjusting column width" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusting column width" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
