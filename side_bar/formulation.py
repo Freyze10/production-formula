@@ -13,6 +13,7 @@ import pandas as pd
 
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
+from previews.formula_export import ExportPreviewDialog
 from utils.debounce import finished_typing
 from utils.field_format import format_to_float, formula_mixing_time
 from utils.loading import StaticLoadingDialog
@@ -669,32 +670,13 @@ class FormulationManagementPage(QWidget):
             self.material_code_input.setCurrentIndex(0)
 
     def export_to_excel(self):
-        """Export the formulation table to an Excel file."""
+        """Export the formulation table to an Excel file with preview."""
         date_from = self.date_from_filter.date()
         date_to = self.date_to_filter.date()
-        default_filename = f"prod_formula {date_from.toString("yyyy-MM-dd")} to {date_to.toString("yyyy-MM-dd")}.xlsx"
 
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Save Excel File",
-            default_filename,
-            "Excel Files (*.xlsx)"
-        )
-
-        if not file_path:
-            return
-
-        headers = ["uid", "Date", "Customer", "Product Code", "Mat Code", "Con", "Deleted"]
-        data = db_call.get_export_data(date_from.toPyDate(), date_to.toPyDate())
-
-        df = pd.DataFrame(data, columns=headers)
-
-        try:
-            df.to_excel(file_path, index=False)
-            QMessageBox.information(self, "Export Successful", f"Table data exported to {file_path}")
-            self.log_audit_trail("Data Export", f"Exported formulation table to {file_path}")
-        except Exception as e:
-            QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
+        # Open preview dialog
+        dialog = ExportPreviewDialog(self, date_from.toPyDate(), date_to.toPyDate())
+        dialog.exec()
 
     def btn_refresh_clicked(self):
         self.set_date_range_or_no_data()
