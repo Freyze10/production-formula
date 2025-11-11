@@ -193,7 +193,8 @@ class ExportPreviewDialog(QDialog):
                 ):
                     for cell in row:
                         cell.border = thin_border
-                        cell.alignment = center_align
+                        if cell == 6:
+                            cell.alignment = center_align
 
                 # Header row: bold + background
                 from openpyxl.styles import Font, PatternFill
