@@ -1,9 +1,11 @@
-from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
+from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                              QTableWidget, QTableWidgetItem, QComboBox, QLabel,
                              QFileDialog, QMessageBox, QHeaderView)
-from PyQt5.QtCore import Qt, QDate
+from PyQt6.QtCore import Qt, QDate
 import pandas as pd
 from datetime import datetime
+
+from db import db_call
 
 
 class ExportPreviewDialog(QDialog):
@@ -39,7 +41,7 @@ class ExportPreviewDialog(QDialog):
         self.table = QTableWidget()
         self.table.setColumnCount(len(self.headers))
         self.table.setHorizontalHeaderLabels(self.headers)
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.table.setAlternatingRowColors(True)
         layout.addWidget(self.table)
 
@@ -118,7 +120,7 @@ class ExportPreviewDialog(QDialog):
         for row_idx, row_data in enumerate(self.filtered_data):
             for col_idx, cell_data in enumerate(row_data):
                 item = QTableWidgetItem(str(cell_data))
-                item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # Make read-only
+                item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Make read-only
                 self.table.setItem(row_idx, col_idx, item)
 
         self.info_label.setText(f"Showing {len(self.filtered_data)} records")
@@ -170,3 +172,13 @@ class ExportPreviewDialog(QDialog):
                 "Export Error",
                 f"Failed to export table data: {str(e)}"
             )
+
+
+def export_to_excel(self):
+    """Export the formulation table to an Excel file with preview."""
+    date_from = self.date_from_filter.date()
+    date_to = self.date_to_filter.date()
+
+    # Open preview dialog
+    dialog = ExportPreviewDialog(self, date_from.toPyDate(), date_to.toPyDate())
+    dialog.exec()
