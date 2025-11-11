@@ -714,8 +714,6 @@ class FormulationManagementPage(QWidget):
 
     def refresh_data_from_db(self):
         """Explicitly refresh data from database with loading dialog."""
-        early_date = self.date_from_filter.date().toPyDate()
-        late_date = self.date_to_filter.date().toPyDate()
 
         # SHOW LOADING DIALOG
         dlg = StaticLoadingDialog(self)
@@ -723,7 +721,7 @@ class FormulationManagementPage(QWidget):
         QApplication.processEvents()  # Force show
 
         try:
-            global_var.all_formula_data = db_call.get_formula_data(early_date, late_date)
+            global_var.all_formula_data = db_call.get_formula_data()
             self.update_cached_lists()
             self.populate_formulation_table()
 
@@ -757,11 +755,8 @@ class FormulationManagementPage(QWidget):
 
     def refresh_formulations(self):
         """Load formulations from database and cache them."""
-        early_date = self.date_from_filter.date().toPyDate()
-        late_date = self.date_to_filter.date().toPyDate()
-
         try:
-            global_var.all_formula_data = db_call.get_formula_data(early_date, late_date)
+            global_var.all_formula_data = db_call.get_formula_data()
         except Exception as e:
             global_var.all_formula_data = []
             print(f"Error loading formula data: {e}")
