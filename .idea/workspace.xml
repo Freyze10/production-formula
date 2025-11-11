@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00352" summary="trying of enter as tab">
-      <option name="closed" value="true" />
-      <created>1762579505861</created>
-      <option name="number" value="00352" />
-      <option name="presentableId" value="LOCAL-00352" />
-      <option name="project" value="LOCAL" />
-      <updated>1762579505861</updated>
-    </task>
     <task id="LOCAL-00353" summary="enter key as tab key">
       <option name="closed" value="true" />
       <created>1762579633957</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762845312448</updated>
     </task>
-    <option name="localTasksCounter" value="401" />
+    <task id="LOCAL-00401" summary="trying new preview for export">
+      <option name="closed" value="true" />
+      <created>1762845601840</created>
+      <option name="number" value="00401" />
+      <option name="presentableId" value="LOCAL-00401" />
+      <option name="project" value="LOCAL" />
+      <updated>1762845601840</updated>
+    </task>
+    <option name="localTasksCounter" value="402" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
