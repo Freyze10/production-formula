@@ -251,30 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00353" summary="enter key as tab key">
-      <option name="closed" value="true" />
-      <created>1762579633957</created>
-      <option name="number" value="00353" />
-      <option name="presentableId" value="LOCAL-00353" />
-      <option name="project" value="LOCAL" />
-      <updated>1762579633957</updated>
-    </task>
-    <task id="LOCAL-00354" summary="removed trial enter as tab">
-      <option name="closed" value="true" />
-      <created>1762580727214</created>
-      <option name="number" value="00354" />
-      <option name="presentableId" value="LOCAL-00354" />
-      <option name="project" value="LOCAL" />
-      <updated>1762580727214</updated>
-    </task>
-    <task id="LOCAL-00355" summary="fixed material entry">
-      <option name="closed" value="true" />
-      <created>1762581623345</created>
-      <option name="number" value="00355" />
-      <option name="presentableId" value="LOCAL-00355" />
-      <option name="project" value="LOCAL" />
-      <updated>1762581623345</updated>
-    </task>
     <task id="LOCAL-00356" summary="trying to add drop down icon">
       <option name="closed" value="true" />
       <created>1762582329622</created>
@@ -643,7 +619,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762845601840</updated>
     </task>
-    <option name="localTasksCounter" value="402" />
+    <task id="LOCAL-00402" summary="modified filter">
+      <option name="closed" value="true" />
+      <created>1762846841946</created>
+      <option name="number" value="00402" />
+      <option name="presentableId" value="LOCAL-00402" />
+      <option name="project" value="LOCAL" />
+      <updated>1762846841946</updated>
+    </task>
+    <task id="LOCAL-00403" summary="modified filter">
+      <option name="closed" value="true" />
+      <created>1762847203600</created>
+      <option name="number" value="00403" />
+      <option name="presentableId" value="LOCAL-00403" />
+      <option name="project" value="LOCAL" />
+      <updated>1762847203600</updated>
+    </task>
+    <task id="LOCAL-00404" summary="updated download excel">
+      <option name="closed" value="true" />
+      <created>1762847217529</created>
+      <option name="number" value="00404" />
+      <option name="presentableId" value="LOCAL-00404" />
+      <option name="project" value="LOCAL" />
+      <updated>1762847217529</updated>
+    </task>
+    <option name="localTasksCounter" value="405" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modifying table size size" />
-    <MESSAGE value="modifying table size" />
     <MESSAGE value="changed header format and font size" />
     <MESSAGE value="updated table sizing and padding" />
     <MESSAGE value="updated note row" />
@@ -700,7 +698,9 @@
     <MESSAGE value="connected export btn for preview export" />
     <MESSAGE value="removed unnecessary func call" />
     <MESSAGE value="trying new preview for export" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying new preview for export" />
+    <MESSAGE value="modified filter" />
+    <MESSAGE value="updated download excel" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated download excel" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
