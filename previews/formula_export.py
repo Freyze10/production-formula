@@ -130,29 +130,36 @@ class ExportPreviewDialog(QDialog):
         self.info_label.setText(f"Showing {len(self.filtered_data)} records")
 
     def download_excel(self):
-        """Download filtered data to Excel."""
+        """Download filtered data to Excel with nice filename."""
         if not self.filtered_data:
             QMessageBox.warning(self, "No Data", "No data to export.")
             return
 
-        # Generate default filename
-        selected_month = self.month_combo.currentData()
+        # ---------- build filename ----------
+        selected_month = self.month_combo.currentData()  # None or (year, month)
+
         if selected_month:
             year, month = selected_month
-            default_filename = f"prod_formula_{year}-{month:02d}.xlsx"
+            # Convert month number → short month name
+            month_name = QDate(year, month, 1).toString("MMM")  # "Oct", "Jan", etc.
+            default_filename = f"Prod_Formula {month_name}-{year}.xlsx"
         else:
-            default_filename = f"prod_formula_{self.date_from.year}-{self.date_from.month:02d}-{self.date_from.day:02d}_to_{self.date_to.year}-{self.date_to.month:02d}-{self.date_to.day:02d}.xlsx"
+            # Full range – keep the old style
+            df = self.date_from.toString("yyyy-MM-dd")
+            dt = self.date_to.toString("yyyy-MM-dd")
+            default_filename = f"Prod_Formula {df}_to_{dt}.xlsx"
 
+        # ---------- file dialog ----------
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Excel File",
             default_filename,
             "Excel Files (*.xlsx)"
         )
-
         if not file_path:
             return
 
+        # ---------- export ----------
         try:
             df = pd.DataFrame(self.filtered_data, columns=self.headers)
             df.to_excel(file_path, index=False)
@@ -160,14 +167,13 @@ class ExportPreviewDialog(QDialog):
             QMessageBox.information(
                 self,
                 "Export Successful",
-                f"Exported {len(self.filtered_data)} records to {file_path}"
+                f"Exported {len(self.filtered_data)} records to <br>{file_path}"
             )
 
             self.parent_widget.log_audit_trail(
                 "Data Export",
                 f"Exported formulation table to {file_path}"
             )
-
             self.accept()
 
         except Exception as e:
