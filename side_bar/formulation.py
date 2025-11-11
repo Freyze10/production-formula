@@ -700,10 +700,6 @@ class FormulationManagementPage(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to export table data: {str(e)}")
 
-    def on_date_filter_changed(self):
-        """Handle date filter changes - refresh data from database."""
-        self.refresh_data_from_db()
-
     def btn_refresh_clicked(self):
         self.set_date_range_or_no_data()
         self.refresh_data_from_db()
