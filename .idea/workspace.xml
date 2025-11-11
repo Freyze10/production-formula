@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00360" summary="debugging print">
-      <option name="closed" value="true" />
-      <created>1762585780915</created>
-      <option name="number" value="00360" />
-      <option name="presentableId" value="LOCAL-00360" />
-      <option name="project" value="LOCAL" />
-      <updated>1762585780915</updated>
-    </task>
-    <task id="LOCAL-00361" summary="adjusted fonts">
-      <option name="closed" value="true" />
-      <created>1762588913928</created>
-      <option name="number" value="00361" />
-      <option name="presentableId" value="LOCAL-00361" />
-      <option name="project" value="LOCAL" />
-      <updated>1762588913928</updated>
-    </task>
     <task id="LOCAL-00362" summary="adjusting width sizes">
       <option name="closed" value="true" />
       <created>1762589099290</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762849960338</updated>
     </task>
-    <option name="localTasksCounter" value="409" />
+    <task id="LOCAL-00409" summary="added btn download design">
+      <option name="closed" value="true" />
+      <created>1762850667080</created>
+      <option name="number" value="00409" />
+      <option name="presentableId" value="LOCAL-00409" />
+      <option name="project" value="LOCAL" />
+      <updated>1762850667080</updated>
+    </task>
+    <task id="LOCAL-00410" summary="adjustable table column width">
+      <option name="closed" value="true" />
+      <created>1762850975819</created>
+      <option name="number" value="00410" />
+      <option name="presentableId" value="LOCAL-00410" />
+      <option name="project" value="LOCAL" />
+      <updated>1762850975819</updated>
+    </task>
+    <option name="localTasksCounter" value="411" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated note row" />
-    <MESSAGE value="updated last group sizing" />
     <MESSAGE value="added export datas on db_call" />
     <MESSAGE value="changed export excel headers" />
     <MESSAGE value="chaged date init" />
@@ -700,7 +698,9 @@
     <MESSAGE value="updated download excel" />
     <MESSAGE value="working styled export" />
     <MESSAGE value="modify excel alignment" />
-    <option name="LAST_COMMIT_MESSAGE" value="modify excel alignment" />
+    <MESSAGE value="added btn download design" />
+    <MESSAGE value="adjustable table column width" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjustable table column width" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

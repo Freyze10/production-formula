@@ -45,9 +45,32 @@ class ExportPreviewDialog(QDialog):
         self.table = QTableWidget()
         self.table.setColumnCount(len(self.headers))
         self.table.setHorizontalHeaderLabels(self.headers)
+
+        # Allow manual resizing
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+
+        # Set minimum width for all columns
+        for col in range(len(self.headers)):
+            self.table.horizontalHeader().setMinimumSectionSize(80)
+
+        # Set initial widths
+        default_width = 40
+        for col in range(len(self.headers)):
+            if col == 2:  # Customer column (index 2)
+                self.table.setColumnWidth(col, 300)
+            else:
+                self.table.setColumnWidth(col, default_width)
+
+        # Last column stretches to fill remaining space
+        self.table.horizontalHeader().setStretchLastSection(True)
+
+        # Visual polish
         self.table.setAlternatingRowColors(True)
-        layout.addWidget(self.table)
+        self.table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+
+        # Add to layout with stretch
+        layout.addWidget(self.table, stretch=1)
 
         # Info label
         self.info_label = QLabel()
