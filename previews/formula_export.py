@@ -63,7 +63,7 @@ class ExportPreviewDialog(QDialog):
             elif col == 2:  # Customer column (index 2)
                 self.table.setColumnWidth(col, 300)
             elif col == 3:  # Customer column (index 2)
-                self.table.setColumnWidth(col, 110)
+                self.table.setColumnWidth(col, 100)
             else:
                 self.table.setColumnWidth(col, default_width)
 
