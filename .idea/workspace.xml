@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00330" summary="changed text alignment">
-      <option name="closed" value="true" />
-      <created>1762495588882</created>
-      <option name="number" value="00330" />
-      <option name="presentableId" value="LOCAL-00330" />
-      <option name="project" value="LOCAL" />
-      <updated>1762495588882</updated>
-    </task>
-    <task id="LOCAL-00331" summary="adjust table padding">
-      <option name="closed" value="true" />
-      <created>1762495824180</created>
-      <option name="number" value="00331" />
-      <option name="presentableId" value="LOCAL-00331" />
-      <option name="project" value="LOCAL" />
-      <updated>1762495824180</updated>
-    </task>
     <task id="LOCAL-00332" summary="modified spacing and padding">
       <option name="closed" value="true" />
       <created>1762496046508</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762823788076</updated>
     </task>
-    <option name="localTasksCounter" value="379" />
+    <task id="LOCAL-00379" summary="changed export excel headers">
+      <option name="closed" value="true" />
+      <created>1762824083944</created>
+      <option name="number" value="00379" />
+      <option name="presentableId" value="LOCAL-00379" />
+      <option name="project" value="LOCAL" />
+      <updated>1762824083944</updated>
+    </task>
+    <task id="LOCAL-00380" summary="chaged date init">
+      <option name="closed" value="true" />
+      <created>1762824452774</created>
+      <option name="number" value="00380" />
+      <option name="presentableId" value="LOCAL-00380" />
+      <option name="project" value="LOCAL" />
+      <updated>1762824452774</updated>
+    </task>
+    <option name="localTasksCounter" value="381" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="trying of enter as tab" />
-    <MESSAGE value="enter key as tab key" />
     <MESSAGE value="removed trial enter as tab" />
     <MESSAGE value="fixed material entry" />
     <MESSAGE value="trying to add drop down icon" />
@@ -700,14 +698,16 @@
     <MESSAGE value="updated note row" />
     <MESSAGE value="updated last group sizing" />
     <MESSAGE value="added export datas on db_call" />
-    <option name="LAST_COMMIT_MESSAGE" value="added export datas on db_call" />
+    <MESSAGE value="changed export excel headers" />
+    <MESSAGE value="chaged date init" />
+    <option name="LAST_COMMIT_MESSAGE" value="chaged date init" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>796</line>
+          <line>789</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

@@ -692,17 +692,7 @@ class FormulationManagementPage(QWidget):
             return
 
         headers = ["uid", "Date", "Customer", "Product Code", "Mat Code", "Con", "Deleted"]
-        data = []
-        for row in range(self.formulation_table.rowCount()):
-            if not self.formulation_table.isRowHidden(row):
-                row_data = []
-                for col in range(self.formulation_table.columnCount()):
-                    item = self.formulation_table.item(row, col)
-                    if isinstance(item, NumericTableWidgetItem):
-                        row_data.append(item.value)
-                    else:
-                        row_data.append(item.text() if item else "")
-                data.append(row_data)
+        data = db_call.get_export_data(date_from.toPyDate(), date_to.toPyDate())
 
         df = pd.DataFrame(data, columns=headers)
 
