@@ -172,13 +172,3 @@ class ExportPreviewDialog(QDialog):
                 "Export Error",
                 f"Failed to export table data: {str(e)}"
             )
-
-
-def export_to_excel(self):
-    """Export the formulation table to an Excel file with preview."""
-    date_from = self.date_from_filter.date()
-    date_to = self.date_to_filter.date()
-
-    # Open preview dialog
-    dialog = ExportPreviewDialog(self, date_from.toPyDate(), date_to.toPyDate())
-    dialog.exec()
