@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00349" summary="added clear on focus after add rm">
-      <option name="closed" value="true" />
-      <created>1762572508561</created>
-      <option name="number" value="00349" />
-      <option name="presentableId" value="LOCAL-00349" />
-      <option name="project" value="LOCAL" />
-      <updated>1762572508561</updated>
-    </task>
     <task id="LOCAL-00350" summary="trying when enterr clicked">
       <option name="closed" value="true" />
       <created>1762572880154</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762843229039</updated>
     </task>
-    <option name="localTasksCounter" value="398" />
+    <task id="LOCAL-00398" summary="trying new preview for export">
+      <option name="closed" value="true" />
+      <created>1762844262888</created>
+      <option name="number" value="00398" />
+      <option name="presentableId" value="LOCAL-00398" />
+      <option name="project" value="LOCAL" />
+      <updated>1762844262888</updated>
+    </task>
+    <option name="localTasksCounter" value="399" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modifying material  font size" />
     <MESSAGE value="modifying table size size" />
     <MESSAGE value="modifying table size" />
     <MESSAGE value="changed header format and font size" />
@@ -700,7 +699,8 @@
     <MESSAGE value="added new file for preview export" />
     <MESSAGE value="connected export btn for preview export" />
     <MESSAGE value="removed unnecessary func call" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary func call" />
+    <MESSAGE value="trying new preview for export" />
+    <option name="LAST_COMMIT_MESSAGE" value="trying new preview for export" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

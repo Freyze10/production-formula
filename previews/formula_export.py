@@ -1,3 +1,5 @@
+# Formula Export
+
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                              QTableWidget, QTableWidgetItem, QComboBox, QLabel,
                              QFileDialog, QMessageBox, QHeaderView)
@@ -68,8 +70,8 @@ class ExportPreviewDialog(QDialog):
         """Populate month dropdown with available months in date range."""
         self.month_combo.addItem("All Months", None)
 
-        current_date = QDate(self.date_from.year(), self.date_from.month(), 1)
-        end_date = QDate(self.date_to.year(), self.date_to.month(), 1)
+        current_date = QDate(self.date_from.year, self.date_from.month, 1)
+        end_date = QDate(self.date_to.year, self.date_to.month, 1)
 
         months = []
         while current_date <= end_date:
