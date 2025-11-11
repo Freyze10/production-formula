@@ -44,7 +44,7 @@ def get_export_data(early_date, late_date):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT a.uid, a.cm_date, a.customer, a.product_code, b.material_code, b.concentration, a.is_deleted
+        SELECT a.uid, TO_CHAR(a.cm_date, 'DD-MM-YYYY'), a.customer, a.product_code, b.material_code, b.concentration, a.is_deleted
         FROM formula_primary a, formula_items b
         WHERE cm_date BETWEEN %s AND %s AND a.uid = b.uid
         ORDER BY cm_date ASC
