@@ -251,38 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00345" summary="updated view details">
-      <option name="closed" value="true" />
-      <created>1762568768351</created>
-      <option name="number" value="00345" />
-      <option name="presentableId" value="LOCAL-00345" />
-      <option name="project" value="LOCAL" />
-      <updated>1762568768351</updated>
-    </task>
-    <task id="LOCAL-00346" summary="updated view details">
-      <option name="closed" value="true" />
-      <created>1762568940266</created>
-      <option name="number" value="00346" />
-      <option name="presentableId" value="LOCAL-00346" />
-      <option name="project" value="LOCAL" />
-      <updated>1762568940266</updated>
-    </task>
-    <task id="LOCAL-00347" summary="updated alchemy connection">
-      <option name="closed" value="true" />
-      <created>1762571160745</created>
-      <option name="number" value="00347" />
-      <option name="presentableId" value="LOCAL-00347" />
-      <option name="project" value="LOCAL" />
-      <updated>1762571160745</updated>
-    </task>
-    <task id="LOCAL-00348" summary="comment out testing data value">
-      <option name="closed" value="true" />
-      <created>1762571926574</created>
-      <option name="number" value="00348" />
-      <option name="presentableId" value="LOCAL-00348" />
-      <option name="project" value="LOCAL" />
-      <updated>1762571926583</updated>
-    </task>
     <task id="LOCAL-00349" summary="added clear on focus after add rm">
       <option name="closed" value="true" />
       <created>1762572508561</created>
@@ -643,7 +611,39 @@
       <option name="project" value="LOCAL" />
       <updated>1762842876541</updated>
     </task>
-    <option name="localTasksCounter" value="394" />
+    <task id="LOCAL-00394" summary="added new file for preview export">
+      <option name="closed" value="true" />
+      <created>1762843012196</created>
+      <option name="number" value="00394" />
+      <option name="presentableId" value="LOCAL-00394" />
+      <option name="project" value="LOCAL" />
+      <updated>1762843012197</updated>
+    </task>
+    <task id="LOCAL-00395" summary="added new file for preview export">
+      <option name="closed" value="true" />
+      <created>1762843131286</created>
+      <option name="number" value="00395" />
+      <option name="presentableId" value="LOCAL-00395" />
+      <option name="project" value="LOCAL" />
+      <updated>1762843131286</updated>
+    </task>
+    <task id="LOCAL-00396" summary="connected export btn for preview export">
+      <option name="closed" value="true" />
+      <created>1762843203238</created>
+      <option name="number" value="00396" />
+      <option name="presentableId" value="LOCAL-00396" />
+      <option name="project" value="LOCAL" />
+      <updated>1762843203238</updated>
+    </task>
+    <task id="LOCAL-00397" summary="removed unnecessary func call">
+      <option name="closed" value="true" />
+      <created>1762843229039</created>
+      <option name="number" value="00397" />
+      <option name="presentableId" value="LOCAL-00397" />
+      <option name="project" value="LOCAL" />
+      <updated>1762843229039</updated>
+    </task>
+    <option name="localTasksCounter" value="398" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed plain text" />
-    <MESSAGE value="modifying table  size" />
     <MESSAGE value="modifying material  font size" />
     <MESSAGE value="modifying table size size" />
     <MESSAGE value="modifying table size" />
@@ -700,14 +698,16 @@
     <MESSAGE value="reset back to originalformat" />
     <MESSAGE value="changed export file name" />
     <MESSAGE value="added new file for preview export" />
-    <option name="LAST_COMMIT_MESSAGE" value="added new file for preview export" />
+    <MESSAGE value="connected export btn for preview export" />
+    <MESSAGE value="removed unnecessary func call" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed unnecessary func call" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>762</line>
+          <line>748</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

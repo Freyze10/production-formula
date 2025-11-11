@@ -671,12 +671,16 @@ class FormulationManagementPage(QWidget):
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file with preview."""
-        date_from = self.date_from_filter.date()
-        date_to = self.date_to_filter.date()
+        try:
+            date_from = self.date_from_filter.date().toPyDate()
+            date_to = self.date_to_filter.date().toPyDate()
 
-        # Open preview dialog
-        dialog = ExportPreviewDialog(self, date_from.toPyDate(), date_to.toPyDate())
-        dialog.exec()
+            # Open preview dialog
+            dialog = ExportPreviewDialog(self, date_from, date_to)
+            dialog.exec()
+        except Exception as e:
+            print(e)
+
 
     def btn_refresh_clicked(self):
         self.set_date_range_or_no_data()
