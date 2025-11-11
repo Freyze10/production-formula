@@ -251,30 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00337" summary="created table for the footer">
-      <option name="closed" value="true" />
-      <created>1762500823483</created>
-      <option name="number" value="00337" />
-      <option name="presentableId" value="LOCAL-00337" />
-      <option name="project" value="LOCAL" />
-      <updated>1762500823483</updated>
-    </task>
-    <task id="LOCAL-00338" summary="removed s[acer">
-      <option name="closed" value="true" />
-      <created>1762500927145</created>
-      <option name="number" value="00338" />
-      <option name="presentableId" value="LOCAL-00338" />
-      <option name="project" value="LOCAL" />
-      <updated>1762500927145</updated>
-    </task>
-    <task id="LOCAL-00339" summary="removed spacer">
-      <option name="closed" value="true" />
-      <created>1762501100304</created>
-      <option name="number" value="00339" />
-      <option name="presentableId" value="LOCAL-00339" />
-      <option name="project" value="LOCAL" />
-      <updated>1762501100304</updated>
-    </task>
     <task id="LOCAL-00340" summary="finished layouting">
       <option name="closed" value="true" />
       <created>1762501357361</created>
@@ -643,7 +619,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762827931162</updated>
     </task>
-    <option name="localTasksCounter" value="386" />
+    <task id="LOCAL-00386" summary="removed initial call dup">
+      <option name="closed" value="true" />
+      <created>1762827965492</created>
+      <option name="number" value="00386" />
+      <option name="presentableId" value="LOCAL-00386" />
+      <option name="project" value="LOCAL" />
+      <updated>1762827965492</updated>
+    </task>
+    <task id="LOCAL-00387" summary="replaced duplicate with _db">
+      <option name="closed" value="true" />
+      <created>1762827983952</created>
+      <option name="number" value="00387" />
+      <option name="presentableId" value="LOCAL-00387" />
+      <option name="project" value="LOCAL" />
+      <updated>1762827983952</updated>
+    </task>
+    <task id="LOCAL-00388" summary="removed function date filter">
+      <option name="closed" value="true" />
+      <created>1762828086471</created>
+      <option name="number" value="00388" />
+      <option name="presentableId" value="LOCAL-00388" />
+      <option name="project" value="LOCAL" />
+      <updated>1762828086471</updated>
+    </task>
+    <option name="localTasksCounter" value="389" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,9 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed dropdown arrow" />
-    <MESSAGE value="debugging print" />
-    <MESSAGE value="adjusted fonts" />
     <MESSAGE value="adjusting width sizes" />
     <MESSAGE value="adjusted left padding" />
     <MESSAGE value="modified spacing and grid view" />
@@ -700,14 +697,17 @@
     <MESSAGE value="fixed date format to dd-mm-yyyy" />
     <MESSAGE value="removed constraints get formula" />
     <MESSAGE value="removed date parameter in caller" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed date parameter in caller" />
+    <MESSAGE value="removed initial call dup" />
+    <MESSAGE value="replaced duplicate with _db" />
+    <MESSAGE value="removed function date filter" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed function date filter" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>770</line>
+          <line>762</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

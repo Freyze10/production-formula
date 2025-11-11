@@ -228,10 +228,6 @@ class FormulationManagementPage(QWidget):
         self.export_btn.clicked.connect(self.export_to_excel)
         controls_layout.addWidget(self.export_btn)
 
-        # Connect date filters to refresh data from DB
-        self.date_from_filter.dateChanged.connect(self.on_date_filter_changed)
-        self.date_to_filter.dateChanged.connect(self.on_date_filter_changed)
-
         controls_layout.addStretch()
 
         self.refresh_btn = QPushButton("Sync", objectName="SuccessButton")
