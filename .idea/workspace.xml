@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00341" summary="changed mbpi system text">
-      <option name="closed" value="true" />
-      <created>1762501892862</created>
-      <option name="number" value="00341" />
-      <option name="presentableId" value="LOCAL-00341" />
-      <option name="project" value="LOCAL" />
-      <updated>1762501892862</updated>
-    </task>
-    <task id="LOCAL-00342" summary="updated for testing">
-      <option name="closed" value="true" />
-      <created>1762562869372</created>
-      <option name="number" value="00342" />
-      <option name="presentableId" value="LOCAL-00342" />
-      <option name="project" value="LOCAL" />
-      <updated>1762562869372</updated>
-    </task>
     <task id="LOCAL-00343" summary="deleted dfr">
       <option name="closed" value="true" />
       <created>1762564178816</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762828105571</updated>
     </task>
-    <option name="localTasksCounter" value="390" />
+    <task id="LOCAL-00390" summary="trying nw format">
+      <option name="closed" value="true" />
+      <created>1762832737405</created>
+      <option name="number" value="00390" />
+      <option name="presentableId" value="LOCAL-00390" />
+      <option name="project" value="LOCAL" />
+      <updated>1762832737405</updated>
+    </task>
+    <task id="LOCAL-00391" summary="reset back to originalformat">
+      <option name="closed" value="true" />
+      <created>1762833028650</created>
+      <option name="number" value="00391" />
+      <option name="presentableId" value="LOCAL-00391" />
+      <option name="project" value="LOCAL" />
+      <updated>1762833028650</updated>
+    </task>
+    <option name="localTasksCounter" value="392" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjusted left padding" />
-    <MESSAGE value="modified spacing and grid view" />
     <MESSAGE value="removed leading" />
     <MESSAGE value="adjusted product spacing" />
     <MESSAGE value="changed plain text" />
@@ -700,7 +698,9 @@
     <MESSAGE value="replaced duplicate with _db" />
     <MESSAGE value="removed function date filter" />
     <MESSAGE value="removed connection to function date filter" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed connection to function date filter" />
+    <MESSAGE value="trying nw format" />
+    <MESSAGE value="reset back to originalformat" />
+    <option name="LAST_COMMIT_MESSAGE" value="reset back to originalformat" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

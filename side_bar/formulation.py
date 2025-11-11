@@ -672,7 +672,7 @@ class FormulationManagementPage(QWidget):
         """Export the formulation table to an Excel file."""
         date_from = self.date_from_filter.date()
         date_to = self.date_to_filter.date()
-        default_filename = f"prod_formula_{date_from.toString("yyyyMMdd")}_to_{date_to.toString("yyyyMMdd")}.xlsx"
+        default_filename = f"prod_formula {date_from.toString("yyyy-MM-dd")} to {date_to.toString("yyyy-MM-dd")}.xlsx"
 
         file_path, _ = QFileDialog.getSaveFileName(
             self,
