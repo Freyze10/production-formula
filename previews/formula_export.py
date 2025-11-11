@@ -96,22 +96,32 @@ class ExportPreviewDialog(QDialog):
         """Apply month filter to data."""
         selected_month = self.month_combo.currentData()
 
+        self.filtered_data = []
+
         if selected_month is None:
             # Show all data
-            self.filtered_data = self.full_data
+            self.filtered_data = self.full_data[:]
         else:
             # Filter by selected month
             year, month = selected_month
-            self.filtered_data = []
 
             for row in self.full_data:
-                # Assuming date is in index 1 (second column)
                 row_date = row[1]
-                if isinstance(row_date, str):
-                    row_date = datetime.strptime(row_date, "%Y-%m-%d")
+                if row_date is None:
+                    continue
 
-                if row_date.year == year and row_date.month == month:
-                    self.filtered_data.append(row)
+                if isinstance(row_date, str):
+                    try:
+                        row_date = datetime.strptime(row_date, "%Y-%m-%d")
+                    except ValueError:
+                        continue  # Skip rows with invalid date formats
+
+                # At this point, assume row_date is a datetime or date object
+                try:
+                    if row_date.year == year and row_date.month == month:
+                        self.filtered_data.append(row)
+                except AttributeError:
+                    continue  # Skip if row_date doesn't have year/month attributes
 
         self.update_table()
 
