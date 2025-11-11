@@ -139,7 +139,7 @@ class ExportPreviewDialog(QDialog):
         selected_month = self.month_combo.currentData()
         if selected_month:
             year, month = selected_month
-            default_filename = f"prod_formula_{year}_{month:02d}.xlsx"
+            default_filename = f"prod_formula_{year}-{month:02d}.xlsx"
         else:
             default_filename = f"prod_formula_{self.date_from.year}-{self.date_from.month:02d}-{self.date_from.day:02d}_to_{self.date_to.year}-{self.date_to.month:02d}-{self.date_to.day:02d}.xlsx"
 
