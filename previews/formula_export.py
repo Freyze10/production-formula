@@ -130,22 +130,26 @@ class ExportPreviewDialog(QDialog):
         self.info_label.setText(f"Showing {len(self.filtered_data)} records")
 
     def download_excel(self):
-        """Download filtered data to Excel with borders, number formatting, and auto-sized columns."""
+        """Download filtered data to Excel with nice filename."""
         if not self.filtered_data:
             QMessageBox.warning(self, "No Data", "No data to export.")
             return
 
-        # ---------- Build filename ----------
-        selected_month = self.month_combo.currentData()
+        # ---------- build filename ----------
+        selected_month = self.month_combo.currentData()  # None or (year, month)
+
         if selected_month:
             year, month = selected_month
-            month_name = QDate(year, month, 1).toString("MMM")
+            # Convert month number → short month name
+            month_name = QDate(year, month, 1).toString("MMM")  # "Oct", "Jan", etc.
             default_filename = f"Prod_Formula {month_name}-{year}.xlsx"
         else:
+            # Full range – keep the old style
             df = self.date_from.toString("yyyy-MM-dd")
             dt = self.date_to.toString("yyyy-MM-dd")
             default_filename = f"Prod_Formula {df}_to_{dt}.xlsx"
 
+        # ---------- file dialog ----------
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Excel File",
@@ -155,72 +159,15 @@ class ExportPreviewDialog(QDialog):
         if not file_path:
             return
 
+        # ---------- export ----------
         try:
-            # ---------- Prepare DataFrame ----------
             df = pd.DataFrame(self.filtered_data, columns=self.headers)
+            df.to_excel(file_path, index=False)
 
-            # Convert "Con" column to numeric (remove commas, convert to float)
-            con_col_idx = self.headers.index("Con")
-            df.iloc[:, con_col_idx] = pd.to_numeric(
-                df.iloc[:, con_col_idx].astype(str).str.replace(",", ""), errors='coerce'
-            )
-
-            # ---------- Export with formatting using openpyxl ----------
-            with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
-                df.to_excel(writer, index=False, sheet_name='Formulas')
-
-                workbook = writer.book
-                worksheet = writer.sheets['Formulas']
-
-                # Define border style
-                from openpyxl.styles import Border, Side
-                thin_border = Border(
-                    left=Side(style='thin'),
-                    right=Side(style='thin'),
-                    top=Side(style='thin'),
-                    bottom=Side(style='thin')
-                )
-
-                # Apply border + center alignment to all used cells
-                from openpyxl.styles import Alignment
-                center_align = Alignment(horizontal='center', vertical='center')
-
-                for row in worksheet.iter_rows(
-                        min_row=2, max_row=worksheet.max_row,
-                        min_col=1, max_col=worksheet.max_column
-                ):
-                    for cell in row:
-                        cell.border = thin_border
-                        cell.alignment = center_align
-
-                # Header row: bold + background
-                from openpyxl.styles import Font, PatternFill
-                header_font = Font(bold=True)
-                header_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
-
-                for cell in worksheet[1]:
-                    cell.font = header_font
-                    cell.fill = header_fill
-                    cell.alignment = center_align
-
-                # ---------- Auto-fit column widths ----------
-                for idx, col in enumerate(df.columns, 1):
-                    # Get max length of content in column (including header)
-                    max_length = max(
-                        len(str(cell)) if cell is not None else 0
-                        for cell in df[col]
-                    )
-                    header_length = len(col)
-                    adjusted_width = min(max(max_length, header_length) + 2, 50)  # cap at 50
-                    worksheet.column_dimensions[
-                        openpyxl.utils.get_column_letter(idx)
-                    ].width = adjusted_width
-
-            # ---------- Success ----------
             QMessageBox.information(
                 self,
                 "Export Successful",
-                f"Exported <b>{len(self.filtered_data)}</b> records with formatting to:<br>{file_path}"
+                f"Exported {len(self.filtered_data)} records to <br>{file_path}"
             )
 
             self.parent_widget.log_audit_trail(
@@ -233,5 +180,5 @@ class ExportPreviewDialog(QDialog):
             QMessageBox.critical(
                 self,
                 "Export Error",
-                f"Failed to export: {str(e)}"
+                f"Failed to export table data: {str(e)}"
             )
