@@ -251,22 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00358" summary="manual css dropdown">
-      <option name="closed" value="true" />
-      <created>1762582673450</created>
-      <option name="number" value="00358" />
-      <option name="presentableId" value="LOCAL-00358" />
-      <option name="project" value="LOCAL" />
-      <updated>1762582673450</updated>
-    </task>
-    <task id="LOCAL-00359" summary="fixed dropdown arrow">
-      <option name="closed" value="true" />
-      <created>1762583345023</created>
-      <option name="number" value="00359" />
-      <option name="presentableId" value="LOCAL-00359" />
-      <option name="project" value="LOCAL" />
-      <updated>1762583345023</updated>
-    </task>
     <task id="LOCAL-00360" summary="debugging print">
       <option name="closed" value="true" />
       <created>1762585780915</created>
@@ -643,7 +627,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762849180645</updated>
     </task>
-    <option name="localTasksCounter" value="407" />
+    <task id="LOCAL-00407" summary="working styled export">
+      <option name="closed" value="true" />
+      <created>1762849716571</created>
+      <option name="number" value="00407" />
+      <option name="presentableId" value="LOCAL-00407" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849716571</updated>
+    </task>
+    <task id="LOCAL-00408" summary="modify excel alignment">
+      <option name="closed" value="true" />
+      <created>1762849960338</created>
+      <option name="number" value="00408" />
+      <option name="presentableId" value="LOCAL-00408" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849960338</updated>
+    </task>
+    <option name="localTasksCounter" value="409" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,8 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed header format and font size" />
-    <MESSAGE value="updated table sizing and padding" />
     <MESSAGE value="updated note row" />
     <MESSAGE value="updated last group sizing" />
     <MESSAGE value="added export datas on db_call" />
@@ -700,7 +698,9 @@
     <MESSAGE value="trying new preview for export" />
     <MESSAGE value="modified filter" />
     <MESSAGE value="updated download excel" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated download excel" />
+    <MESSAGE value="working styled export" />
+    <MESSAGE value="modify excel alignment" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify excel alignment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

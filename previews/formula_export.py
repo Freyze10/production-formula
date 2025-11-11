@@ -57,7 +57,7 @@ class ExportPreviewDialog(QDialog):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        self.download_btn = QPushButton("Download Excel")
+        self.download_btn = QPushButton("Download Excel", objectName="SuccessButton")
         self.download_btn.clicked.connect(self.download_excel)
         button_layout.addWidget(self.download_btn)
 
