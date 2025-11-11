@@ -753,17 +753,6 @@ class FormulationManagementPage(QWidget):
         self.date_from_filter.setDate(q_from)
         self.date_to_filter.setDate(q_to)
 
-    def refresh_formulations(self):
-        """Load formulations from database and cache them."""
-        try:
-            global_var.all_formula_data = db_call.get_formula_data()
-        except Exception as e:
-            global_var.all_formula_data = []
-            print(f"Error loading formula data: {e}")
-
-        self.update_cached_lists()
-        self.populate_formulation_table()
-
     def update_cached_lists(self):
         """Update cached lists from current formula data."""
         if not global_var.all_formula_data:
