@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00329" summary="changed font name">
-      <option name="closed" value="true" />
-      <created>1762495553947</created>
-      <option name="number" value="00329" />
-      <option name="presentableId" value="LOCAL-00329" />
-      <option name="project" value="LOCAL" />
-      <updated>1762495553947</updated>
-    </task>
     <task id="LOCAL-00330" summary="changed text alignment">
       <option name="closed" value="true" />
       <created>1762495588882</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762591848431</updated>
     </task>
-    <option name="localTasksCounter" value="378" />
+    <task id="LOCAL-00378" summary="added export datas on db_call">
+      <option name="closed" value="true" />
+      <created>1762823788076</created>
+      <option name="number" value="00378" />
+      <option name="presentableId" value="LOCAL-00378" />
+      <option name="project" value="LOCAL" />
+      <updated>1762823788076</updated>
+    </task>
+    <option name="localTasksCounter" value="379" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="trying when enterr clicked" />
     <MESSAGE value="trying of enter as tab" />
     <MESSAGE value="enter key as tab key" />
     <MESSAGE value="removed trial enter as tab" />
@@ -700,7 +699,8 @@
     <MESSAGE value="updated table sizing and padding" />
     <MESSAGE value="updated note row" />
     <MESSAGE value="updated last group sizing" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated last group sizing" />
+    <MESSAGE value="added export datas on db_call" />
+    <option name="LAST_COMMIT_MESSAGE" value="added export datas on db_call" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -676,7 +676,7 @@ class FormulationManagementPage(QWidget):
         """Export the formulation table to an Excel file."""
         date_from = self.date_from_filter.date().toString("yyyyMMdd")
         date_to = self.date_to_filter.date().toString("yyyyMMdd")
-        default_filename = f"formulation_records_{date_from}_to_{date_to}.xlsx"
+        default_filename = f"prod_formula_{date_from}_to_{date_to}.xlsx"
 
         file_path, _ = QFileDialog.getSaveFileName(
             self,
@@ -688,7 +688,7 @@ class FormulationManagementPage(QWidget):
         if not file_path:
             return
 
-        headers = ["ID", "Index Ref", "Date", "Customer", "Product Code", "Product Color", "Total Cons", "Dosage"]
+        headers = ["uid", "Date", "Customer", "Product Code", "Mat Code", "Con", "Deleted"]
         data = []
         for row in range(self.formulation_table.rowCount()):
             if not self.formulation_table.isRowHidden(row):
