@@ -39,6 +39,23 @@ def get_formula_data(early_date, late_date):
     return records
 
 
+def get_export_data(early_date, late_date):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT a.uid, a.cm_date, a.customer, a.product_code, b.material_code, b.concentration, a.is_deleted
+        FROM formula_primary a, formula_items b
+        WHERE cm_date BETWEEN %s AND %s AND a.uid = b.uid
+        ORDER BY cm_date ASC
+    """, (early_date, late_date))
+
+    records = cur.fetchall()
+    cur.close()
+    conn.close()
+    return records
+
+
 def get_formula_materials(uid):
     conn = get_connection()
     cur = conn.cursor()
