@@ -62,6 +62,7 @@
     "Python.formulation.executor": "Run",
     "Python.main-2.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.send_email.executor": "Run",
     "Python.sync-formula.executor": "Run",
     "Python.sync_formula (1).executor": "Run",
     "Python.sync_formula.executor": "Run",
@@ -251,14 +252,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00378" summary="added export datas on db_call">
-      <option name="closed" value="true" />
-      <created>1762823788076</created>
-      <option name="number" value="00378" />
-      <option name="presentableId" value="LOCAL-00378" />
-      <option name="project" value="LOCAL" />
-      <updated>1762823788076</updated>
     </task>
     <task id="LOCAL-00379" summary="changed export excel headers">
       <option name="closed" value="true" />
@@ -644,7 +637,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762916668592</updated>
     </task>
-    <option name="localTasksCounter" value="427" />
+    <task id="LOCAL-00427" summary="changed imports">
+      <option name="closed" value="true" />
+      <created>1762916740103</created>
+      <option name="number" value="00427" />
+      <option name="presentableId" value="LOCAL-00427" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916740103</updated>
+    </task>
+    <option name="localTasksCounter" value="428" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,7 +677,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed function date filter" />
     <MESSAGE value="removed connection to function date filter" />
     <MESSAGE value="trying nw format" />
     <MESSAGE value="reset back to originalformat" />
@@ -701,7 +701,8 @@
     <MESSAGE value="changed the credentials loc" />
     <MESSAGE value="added credentials.txt" />
     <MESSAGE value="refactored email.py name" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored email.py name" />
+    <MESSAGE value="changed imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed imports" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

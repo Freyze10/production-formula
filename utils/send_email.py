@@ -5,6 +5,24 @@ import smtplib
 import ssl
 import os
 from typing import Union, Dict, List
+from pathlib import Path
+
+
+# --- Find credentials.txt relative to FG-INV root ---
+def get_credentials_path(filename: str = "credentials.txt") -> Path:
+    """
+    Returns the full path to credentials.txt located in FG-INV root.
+    Works whether you run from utils/, FG-INV/, or anywhere else.
+    """
+    # __file__ = utils/send_email.py
+    current_file = Path(__file__).resolve()           # Full path to send_email.py
+    project_root = current_file.parent.parent         # Go up: utils/ → FG-INV/
+    credentials_path = project_root / filename
+
+    if not credentials_path.exists():
+        raise FileNotFoundError(f"Credentials file not found: {credentials_path}")
+
+    return credentials_path
 
 def load_credentials_from_txt(file_path: str = "credentials.txt") -> dict:
     """Read key=value lines from a .txt file and return as dict."""
