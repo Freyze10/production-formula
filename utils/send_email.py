@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
     send_email_with_excel(
         df_dict,
-        recipient_email="bjabillanoza@gmail.com",
+        recipient_email="ppsycho109@gmail.com",
         excel_fn="report.xlsx",
         subject="Monthly Report",
         credentials_file="credentials.txt"  # default, can omit
