@@ -254,30 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00393" summary="added new file for preview export">
-      <option name="closed" value="true" />
-      <created>1762842876541</created>
-      <option name="number" value="00393" />
-      <option name="presentableId" value="LOCAL-00393" />
-      <option name="project" value="LOCAL" />
-      <updated>1762842876541</updated>
-    </task>
-    <task id="LOCAL-00394" summary="added new file for preview export">
-      <option name="closed" value="true" />
-      <created>1762843012196</created>
-      <option name="number" value="00394" />
-      <option name="presentableId" value="LOCAL-00394" />
-      <option name="project" value="LOCAL" />
-      <updated>1762843012197</updated>
-    </task>
-    <task id="LOCAL-00395" summary="added new file for preview export">
-      <option name="closed" value="true" />
-      <created>1762843131286</created>
-      <option name="number" value="00395" />
-      <option name="presentableId" value="LOCAL-00395" />
-      <option name="project" value="LOCAL" />
-      <updated>1762843131286</updated>
-    </task>
     <task id="LOCAL-00396" summary="connected export btn for preview export">
       <option name="closed" value="true" />
       <created>1762843203238</created>
@@ -646,7 +622,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762937297955</updated>
     </task>
-    <option name="localTasksCounter" value="442" />
+    <task id="LOCAL-00442" summary="added save bytes exel to file">
+      <option name="closed" value="true" />
+      <created>1762937325029</created>
+      <option name="number" value="00442" />
+      <option name="presentableId" value="LOCAL-00442" />
+      <option name="project" value="LOCAL" />
+      <updated>1762937325029</updated>
+    </task>
+    <task id="LOCAL-00443" summary="revert back to original">
+      <option name="closed" value="true" />
+      <created>1762937439627</created>
+      <option name="number" value="00443" />
+      <option name="presentableId" value="LOCAL-00443" />
+      <option name="project" value="LOCAL" />
+      <updated>1762937439629</updated>
+    </task>
+    <task id="LOCAL-00444" summary="creaated todo notes">
+      <option name="closed" value="true" />
+      <created>1762937860431</created>
+      <option name="number" value="00444" />
+      <option name="presentableId" value="LOCAL-00444" />
+      <option name="project" value="LOCAL" />
+      <updated>1762937860431</updated>
+    </task>
+    <option name="localTasksCounter" value="445" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,9 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjusting column width" />
-    <MESSAGE value="adjusted column width" />
-    <MESSAGE value="modified preview column width" />
     <MESSAGE value="removed header bg color" />
     <MESSAGE value="removed redundant import calls" />
     <MESSAGE value="changed cancel color button" />
@@ -703,7 +700,10 @@
     <MESSAGE value="left align header" />
     <MESSAGE value="modified left alignment" />
     <MESSAGE value="Aadded excel to bytes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Aadded excel to bytes" />
+    <MESSAGE value="added save bytes exel to file" />
+    <MESSAGE value="revert back to original" />
+    <MESSAGE value="creaated todo notes" />
+    <option name="LAST_COMMIT_MESSAGE" value="creaated todo notes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
