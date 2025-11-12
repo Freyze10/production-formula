@@ -24,19 +24,19 @@ def get_credentials_path(filename: str = "credentials.txt") -> Path:
 
     return credentials_path
 
-def load_credentials_from_txt(file_path: str = "credentials.txt") -> dict:
-    """Read key=value lines from a .txt file and return as dict."""
-    credentials = {}
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"Credentials file not found: {file_path}")
 
-    with open(file_path, "r", encoding="utf-8") as f:
+def load_credentials_from_txt(file_path: str = "credentials.txt") -> dict:
+    """Read key=value lines from a .txt file."""
+    credentials_path = get_credentials_path(file_path)
+
+    creds = {}
+    with open(credentials_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
-                key, value = line.split("=", 1)
-                credentials[key.strip()] = value.strip()
-    return credentials
+                k, v = line.split("=", 1)
+                creds[k.strip()] = v.strip()
+    return creds
 
 
 def send_email_with_excel(

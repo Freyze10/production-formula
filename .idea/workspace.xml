@@ -62,6 +62,7 @@
     "Python.formulation.executor": "Run",
     "Python.main-2.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.send_email (1).executor": "Run",
     "Python.send_email.executor": "Run",
     "Python.sync-formula.executor": "Run",
     "Python.sync_formula (1).executor": "Run",
@@ -94,7 +95,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.send_email">
+  <component name="RunManager" selected="Python.send_email (1)">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -109,6 +110,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="send_email (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FG-INV" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/send_email.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -183,28 +206,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="sync_formula" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FG-INV" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\db\sync_formula.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="view_production_manual" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -229,11 +230,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.send_email (1)" />
         <item itemvalue="Python.send_email" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.sync_formula (1)" />
-        <item itemvalue="Python.sync_formula" />
       </list>
     </recent_temporary>
   </component>
@@ -252,14 +253,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00379" summary="changed export excel headers">
-      <option name="closed" value="true" />
-      <created>1762824083944</created>
-      <option name="number" value="00379" />
-      <option name="presentableId" value="LOCAL-00379" />
-      <option name="project" value="LOCAL" />
-      <updated>1762824083944</updated>
     </task>
     <task id="LOCAL-00380" summary="chaged date init">
       <option name="closed" value="true" />
@@ -645,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762916740103</updated>
     </task>
-    <option name="localTasksCounter" value="428" />
+    <task id="LOCAL-00428" summary="added credentials path">
+      <option name="closed" value="true" />
+      <created>1762916936777</created>
+      <option name="number" value="00428" />
+      <option name="presentableId" value="LOCAL-00428" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916936777</updated>
+    </task>
+    <option name="localTasksCounter" value="429" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -677,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed connection to function date filter" />
     <MESSAGE value="trying nw format" />
     <MESSAGE value="reset back to originalformat" />
     <MESSAGE value="changed export file name" />
@@ -702,7 +702,8 @@
     <MESSAGE value="added credentials.txt" />
     <MESSAGE value="refactored email.py name" />
     <MESSAGE value="changed imports" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed imports" />
+    <MESSAGE value="added credentials path" />
+    <option name="LAST_COMMIT_MESSAGE" value="added credentials path" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
