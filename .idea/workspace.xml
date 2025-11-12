@@ -254,14 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00392" summary="changed export file name">
-      <option name="closed" value="true" />
-      <created>1762841799219</created>
-      <option name="number" value="00392" />
-      <option name="presentableId" value="LOCAL-00392" />
-      <option name="project" value="LOCAL" />
-      <updated>1762841799219</updated>
-    </task>
     <task id="LOCAL-00393" summary="added new file for preview export">
       <option name="closed" value="true" />
       <created>1762842876541</created>
@@ -646,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762929517938</updated>
     </task>
-    <option name="localTasksCounter" value="441" />
+    <task id="LOCAL-00441" summary="Aadded excel to bytes">
+      <option name="closed" value="true" />
+      <created>1762937297955</created>
+      <option name="number" value="00441" />
+      <option name="presentableId" value="LOCAL-00441" />
+      <option name="project" value="LOCAL" />
+      <updated>1762937297955</updated>
+    </task>
+    <option name="localTasksCounter" value="442" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adjustable table column width" />
     <MESSAGE value="adjusting column width" />
     <MESSAGE value="adjusted column width" />
     <MESSAGE value="modified preview column width" />
@@ -703,7 +702,8 @@
     <MESSAGE value="lowercase file name" />
     <MESSAGE value="left align header" />
     <MESSAGE value="modified left alignment" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified left alignment" />
+    <MESSAGE value="Aadded excel to bytes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aadded excel to bytes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

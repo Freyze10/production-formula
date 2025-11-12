@@ -232,6 +232,11 @@ class ExportPreviewDialog(QDialog):
         buffer.seek(0)
         return buffer
 
+    def save_excel_buffer(buffer: BytesIO, file_path: str) -> None:
+        """Save the in-memory Excel buffer to a file."""
+        with open(file_path, 'wb') as f:
+            f.write(buffer.getvalue())
+
 
     def download_excel(self):
         """Download filtered data to Excel with borders, number formatting, and auto-sized columns."""
