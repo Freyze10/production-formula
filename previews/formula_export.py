@@ -1,7 +1,4 @@
 # Formula Export
-from io import BytesIO
-from typing import Dict
-
 import openpyxl
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                              QTableWidget, QTableWidgetItem, QComboBox, QLabel,
@@ -11,8 +8,6 @@ import pandas as pd
 from datetime import datetime
 
 from openpyxl.styles import Side, Border, Alignment, PatternFill, Font
-from openpyxl.utils import get_column_letter
-
 from db import db_call
 
 
@@ -169,74 +164,6 @@ class ExportPreviewDialog(QDialog):
                 self.table.setItem(row_idx, col_idx, item)
 
         self.info_label.setText(f"Showing {len(self.filtered_data)} records")
-
-    def generate_excel_buffer(
-            df_dict: Dict[str, pd.DataFrame],
-            left_align_headers: bool = True,
-            apply_borders: bool = True,
-            auto_fit_columns: bool = True,
-            number_format_con: bool = True,
-    ) -> BytesIO:
-        """
-        Generate a formatted Excel file in memory (BytesIO).
-        Returns the buffer ready for saving or emailing.
-        """
-        buffer = BytesIO()
-
-        with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-            for sheet_name, df in df_dict.items():
-                # --- Write DataFrame ---
-                df.to_excel(writer, sheet_name=sheet_name, index=False)
-
-                worksheet = writer.sheets[sheet_name]
-
-                # --- Optional: Convert "Con" column to numeric ---
-                if number_format_con and "Con" in df.columns:
-                    con_col_idx = df.columns.get_loc("Con") + 1  # +1 for Excel (1-based)
-                    for row in worksheet.iter_rows(min_row=2, min_col=con_col_idx, max_col=con_col_idx):
-                        for cell in row:
-                            cell.number_format = '#,##0.00'
-
-                # --- Borders ---
-                if apply_borders:
-                    thin_border = Border(
-                        left=Side(style='thin'),
-                        right=Side(style='thin'),
-                        top=Side(style='thin'),
-                        bottom=Side(style='thin')
-                    )
-                    for row in worksheet.iter_rows(min_row=2):
-                        for cell in row:
-                            cell.border = thin_border
-
-                # --- Header: Left-align + styling ---
-                header_font = Font(bold=False)
-                align = Alignment(horizontal='left', vertical='center') if left_align_headers else Alignment(
-                    horizontal='center')
-
-                for cell in worksheet[1]:
-                    cell.font = header_font
-                    cell.alignment = align
-
-                # --- Auto-fit columns ---
-                if auto_fit_columns:
-                    for idx, col in enumerate(df.columns, 1):
-                        max_length = max(
-                            len(str(val)) if pd.notna(val) else 0
-                            for val in df[col]
-                        )
-                        header_length = len(col)
-                        adjusted_width = min(max(max_length, header_length) + 2, 50)
-                        worksheet.column_dimensions[get_column_letter(idx)].width = adjusted_width
-
-        buffer.seek(0)
-        return buffer
-
-    def save_excel_buffer(buffer: BytesIO, file_path: str) -> None:
-        """Save the in-memory Excel buffer to a file."""
-        with open(file_path, 'wb') as f:
-            f.write(buffer.getvalue())
-
 
     def download_excel(self):
         """Download filtered data to Excel with borders, number formatting, and auto-sized columns."""
