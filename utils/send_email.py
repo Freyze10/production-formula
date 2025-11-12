@@ -10,25 +10,17 @@ from pathlib import Path
 
 # --- Find credentials.txt relative to FG-INV root ---
 def get_credentials_path(filename: str = "credentials.txt") -> Path:
-    """
-    Returns the full path to credentials.txt located in FG-INV root.
-    Works whether you run from utils/, FG-INV/, or anywhere else.
-    """
-    # __file__ = utils/send_email.py
-    current_file = Path(__file__).resolve()           # Full path to send_email.py
-    project_root = current_file.parent.parent         # Go up: utils/ → FG-INV/
+    current_file = Path(__file__).resolve()
+    project_root = current_file.parent.parent          # FG-INV/
     credentials_path = project_root / filename
 
     if not credentials_path.exists():
         raise FileNotFoundError(f"Credentials file not found: {credentials_path}")
-
     return credentials_path
 
 
 def load_credentials_from_txt(file_path: str = "credentials.txt") -> dict:
-    """Read key=value lines from a .txt file."""
     credentials_path = get_credentials_path(file_path)
-
     creds = {}
     with open(credentials_path, "r", encoding="utf-8") as f:
         for line in f:
@@ -52,28 +44,29 @@ def send_email_with_excel(
     smtp_port: int = None,
     use_ssl: bool = True,
 ) -> None:
-    # Load from .txt file
     creds = load_credentials_from_txt(credentials_file)
 
     sender_email = sender_email or creds.get("SMTP_USER")
-    sender_email_pwd = sender_email_pwd or creds.get("SMTP_PASSWORD")
+    # ← REMOVE SPACES FROM APP PASSWORD
+    sender_email_pwd = sender_email_pwd or creds.get("SMTP_PASSWORD", "").replace(" ", "")
     smtp_server = smtp_server or creds.get("SMTP_HOST")
     smtp_port = int(smtp_port or creds.get("SMTP_PORT", "465"))
     use_ssl = use_ssl if use_ssl is not None else creds.get("SMTP_USE_SSL", "true").lower() == "true"
 
     if not all([sender_email, sender_email_pwd, smtp_server]):
-        raise ValueError("Missing SMTP credentials in file or arguments.")
+        raise ValueError("Missing SMTP credentials.")
 
-    # --- Rest of the function (same as before) ---
     if isinstance(recipient_email, str):
         recipient_email = [recipient_email]
 
+    # Build Excel in memory
     excel_buffer = BytesIO()
     with pd.ExcelWriter(excel_buffer, engine="openpyxl") as writer:
         for sheet_name, df in df_dict.items():
             df.to_excel(writer, sheet_name=sheet_name, index=False)
     excel_buffer.seek(0)
 
+    # Compose email
     msg = EmailMessage()
     msg["Subject"] = subject
     msg["From"] = sender_email
@@ -87,6 +80,7 @@ def send_email_with_excel(
         filename=excel_fn,
     )
 
+    # Send
     context = ssl.create_default_context()
     try:
         if use_ssl:
@@ -105,6 +99,8 @@ def send_email_with_excel(
 
     print(f"Email with <{excel_fn}> sent to {recipient_email}")
 
+
+# --- Test ---
 if __name__ == "__main__":
     df_dict = {
         "Sales": pd.DataFrame({"Item": ["A", "B"], "Qty": [10, 20]}),
@@ -116,5 +112,4 @@ if __name__ == "__main__":
         recipient_email="ppsycho109@gmail.com",
         excel_fn="report.xlsx",
         subject="Monthly Report",
-        credentials_file="credentials.txt"  # default, can omit
     )

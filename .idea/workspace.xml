@@ -254,22 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00381" summary="call export call">
-      <option name="closed" value="true" />
-      <created>1762824521105</created>
-      <option name="number" value="00381" />
-      <option name="presentableId" value="LOCAL-00381" />
-      <option name="project" value="LOCAL" />
-      <updated>1762824521105</updated>
-    </task>
-    <task id="LOCAL-00382" summary="removed unused date">
-      <option name="closed" value="true" />
-      <created>1762825619603</created>
-      <option name="number" value="00382" />
-      <option name="presentableId" value="LOCAL-00382" />
-      <option name="project" value="LOCAL" />
-      <updated>1762825619603</updated>
-    </task>
     <task id="LOCAL-00383" summary="fixed date format to dd-mm-yyyy">
       <option name="closed" value="true" />
       <created>1762827181749</created>
@@ -646,7 +630,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762917137213</updated>
     </task>
-    <option name="localTasksCounter" value="430" />
+    <task id="LOCAL-00430" summary="encrypt password">
+      <option name="closed" value="true" />
+      <created>1762918043810</created>
+      <option name="number" value="00430" />
+      <option name="presentableId" value="LOCAL-00430" />
+      <option name="project" value="LOCAL" />
+      <updated>1762918043810</updated>
+    </task>
+    <task id="LOCAL-00431" summary="changed gmail">
+      <option name="closed" value="true" />
+      <created>1762918108835</created>
+      <option name="number" value="00431" />
+      <option name="presentableId" value="LOCAL-00431" />
+      <option name="project" value="LOCAL" />
+      <updated>1762918108835</updated>
+    </task>
+    <option name="localTasksCounter" value="432" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,8 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="reset back to originalformat" />
-    <MESSAGE value="changed export file name" />
     <MESSAGE value="added new file for preview export" />
     <MESSAGE value="connected export btn for preview export" />
     <MESSAGE value="removed unnecessary func call" />
@@ -703,7 +701,9 @@
     <MESSAGE value="changed imports" />
     <MESSAGE value="added credentials path" />
     <MESSAGE value="changed email host" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed email host" />
+    <MESSAGE value="encrypt password" />
+    <MESSAGE value="changed gmail" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed gmail" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
