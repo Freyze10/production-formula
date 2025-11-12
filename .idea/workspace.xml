@@ -254,22 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00388" summary="removed function date filter">
-      <option name="closed" value="true" />
-      <created>1762828086471</created>
-      <option name="number" value="00388" />
-      <option name="presentableId" value="LOCAL-00388" />
-      <option name="project" value="LOCAL" />
-      <updated>1762828086471</updated>
-    </task>
-    <task id="LOCAL-00389" summary="removed connection to function date filter">
-      <option name="closed" value="true" />
-      <created>1762828105571</created>
-      <option name="number" value="00389" />
-      <option name="presentableId" value="LOCAL-00389" />
-      <option name="project" value="LOCAL" />
-      <updated>1762828105571</updated>
-    </task>
     <task id="LOCAL-00390" summary="trying nw format">
       <option name="closed" value="true" />
       <created>1762832737405</created>
@@ -646,7 +630,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762927180230</updated>
     </task>
-    <option name="localTasksCounter" value="437" />
+    <task id="LOCAL-00437" summary="changed filename to default one">
+      <option name="closed" value="true" />
+      <created>1762927302555</created>
+      <option name="number" value="00437" />
+      <option name="presentableId" value="LOCAL-00437" />
+      <option name="project" value="LOCAL" />
+      <updated>1762927302555</updated>
+    </task>
+    <task id="LOCAL-00438" summary="lowercase file name">
+      <option name="closed" value="true" />
+      <created>1762927371993</created>
+      <option name="number" value="00438" />
+      <option name="presentableId" value="LOCAL-00438" />
+      <option name="project" value="LOCAL" />
+      <updated>1762927371993</updated>
+    </task>
+    <option name="localTasksCounter" value="439" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,8 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated download excel" />
-    <MESSAGE value="working styled export" />
     <MESSAGE value="modify excel alignment" />
     <MESSAGE value="added btn download design" />
     <MESSAGE value="adjustable table column width" />
@@ -703,7 +701,9 @@
     <MESSAGE value="changed excel header title" />
     <MESSAGE value="added new header for export" />
     <MESSAGE value="modified header font and alignment" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified header font and alignment" />
+    <MESSAGE value="changed filename to default one" />
+    <MESSAGE value="lowercase file name" />
+    <option name="LAST_COMMIT_MESSAGE" value="lowercase file name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

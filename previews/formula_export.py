@@ -222,6 +222,7 @@ class ExportPreviewDialog(QDialog):
 
                 # Apply border + center alignment to all used cells
                 center_align = Alignment(horizontal='center', vertical='center')
+                left_align = Alignment(horizontal='center', vertical='left')
 
                 for row in worksheet.iter_rows(
                         min_row=2, max_row=worksheet.max_row,
@@ -237,7 +238,7 @@ class ExportPreviewDialog(QDialog):
 
                 for cell in worksheet[1]:
                     cell.font = header_font
-                    # cell.alignment = center_align
+                    cell.alignment = left_align
 
                 # ---------- Auto-fit column widths ----------
                 for idx, col in enumerate(df.columns, 1):
