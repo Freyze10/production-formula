@@ -251,14 +251,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00369" summary="modifying material  font size">
-      <option name="closed" value="true" />
-      <created>1762590210997</created>
-      <option name="number" value="00369" />
-      <option name="presentableId" value="LOCAL-00369" />
-      <option name="project" value="LOCAL" />
-      <updated>1762590210997</updated>
-    </task>
     <task id="LOCAL-00370" summary="modifying material  font size">
       <option name="closed" value="true" />
       <created>1762590259562</created>
@@ -643,7 +635,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762908171117</updated>
     </task>
-    <option name="localTasksCounter" value="418" />
+    <task id="LOCAL-00418" summary="removed redundant import calls">
+      <option name="closed" value="true" />
+      <created>1762908248867</created>
+      <option name="number" value="00418" />
+      <option name="presentableId" value="LOCAL-00418" />
+      <option name="project" value="LOCAL" />
+      <updated>1762908248867</updated>
+    </task>
+    <option name="localTasksCounter" value="419" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -675,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed unused date" />
     <MESSAGE value="fixed date format to dd-mm-yyyy" />
     <MESSAGE value="removed constraints get formula" />
     <MESSAGE value="removed date parameter in caller" />
@@ -700,7 +699,8 @@
     <MESSAGE value="adjusted column width" />
     <MESSAGE value="modified preview column width" />
     <MESSAGE value="removed header bg color" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed header bg color" />
+    <MESSAGE value="removed redundant import calls" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed redundant import calls" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

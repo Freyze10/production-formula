@@ -89,7 +89,7 @@ class ExportPreviewDialog(QDialog):
         self.download_btn.clicked.connect(self.download_excel)
         button_layout.addWidget(self.download_btn)
 
-        cancel_btn = QPushButton("Cancel")
+        cancel_btn = QPushButton("Cancel", objectName="DangerButton")
         cancel_btn.clicked.connect(self.reject)
         button_layout.addWidget(cancel_btn)
 
