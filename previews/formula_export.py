@@ -182,7 +182,7 @@ class ExportPreviewDialog(QDialog):
         #     dt = self.date_to.toString("yyyy-MM-dd")
         #     default_filename = f"Prod_Formula {df}_to_{dt}.xlsx"
 
-        default_filename = f"Prod_Formula.xlsx"
+        default_filename = f"prod_formula.xlsx"
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Excel File",
