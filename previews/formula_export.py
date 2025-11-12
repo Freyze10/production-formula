@@ -193,9 +193,9 @@ class ExportPreviewDialog(QDialog):
 
         try:
             # ---------- Prepare DataFrame ----------
-            defaul_headers = ["F1_t_uid", "t_date", "t_customer", "T_prodcode", "t_matcode", "t_con", "F1_t_deleted"]
+            default_headers = ["F1_t_uid", "t_date", "t_customer", "T_prodcode", "t_matcode", "t_con", "F1_t_deleted"]
 
-            df = pd.DataFrame(self.filtered_data, columns=self.headers)
+            df = pd.DataFrame(self.filtered_data, columns=default_headers)
 
             # Convert "Con" column to numeric (remove commas, convert to float)
             con_col_idx = self.headers.index("Con")
@@ -232,11 +232,11 @@ class ExportPreviewDialog(QDialog):
                             cell.alignment = center_align
 
                 # Header row:
-                header_font = Font(bold=True)
+                header_font = Font(bold=False)
 
                 for cell in worksheet[1]:
                     cell.font = header_font
-                    cell.alignment = center_align
+                    # cell.alignment = center_align
 
                 # ---------- Auto-fit column widths ----------
                 for idx, col in enumerate(df.columns, 1):
