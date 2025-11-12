@@ -222,7 +222,7 @@ class ExportPreviewDialog(QDialog):
 
                 # Apply border + center alignment to all used cells
                 center_align = Alignment(horizontal='center', vertical='center')
-                left_align = Alignment(horizontal='center', vertical='left')
+                left_align = Alignment(horizontal='left', vertical='center')
 
                 for row in worksheet.iter_rows(
                         min_row=2, max_row=worksheet.max_row,
