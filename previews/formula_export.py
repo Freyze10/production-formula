@@ -18,7 +18,7 @@ class ExportPreviewDialog(QDialog):
         self.date_from = date_from
         self.date_to = date_to
         self.filtered_data = None
-        self.headers = ["F1_t_uid", "t_date", "t_customer", "t_prodcode", "t_matcode", "t_con", "F1_t_deleted"]
+        self.headers = ["uid", "Date", "Customer", "Product Code", "Mat Code", "Con", "Deleted"]
 
         self.setWindowTitle("Export Preview")
         self.setMinimumSize(900, 600)
