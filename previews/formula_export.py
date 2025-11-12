@@ -172,16 +172,17 @@ class ExportPreviewDialog(QDialog):
             return
 
         # ---------- Build filename ----------
-        selected_month = self.month_combo.currentData()
-        if selected_month:
-            year, month = selected_month
-            month_name = QDate(year, month, 1).toString("MMM")
-            default_filename = f"Prod_Formula {month_name}-{year}.xlsx"
-        else:
-            df = self.date_from.toString("yyyy-MM-dd")
-            dt = self.date_to.toString("yyyy-MM-dd")
-            default_filename = f"Prod_Formula {df}_to_{dt}.xlsx"
+        # selected_month = self.month_combo.currentData()
+        # if selected_month:
+        #     year, month = selected_month
+        #     month_name = QDate(year, month, 1).toString("MMM")
+        #     default_filename = f"Prod_Formula {month_name}-{year}.xlsx"
+        # else:
+        #     df = self.date_from.toString("yyyy-MM-dd")
+        #     dt = self.date_to.toString("yyyy-MM-dd")
+        #     default_filename = f"Prod_Formula {df}_to_{dt}.xlsx"
 
+        default_filename = f"Prod_Formula.xlsx"
         file_path, _ = QFileDialog.getSaveFileName(
             self,
             "Save Excel File",

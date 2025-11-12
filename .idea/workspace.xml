@@ -254,14 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00387" summary="replaced duplicate with _db">
-      <option name="closed" value="true" />
-      <created>1762827983952</created>
-      <option name="number" value="00387" />
-      <option name="presentableId" value="LOCAL-00387" />
-      <option name="project" value="LOCAL" />
-      <updated>1762827983952</updated>
-    </task>
     <task id="LOCAL-00388" summary="removed function date filter">
       <option name="closed" value="true" />
       <created>1762828086471</created>
@@ -646,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762926942892</updated>
     </task>
-    <option name="localTasksCounter" value="436" />
+    <task id="LOCAL-00436" summary="modified header font and alignment">
+      <option name="closed" value="true" />
+      <created>1762927180230</created>
+      <option name="number" value="00436" />
+      <option name="presentableId" value="LOCAL-00436" />
+      <option name="project" value="LOCAL" />
+      <updated>1762927180230</updated>
+    </task>
+    <option name="localTasksCounter" value="437" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified filter" />
     <MESSAGE value="updated download excel" />
     <MESSAGE value="working styled export" />
     <MESSAGE value="modify excel alignment" />
@@ -703,7 +702,8 @@
     <MESSAGE value="added send to email  btn" />
     <MESSAGE value="changed excel header title" />
     <MESSAGE value="added new header for export" />
-    <option name="LAST_COMMIT_MESSAGE" value="added new header for export" />
+    <MESSAGE value="modified header font and alignment" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified header font and alignment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
