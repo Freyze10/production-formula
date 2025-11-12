@@ -165,6 +165,14 @@ class ExportPreviewDialog(QDialog):
 
         self.info_label.setText(f"Showing {len(self.filtered_data)} records")
 
+    # TODO:
+    """
+        paghiwalayin yung download and generate ng excel file
+        idea: create ng temporary byte file ng .xlsx yung function for generation of excel file.
+        sstore yung byte file na yon sa isang variable once na i click yung export button
+        then gagamitin yung variable na yon to send email or download
+    """
+
     def download_excel(self):
         """Download filtered data to Excel with borders, number formatting, and auto-sized columns."""
         if not self.filtered_data:
