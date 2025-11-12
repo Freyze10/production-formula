@@ -95,7 +95,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.send_email (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -230,9 +230,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.send_email (1)" />
         <item itemvalue="Python.send_email" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.sync_formula (1)" />
       </list>
@@ -253,14 +253,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00383" summary="fixed date format to dd-mm-yyyy">
-      <option name="closed" value="true" />
-      <created>1762827181749</created>
-      <option name="number" value="00383" />
-      <option name="presentableId" value="LOCAL-00383" />
-      <option name="project" value="LOCAL" />
-      <updated>1762827181750</updated>
     </task>
     <task id="LOCAL-00384" summary="removed constraints get formula">
       <option name="closed" value="true" />
@@ -646,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762918108835</updated>
     </task>
-    <option name="localTasksCounter" value="432" />
+    <task id="LOCAL-00432" summary="updated credebtials">
+      <option name="closed" value="true" />
+      <created>1762918936936</created>
+      <option name="number" value="00432" />
+      <option name="presentableId" value="LOCAL-00432" />
+      <option name="project" value="LOCAL" />
+      <updated>1762918936936</updated>
+    </task>
+    <option name="localTasksCounter" value="433" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added new file for preview export" />
     <MESSAGE value="connected export btn for preview export" />
     <MESSAGE value="removed unnecessary func call" />
     <MESSAGE value="trying new preview for export" />
@@ -703,7 +702,8 @@
     <MESSAGE value="changed email host" />
     <MESSAGE value="encrypt password" />
     <MESSAGE value="changed gmail" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed gmail" />
+    <MESSAGE value="updated credebtials" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated credebtials" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

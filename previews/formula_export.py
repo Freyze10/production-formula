@@ -38,6 +38,11 @@ class ExportPreviewDialog(QDialog):
         filter_layout.addWidget(self.month_combo)
 
         filter_layout.addStretch()
+
+        email_btn = QPushButton("Send to Email", objectName="PrimaryButton")
+        # email_btn.clicked.connect(self.reject)
+        filter_layout.addWidget(email_btn)
+
         layout.addLayout(filter_layout)
 
         # Table preview
@@ -83,6 +88,7 @@ class ExportPreviewDialog(QDialog):
 
         # Buttons
         button_layout = QHBoxLayout()
+
         button_layout.addStretch()
 
         self.download_btn = QPushButton("Download Excel", objectName="SuccessButton")
