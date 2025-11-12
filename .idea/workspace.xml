@@ -252,30 +252,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00371" summary="modifying table size size">
-      <option name="closed" value="true" />
-      <created>1762590549917</created>
-      <option name="number" value="00371" />
-      <option name="presentableId" value="LOCAL-00371" />
-      <option name="project" value="LOCAL" />
-      <updated>1762590549917</updated>
-    </task>
-    <task id="LOCAL-00372" summary="modifying table size">
-      <option name="closed" value="true" />
-      <created>1762590890435</created>
-      <option name="number" value="00372" />
-      <option name="presentableId" value="LOCAL-00372" />
-      <option name="project" value="LOCAL" />
-      <updated>1762590890435</updated>
-    </task>
-    <task id="LOCAL-00373" summary="changed header format and font size">
-      <option name="closed" value="true" />
-      <created>1762591226377</created>
-      <option name="number" value="00373" />
-      <option name="presentableId" value="LOCAL-00373" />
-      <option name="project" value="LOCAL" />
-      <updated>1762591226377</updated>
-    </task>
     <task id="LOCAL-00374" summary="updated table sizing and padding">
       <option name="closed" value="true" />
       <created>1762591477179</created>
@@ -644,7 +620,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762914285059</updated>
     </task>
-    <option name="localTasksCounter" value="420" />
+    <task id="LOCAL-00420" summary="added sent to email">
+      <option name="closed" value="true" />
+      <created>1762916301167</created>
+      <option name="number" value="00420" />
+      <option name="presentableId" value="LOCAL-00420" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916301167</updated>
+    </task>
+    <task id="LOCAL-00421" summary="added sent to email">
+      <option name="closed" value="true" />
+      <created>1762916309838</created>
+      <option name="number" value="00421" />
+      <option name="presentableId" value="LOCAL-00421" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916309838</updated>
+    </task>
+    <task id="LOCAL-00422" summary="changed the credentials loc">
+      <option name="closed" value="true" />
+      <created>1762916375123</created>
+      <option name="number" value="00422" />
+      <option name="presentableId" value="LOCAL-00422" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916375123</updated>
+    </task>
+    <option name="localTasksCounter" value="423" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed constraints get formula" />
-    <MESSAGE value="removed date parameter in caller" />
     <MESSAGE value="removed initial call dup" />
     <MESSAGE value="replaced duplicate with _db" />
     <MESSAGE value="removed function date filter" />
@@ -701,7 +699,9 @@
     <MESSAGE value="removed header bg color" />
     <MESSAGE value="removed redundant import calls" />
     <MESSAGE value="changed cancel color button" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed cancel color button" />
+    <MESSAGE value="added sent to email" />
+    <MESSAGE value="changed the credentials loc" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the credentials loc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
