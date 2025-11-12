@@ -228,11 +228,9 @@ class ExportPreviewDialog(QDialog):
                 # Header row: bold + background
                 from openpyxl.styles import Font, PatternFill
                 header_font = Font(bold=True)
-                header_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
 
                 for cell in worksheet[1]:
                     cell.font = header_font
-                    cell.fill = header_fill
                     cell.alignment = center_align
 
                 # ---------- Auto-fit column widths ----------
