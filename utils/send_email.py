@@ -1,5 +1,5 @@
 import pandas as pd
-from email.message import EmailMessage
+from send_email.message import EmailMessage
 from io import BytesIO
 import smtplib
 import ssl
