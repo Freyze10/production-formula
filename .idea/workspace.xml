@@ -93,29 +93,7 @@
       <recent name="D:\Users\Administrator\PycharmProjects\FG-INV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.email">
-    <configuration name="email" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FG-INV" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/email.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.send_email">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FG-INV" />
       <option name="ENV_FILES" value="" />
@@ -130,6 +108,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="send_email" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FG-INV" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils\send_email.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -228,7 +228,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.email" />
+        <item itemvalue="Python.send_email" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.view_production_manual" />
         <item itemvalue="Python.sync_formula (1)" />
@@ -251,38 +251,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00374" summary="updated table sizing and padding">
-      <option name="closed" value="true" />
-      <created>1762591477179</created>
-      <option name="number" value="00374" />
-      <option name="presentableId" value="LOCAL-00374" />
-      <option name="project" value="LOCAL" />
-      <updated>1762591477179</updated>
-    </task>
-    <task id="LOCAL-00375" summary="updated note row">
-      <option name="closed" value="true" />
-      <created>1762591566508</created>
-      <option name="number" value="00375" />
-      <option name="presentableId" value="LOCAL-00375" />
-      <option name="project" value="LOCAL" />
-      <updated>1762591566508</updated>
-    </task>
-    <task id="LOCAL-00376" summary="updated last group sizing">
-      <option name="closed" value="true" />
-      <created>1762591756886</created>
-      <option name="number" value="00376" />
-      <option name="presentableId" value="LOCAL-00376" />
-      <option name="project" value="LOCAL" />
-      <updated>1762591756886</updated>
-    </task>
-    <task id="LOCAL-00377" summary="updated last group sizing">
-      <option name="closed" value="true" />
-      <created>1762591848431</created>
-      <option name="number" value="00377" />
-      <option name="presentableId" value="LOCAL-00377" />
-      <option name="project" value="LOCAL" />
-      <updated>1762591848431</updated>
     </task>
     <task id="LOCAL-00378" summary="added export datas on db_call">
       <option name="closed" value="true" />
@@ -644,7 +612,39 @@
       <option name="project" value="LOCAL" />
       <updated>1762916375123</updated>
     </task>
-    <option name="localTasksCounter" value="423" />
+    <task id="LOCAL-00423" summary="added credentials.txt">
+      <option name="closed" value="true" />
+      <created>1762916465253</created>
+      <option name="number" value="00423" />
+      <option name="presentableId" value="LOCAL-00423" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916465253</updated>
+    </task>
+    <task id="LOCAL-00424" summary="added credentials.txt">
+      <option name="closed" value="true" />
+      <created>1762916469797</created>
+      <option name="number" value="00424" />
+      <option name="presentableId" value="LOCAL-00424" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916469797</updated>
+    </task>
+    <task id="LOCAL-00425" summary="refactored email.py name">
+      <option name="closed" value="true" />
+      <created>1762916663413</created>
+      <option name="number" value="00425" />
+      <option name="presentableId" value="LOCAL-00425" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916663413</updated>
+    </task>
+    <task id="LOCAL-00426" summary="refactored email.py name">
+      <option name="closed" value="true" />
+      <created>1762916668592</created>
+      <option name="number" value="00426" />
+      <option name="presentableId" value="LOCAL-00426" />
+      <option name="project" value="LOCAL" />
+      <updated>1762916668592</updated>
+    </task>
+    <option name="localTasksCounter" value="427" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -676,8 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed initial call dup" />
-    <MESSAGE value="replaced duplicate with _db" />
     <MESSAGE value="removed function date filter" />
     <MESSAGE value="removed connection to function date filter" />
     <MESSAGE value="trying nw format" />
@@ -701,7 +699,9 @@
     <MESSAGE value="changed cancel color button" />
     <MESSAGE value="added sent to email" />
     <MESSAGE value="changed the credentials loc" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the credentials loc" />
+    <MESSAGE value="added credentials.txt" />
+    <MESSAGE value="refactored email.py name" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored email.py name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
