@@ -254,14 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00380" summary="chaged date init">
-      <option name="closed" value="true" />
-      <created>1762824452774</created>
-      <option name="number" value="00380" />
-      <option name="presentableId" value="LOCAL-00380" />
-      <option name="project" value="LOCAL" />
-      <updated>1762824452774</updated>
-    </task>
     <task id="LOCAL-00381" summary="call export call">
       <option name="closed" value="true" />
       <created>1762824521105</created>
@@ -646,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762916936777</updated>
     </task>
-    <option name="localTasksCounter" value="429" />
+    <task id="LOCAL-00429" summary="changed email host">
+      <option name="closed" value="true" />
+      <created>1762917137213</created>
+      <option name="number" value="00429" />
+      <option name="presentableId" value="LOCAL-00429" />
+      <option name="project" value="LOCAL" />
+      <updated>1762917137213</updated>
+    </task>
+    <option name="localTasksCounter" value="430" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="trying nw format" />
     <MESSAGE value="reset back to originalformat" />
     <MESSAGE value="changed export file name" />
     <MESSAGE value="added new file for preview export" />
@@ -703,7 +702,8 @@
     <MESSAGE value="refactored email.py name" />
     <MESSAGE value="changed imports" />
     <MESSAGE value="added credentials path" />
-    <option name="LAST_COMMIT_MESSAGE" value="added credentials path" />
+    <MESSAGE value="changed email host" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed email host" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
