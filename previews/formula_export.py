@@ -193,6 +193,8 @@ class ExportPreviewDialog(QDialog):
 
         try:
             # ---------- Prepare DataFrame ----------
+            defaul_headers = ["F1_t_uid", "t_date", "t_customer", "T_prodcode", "t_matcode", "t_con", "F1_t_deleted"]
+
             df = pd.DataFrame(self.filtered_data, columns=self.headers)
 
             # Convert "Con" column to numeric (remove commas, convert to float)
