@@ -8,7 +8,6 @@ import pandas as pd
 from datetime import datetime
 
 from openpyxl.styles import Side, Border, Alignment, PatternFill, Font
-
 from db import db_call
 
 
@@ -204,7 +203,7 @@ class ExportPreviewDialog(QDialog):
                 worksheet = writer.sheets['Formulas']
 
                 # Define border style
-                from openpyxl.styles import Border, Side
+
                 thin_border = Border(
                     left=Side(style='thin'),
                     right=Side(style='thin'),
@@ -213,7 +212,6 @@ class ExportPreviewDialog(QDialog):
                 )
 
                 # Apply border + center alignment to all used cells
-                from openpyxl.styles import Alignment
                 center_align = Alignment(horizontal='center', vertical='center')
 
                 for row in worksheet.iter_rows(
@@ -225,8 +223,7 @@ class ExportPreviewDialog(QDialog):
                         if cell == 6:
                             cell.alignment = center_align
 
-                # Header row: bold + background
-                from openpyxl.styles import Font, PatternFill
+                # Header row:
                 header_font = Font(bold=True)
 
                 for cell in worksheet[1]:
