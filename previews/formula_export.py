@@ -41,7 +41,7 @@ class ExportPreviewDialog(QDialog):
 
         email_btn = QPushButton("Send to Email", objectName="PrimaryButton")
         # email_btn.clicked.connect(self.reject)
-        filter_layout.addWidget(email_btn)
+        # filter_layout.addWidget(email_btn)
 
         layout.addLayout(filter_layout)
 
