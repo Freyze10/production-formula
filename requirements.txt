@@ -33,25 +33,3 @@ openpyxl==3.1.2
 # python-dotenv is used to load environment variables from a .env file,
 # which stores sensitive configuration like database credentials.
 python-dotenv==1.0.1
-
-# =============================================================================
-# DATABASE DRIVER - IMPORTANT!
-#
-# The application requires a specific database driver to connect via SQLAlchemy.
-# The driver you need depends on the database server you are using (e.g.,
-# Microsoft SQL Server, PostgreSQL, MySQL).
-#
-# ** UNCOMMENT ONLY ONE of the lines below that matches your DB_DRIVER
-# ** setting in the .env file.
-# =============================================================================
-
-# For Microsoft SQL Server (a common choice for Windows desktop apps)
-# This requires the ODBC Driver for SQL Server to be installed on the system.
-# pyodbc==5.1.0
-
-# For PostgreSQL
-# psycopg2-binary==2.9.9
-
-# For MySQL
-# PyMySQL==1.1.0
-# mysql-connector-python==8.4.0
