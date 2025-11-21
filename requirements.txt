@@ -33,3 +33,5 @@ openpyxl==3.1.2
 # python-dotenv is used to load environment variables from a .env file,
 # which stores sensitive configuration like database credentials.
 python-dotenv==1.0.1
+dbfread==2.0.7
+reportlab==4.4.5

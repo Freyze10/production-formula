@@ -254,14 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00398" summary="trying new preview for export">
-      <option name="closed" value="true" />
-      <created>1762844262888</created>
-      <option name="number" value="00398" />
-      <option name="presentableId" value="LOCAL-00398" />
-      <option name="project" value="LOCAL" />
-      <updated>1762844262888</updated>
-    </task>
     <task id="LOCAL-00399" summary="trying new preview for export">
       <option name="closed" value="true" />
       <created>1762844928554</created>
@@ -646,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762938514702</updated>
     </task>
-    <option name="localTasksCounter" value="447" />
+    <task id="LOCAL-00447" summary="edited requirements">
+      <option name="closed" value="true" />
+      <created>1763715050838</created>
+      <option name="number" value="00447" />
+      <option name="presentableId" value="LOCAL-00447" />
+      <option name="project" value="LOCAL" />
+      <updated>1763715050838</updated>
+    </task>
+    <option name="localTasksCounter" value="448" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed redundant import calls" />
     <MESSAGE value="changed cancel color button" />
     <MESSAGE value="added sent to email" />
     <MESSAGE value="changed the credentials loc" />
@@ -703,7 +702,8 @@
     <MESSAGE value="revert back to original" />
     <MESSAGE value="creaated todo notes" />
     <MESSAGE value="added credentials to ignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="added credentials to ignore" />
+    <MESSAGE value="edited requirements" />
+    <option name="LAST_COMMIT_MESSAGE" value="edited requirements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
