@@ -254,30 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00411" summary="adjusting column width">
-      <option name="closed" value="true" />
-      <created>1762851233513</created>
-      <option name="number" value="00411" />
-      <option name="presentableId" value="LOCAL-00411" />
-      <option name="project" value="LOCAL" />
-      <updated>1762851233513</updated>
-    </task>
-    <task id="LOCAL-00412" summary="adjusting column width">
-      <option name="closed" value="true" />
-      <created>1762851379794</created>
-      <option name="number" value="00412" />
-      <option name="presentableId" value="LOCAL-00412" />
-      <option name="project" value="LOCAL" />
-      <updated>1762851379795</updated>
-    </task>
-    <task id="LOCAL-00413" summary="adjusting column width">
-      <option name="closed" value="true" />
-      <created>1762851510244</created>
-      <option name="number" value="00413" />
-      <option name="presentableId" value="LOCAL-00413" />
-      <option name="project" value="LOCAL" />
-      <updated>1762851510244</updated>
-    </task>
     <task id="LOCAL-00414" summary="adjusting column width">
       <option name="closed" value="true" />
       <created>1762851693414</created>
@@ -646,7 +622,31 @@
       <option name="project" value="LOCAL" />
       <updated>1764992469001</updated>
     </task>
-    <option name="localTasksCounter" value="460" />
+    <task id="LOCAL-00460" summary="added calendar design on the date_matched">
+      <option name="closed" value="true" />
+      <created>1764992563435</created>
+      <option name="number" value="00460" />
+      <option name="presentableId" value="LOCAL-00460" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992563435</updated>
+    </task>
+    <task id="LOCAL-00461" summary="added calendar design on the date from prod">
+      <option name="closed" value="true" />
+      <created>1764992607073</created>
+      <option name="number" value="00461" />
+      <option name="presentableId" value="LOCAL-00461" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992607073</updated>
+    </task>
+    <task id="LOCAL-00462" summary="added calendar design on the date to prod">
+      <option name="closed" value="true" />
+      <created>1764992628737</created>
+      <option name="number" value="00462" />
+      <option name="presentableId" value="LOCAL-00462" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992628737</updated>
+    </task>
+    <option name="localTasksCounter" value="463" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,9 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added send to email  btn" />
-    <MESSAGE value="changed excel header title" />
-    <MESSAGE value="added new header for export" />
     <MESSAGE value="modified header font and alignment" />
     <MESSAGE value="changed filename to default one" />
     <MESSAGE value="lowercase file name" />
@@ -703,7 +700,10 @@
     <MESSAGE value="added min width for the calendar spinbox" />
     <MESSAGE value="set 40 px on the year spinbox" />
     <MESSAGE value="set 50 px on the year spinbox" />
-    <option name="LAST_COMMIT_MESSAGE" value="set 50 px on the year spinbox" />
+    <MESSAGE value="added calendar design on the date_matched" />
+    <MESSAGE value="added calendar design on the date from prod" />
+    <MESSAGE value="added calendar design on the date to prod" />
+    <option name="LAST_COMMIT_MESSAGE" value="added calendar design on the date to prod" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -720,12 +720,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
-          <line>347</line>
+          <line>350</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
-          <line>1241</line>
+          <line>1244</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

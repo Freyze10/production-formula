@@ -320,6 +320,7 @@ class ProductionManagementPage(QWidget):
 
         self.production_date_input = QDateEdit()
         self.production_date_input.setCalendarPopup(True)
+        self.production_date_input.setStyleSheet(calendar_design.STYLESHEET)
         self.production_date_input.setDate(QDate.currentDate())
         self.production_date_input.setDisplayFormat("MM/dd/yyyy")
         self.production_date_input.setStyleSheet("background-color: #fff9c4;")
