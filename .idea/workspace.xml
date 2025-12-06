@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00416" summary="modified preview column width">
-      <option name="closed" value="true" />
-      <created>1762907737692</created>
-      <option name="number" value="00416" />
-      <option name="presentableId" value="LOCAL-00416" />
-      <option name="project" value="LOCAL" />
-      <updated>1762907737692</updated>
-    </task>
     <task id="LOCAL-00417" summary="removed header bg color">
       <option name="closed" value="true" />
       <created>1762908171117</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764992831038</updated>
     </task>
-    <option name="localTasksCounter" value="465" />
+    <task id="LOCAL-00465" summary="added calendar design on audit trail end date">
+      <option name="closed" value="true" />
+      <created>1764992850518</created>
+      <option name="number" value="00465" />
+      <option name="presentableId" value="LOCAL-00465" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992850518</updated>
+    </task>
+    <option name="localTasksCounter" value="466" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="lowercase file name" />
     <MESSAGE value="left align header" />
     <MESSAGE value="modified left alignment" />
     <MESSAGE value="Aadded excel to bytes" />
@@ -682,14 +681,15 @@
     <MESSAGE value="added calendar design on the date to prod" />
     <MESSAGE value="added calendar design on the prod date input" />
     <MESSAGE value="added calendar design on audit trail start date" />
-    <option name="LAST_COMMIT_MESSAGE" value="added calendar design on audit trail start date" />
+    <MESSAGE value="added calendar design on audit trail end date" />
+    <option name="LAST_COMMIT_MESSAGE" value="added calendar design on audit trail end date" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>751</line>
+          <line>758</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

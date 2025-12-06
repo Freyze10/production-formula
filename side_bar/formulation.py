@@ -674,6 +674,11 @@ class FormulationManagementPage(QWidget):
 
     def export_to_excel(self):
         """Export the formulation table to an Excel file with preview."""
+        # Show loading dialog
+        loading = StaticLoadingDialog(self)
+        loading.show()
+        QApplication.processEvents()  # make dialog visible immediately
+
         try:
             date_from = self.date_from_filter.date().toPyDate()
             date_to = self.date_to_filter.date().toPyDate()
@@ -683,7 +688,9 @@ class FormulationManagementPage(QWidget):
             dialog.exec()
         except Exception as e:
             print(e)
-
+        finally:
+            # Close loading dialog
+            loading.accept()
 
     def btn_refresh_clicked(self):
         self.set_date_range_or_no_data()
