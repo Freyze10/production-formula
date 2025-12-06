@@ -254,22 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00403" summary="modified filter">
-      <option name="closed" value="true" />
-      <created>1762847203600</created>
-      <option name="number" value="00403" />
-      <option name="presentableId" value="LOCAL-00403" />
-      <option name="project" value="LOCAL" />
-      <updated>1762847203600</updated>
-    </task>
-    <task id="LOCAL-00404" summary="updated download excel">
-      <option name="closed" value="true" />
-      <created>1762847217529</created>
-      <option name="number" value="00404" />
-      <option name="presentableId" value="LOCAL-00404" />
-      <option name="project" value="LOCAL" />
-      <updated>1762847217529</updated>
-    </task>
     <task id="LOCAL-00405" summary="updated download excel">
       <option name="closed" value="true" />
       <created>1762849133608</created>
@@ -646,7 +630,23 @@
       <option name="project" value="LOCAL" />
       <updated>1764989885725</updated>
     </task>
-    <option name="localTasksCounter" value="452" />
+    <task id="LOCAL-00452" summary="updated calendar design">
+      <option name="closed" value="true" />
+      <created>1764990844344</created>
+      <option name="number" value="00452" />
+      <option name="presentableId" value="LOCAL-00452" />
+      <option name="project" value="LOCAL" />
+      <updated>1764990844344</updated>
+    </task>
+    <task id="LOCAL-00453" summary="returned the calendar design">
+      <option name="closed" value="true" />
+      <created>1764990957749</created>
+      <option name="number" value="00453" />
+      <option name="presentableId" value="LOCAL-00453" />
+      <option name="project" value="LOCAL" />
+      <updated>1764990957749</updated>
+    </task>
+    <option name="localTasksCounter" value="454" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,8 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added credentials.txt" />
-    <MESSAGE value="refactored email.py name" />
     <MESSAGE value="changed imports" />
     <MESSAGE value="added credentials path" />
     <MESSAGE value="changed email host" />
@@ -703,7 +701,9 @@
     <MESSAGE value="adding send to email" />
     <MESSAGE value="added calendar design to date from" />
     <MESSAGE value="added calendar design to date to" />
-    <option name="LAST_COMMIT_MESSAGE" value="added calendar design to date to" />
+    <MESSAGE value="updated calendar design" />
+    <MESSAGE value="returned the calendar design" />
+    <option name="LAST_COMMIT_MESSAGE" value="returned the calendar design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

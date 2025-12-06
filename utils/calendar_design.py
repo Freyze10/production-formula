@@ -16,6 +16,7 @@ QCalendarWidget QWidget#qt_calendar_navigationbar {
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
     height: 48px; /* Slightly taller for better touch/click area */
+    minn-width: 150px;
     padding: 5px;
 }
 
