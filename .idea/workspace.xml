@@ -254,30 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00405" summary="updated download excel">
-      <option name="closed" value="true" />
-      <created>1762849133608</created>
-      <option name="number" value="00405" />
-      <option name="presentableId" value="LOCAL-00405" />
-      <option name="project" value="LOCAL" />
-      <updated>1762849133608</updated>
-    </task>
-    <task id="LOCAL-00406" summary="updated download excel">
-      <option name="closed" value="true" />
-      <created>1762849180645</created>
-      <option name="number" value="00406" />
-      <option name="presentableId" value="LOCAL-00406" />
-      <option name="project" value="LOCAL" />
-      <updated>1762849180645</updated>
-    </task>
-    <task id="LOCAL-00407" summary="working styled export">
-      <option name="closed" value="true" />
-      <created>1762849716571</created>
-      <option name="number" value="00407" />
-      <option name="presentableId" value="LOCAL-00407" />
-      <option name="project" value="LOCAL" />
-      <updated>1762849716571</updated>
-    </task>
     <task id="LOCAL-00408" summary="modify excel alignment">
       <option name="closed" value="true" />
       <created>1762849960338</created>
@@ -646,7 +622,31 @@
       <option name="project" value="LOCAL" />
       <updated>1764990957749</updated>
     </task>
-    <option name="localTasksCounter" value="454" />
+    <task id="LOCAL-00454" summary="modifying calendar inpuut design">
+      <option name="closed" value="true" />
+      <created>1764991459145</created>
+      <option name="number" value="00454" />
+      <option name="presentableId" value="LOCAL-00454" />
+      <option name="project" value="LOCAL" />
+      <updated>1764991459145</updated>
+    </task>
+    <task id="LOCAL-00455" summary="fixed min width typo">
+      <option name="closed" value="true" />
+      <created>1764991468885</created>
+      <option name="number" value="00455" />
+      <option name="presentableId" value="LOCAL-00455" />
+      <option name="project" value="LOCAL" />
+      <updated>1764991468885</updated>
+    </task>
+    <task id="LOCAL-00456" summary="removed  min-width">
+      <option name="closed" value="true" />
+      <created>1764991537408</created>
+      <option name="number" value="00456" />
+      <option name="presentableId" value="LOCAL-00456" />
+      <option name="project" value="LOCAL" />
+      <updated>1764991537408</updated>
+    </task>
+    <option name="localTasksCounter" value="457" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,9 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed imports" />
-    <MESSAGE value="added credentials path" />
-    <MESSAGE value="changed email host" />
     <MESSAGE value="encrypt password" />
     <MESSAGE value="changed gmail" />
     <MESSAGE value="updated credebtials" />
@@ -703,7 +700,10 @@
     <MESSAGE value="added calendar design to date to" />
     <MESSAGE value="updated calendar design" />
     <MESSAGE value="returned the calendar design" />
-    <option name="LAST_COMMIT_MESSAGE" value="returned the calendar design" />
+    <MESSAGE value="modifying calendar inpuut design" />
+    <MESSAGE value="fixed min width typo" />
+    <MESSAGE value="removed  min-width" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed  min-width" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

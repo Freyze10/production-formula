@@ -18,6 +18,10 @@ QCalendarWidget QWidget#qt_calendar_navigationbar {
     height: 48px; /* Slightly taller for better touch/click area */
     padding: 5px;
 }
+QCalendarWidget QWidget#qt_calendar_navigationbar QSpinBox {
+    min-width: 60px;        /* or 70px if you want wider */
+    padding-right: 18px;    /* space for arrow buttons */
+}
 
 /* Navigation buttons (Previous/Next) */
 QCalendarWidget QAbstractButton {
