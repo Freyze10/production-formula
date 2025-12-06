@@ -364,6 +364,7 @@ class FormulationManagementPage(QWidget):
         # Date Matched
         self.date_matched_input = QDateEdit()
         self.date_matched_input.setCalendarPopup(True)
+        self.date_matched_input.setStyleSheet(calendar_design.STYLESHEET)
         self.date_matched_input.setDisplayFormat("MM/dd/yyyy")
         formula_layout.addRow("Date Matched:", self.date_matched_input)
 

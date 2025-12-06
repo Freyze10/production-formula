@@ -254,30 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00408" summary="modify excel alignment">
-      <option name="closed" value="true" />
-      <created>1762849960338</created>
-      <option name="number" value="00408" />
-      <option name="presentableId" value="LOCAL-00408" />
-      <option name="project" value="LOCAL" />
-      <updated>1762849960338</updated>
-    </task>
-    <task id="LOCAL-00409" summary="added btn download design">
-      <option name="closed" value="true" />
-      <created>1762850667080</created>
-      <option name="number" value="00409" />
-      <option name="presentableId" value="LOCAL-00409" />
-      <option name="project" value="LOCAL" />
-      <updated>1762850667080</updated>
-    </task>
-    <task id="LOCAL-00410" summary="adjustable table column width">
-      <option name="closed" value="true" />
-      <created>1762850975819</created>
-      <option name="number" value="00410" />
-      <option name="presentableId" value="LOCAL-00410" />
-      <option name="project" value="LOCAL" />
-      <updated>1762850975819</updated>
-    </task>
     <task id="LOCAL-00411" summary="adjusting column width">
       <option name="closed" value="true" />
       <created>1762851233513</created>
@@ -646,7 +622,31 @@
       <option name="project" value="LOCAL" />
       <updated>1764991537408</updated>
     </task>
-    <option name="localTasksCounter" value="457" />
+    <task id="LOCAL-00457" summary="added min width for the calendar spinbox">
+      <option name="closed" value="true" />
+      <created>1764992414327</created>
+      <option name="number" value="00457" />
+      <option name="presentableId" value="LOCAL-00457" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992414327</updated>
+    </task>
+    <task id="LOCAL-00458" summary="set 40 px on the year spinbox">
+      <option name="closed" value="true" />
+      <created>1764992438809</created>
+      <option name="number" value="00458" />
+      <option name="presentableId" value="LOCAL-00458" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992438809</updated>
+    </task>
+    <task id="LOCAL-00459" summary="set 50 px on the year spinbox">
+      <option name="closed" value="true" />
+      <created>1764992469001</created>
+      <option name="number" value="00459" />
+      <option name="presentableId" value="LOCAL-00459" />
+      <option name="project" value="LOCAL" />
+      <updated>1764992469001</updated>
+    </task>
+    <option name="localTasksCounter" value="460" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,9 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="encrypt password" />
-    <MESSAGE value="changed gmail" />
-    <MESSAGE value="updated credebtials" />
     <MESSAGE value="added send to email  btn" />
     <MESSAGE value="changed excel header title" />
     <MESSAGE value="added new header for export" />
@@ -703,14 +700,17 @@
     <MESSAGE value="modifying calendar inpuut design" />
     <MESSAGE value="fixed min width typo" />
     <MESSAGE value="removed  min-width" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed  min-width" />
+    <MESSAGE value="added min width for the calendar spinbox" />
+    <MESSAGE value="set 40 px on the year spinbox" />
+    <MESSAGE value="set 50 px on the year spinbox" />
+    <option name="LAST_COMMIT_MESSAGE" value="set 50 px on the year spinbox" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>750</line>
+          <line>751</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
