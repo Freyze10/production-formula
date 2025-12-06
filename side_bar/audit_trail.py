@@ -89,6 +89,7 @@ class AuditTrailPage(QWidget):
 
         self.end_date_edit = QDateEdit(calendarPopup=True, displayFormat="yyyy-MM-dd")
         self.end_date_edit.setMinimumWidth(140)
+        self.end_date_edit.setStyleSheet(calendar_design.STYLESHEET)
         date_hlayout.addWidget(self.end_date_edit)
         date_hlayout.addStretch()
 
