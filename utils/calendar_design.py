@@ -19,7 +19,7 @@ QCalendarWidget QWidget#qt_calendar_navigationbar {
     padding: 5px;
 }
 QCalendarWidget QWidget#qt_calendar_navigationbar QSpinBox {
-    min-width: 40px;        
+    min-width: 50px;        
     padding-right: 18px; 
 }
 
