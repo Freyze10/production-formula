@@ -254,14 +254,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00402" summary="modified filter">
-      <option name="closed" value="true" />
-      <created>1762846841946</created>
-      <option name="number" value="00402" />
-      <option name="presentableId" value="LOCAL-00402" />
-      <option name="project" value="LOCAL" />
-      <updated>1762846841946</updated>
-    </task>
     <task id="LOCAL-00403" summary="modified filter">
       <option name="closed" value="true" />
       <created>1762847203600</created>
@@ -646,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764989867388</updated>
     </task>
-    <option name="localTasksCounter" value="451" />
+    <task id="LOCAL-00451" summary="added calendar design to date to">
+      <option name="closed" value="true" />
+      <created>1764989885725</created>
+      <option name="number" value="00451" />
+      <option name="presentableId" value="LOCAL-00451" />
+      <option name="project" value="LOCAL" />
+      <updated>1764989885725</updated>
+    </task>
+    <option name="localTasksCounter" value="452" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed the credentials loc" />
     <MESSAGE value="added credentials.txt" />
     <MESSAGE value="refactored email.py name" />
     <MESSAGE value="changed imports" />
@@ -703,7 +702,8 @@
     <MESSAGE value="edited requirements" />
     <MESSAGE value="adding send to email" />
     <MESSAGE value="added calendar design to date from" />
-    <option name="LAST_COMMIT_MESSAGE" value="added calendar design to date from" />
+    <MESSAGE value="added calendar design to date to" />
+    <option name="LAST_COMMIT_MESSAGE" value="added calendar design to date to" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
