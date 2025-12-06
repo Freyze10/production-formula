@@ -223,6 +223,7 @@ class FormulationManagementPage(QWidget):
         controls_layout.addWidget(date_to_label)
         self.date_to_filter = QDateEdit()
         self.date_to_filter.setCalendarPopup(True)
+        self.date_to_filter.setStyleSheet(calendar_design.STYLESHEET)
         controls_layout.addWidget(self.date_to_filter)
 
         self.export_btn = QPushButton("Export", objectName="SecondaryButton")
