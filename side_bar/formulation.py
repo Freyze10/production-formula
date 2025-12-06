@@ -18,7 +18,7 @@ from utils.debounce import finished_typing
 from utils.field_format import format_to_float, formula_mixing_time
 from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
-from utils import global_var
+from utils import global_var, calendar_design
 
 
 # Custom QTableWidgetItem for numerical sorting
@@ -216,6 +216,7 @@ class FormulationManagementPage(QWidget):
         controls_layout.addWidget(date_from_label)
         self.date_from_filter = QDateEdit()
         self.date_from_filter.setCalendarPopup(True)
+        self.date_from_filter.setStyleSheet(calendar_design.STYLESHEET)
         controls_layout.addWidget(self.date_from_filter)
 
         date_to_label = QLabel("Date To:")

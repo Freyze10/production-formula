@@ -51,37 +51,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.email.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
-    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.send_email (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.send_email.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
-    &quot;Python.view.executor&quot;: &quot;Run&quot;,
-    &quot;Python.view_production_manual.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/FG-INV&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.dfr.executor": "Run",
+    "Python.email.executor": "Run",
+    "Python.fg_endorsement.executor": "Run",
+    "Python.fgendorsement.executor": "Run",
+    "Python.fgmain.executor": "Run",
+    "Python.formulation (1).executor": "Debug",
+    "Python.formulation.executor": "Run",
+    "Python.main-2.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.send_email (1).executor": "Run",
+    "Python.send_email.executor": "Run",
+    "Python.sync-formula.executor": "Run",
+    "Python.sync_formula (1).executor": "Run",
+    "Python.sync_formula.executor": "Run",
+    "Python.view.executor": "Run",
+    "Python.view_production_manual.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File",
+    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;module&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
@@ -253,22 +253,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00399" summary="trying new preview for export">
-      <option name="closed" value="true" />
-      <created>1762844928554</created>
-      <option name="number" value="00399" />
-      <option name="presentableId" value="LOCAL-00399" />
-      <option name="project" value="LOCAL" />
-      <updated>1762844928554</updated>
-    </task>
-    <task id="LOCAL-00400" summary="trying new preview for export">
-      <option name="closed" value="true" />
-      <created>1762845312448</created>
-      <option name="number" value="00400" />
-      <option name="presentableId" value="LOCAL-00400" />
-      <option name="project" value="LOCAL" />
-      <updated>1762845312448</updated>
     </task>
     <task id="LOCAL-00401" summary="trying new preview for export">
       <option name="closed" value="true" />
@@ -646,7 +630,23 @@
       <option name="project" value="LOCAL" />
       <updated>1763715050838</updated>
     </task>
-    <option name="localTasksCounter" value="448" />
+    <task id="LOCAL-00448" summary="edited requirements">
+      <option name="closed" value="true" />
+      <created>1763715508344</created>
+      <option name="number" value="00448" />
+      <option name="presentableId" value="LOCAL-00448" />
+      <option name="project" value="LOCAL" />
+      <updated>1763715508344</updated>
+    </task>
+    <task id="LOCAL-00449" summary="adding send to email">
+      <option name="closed" value="true" />
+      <created>1763715524342</created>
+      <option name="number" value="00449" />
+      <option name="presentableId" value="LOCAL-00449" />
+      <option name="project" value="LOCAL" />
+      <updated>1763715524342</updated>
+    </task>
+    <option name="localTasksCounter" value="450" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -678,7 +678,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed cancel color button" />
     <MESSAGE value="added sent to email" />
     <MESSAGE value="changed the credentials loc" />
     <MESSAGE value="added credentials.txt" />
@@ -703,14 +702,15 @@
     <MESSAGE value="creaated todo notes" />
     <MESSAGE value="added credentials to ignore" />
     <MESSAGE value="edited requirements" />
-    <option name="LAST_COMMIT_MESSAGE" value="edited requirements" />
+    <MESSAGE value="adding send to email" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding send to email" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>748</line>
+          <line>749</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
