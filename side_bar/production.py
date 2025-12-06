@@ -193,6 +193,7 @@ class ProductionManagementPage(QWidget):
         controls_layout.addWidget(date_from_label)
         self.date_from_filter = QDateEdit()
         self.date_from_filter.setCalendarPopup(True)
+        self.date_from_filter.setStyleSheet(calendar_design.STYLESHEET)
         self.date_from_filter.setDate(QDate.currentDate().addMonths(-1))
 
         controls_layout.addWidget(self.date_from_filter)
