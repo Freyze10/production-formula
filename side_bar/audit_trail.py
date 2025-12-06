@@ -10,6 +10,8 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QTableWidget, QTableWidgetIte
 from PyQt6.QtGui import QFont
 import qtawesome as fa
 
+from utils import calendar_design
+
 
 class AuditTrailPage(QWidget):
     """A modern page to view, filter, and export audit trail records."""
@@ -80,6 +82,7 @@ class AuditTrailPage(QWidget):
 
         self.start_date_edit = QDateEdit(calendarPopup=True, displayFormat="yyyy-MM-dd")
         self.start_date_edit.setMinimumWidth(140)
+        self.start_date_edit.setStyleSheet(calendar_design.STYLESHEET)
         date_hlayout.addWidget(self.start_date_edit)
 
         date_hlayout.addWidget(QLabel("to"))
