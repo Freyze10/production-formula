@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00433" summary="added send to email  btn">
-      <option name="closed" value="true" />
-      <created>1762919348506</created>
-      <option name="number" value="00433" />
-      <option name="presentableId" value="LOCAL-00433" />
-      <option name="project" value="LOCAL" />
-      <updated>1762919348506</updated>
-    </task>
     <task id="LOCAL-00434" summary="changed excel header title">
       <option name="closed" value="true" />
       <created>1762926602915</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765266708576</updated>
     </task>
-    <option name="localTasksCounter" value="482" />
+    <task id="LOCAL-00482" summary="changed width of table">
+      <option name="closed" value="true" />
+      <created>1765269461204</created>
+      <option name="number" value="00482" />
+      <option name="presentableId" value="LOCAL-00482" />
+      <option name="project" value="LOCAL" />
+      <updated>1765269461204</updated>
+    </task>
+    <option name="localTasksCounter" value="483" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modifying calendar inpuut design" />
     <MESSAGE value="fixed min width typo" />
     <MESSAGE value="removed  min-width" />
     <MESSAGE value="added min width for the calendar spinbox" />
@@ -682,7 +681,8 @@
     <MESSAGE value="added style in combo box" />
     <MESSAGE value="updating width of tabled when export" />
     <MESSAGE value="updating width" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating width" />
+    <MESSAGE value="changed width of table" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed width of table" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -144,7 +144,7 @@ class FormulationManagementPage(QWidget):
             }
         """)
         records_layout = QVBoxLayout(records_card)
-        records_layout.setContentsMargins(15, 15, 15, 15)
+        records_layout.setContentsMargins(15, 0, 15, 0)
         records_layout.setSpacing(10)
 
         table_label = QLabel("Formulation Records")
