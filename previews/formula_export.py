@@ -10,6 +10,7 @@ from datetime import datetime
 
 from openpyxl.styles import Side, Border, Alignment, PatternFill, Font
 from db import db_call
+from utils.send_email import send_email_with_excel_bytes
 
 
 class ExportPreviewDialog(QDialog):
@@ -268,5 +269,30 @@ class ExportPreviewDialog(QDialog):
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to save file:\n{str(e)}")
 
+    def send_to_email(self):
+        if not self.excel_bytes or not self.excel_bytes.getvalue():
+            QMessageBox.warning(self, "No Data", "No data to send. Please select a month first.")
+            return
 
+        # Optional: Let user input recipient
+        from PyQt6.QtWidgets import QInputDialog
+        recipient, ok = QInputDialog.getText(
+            self, "Send Email", "Enter recipient email:", text="ppsycho109@gmail.com"
+        )
+        if not ok or not recipient.strip():
+            return
 
+        try:
+            send_email_with_excel_bytes(
+                excel_bytes=self.excel_bytes.getvalue(),
+                filename="prod_formula.xlsx",
+                recipient_email=recipient.strip(),
+                subject=f"Monthly Report",
+                body="Please find the attached Excel report."
+            )
+
+            QMessageBox.information(self, "Success", f"Email sent successfully to:\n{recipient}")
+            self.parent_widget.log_audit_trail("Email Export", f"Sent formula export to {recipient}")
+
+        except Exception as e:
+            QMessageBox.critical(self, "Email Failed", f"Could not send email:\n{str(e)}")
