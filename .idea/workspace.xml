@@ -51,38 +51,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.dfr.executor": "Run",
-    "Python.email.executor": "Run",
-    "Python.fg_endorsement.executor": "Run",
-    "Python.fgendorsement.executor": "Run",
-    "Python.fgmain.executor": "Run",
-    "Python.formulation (1).executor": "Debug",
-    "Python.formulation.executor": "Run",
-    "Python.main-2.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.production.executor": "Run",
-    "Python.send_email (1).executor": "Run",
-    "Python.send_email.executor": "Run",
-    "Python.sync-formula.executor": "Run",
-    "Python.sync_formula (1).executor": "Run",
-    "Python.sync_formula.executor": "Run",
-    "Python.view.executor": "Run",
-    "Python.view_production_manual.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Brant/PycharmProjects/File",
-    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.dfr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.email.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fg_endorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgendorsement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fgmain.executor&quot;: &quot;Run&quot;,
+    &quot;Python.formulation (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.formulation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main-2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.production.executor&quot;: &quot;Run&quot;,
+    &quot;Python.send_email (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.send_email.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync-formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_formula.executor&quot;: &quot;Run&quot;,
+    &quot;Python.view.executor&quot;: &quot;Run&quot;,
+    &quot;Python.view_production_manual.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Brant/PycharmProjects/File&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;
   },
-  "keyToStringList": {
-    "GitStage.ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Brant\PycharmProjects\Side-Production-Formula\FG-INV\utils" />
@@ -232,22 +232,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
-    </task>
-    <task id="LOCAL-00419" summary="changed cancel color button">
-      <option name="closed" value="true" />
-      <created>1762914285059</created>
-      <option name="number" value="00419" />
-      <option name="presentableId" value="LOCAL-00419" />
-      <option name="project" value="LOCAL" />
-      <updated>1762914285059</updated>
-    </task>
-    <task id="LOCAL-00420" summary="added sent to email">
-      <option name="closed" value="true" />
-      <created>1762916301167</created>
-      <option name="number" value="00420" />
-      <option name="presentableId" value="LOCAL-00420" />
-      <option name="project" value="LOCAL" />
-      <updated>1762916301167</updated>
     </task>
     <task id="LOCAL-00421" summary="added sent to email">
       <option name="closed" value="true" />
@@ -625,7 +609,23 @@
       <option name="project" value="LOCAL" />
       <updated>1765003422193</updated>
     </task>
-    <option name="localTasksCounter" value="468" />
+    <task id="LOCAL-00468" summary="displayed send to email button">
+      <option name="closed" value="true" />
+      <created>1765259477982</created>
+      <option name="number" value="00468" />
+      <option name="presentableId" value="LOCAL-00468" />
+      <option name="project" value="LOCAL" />
+      <updated>1765259477982</updated>
+    </task>
+    <task id="LOCAL-00469" summary="modifying temp file">
+      <option name="closed" value="true" />
+      <created>1765261122996</created>
+      <option name="number" value="00469" />
+      <option name="presentableId" value="LOCAL-00469" />
+      <option name="project" value="LOCAL" />
+      <updated>1765261122996</updated>
+    </task>
+    <option name="localTasksCounter" value="470" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,8 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified left alignment" />
-    <MESSAGE value="Aadded excel to bytes" />
     <MESSAGE value="added save bytes exel to file" />
     <MESSAGE value="revert back to original" />
     <MESSAGE value="creaated todo notes" />
@@ -682,7 +680,9 @@
     <MESSAGE value="added calendar design on audit trail start date" />
     <MESSAGE value="added calendar design on audit trail end date" />
     <MESSAGE value="added loading in the export to excel" />
-    <option name="LAST_COMMIT_MESSAGE" value="added loading in the export to excel" />
+    <MESSAGE value="displayed send to email button" />
+    <MESSAGE value="modifying temp file" />
+    <option name="LAST_COMMIT_MESSAGE" value="modifying temp file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

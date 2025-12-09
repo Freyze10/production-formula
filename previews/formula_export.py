@@ -10,88 +10,7 @@ from datetime import datetime
 from openpyxl.styles import Side, Border, Alignment, PatternFill, Font
 from db import db_call
 
-
-def setup_ui(self):
-    layout = QVBoxLayout()
-
-    # Filter section
-    filter_layout = QHBoxLayout()
-    filter_layout.addWidget(QLabel("Filter by Month:"))
-
-    self.month_combo = QComboBox()
-    self.populate_months()
-    self.month_combo.currentIndexChanged.connect(self.apply_filter)
-    filter_layout.addWidget(self.month_combo)
-
-    filter_layout.addStretch()
-
-    email_btn = QPushButton("Send to Email", objectName="PrimaryButton")
-    email_btn.clicked.connect(self.reject)
-    filter_layout.addWidget(email_btn)
-
-    layout.addLayout(filter_layout)
-
-    # Table preview
-    self.table = QTableWidget()
-    self.table.setColumnCount(len(self.headers))
-    self.table.setHorizontalHeaderLabels(self.headers)
-
-    # Allow manual resizing
-    self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
-
-    # Set minimum width for all columns
-    for col in range(len(self.headers)):
-        self.table.horizontalHeader().setMinimumSectionSize(80)
-
-    # Set initial widths
-    default_width = 50
-    for col in range(len(self.headers)):
-        if col == 0:  # Customer column (index 0)
-            self.table.setColumnWidth(col, 15)
-        elif col == 1:  # Customer column (index 1)
-            self.table.setColumnWidth(col, 90)
-        elif col == 2:  # Customer column (index 2)
-            self.table.setColumnWidth(col, 300)
-        elif col == 3 or col == 4:  # Customer column (index 3)
-            self.table.setColumnWidth(col, 100)
-        else:
-            self.table.setColumnWidth(col, default_width)
-
-    # Last column stretches to fill remaining space
-    self.table.horizontalHeader().setStretchLastSection(True)
-
-    # Visual polish
-    self.table.setAlternatingRowColors(True)
-    self.table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
-    self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
-
-    # Add to layout with stretch
-    layout.addWidget(self.table, stretch=1)
-
-    # Info label
-    self.info_label = QLabel()
-    layout.addWidget(self.info_label)
-
-    # Buttons
-    button_layout = QHBoxLayout()
-
-    button_layout.addStretch()
-
-    self.download_btn = QPushButton("Download Excel", objectName="SuccessButton")
-    self.download_btn.clicked.connect(self.download_excel)
-    button_layout.addWidget(self.download_btn)
-
-    cancel_btn = QPushButton("Cancel", objectName="DangerButton")
-    cancel_btn.clicked.connect(self.reject)
-    button_layout.addWidget(cancel_btn)
-
-    layout.addLayout(button_layout)
-    self.setLayout(layout)
-
-
 import io
-import openpyxl
-from openpyxl.styles import Side, Border, Alignment, Font
 from openpyxl.utils import get_column_letter
 
 
@@ -111,7 +30,82 @@ class ExportPreviewDialog(QDialog):
         self.setup_ui()
         self.load_data()
 
-    # ... [setup_ui, populate_months remain the same] ...
+    def setup_ui(self):
+        layout = QVBoxLayout()
+
+        # Filter section
+        filter_layout = QHBoxLayout()
+        filter_layout.addWidget(QLabel("Filter by Month:"))
+
+        self.month_combo = QComboBox()
+        self.populate_months()
+        self.month_combo.currentIndexChanged.connect(self.apply_filter)
+        filter_layout.addWidget(self.month_combo)
+
+        filter_layout.addStretch()
+
+        email_btn = QPushButton("Send to Email", objectName="PrimaryButton")
+        email_btn.clicked.connect(self.reject)
+        filter_layout.addWidget(email_btn)
+
+        layout.addLayout(filter_layout)
+
+        # Table preview
+        self.table = QTableWidget()
+        self.table.setColumnCount(len(self.headers))
+        self.table.setHorizontalHeaderLabels(self.headers)
+
+        # Allow manual resizing
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+
+        # Set minimum width for all columns
+        for col in range(len(self.headers)):
+            self.table.horizontalHeader().setMinimumSectionSize(80)
+
+        # Set initial widths
+        default_width = 50
+        for col in range(len(self.headers)):
+            if col == 0:  # Customer column (index 0)
+                self.table.setColumnWidth(col, 15)
+            elif col == 1:  # Customer column (index 1)
+                self.table.setColumnWidth(col, 90)
+            elif col == 2:  # Customer column (index 2)
+                self.table.setColumnWidth(col, 300)
+            elif col == 3 or col == 4:  # Customer column (index 3)
+                self.table.setColumnWidth(col, 100)
+            else:
+                self.table.setColumnWidth(col, default_width)
+
+        # Last column stretches to fill remaining space
+        self.table.horizontalHeader().setStretchLastSection(True)
+
+        # Visual polish
+        self.table.setAlternatingRowColors(True)
+        self.table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+
+        # Add to layout with stretch
+        layout.addWidget(self.table, stretch=1)
+
+        # Info label
+        self.info_label = QLabel()
+        layout.addWidget(self.info_label)
+
+        # Buttons
+        button_layout = QHBoxLayout()
+
+        button_layout.addStretch()
+
+        self.download_btn = QPushButton("Download Excel", objectName="SuccessButton")
+        self.download_btn.clicked.connect(self.download_excel)
+        button_layout.addWidget(self.download_btn)
+
+        cancel_btn = QPushButton("Cancel", objectName="DangerButton")
+        cancel_btn.clicked.connect(self.reject)
+        button_layout.addWidget(cancel_btn)
+
+        layout.addLayout(button_layout)
+        self.setLayout(layout)
 
     def apply_filter(self):
         """Apply month filter and regenerate in-memory Excel file."""
