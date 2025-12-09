@@ -305,7 +305,7 @@ class ExportPreviewDialog(QDialog):
             )
 
             QMessageBox.information(self, "Success", f"Email sent successfully to:\n{recipient}")
-            self.parent_widget.log_audit_trail("Email Export", f"Sent formula export to {recipient}")
+            self.parent_widget.log_audit_trail("Email Export", f"Sent formula monthly report to {recipient}")
 
         except Exception as e:
             QMessageBox.critical(self, "Email Failed", f"Could not send email:\n{str(e)}")
