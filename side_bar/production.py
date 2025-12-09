@@ -93,7 +93,7 @@ class ProductionManagementPage(QWidget):
         header_card = QFrame()
         header_card.setObjectName("HeaderCard")
         header_layout = QHBoxLayout(header_card)
-        header_layout.setContentsMargins(15, 2, 15, 2)
+        header_layout.setContentsMargins(15, 0, 15, 0)
 
         self.selected_production_label = QLabel("LOT NO: No Selection")
         self.selected_production_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
