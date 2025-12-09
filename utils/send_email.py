@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     send_email_with_excel_bytes(
         excel_bytes=buffer.getvalue(),
-        filename="test_export.xlsx",
+        filename="prod_formula.xlsx",
         recipient_email="ppsycho109@gmail.com",
         subject="Monthly Report",
         body="Please find the attached Excel report."
