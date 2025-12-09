@@ -165,7 +165,7 @@ class ProductionManagementPage(QWidget):
             }
         """)
         details_layout = QVBoxLayout(details_card)
-        details_layout.setContentsMargins(15, 15, 15, 15)
+        details_layout.setContentsMargins(15, 0, 15, 0)
         details_layout.setSpacing(10)
 
         details_label = QLabel("Production Materials Details")
