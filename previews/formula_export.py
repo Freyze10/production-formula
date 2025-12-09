@@ -42,7 +42,7 @@ class ExportPreviewDialog(QDialog):
         filter_layout.addStretch()
 
         email_btn = QPushButton("Send to Email", objectName="PrimaryButton")
-        email_btn.clicked.connect(self.reject)
+        email_btn.clicked.connect(self.send_to_email)
         filter_layout.addWidget(email_btn)
 
         layout.addLayout(filter_layout)
@@ -267,3 +267,6 @@ class ExportPreviewDialog(QDialog):
 
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to save file:\n{str(e)}")
+
+
+

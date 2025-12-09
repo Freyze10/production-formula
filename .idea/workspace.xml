@@ -233,22 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00426" summary="refactored email.py name">
-      <option name="closed" value="true" />
-      <created>1762916668592</created>
-      <option name="number" value="00426" />
-      <option name="presentableId" value="LOCAL-00426" />
-      <option name="project" value="LOCAL" />
-      <updated>1762916668592</updated>
-    </task>
-    <task id="LOCAL-00427" summary="changed imports">
-      <option name="closed" value="true" />
-      <created>1762916740103</created>
-      <option name="number" value="00427" />
-      <option name="presentableId" value="LOCAL-00427" />
-      <option name="project" value="LOCAL" />
-      <updated>1762916740103</updated>
-    </task>
     <task id="LOCAL-00428" summary="added credentials path">
       <option name="closed" value="true" />
       <created>1762916936777</created>
@@ -625,7 +609,23 @@
       <option name="project" value="LOCAL" />
       <updated>1765264810550</updated>
     </task>
-    <option name="localTasksCounter" value="475" />
+    <task id="LOCAL-00475" summary="updated params">
+      <option name="closed" value="true" />
+      <created>1765264973380</created>
+      <option name="number" value="00475" />
+      <option name="presentableId" value="LOCAL-00475" />
+      <option name="project" value="LOCAL" />
+      <updated>1765264973380</updated>
+    </task>
+    <task id="LOCAL-00476" summary="updated params">
+      <option name="closed" value="true" />
+      <created>1765265001884</created>
+      <option name="number" value="00476" />
+      <option name="presentableId" value="LOCAL-00476" />
+      <option name="project" value="LOCAL" />
+      <updated>1765265001884</updated>
+    </task>
+    <option name="localTasksCounter" value="477" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding send to email" />
     <MESSAGE value="added calendar design to date from" />
     <MESSAGE value="added calendar design to date to" />
     <MESSAGE value="updated calendar design" />
@@ -682,7 +681,8 @@
     <MESSAGE value="added generate temp file" />
     <MESSAGE value="addeed download" />
     <MESSAGE value="updated send email" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated send email" />
+    <MESSAGE value="updated params" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated params" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
