@@ -1,5 +1,6 @@
 # Formula Export
 import openpyxl
+import io
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                              QTableWidget, QTableWidgetItem, QComboBox, QLabel,
                              QFileDialog, QMessageBox, QHeaderView)
@@ -10,9 +11,6 @@ from datetime import datetime
 from openpyxl.styles import Side, Border, Alignment, PatternFill, Font
 from db import db_call
 
-import io
-from openpyxl.utils import get_column_letter
-
 
 class ExportPreviewDialog(QDialog):
     def __init__(self, parent, date_from, date_to):
@@ -21,9 +19,8 @@ class ExportPreviewDialog(QDialog):
         self.date_from = date_from
         self.date_to = date_to
         self.filtered_data = None
-        self.full_data = None
         self.headers = ["uid", "Date", "Customer", "Product Code", "Mat Code", "Con", "Deleted"]
-        self.excel_bytes = None  # This will hold the latest in-memory Excel file
+        self.excel_bytes = None
 
         self.setWindowTitle("Export Preview")
         self.setMinimumSize(900, 600)
@@ -107,124 +104,170 @@ class ExportPreviewDialog(QDialog):
         layout.addLayout(button_layout)
         self.setLayout(layout)
 
+    def populate_months(self):
+        """Populate month dropdown with available months in date range."""
+        self.month_combo.addItem("All Months", None)
+
+        current_date = QDate(self.date_from.year, self.date_from.month, 1)
+        end_date = QDate(self.date_to.year, self.date_to.month, 1)
+
+        months = []
+        while current_date <= end_date:
+            month_str = current_date.toString("MMMM yyyy")
+            month_value = (current_date.year(), current_date.month())
+            months.append((month_str, month_value))
+            current_date = current_date.addMonths(1)
+
+        for month_str, month_value in months:
+            self.month_combo.addItem(month_str, month_value)
+
+    def load_data(self):
+        """Load data from database."""
+        try:
+            self.full_data = db_call.get_export_data(self.date_from, self.date_to)
+            self.apply_filter()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to load data: {str(e)}")
+            self.reject()
+
     def apply_filter(self):
-        """Apply month filter and regenerate in-memory Excel file."""
+        """Apply month filter to data."""
         try:
             selected_month = self.month_combo.currentData()
 
             if selected_month is None:
+                # Show all data
                 self.filtered_data = self.full_data
             else:
+                # Filter by selected month
                 year, month = selected_month
-                self.filtered_data = [
-                    row for row in self.full_data
-                    if isinstance(row[1], str) and datetime.strptime(row[1], "%d-%m-%Y").year == year
-                       and datetime.strptime(row[1], "%d-%m-%Y").month == month
-                       or (hasattr(row[1], 'year') and row[1].year == year and row[1].month == month)
-                ]
+                self.filtered_data = []
 
-            # Regenerate the in-memory Excel file
-            self.generate_excel_in_memory()
+                for row in self.full_data:
+                    # Assuming date is in index 1 (second column)
+                    row_date = row[1]
+                    if isinstance(row_date, str):
+                        row_date = datetime.strptime(row_date, "%d-%m-%Y")
 
-            self.update_table()
+                    if row_date.year == year and row_date.month == month:
+                        self.filtered_data.append(row)
         except Exception as e:
-            print(f"Filter error: {e}")
-
-    def generate_excel_in_memory(self):
-        """Generate or update the in-memory .xlsx file from current filtered_data."""
-        if not self.filtered_data:
-            self.excel_bytes = None
-            return
-
-        try:
-            df = pd.DataFrame(self.filtered_data, columns=[
-                "F1_t_uid", "t_date", "t_customer", "T_prodcode", "t_matcode", "t_con", "F1_t_deleted"
-            ])
-
-            # Clean and convert "Con" column to numeric
-            con_col_idx = self.headers.index("Con")
-            df.iloc[:, con_col_idx] = pd.to_numeric(
-                df.iloc[:, con_col_idx].astype(str).str.replace(",", ""), errors='coerce'
-            )
-
-            # Create in-memory bytes buffer
-            output = io.BytesIO()
-
-            with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                df.to_excel(writer, index=False, sheet_name='Formulas')
-
-                workbook = writer.book
-                worksheet = writer.sheets['Formulas']
-
-                # Styling
-                thin_border = Border(left=Side(style='thin'), right=Side(style='thin'),
-                                     top=Side(style='thin'), bottom=Side(style='thin'))
-                center_align = Alignment(horizontal='center', vertical='center')
-                left_align = Alignment(horizontal='left', vertical='center')
-                header_font = Font(bold=False)
-
-                # Apply borders and alignment
-                for row in worksheet.iter_rows(min_row=2, max_row=worksheet.max_row,
-                                               min_col=1, max_col=worksheet.max_column):
-                    for cell in row:
-                        cell.border = thin_border
-                        cell.alignment = center_align if cell.column == 6 else left_align
-
-                # Header styling
-                for cell in worksheet[1]:
-                    cell.font = header_font
-                    cell.alignment = left_align
-
-                # Auto-size columns
-                for idx, col in enumerate(df.columns, 1):
-                    max_length = max(
-                        len(str(val)) if pd.notna(val) else 0
-                        for val in df[col]
-                    )
-                    header_length = len(col)
-                    adjusted_width = min(max(max_length, header_length) + 2, 50)
-                    worksheet.column_dimensions[get_column_letter(idx)].width = adjusted_width
-
-            # Important: rewind the buffer
-            output.seek(0)
-            self.excel_bytes = output  # Keep reference!
-
-            print(f"Generated in-memory Excel: {len(self.excel_bytes.getvalue())} bytes")
-        except Exception as e:
-            print(f"Error generating Excel in memory: {e}")
-            self.excel_bytes = None
+            print(e)
+        self.update_table()
 
     def update_table(self):
-        """Update preview table only (no Excel regen here)"""
+        """Update table with filtered data."""
         self.table.setRowCount(len(self.filtered_data))
+
         for row_idx, row_data in enumerate(self.filtered_data):
             for col_idx, cell_data in enumerate(row_data):
                 item = QTableWidgetItem(str(cell_data))
-                item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+                item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Make read-only
                 self.table.setItem(row_idx, col_idx, item)
 
         self.info_label.setText(f"Showing {len(self.filtered_data)} records")
 
+    # TODO:
+    """
+        paghiwalayin yung download and generate ng excel file
+        idea: create ng temporary byte file ng .xlsx yung function for generation of excel file.
+        sstore yung byte file na yon sa isang variable once na i click yung export button
+        then gagamitin yung variable na yon to send email or download
+    """
+
     def download_excel(self):
-        """Save the pre-generated in-memory Excel file to disk."""
-        if not self.excel_bytes:
-            QMessageBox.warning(self, "No Data", "No data available to export.")
+        """Download filtered data to Excel with borders, number formatting, and auto-sized columns."""
+        if not self.filtered_data:
+            QMessageBox.warning(self, "No Data", "No data to export.")
             return
 
-        default_filename = "prod_formula.xlsx"
+        # ---------- Build filename ----------
+        # selected_month = self.month_combo.currentData()
+        # if selected_month:
+        #     year, month = selected_month
+        #     month_name = QDate(year, month, 1).toString("MMM")
+        #     default_filename = f"Prod_Formula {month_name}-{year}.xlsx"
+        # else:
+        #     df = self.date_from.toString("yyyy-MM-dd")
+        #     dt = self.date_to.toString("yyyy-MM-dd")
+        #     default_filename = f"Prod_Formula {df}_to_{dt}.xlsx"
+
+        default_filename = f"prod_formula.xlsx"
         file_path, _ = QFileDialog.getSaveFileName(
-            self, "Save Excel File", default_filename, "Excel Files (*.xlsx)"
+            self,
+            "Save Excel File",
+            default_filename,
+            "Excel Files (*.xlsx)"
         )
         if not file_path:
             return
 
         try:
-            with open(file_path, 'wb') as f:
-                f.write(self.excel_bytes.getvalue())
+            # ---------- Prepare DataFrame ----------
+            default_headers = ["F1_t_uid", "t_date", "t_customer", "T_prodcode", "t_matcode", "t_con", "F1_t_deleted"]
 
+            df = pd.DataFrame(self.filtered_data, columns=default_headers)
+
+            # Convert "Con" column to numeric (remove commas, convert to float)
+            con_col_idx = self.headers.index("Con")
+            df.iloc[:, con_col_idx] = pd.to_numeric(
+                df.iloc[:, con_col_idx].astype(str).str.replace(",", ""), errors='coerce'
+            )
+
+            # ---------- Export with formatting using openpyxl ----------
+            with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
+                df.to_excel(writer, index=False, sheet_name='Formulas')
+
+                workbook = writer.book
+                worksheet = writer.sheets['Formulas']
+
+                # Define border style
+
+                thin_border = Border(
+                    left=Side(style='thin'),
+                    right=Side(style='thin'),
+                    top=Side(style='thin'),
+                    bottom=Side(style='thin')
+                )
+
+                # Apply border + center alignment to all used cells
+                center_align = Alignment(horizontal='center', vertical='center')
+                left_align = Alignment(horizontal='left', vertical='center')
+
+                for row in worksheet.iter_rows(
+                        min_row=2, max_row=worksheet.max_row,
+                        min_col=1, max_col=worksheet.max_column
+                ):
+                    for cell in row:
+                        cell.border = thin_border
+                        if cell == 6:
+                            cell.alignment = center_align
+
+                # Header row:
+                header_font = Font(bold=False)
+
+                for cell in worksheet[1]:
+                    cell.font = header_font
+                    cell.alignment = left_align
+
+                # ---------- Auto-fit column widths ----------
+                for idx, col in enumerate(df.columns, 1):
+                    # Get max length of content in column (including header)
+                    max_length = max(
+                        len(str(cell)) if cell is not None else 0
+                        for cell in df[col]
+                    )
+                    header_length = len(col)
+                    adjusted_width = min(max(max_length, header_length) + 2, 50)  # cap at 50
+                    worksheet.column_dimensions[
+                        openpyxl.utils.get_column_letter(idx)
+                    ].width = adjusted_width
+
+            # ---------- Success ----------
             QMessageBox.information(
-                self, "Export Successful",
-                f"Exported <b>{len(self.filtered_data)}</b> records to:<br>{file_path}"
+                self,
+                "Export Successful",
+                f"Exported <b>{len(self.filtered_data)}</b> records with formatting to:<br>{file_path}"
             )
 
             self.parent_widget.log_audit_trail(
@@ -234,4 +277,8 @@ class ExportPreviewDialog(QDialog):
             self.accept()
 
         except Exception as e:
-            QMessageBox.critical(self, "Export Error", f"Failed to save file: {str(e)}")
+            QMessageBox.critical(
+                self,
+                "Export Error",
+                f"Failed to export: {str(e)}"
+            )
