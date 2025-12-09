@@ -107,6 +107,20 @@ class ExportPreviewDialog(QDialog):
 
     def populate_months(self):
         """Populate month dropdown with available months in date range."""
+        self.month_combo.setStyleSheet("""
+            QComboBox::drop-down {
+                    subcontrol-origin: padding;
+                    subcontrol-position: top right;
+                    width: 20px;
+                    border-left: 1px solid #ccc;
+                }
+                QComboBox::down-arrow {
+                    width: 0; height: 0;
+                    border-left: 5px solid white;
+                    border-right: 5px solid white;
+                    border-top: 7px solid #555;
+                }
+        """)
         self.month_combo.addItem("All Months", None)
 
         current_date = QDate(self.date_from.year, self.date_from.month, 1)

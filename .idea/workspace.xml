@@ -233,22 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00428" summary="added credentials path">
-      <option name="closed" value="true" />
-      <created>1762916936777</created>
-      <option name="number" value="00428" />
-      <option name="presentableId" value="LOCAL-00428" />
-      <option name="project" value="LOCAL" />
-      <updated>1762916936777</updated>
-    </task>
-    <task id="LOCAL-00429" summary="changed email host">
-      <option name="closed" value="true" />
-      <created>1762917137213</created>
-      <option name="number" value="00429" />
-      <option name="presentableId" value="LOCAL-00429" />
-      <option name="project" value="LOCAL" />
-      <updated>1762917137213</updated>
-    </task>
     <task id="LOCAL-00430" summary="encrypt password">
       <option name="closed" value="true" />
       <created>1762918043810</created>
@@ -625,7 +609,23 @@
       <option name="project" value="LOCAL" />
       <updated>1765265001884</updated>
     </task>
-    <option name="localTasksCounter" value="477" />
+    <task id="LOCAL-00477" summary="conected the btn to send email">
+      <option name="closed" value="true" />
+      <created>1765265150064</created>
+      <option name="number" value="00477" />
+      <option name="presentableId" value="LOCAL-00477" />
+      <option name="project" value="LOCAL" />
+      <updated>1765265150064</updated>
+    </task>
+    <task id="LOCAL-00478" summary="updated params">
+      <option name="closed" value="true" />
+      <created>1765265399796</created>
+      <option name="number" value="00478" />
+      <option name="presentableId" value="LOCAL-00478" />
+      <option name="project" value="LOCAL" />
+      <updated>1765265399796</updated>
+    </task>
+    <option name="localTasksCounter" value="479" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added calendar design to date from" />
     <MESSAGE value="added calendar design to date to" />
     <MESSAGE value="updated calendar design" />
     <MESSAGE value="returned the calendar design" />
@@ -681,6 +680,7 @@
     <MESSAGE value="added generate temp file" />
     <MESSAGE value="addeed download" />
     <MESSAGE value="updated send email" />
+    <MESSAGE value="conected the btn to send email" />
     <MESSAGE value="updated params" />
     <option name="LAST_COMMIT_MESSAGE" value="updated params" />
   </component>
