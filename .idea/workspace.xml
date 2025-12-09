@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00425" summary="refactored email.py name">
-      <option name="closed" value="true" />
-      <created>1762916663413</created>
-      <option name="number" value="00425" />
-      <option name="presentableId" value="LOCAL-00425" />
-      <option name="project" value="LOCAL" />
-      <updated>1762916663413</updated>
-    </task>
     <task id="LOCAL-00426" summary="refactored email.py name">
       <option name="closed" value="true" />
       <created>1762916668592</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765261995964</updated>
     </task>
-    <option name="localTasksCounter" value="474" />
+    <task id="LOCAL-00474" summary="updated send email">
+      <option name="closed" value="true" />
+      <created>1765264810550</created>
+      <option name="number" value="00474" />
+      <option name="presentableId" value="LOCAL-00474" />
+      <option name="project" value="LOCAL" />
+      <updated>1765264810550</updated>
+    </task>
+    <option name="localTasksCounter" value="475" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="edited requirements" />
     <MESSAGE value="adding send to email" />
     <MESSAGE value="added calendar design to date from" />
     <MESSAGE value="added calendar design to date to" />
@@ -682,7 +681,8 @@
     <MESSAGE value="revert and modifying to lightly" />
     <MESSAGE value="added generate temp file" />
     <MESSAGE value="addeed download" />
-    <option name="LAST_COMMIT_MESSAGE" value="addeed download" />
+    <MESSAGE value="updated send email" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated send email" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

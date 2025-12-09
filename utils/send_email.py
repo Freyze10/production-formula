@@ -116,6 +116,6 @@ if __name__ == "__main__":
         excel_bytes=buffer.getvalue(),
         filename="test_export.xlsx",
         recipient_email="ppsycho109@gmail.com",
-        subject="Test Export from FG-INV",
-        body="This is a test using pre-generated Excel bytes."
+        subject="Monthly Report",
+        body="Please find the attached Excel report."
     )
