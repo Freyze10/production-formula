@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00422" summary="changed the credentials loc">
-      <option name="closed" value="true" />
-      <created>1762916375123</created>
-      <option name="number" value="00422" />
-      <option name="presentableId" value="LOCAL-00422" />
-      <option name="project" value="LOCAL" />
-      <updated>1762916375123</updated>
-    </task>
     <task id="LOCAL-00423" summary="added credentials.txt">
       <option name="closed" value="true" />
       <created>1762916465253</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765261174502</updated>
     </task>
-    <option name="localTasksCounter" value="471" />
+    <task id="LOCAL-00471" summary="revert and modifying to lightly">
+      <option name="closed" value="true" />
+      <created>1765261798725</created>
+      <option name="number" value="00471" />
+      <option name="presentableId" value="LOCAL-00471" />
+      <option name="project" value="LOCAL" />
+      <updated>1765261798725</updated>
+    </task>
+    <option name="localTasksCounter" value="472" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="revert back to original" />
     <MESSAGE value="creaated todo notes" />
     <MESSAGE value="added credentials to ignore" />
     <MESSAGE value="edited requirements" />
@@ -682,7 +681,8 @@
     <MESSAGE value="displayed send to email button" />
     <MESSAGE value="modifying temp file" />
     <MESSAGE value="added temp file ini" />
-    <option name="LAST_COMMIT_MESSAGE" value="added temp file ini" />
+    <MESSAGE value="revert and modifying to lightly" />
+    <option name="LAST_COMMIT_MESSAGE" value="revert and modifying to lightly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
