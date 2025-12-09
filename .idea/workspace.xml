@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00430" summary="encrypt password">
-      <option name="closed" value="true" />
-      <created>1762918043810</created>
-      <option name="number" value="00430" />
-      <option name="presentableId" value="LOCAL-00430" />
-      <option name="project" value="LOCAL" />
-      <updated>1762918043810</updated>
-    </task>
     <task id="LOCAL-00431" summary="changed gmail">
       <option name="closed" value="true" />
       <created>1762918108835</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765265399796</updated>
     </task>
-    <option name="localTasksCounter" value="479" />
+    <task id="LOCAL-00479" summary="added style in combo box">
+      <option name="closed" value="true" />
+      <created>1765266156440</created>
+      <option name="number" value="00479" />
+      <option name="presentableId" value="LOCAL-00479" />
+      <option name="project" value="LOCAL" />
+      <updated>1765266156442</updated>
+    </task>
+    <option name="localTasksCounter" value="480" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added calendar design to date to" />
     <MESSAGE value="updated calendar design" />
     <MESSAGE value="returned the calendar design" />
     <MESSAGE value="modifying calendar inpuut design" />
@@ -682,7 +681,8 @@
     <MESSAGE value="updated send email" />
     <MESSAGE value="conected the btn to send email" />
     <MESSAGE value="updated params" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated params" />
+    <MESSAGE value="added style in combo box" />
+    <option name="LAST_COMMIT_MESSAGE" value="added style in combo box" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
