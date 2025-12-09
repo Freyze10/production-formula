@@ -233,22 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00434" summary="changed excel header title">
-      <option name="closed" value="true" />
-      <created>1762926602915</created>
-      <option name="number" value="00434" />
-      <option name="presentableId" value="LOCAL-00434" />
-      <option name="project" value="LOCAL" />
-      <updated>1762926602915</updated>
-    </task>
-    <task id="LOCAL-00435" summary="added new header for export">
-      <option name="closed" value="true" />
-      <created>1762926942892</created>
-      <option name="number" value="00435" />
-      <option name="presentableId" value="LOCAL-00435" />
-      <option name="project" value="LOCAL" />
-      <updated>1762926942892</updated>
-    </task>
     <task id="LOCAL-00436" summary="modified header font and alignment">
       <option name="closed" value="true" />
       <created>1762927180230</created>
@@ -625,7 +609,23 @@
       <option name="project" value="LOCAL" />
       <updated>1765269461204</updated>
     </task>
-    <option name="localTasksCounter" value="483" />
+    <task id="LOCAL-00483" summary="adjust margins in formulation records">
+      <option name="closed" value="true" />
+      <created>1765269889598</created>
+      <option name="number" value="00483" />
+      <option name="presentableId" value="LOCAL-00483" />
+      <option name="project" value="LOCAL" />
+      <updated>1765269889598</updated>
+    </task>
+    <task id="LOCAL-00484" summary="adjust margins in formulation dedtails">
+      <option name="closed" value="true" />
+      <created>1765269965123</created>
+      <option name="number" value="00484" />
+      <option name="presentableId" value="LOCAL-00484" />
+      <option name="project" value="LOCAL" />
+      <updated>1765269965123</updated>
+    </task>
+    <option name="localTasksCounter" value="485" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,8 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed min width typo" />
-    <MESSAGE value="removed  min-width" />
     <MESSAGE value="added min width for the calendar spinbox" />
     <MESSAGE value="set 40 px on the year spinbox" />
     <MESSAGE value="set 50 px on the year spinbox" />
@@ -682,7 +680,9 @@
     <MESSAGE value="updating width of tabled when export" />
     <MESSAGE value="updating width" />
     <MESSAGE value="changed width of table" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed width of table" />
+    <MESSAGE value="adjust margins in formulation records" />
+    <MESSAGE value="adjust margins in formulation dedtails" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust margins in formulation dedtails" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

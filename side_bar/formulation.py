@@ -109,7 +109,7 @@ class FormulationManagementPage(QWidget):
         header_card = QFrame()
         header_card.setObjectName("HeaderCard")
         header_layout = QHBoxLayout(header_card)
-        header_layout.setContentsMargins(15, 2, 15, 2)
+        header_layout.setContentsMargins(15, 0, 15, 0)
 
         self.selected_formulation_label = QLabel("INDEX REF. - FORMULATION NO.: No Selection")
         self.selected_formulation_label.setFont(QFont("Segoe UI", 10, QFont.Weight.Bold))
@@ -206,7 +206,7 @@ class FormulationManagementPage(QWidget):
         self.details_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         details_layout.addWidget(self.details_table, stretch=1)
 
-        layout.addWidget(details_card, stretch=2)
+        layout.addWidget(details_card, stretch=3)
 
         # Bottom Controls
         controls_layout = QHBoxLayout()
