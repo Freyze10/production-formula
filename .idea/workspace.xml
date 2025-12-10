@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00449" summary="adding send to email">
-      <option name="closed" value="true" />
-      <created>1763715524342</created>
-      <option name="number" value="00449" />
-      <option name="presentableId" value="LOCAL-00449" />
-      <option name="project" value="LOCAL" />
-      <updated>1763715524342</updated>
-    </task>
     <task id="LOCAL-00450" summary="added calendar design to date from">
       <option name="closed" value="true" />
       <created>1764989867388</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765331890250</updated>
     </task>
-    <option name="localTasksCounter" value="498" />
+    <task id="LOCAL-00498" summary="changed function name">
+      <option name="closed" value="true" />
+      <created>1765332168723</created>
+      <option name="number" value="00498" />
+      <option name="presentableId" value="LOCAL-00498" />
+      <option name="project" value="LOCAL" />
+      <updated>1765332168723</updated>
+    </task>
+    <option name="localTasksCounter" value="499" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="revert and modifying to lightly" />
     <MESSAGE value="added generate temp file" />
     <MESSAGE value="addeed download" />
     <MESSAGE value="updated send email" />
@@ -682,7 +681,8 @@
     <MESSAGE value="added new tab for master formula" />
     <MESSAGE value="create a new tab for master" />
     <MESSAGE value="editing master tab" />
-    <option name="LAST_COMMIT_MESSAGE" value="editing master tab" />
+    <MESSAGE value="changed function name" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed function name" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
