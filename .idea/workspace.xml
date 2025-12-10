@@ -233,38 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00458" summary="set 40 px on the year spinbox">
-      <option name="closed" value="true" />
-      <created>1764992438809</created>
-      <option name="number" value="00458" />
-      <option name="presentableId" value="LOCAL-00458" />
-      <option name="project" value="LOCAL" />
-      <updated>1764992438809</updated>
-    </task>
-    <task id="LOCAL-00459" summary="set 50 px on the year spinbox">
-      <option name="closed" value="true" />
-      <created>1764992469001</created>
-      <option name="number" value="00459" />
-      <option name="presentableId" value="LOCAL-00459" />
-      <option name="project" value="LOCAL" />
-      <updated>1764992469001</updated>
-    </task>
-    <task id="LOCAL-00460" summary="added calendar design on the date_matched">
-      <option name="closed" value="true" />
-      <created>1764992563435</created>
-      <option name="number" value="00460" />
-      <option name="presentableId" value="LOCAL-00460" />
-      <option name="project" value="LOCAL" />
-      <updated>1764992563435</updated>
-    </task>
-    <task id="LOCAL-00461" summary="added calendar design on the date from prod">
-      <option name="closed" value="true" />
-      <created>1764992607073</created>
-      <option name="number" value="00461" />
-      <option name="presentableId" value="LOCAL-00461" />
-      <option name="project" value="LOCAL" />
-      <updated>1764992607073</updated>
-    </task>
     <task id="LOCAL-00462" summary="added calendar design on the date to prod">
       <option name="closed" value="true" />
       <created>1764992628737</created>
@@ -625,7 +593,39 @@
       <option name="project" value="LOCAL" />
       <updated>1765336775625</updated>
     </task>
-    <option name="localTasksCounter" value="507" />
+    <task id="LOCAL-00507" summary="try reuse func">
+      <option name="closed" value="true" />
+      <created>1765337964702</created>
+      <option name="number" value="00507" />
+      <option name="presentableId" value="LOCAL-00507" />
+      <option name="project" value="LOCAL" />
+      <updated>1765337964702</updated>
+    </task>
+    <task id="LOCAL-00508" summary="return back to original">
+      <option name="closed" value="true" />
+      <created>1765337996835</created>
+      <option name="number" value="00508" />
+      <option name="presentableId" value="LOCAL-00508" />
+      <option name="project" value="LOCAL" />
+      <updated>1765337996835</updated>
+    </task>
+    <task id="LOCAL-00509" summary="return back to original">
+      <option name="closed" value="true" />
+      <created>1765338016696</created>
+      <option name="number" value="00509" />
+      <option name="presentableId" value="LOCAL-00509" />
+      <option name="project" value="LOCAL" />
+      <updated>1765338016696</updated>
+    </task>
+    <task id="LOCAL-00510" summary="added separate formulation entry">
+      <option name="closed" value="true" />
+      <created>1765344602666</created>
+      <option name="number" value="00510" />
+      <option name="presentableId" value="LOCAL-00510" />
+      <option name="project" value="LOCAL" />
+      <updated>1765344602666</updated>
+    </task>
+    <option name="localTasksCounter" value="511" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,9 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating width" />
-    <MESSAGE value="changed width of table" />
-    <MESSAGE value="adjust margins in formulation records" />
     <MESSAGE value="adjust margins in formulation dedtails" />
     <MESSAGE value="adjust margins in formulation headers" />
     <MESSAGE value="adjust margins in production headers" />
@@ -682,7 +679,10 @@
     <MESSAGE value="added magenta input in cmyk" />
     <MESSAGE value="added yellow input in cmyk" />
     <MESSAGE value="added keyblack input in cmyk" />
-    <option name="LAST_COMMIT_MESSAGE" value="added keyblack input in cmyk" />
+    <MESSAGE value="try reuse func" />
+    <MESSAGE value="return back to original" />
+    <MESSAGE value="added separate formulation entry" />
+    <option name="LAST_COMMIT_MESSAGE" value="added separate formulation entry" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -704,17 +704,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>107</line>
+          <line>105</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>1320</line>
+          <line>1318</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>1367</line>
+          <line>1365</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
