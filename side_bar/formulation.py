@@ -307,7 +307,7 @@ class FormulationManagementPage(QWidget):
                                    formula_card.sizePolicy().Expanding)
         formula_layout = QFormLayout(formula_card)
         formula_layout.setSpacing(6)
-        formula_layout.setContentsMargins(10, 18, 10, 12)
+        formula_layout.setContentsMargins(10, 0, 10, 4)
 
         # Index Ref No
         self.index_ref_input = QLineEdit()
