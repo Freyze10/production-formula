@@ -14,6 +14,7 @@ import pandas as pd
 from db import db_call
 from db.sync_formula import SyncFormulaWorker, LoadingDialog, SyncRMWarehouseWorker
 from previews.formula_export import ExportPreviewDialog
+from side_bar.formulation_entry_tab import FormulationEntry
 from utils.debounce import finished_typing
 from utils.field_format import format_to_float, formula_mixing_time
 from utils.loading import StaticLoadingDialog
@@ -89,7 +90,7 @@ class FormulationManagementPage(QWidget):
 
         # Tab 2: Formulation Entry
         self.entry_tab = self.create_entry_tab()
-        self.tab_widget.addTab(self.entry_tab, "Formulation Entry")
+        self.tab_widget.addTab(FormulationEntry(), "Formulation Entry")
         self.tab_widget.currentChanged.connect(self.sync_for_entry)
 
         # Tab 3: Colorr Matching Entry (Master Formula)
