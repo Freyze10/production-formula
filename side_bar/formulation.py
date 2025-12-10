@@ -284,7 +284,7 @@ class FormulationManagementPage(QWidget):
                                     customer_card.sizePolicy().Expanding)
         customer_layout = QFormLayout(customer_card)
         customer_layout.setSpacing(6)
-        customer_layout.setContentsMargins(10, 18, 10, 12)
+        customer_layout.setContentsMargins(10, 0, 10, 4)
 
         # Formulation ID
         self.formulation_id_input = QLineEdit()
