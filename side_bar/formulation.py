@@ -20,8 +20,6 @@ from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils import global_var, calendar_design
 
-from utils.formula_entry_func import add_material_row
-
 
 # Custom QTableWidgetItem for numerical sorting
 class NumericTableWidgetItem(QTableWidgetItem):
@@ -485,7 +483,7 @@ class FormulationManagementPage(QWidget):
         conc_input_layout.addWidget(QLabel("Concentration:"))
         self.concentration_input = QLineEdit()
         self.concentration_input.setPlaceholderText("0.000000")
-        self.concentration_input.returnPressed.connect(lambda: add_material_row(self))
+        self.concentration_input.returnPressed.connect(self.add_material_row)
         conc_input_layout.addWidget(self.concentration_input)
         material_layout.addLayout(conc_input_layout)
 
@@ -505,7 +503,7 @@ class FormulationManagementPage(QWidget):
 
         self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
         self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
-        self.add_material_btn.clicked.connect(lambda: add_material_row(self))
+        self.add_material_btn.clicked.connect(self.add_material_row)
         btn_layout.addWidget(self.add_material_btn)
 
         self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
@@ -863,7 +861,7 @@ class FormulationManagementPage(QWidget):
         conc_input_layout.addWidget(QLabel("Concentration:"))
         self.concentration_input = QLineEdit()
         self.concentration_input.setPlaceholderText("0.000000")
-        self.concentration_input.returnPressed.connect(lambda: add_material_row(self))
+        self.concentration_input.returnPressed.connect(self.add_material_row)
         conc_input_layout.addWidget(self.concentration_input)
         material_layout.addLayout(conc_input_layout)
 
@@ -883,7 +881,7 @@ class FormulationManagementPage(QWidget):
 
         self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
         self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
-        self.add_material_btn.clicked.connect(lambda: add_material_row(self))
+        self.add_material_btn.clicked.connect(self.add_material_row)
         btn_layout.addWidget(self.add_material_btn)
 
         self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
@@ -1351,19 +1349,19 @@ class FormulationManagementPage(QWidget):
     #     self.material_code_input.setFocus()
     #     self.update_total_concentration()
     #
-    def remove_material_row(self):
-        """Remove the selected material row."""
-        current_row = self.materials_table.currentRow()
-        if current_row >= 0:
-            self.materials_table.removeRow(current_row)
-            self.update_total_concentration()
-        else:
-            QMessageBox.warning(self, "No Selection", "Please select a row to remove.")
-
-    def clear_materials(self):
-        """Clear all material rows."""
-        self.materials_table.setRowCount(0)
-        self.update_total_concentration()
+    # def remove_material_row(self):
+    #     """Remove the selected material row."""
+    #     current_row = self.materials_table.currentRow()
+    #     if current_row >= 0:
+    #         self.materials_table.removeRow(current_row)
+    #         self.update_total_concentration()
+    #     else:
+    #         QMessageBox.warning(self, "No Selection", "Please select a row to remove.")
+    #
+    # def clear_materials(self):
+    #     """Clear all material rows."""
+    #     self.materials_table.setRowCount(0)
+    #     self.update_total_concentration()
 
     def update_total_concentration(self):
         """Update the total concentration display."""
