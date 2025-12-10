@@ -233,30 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00442" summary="added save bytes exel to file">
-      <option name="closed" value="true" />
-      <created>1762937325029</created>
-      <option name="number" value="00442" />
-      <option name="presentableId" value="LOCAL-00442" />
-      <option name="project" value="LOCAL" />
-      <updated>1762937325029</updated>
-    </task>
-    <task id="LOCAL-00443" summary="revert back to original">
-      <option name="closed" value="true" />
-      <created>1762937439627</created>
-      <option name="number" value="00443" />
-      <option name="presentableId" value="LOCAL-00443" />
-      <option name="project" value="LOCAL" />
-      <updated>1762937439629</updated>
-    </task>
-    <task id="LOCAL-00444" summary="creaated todo notes">
-      <option name="closed" value="true" />
-      <created>1762937860431</created>
-      <option name="number" value="00444" />
-      <option name="presentableId" value="LOCAL-00444" />
-      <option name="project" value="LOCAL" />
-      <updated>1762937860431</updated>
-    </task>
     <task id="LOCAL-00445" summary="creaated todo notes">
       <option name="closed" value="true" />
       <created>1762938032670</created>
@@ -625,7 +601,31 @@
       <option name="project" value="LOCAL" />
       <updated>1765270633011</updated>
     </task>
-    <option name="localTasksCounter" value="491" />
+    <task id="LOCAL-00491" summary="adjusted customer grouup margin">
+      <option name="closed" value="true" />
+      <created>1765329724025</created>
+      <option name="number" value="00491" />
+      <option name="presentableId" value="LOCAL-00491" />
+      <option name="project" value="LOCAL" />
+      <updated>1765329724025</updated>
+    </task>
+    <task id="LOCAL-00492" summary="adjusted formulation margin (entry)">
+      <option name="closed" value="true" />
+      <created>1765329924974</created>
+      <option name="number" value="00492" />
+      <option name="presentableId" value="LOCAL-00492" />
+      <option name="project" value="LOCAL" />
+      <updated>1765329924974</updated>
+    </task>
+    <task id="LOCAL-00493" summary="adjusted material comp margin (entry)">
+      <option name="closed" value="true" />
+      <created>1765330054176</created>
+      <option name="number" value="00493" />
+      <option name="presentableId" value="LOCAL-00493" />
+      <option name="project" value="LOCAL" />
+      <updated>1765330054176</updated>
+    </task>
+    <option name="localTasksCounter" value="494" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,9 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added calendar design on the prod date input" />
-    <MESSAGE value="added calendar design on audit trail start date" />
-    <MESSAGE value="added calendar design on audit trail end date" />
     <MESSAGE value="added loading in the export to excel" />
     <MESSAGE value="displayed send to email button" />
     <MESSAGE value="modifying temp file" />
@@ -682,7 +679,10 @@
     <MESSAGE value="adjust margins in production details" />
     <MESSAGE value="changed prod details stretch" />
     <MESSAGE value="changed audit trail message" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed audit trail message" />
+    <MESSAGE value="adjusted customer grouup margin" />
+    <MESSAGE value="adjusted formulation margin (entry)" />
+    <MESSAGE value="adjusted material comp margin (entry)" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted material comp margin (entry)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

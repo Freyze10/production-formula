@@ -552,7 +552,7 @@ class FormulationManagementPage(QWidget):
         color_card = QGroupBox("Information")
         color_layout = QFormLayout(color_card)
         color_layout.setSpacing(6)
-        color_layout.setContentsMargins(10, 18, 10, 12)
+        color_layout.setContentsMargins(10, 0, 10, 4)
 
         # HTML Color Code (hidden but functional)
         self.html_input = QLineEdit()
