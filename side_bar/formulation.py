@@ -969,6 +969,7 @@ class FormulationManagementPage(QWidget):
         self.yellow_input = QLineEdit()
         self.yellow_input.setStyleSheet("background-color: #fff9c4;")
         self.yellow_input.setText("")
+        cmyk_layout.addWidget(self.yellow_input, 1, 1)
 
         cmyk_layout.addWidget(QLabel("K:"), 1, 2)
         self.key_black_input = QLineEdit()
