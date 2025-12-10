@@ -957,6 +957,7 @@ class FormulationManagementPage(QWidget):
         self.cyan_input = QLineEdit()
         self.cyan_input.setStyleSheet("background-color: #fff9c4;")
         self.cyan_input.setText("")
+        cmyk_layout.addWidget(self.cyan_input, 0, 1)
 
         cmyk_layout.addWidget(QLabel("M:"), 0, 2)
         self.magenta_input = QLineEdit()
