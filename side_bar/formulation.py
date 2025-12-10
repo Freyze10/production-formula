@@ -943,8 +943,9 @@ class FormulationManagementPage(QWidget):
         self.html_input = QLineEdit()
         self.html_input.setPlaceholderText("#FFFFFF")
         self.html_input.setStyleSheet("background-color: #fff9c4;")
+        html_input_layout.addWidget(self.html_input)
 
-        # color_layout.addRow()
+        color_layout.addRow(html_input_layout)
 
         # CMYK Values in Grid (hidden but functional)
         cmyk_widget = QWidget()

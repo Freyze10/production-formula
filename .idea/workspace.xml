@@ -233,30 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00450" summary="added calendar design to date from">
-      <option name="closed" value="true" />
-      <created>1764989867388</created>
-      <option name="number" value="00450" />
-      <option name="presentableId" value="LOCAL-00450" />
-      <option name="project" value="LOCAL" />
-      <updated>1764989867388</updated>
-    </task>
-    <task id="LOCAL-00451" summary="added calendar design to date to">
-      <option name="closed" value="true" />
-      <created>1764989885725</created>
-      <option name="number" value="00451" />
-      <option name="presentableId" value="LOCAL-00451" />
-      <option name="project" value="LOCAL" />
-      <updated>1764989885725</updated>
-    </task>
-    <task id="LOCAL-00452" summary="updated calendar design">
-      <option name="closed" value="true" />
-      <created>1764990844344</created>
-      <option name="number" value="00452" />
-      <option name="presentableId" value="LOCAL-00452" />
-      <option name="project" value="LOCAL" />
-      <updated>1764990844344</updated>
-    </task>
     <task id="LOCAL-00453" summary="returned the calendar design">
       <option name="closed" value="true" />
       <created>1764990957749</created>
@@ -625,7 +601,31 @@
       <option name="project" value="LOCAL" />
       <updated>1765332168723</updated>
     </task>
-    <option name="localTasksCounter" value="499" />
+    <task id="LOCAL-00499" summary="set visibility">
+      <option name="closed" value="true" />
+      <created>1765335994451</created>
+      <option name="number" value="00499" />
+      <option name="presentableId" value="LOCAL-00499" />
+      <option name="project" value="LOCAL" />
+      <updated>1765335994451</updated>
+    </task>
+    <task id="LOCAL-00500" summary="cmyk added to layout">
+      <option name="closed" value="true" />
+      <created>1765336064823</created>
+      <option name="number" value="00500" />
+      <option name="presentableId" value="LOCAL-00500" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336064823</updated>
+    </task>
+    <task id="LOCAL-00501" summary="added layout for html">
+      <option name="closed" value="true" />
+      <created>1765336622916</created>
+      <option name="number" value="00501" />
+      <option name="presentableId" value="LOCAL-00501" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336622916</updated>
+    </task>
+    <option name="localTasksCounter" value="502" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,9 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added generate temp file" />
-    <MESSAGE value="addeed download" />
-    <MESSAGE value="updated send email" />
     <MESSAGE value="conected the btn to send email" />
     <MESSAGE value="updated params" />
     <MESSAGE value="added style in combo box" />
@@ -682,7 +679,10 @@
     <MESSAGE value="create a new tab for master" />
     <MESSAGE value="editing master tab" />
     <MESSAGE value="changed function name" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed function name" />
+    <MESSAGE value="set visibility" />
+    <MESSAGE value="cmyk added to layout" />
+    <MESSAGE value="added layout for html" />
+    <option name="LAST_COMMIT_MESSAGE" value="added layout for html" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
