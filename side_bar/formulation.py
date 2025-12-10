@@ -641,7 +641,7 @@ class FormulationManagementPage(QWidget):
 
         return tab
 
-    def master_entry_tab(self):
+    def create_master_entry_tab(self):
         """Create the formulation entry/edit tab optimized for 1280x720."""
         tab = QWidget()
         main_layout = QVBoxLayout(tab)
@@ -941,7 +941,6 @@ class FormulationManagementPage(QWidget):
         self.html_input = QLineEdit()
         self.html_input.setPlaceholderText("#FFFFFF")
         self.html_input.setStyleSheet("background-color: #fff9c4;")
-        self.html_input.setVisible(False)
 
         # CMYK Values in Grid (hidden but functional)
         cmyk_widget = QWidget()
@@ -968,8 +967,6 @@ class FormulationManagementPage(QWidget):
         self.key_black_input = QLineEdit()
         self.key_black_input.setStyleSheet("background-color: #fff9c4;")
         self.key_black_input.setText("")
-
-        cmyk_widget.setVisible(False)
 
         # Updated By and Date/Time
         self.updated_by_display = QLineEdit()

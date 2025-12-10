@@ -233,22 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00446" summary="added credentials to ignore">
-      <option name="closed" value="true" />
-      <created>1762938514702</created>
-      <option name="number" value="00446" />
-      <option name="presentableId" value="LOCAL-00446" />
-      <option name="project" value="LOCAL" />
-      <updated>1762938514702</updated>
-    </task>
-    <task id="LOCAL-00447" summary="edited requirements">
-      <option name="closed" value="true" />
-      <created>1763715050838</created>
-      <option name="number" value="00447" />
-      <option name="presentableId" value="LOCAL-00447" />
-      <option name="project" value="LOCAL" />
-      <updated>1763715050838</updated>
-    </task>
     <task id="LOCAL-00448" summary="edited requirements">
       <option name="closed" value="true" />
       <created>1763715508344</created>
@@ -625,7 +609,23 @@
       <option name="project" value="LOCAL" />
       <updated>1765330079868</updated>
     </task>
-    <option name="localTasksCounter" value="495" />
+    <task id="LOCAL-00495" summary="added new tab for master formula">
+      <option name="closed" value="true" />
+      <created>1765330904302</created>
+      <option name="number" value="00495" />
+      <option name="presentableId" value="LOCAL-00495" />
+      <option name="project" value="LOCAL" />
+      <updated>1765330904302</updated>
+    </task>
+    <task id="LOCAL-00496" summary="create a new tab for master">
+      <option name="closed" value="true" />
+      <created>1765331591320</created>
+      <option name="number" value="00496" />
+      <option name="presentableId" value="LOCAL-00496" />
+      <option name="project" value="LOCAL" />
+      <updated>1765331591320</updated>
+    </task>
+    <option name="localTasksCounter" value="497" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,8 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="displayed send to email button" />
-    <MESSAGE value="modifying temp file" />
     <MESSAGE value="added temp file ini" />
     <MESSAGE value="revert and modifying to lightly" />
     <MESSAGE value="added generate temp file" />
@@ -682,16 +680,13 @@
     <MESSAGE value="adjusted formulation margin (entry)" />
     <MESSAGE value="adjusted material comp margin (entry)" />
     <MESSAGE value="adjusted color info margin (entry)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted color info margin (entry)" />
+    <MESSAGE value="added new tab for master formula" />
+    <MESSAGE value="create a new tab for master" />
+    <option name="LAST_COMMIT_MESSAGE" value="create a new tab for master" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>763</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/production_manual_entry.py</url>
           <line>846</line>
@@ -706,6 +701,11 @@
           <url>file://$PROJECT_DIR$/side_bar/production.py</url>
           <line>1244</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
+          <line>105</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
