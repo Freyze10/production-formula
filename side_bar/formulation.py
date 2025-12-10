@@ -938,10 +938,13 @@ class FormulationManagementPage(QWidget):
         color_layout.setContentsMargins(10, 0, 10, 4)
 
         # HTML Color Code (hidden but functional)
+        html_input_layout = QHBoxLayout()
+        html_input_layout.addWidget(QLabel("HTML:"))
         self.html_input = QLineEdit()
         self.html_input.setPlaceholderText("#FFFFFF")
         self.html_input.setStyleSheet("background-color: #fff9c4;")
-        self.html_input.setVisible(False)
+
+        # color_layout.addRow()
 
         # CMYK Values in Grid (hidden but functional)
         cmyk_widget = QWidget()
