@@ -92,6 +92,11 @@ class FormulationManagementPage(QWidget):
         self.tab_widget.addTab(self.entry_tab, "Formulation Entry")
         self.tab_widget.currentChanged.connect(self.sync_for_entry)
 
+        # Tab 3: Colorr Matching Entry (Master Formula)
+        self.master_entry_tab = self.create_master_entry_tab()
+        self.tab_widget.addTab(self.master_entry_tab, "Color Matching")
+        self.tab_widget.currentChanged.connect(self.sync_for_entry)
+
         main_layout.addWidget(self.tab_widget)
 
     def user_access(self, user_role):

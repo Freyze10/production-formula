@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00445" summary="creaated todo notes">
-      <option name="closed" value="true" />
-      <created>1762938032670</created>
-      <option name="number" value="00445" />
-      <option name="presentableId" value="LOCAL-00445" />
-      <option name="project" value="LOCAL" />
-      <updated>1762938032670</updated>
-    </task>
     <task id="LOCAL-00446" summary="added credentials to ignore">
       <option name="closed" value="true" />
       <created>1762938514702</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765330054176</updated>
     </task>
-    <option name="localTasksCounter" value="494" />
+    <task id="LOCAL-00494" summary="adjusted color info margin (entry)">
+      <option name="closed" value="true" />
+      <created>1765330079868</created>
+      <option name="number" value="00494" />
+      <option name="presentableId" value="LOCAL-00494" />
+      <option name="project" value="LOCAL" />
+      <updated>1765330079868</updated>
+    </task>
+    <option name="localTasksCounter" value="495" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added loading in the export to excel" />
     <MESSAGE value="displayed send to email button" />
     <MESSAGE value="modifying temp file" />
     <MESSAGE value="added temp file ini" />
@@ -682,14 +681,15 @@
     <MESSAGE value="adjusted customer grouup margin" />
     <MESSAGE value="adjusted formulation margin (entry)" />
     <MESSAGE value="adjusted material comp margin (entry)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted material comp margin (entry)" />
+    <MESSAGE value="adjusted color info margin (entry)" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjusted color info margin (entry)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>758</line>
+          <line>763</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
