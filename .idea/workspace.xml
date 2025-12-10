@@ -233,46 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00453" summary="returned the calendar design">
-      <option name="closed" value="true" />
-      <created>1764990957749</created>
-      <option name="number" value="00453" />
-      <option name="presentableId" value="LOCAL-00453" />
-      <option name="project" value="LOCAL" />
-      <updated>1764990957749</updated>
-    </task>
-    <task id="LOCAL-00454" summary="modifying calendar inpuut design">
-      <option name="closed" value="true" />
-      <created>1764991459145</created>
-      <option name="number" value="00454" />
-      <option name="presentableId" value="LOCAL-00454" />
-      <option name="project" value="LOCAL" />
-      <updated>1764991459145</updated>
-    </task>
-    <task id="LOCAL-00455" summary="fixed min width typo">
-      <option name="closed" value="true" />
-      <created>1764991468885</created>
-      <option name="number" value="00455" />
-      <option name="presentableId" value="LOCAL-00455" />
-      <option name="project" value="LOCAL" />
-      <updated>1764991468885</updated>
-    </task>
-    <task id="LOCAL-00456" summary="removed  min-width">
-      <option name="closed" value="true" />
-      <created>1764991537408</created>
-      <option name="number" value="00456" />
-      <option name="presentableId" value="LOCAL-00456" />
-      <option name="project" value="LOCAL" />
-      <updated>1764991537408</updated>
-    </task>
-    <task id="LOCAL-00457" summary="added min width for the calendar spinbox">
-      <option name="closed" value="true" />
-      <created>1764992414327</created>
-      <option name="number" value="00457" />
-      <option name="presentableId" value="LOCAL-00457" />
-      <option name="project" value="LOCAL" />
-      <updated>1764992414327</updated>
-    </task>
     <task id="LOCAL-00458" summary="set 40 px on the year spinbox">
       <option name="closed" value="true" />
       <created>1764992438809</created>
@@ -625,7 +585,47 @@
       <option name="project" value="LOCAL" />
       <updated>1765336622916</updated>
     </task>
-    <option name="localTasksCounter" value="502" />
+    <task id="LOCAL-00502" summary="added layout for html">
+      <option name="closed" value="true" />
+      <created>1765336684904</created>
+      <option name="number" value="00502" />
+      <option name="presentableId" value="LOCAL-00502" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336684904</updated>
+    </task>
+    <task id="LOCAL-00503" summary="added cyan input in cmyk">
+      <option name="closed" value="true" />
+      <created>1765336717063</created>
+      <option name="number" value="00503" />
+      <option name="presentableId" value="LOCAL-00503" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336717063</updated>
+    </task>
+    <task id="LOCAL-00504" summary="added magenta input in cmyk">
+      <option name="closed" value="true" />
+      <created>1765336737101</created>
+      <option name="number" value="00504" />
+      <option name="presentableId" value="LOCAL-00504" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336737101</updated>
+    </task>
+    <task id="LOCAL-00505" summary="added yellow input in cmyk">
+      <option name="closed" value="true" />
+      <created>1765336750876</created>
+      <option name="number" value="00505" />
+      <option name="presentableId" value="LOCAL-00505" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336750876</updated>
+    </task>
+    <task id="LOCAL-00506" summary="added keyblack input in cmyk">
+      <option name="closed" value="true" />
+      <created>1765336775625</created>
+      <option name="number" value="00506" />
+      <option name="presentableId" value="LOCAL-00506" />
+      <option name="project" value="LOCAL" />
+      <updated>1765336775625</updated>
+    </task>
+    <option name="localTasksCounter" value="507" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,10 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="conected the btn to send email" />
-    <MESSAGE value="updated params" />
-    <MESSAGE value="added style in combo box" />
-    <MESSAGE value="updating width of tabled when export" />
     <MESSAGE value="updating width" />
     <MESSAGE value="changed width of table" />
     <MESSAGE value="adjust margins in formulation records" />
@@ -682,7 +678,11 @@
     <MESSAGE value="set visibility" />
     <MESSAGE value="cmyk added to layout" />
     <MESSAGE value="added layout for html" />
-    <option name="LAST_COMMIT_MESSAGE" value="added layout for html" />
+    <MESSAGE value="added cyan input in cmyk" />
+    <MESSAGE value="added magenta input in cmyk" />
+    <MESSAGE value="added yellow input in cmyk" />
+    <MESSAGE value="added keyblack input in cmyk" />
+    <option name="LAST_COMMIT_MESSAGE" value="added keyblack input in cmyk" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -704,8 +704,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
-          <line>105</line>
+          <line>107</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
+          <line>1320</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/side_bar/formulation.py</url>
+          <line>1367</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

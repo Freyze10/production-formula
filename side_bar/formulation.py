@@ -20,6 +20,8 @@ from utils.loading import StaticLoadingDialog
 from utils.work_station import _get_workstation_info
 from utils import global_var, calendar_design
 
+from utils.formula_entry_func import add_material_row
+
 
 # Custom QTableWidgetItem for numerical sorting
 class NumericTableWidgetItem(QTableWidgetItem):
@@ -483,7 +485,7 @@ class FormulationManagementPage(QWidget):
         conc_input_layout.addWidget(QLabel("Concentration:"))
         self.concentration_input = QLineEdit()
         self.concentration_input.setPlaceholderText("0.000000")
-        self.concentration_input.returnPressed.connect(self.add_material_row)
+        self.concentration_input.returnPressed.connect(lambda: add_material_row(self))
         conc_input_layout.addWidget(self.concentration_input)
         material_layout.addLayout(conc_input_layout)
 
@@ -503,7 +505,7 @@ class FormulationManagementPage(QWidget):
 
         self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
         self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
-        self.add_material_btn.clicked.connect(self.add_material_row)
+        self.add_material_btn.clicked.connect(lambda: add_material_row(self))
         btn_layout.addWidget(self.add_material_btn)
 
         self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
@@ -861,7 +863,7 @@ class FormulationManagementPage(QWidget):
         conc_input_layout.addWidget(QLabel("Concentration:"))
         self.concentration_input = QLineEdit()
         self.concentration_input.setPlaceholderText("0.000000")
-        self.concentration_input.returnPressed.connect(self.add_material_row)
+        self.concentration_input.returnPressed.connect(lambda: add_material_row(self))
         conc_input_layout.addWidget(self.concentration_input)
         material_layout.addLayout(conc_input_layout)
 
@@ -881,7 +883,7 @@ class FormulationManagementPage(QWidget):
 
         self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
         self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
-        self.add_material_btn.clicked.connect(self.add_material_row)
+        self.add_material_btn.clicked.connect(lambda: add_material_row(self))
         btn_layout.addWidget(self.add_material_btn)
 
         self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
@@ -1318,37 +1320,37 @@ class FormulationManagementPage(QWidget):
         for field in fields:
             field.setEnabled(enable)
 
-    def add_material_row(self):
-        """Add a new material row to the table."""
-        material_code = self.material_code_input.currentText()
-        if not material_code:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a material code.")
-            return
-
-        concentration_text = self.concentration_input.text().strip()
-        try:
-            concentration = float(concentration_text)
-            if concentration <= 0:
-                raise ValueError
-        except ValueError:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a valid concentration.")
-            return
-
-        rm_code = QTableWidgetItem(material_code)
-        concentration_value = NumericTableWidgetItem(concentration, is_float=True)
-        rm_code.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-        concentration_value.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        row = self.materials_table.rowCount()
-        self.materials_table.insertRow(row)
-        self.materials_table.setItem(row, 0, rm_code)
-        self.materials_table.setItem(row, 1, concentration_value)
-
-        self.concentration_input.clear()
-        self.material_code_input.lineEdit().setText("")
-        self.material_code_input.setFocus()
-        self.update_total_concentration()
-
+    # def add_material_row(self):
+    #     """Add a new material row to the table."""
+    #     material_code = self.material_code_input.currentText()
+    #     if not material_code:
+    #         QMessageBox.warning(self, "Invalid Input", "Please enter a material code.")
+    #         return
+    #
+    #     concentration_text = self.concentration_input.text().strip()
+    #     try:
+    #         concentration = float(concentration_text)
+    #         if concentration <= 0:
+    #             raise ValueError
+    #     except ValueError:
+    #         QMessageBox.warning(self, "Invalid Input", "Please enter a valid concentration.")
+    #         return
+    #
+    #     rm_code = QTableWidgetItem(material_code)
+    #     concentration_value = NumericTableWidgetItem(concentration, is_float=True)
+    #     rm_code.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+    #     concentration_value.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+    #
+    #     row = self.materials_table.rowCount()
+    #     self.materials_table.insertRow(row)
+    #     self.materials_table.setItem(row, 0, rm_code)
+    #     self.materials_table.setItem(row, 1, concentration_value)
+    #
+    #     self.concentration_input.clear()
+    #     self.material_code_input.lineEdit().setText("")
+    #     self.material_code_input.setFocus()
+    #     self.update_total_concentration()
+    #
     def remove_material_row(self):
         """Remove the selected material row."""
         current_row = self.materials_table.currentRow()
