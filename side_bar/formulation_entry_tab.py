@@ -20,8 +20,8 @@ except ImportError:
 
 
 class FormulationEntry(QWidget):
-    def __init__(self, parent=None, work_station=None):
-        super().__init__(parent)
+    def __init__(self, work_station=None):
+        super().__init__()
         self.work_station = work_station or {"u": "USER"}  # Default fallback
         self.setup_ui()
 
@@ -315,96 +315,7 @@ class FormulationEntry(QWidget):
 
         main_layout.addLayout(button_layout)
 
-    # ====================== Helper Methods ======================
-    def format_to_float(self, line_edit):
-        try:
-            value = float(line_edit.text().replace(",", ""))
-            line_edit.setText(f"{value:.6f}")
-        except ValueError:
-            line_edit.setText("0.000000")
 
-    def format_mixing_time(self):
-        text = self.mixing_time_input.text().strip().upper()
-        if not text.endswith("MIN."):
-            text = text.split()[0] + " MIN."
-        self.mixing_time_input.setText(text)
-
-    def enter_like_tab(self):
-        view = self.material_code_input.view()
-        if view.isVisible():
-            idx = view.currentIndex()
-            if idx.isValid():
-                self.material_code_input.setCurrentIndex(idx.row())
-            view.close()
-        # Simulate Tab
-        event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_Tab, Qt.KeyboardModifier.NoModifier)
-        QApplication.postEvent(self.material_code_input, event)
-
-    def validate_matched_by(self):
-        text = self.matched_by_input.currentText().strip().upper()
-        if text not in self.matched_by_items:
-            self.matched_by_input.addItem(text)
-            self.matched_by_items.append(text)
-
-    def validate_rm_code(self):
-        text = self.material_code_input.currentText().strip()
-        if text and text not in [self.material_code_input.itemText(i) for i in range(self.material_code_input.count())]:
-            self.material_code_input.addItem(text)
-
-    def add_material_row(self):
-        code = self.material_code_input.currentText().strip()
-        conc = self.concentration_input.text().strip()
-        if not code or not conc:
-            return
-        try:
-            float(conc)
-        except ValueError:
-            return
-
-        row = self.materials_table.rowCount()
-        self.materials_table.insertRow(row)
-        self.materials_table.setItem(row, 0, QTableWidgetItem(code))
-        self.materials_table.setItem(row, 1, QTableWidgetItem(conc))
-
-        self.concentration_input.clear()
-        self.update_total_concentration()
-
-    def remove_material_row(self):
-        rows = sorted(set(index.row() for index in self.materials_table.selectedIndexes()), reverse=True)
-        for row in rows:
-            self.materials_table.removeRow(row)
-        self.update_total_concentration()
-
-    def clear_materials(self):
-        self.materials_table.setRowCount(0)
-        self.update_total_concentration()
-
-    def update_total_concentration(self):
-        total = 0.0
-        for row in range(self.materials_table.rowCount()):
-            try:
-                total += float(self.materials_table.item(row, 1).text())
-            except:
-                pass
-        self.total_concentration_label.setText(f"Total Concentration: {total:.6f}")
-
-    def run_rm_warehouse_sync(self):
-        print("Syncing RM codes from warehouse...")
-        # Your sync logic here
-
-    def sync_for_entry(self, mode=1):
-        print("New entry mode")
-        # Clear form logic
-
-    def save_formulation(self):
-        print("Saving formulation...")
-        # Your save logic
-
-    def preview_formulation(self):
-        pass
-
-    def generate_pdf(self):
-        pass
 
 
 # ====================== Test Runner ======================
