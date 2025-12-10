@@ -233,14 +233,6 @@
       <option name="presentableId" value="Default" />
       <updated>1753941304600</updated>
     </task>
-    <task id="LOCAL-00448" summary="edited requirements">
-      <option name="closed" value="true" />
-      <created>1763715508344</created>
-      <option name="number" value="00448" />
-      <option name="presentableId" value="LOCAL-00448" />
-      <option name="project" value="LOCAL" />
-      <updated>1763715508344</updated>
-    </task>
     <task id="LOCAL-00449" summary="adding send to email">
       <option name="closed" value="true" />
       <created>1763715524342</created>
@@ -625,7 +617,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765331591320</updated>
     </task>
-    <option name="localTasksCounter" value="497" />
+    <task id="LOCAL-00497" summary="editing master tab">
+      <option name="closed" value="true" />
+      <created>1765331890250</created>
+      <option name="number" value="00497" />
+      <option name="presentableId" value="LOCAL-00497" />
+      <option name="project" value="LOCAL" />
+      <updated>1765331890250</updated>
+    </task>
+    <option name="localTasksCounter" value="498" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -657,7 +657,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added temp file ini" />
     <MESSAGE value="revert and modifying to lightly" />
     <MESSAGE value="added generate temp file" />
     <MESSAGE value="addeed download" />
@@ -682,7 +681,8 @@
     <MESSAGE value="adjusted color info margin (entry)" />
     <MESSAGE value="added new tab for master formula" />
     <MESSAGE value="create a new tab for master" />
-    <option name="LAST_COMMIT_MESSAGE" value="create a new tab for master" />
+    <MESSAGE value="editing master tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="editing master tab" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
