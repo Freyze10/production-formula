@@ -389,7 +389,7 @@ class FormulationManagementPage(QWidget):
         # Material Composition Card
         material_card = QGroupBox("Material Composition")
         material_layout = QVBoxLayout(material_card)
-        material_layout.setContentsMargins(10, 18, 10, 12)
+        material_layout.setContentsMargins(10, 0, 10, 4)
         material_layout.setSpacing(8)
 
         # Matched By and Material
