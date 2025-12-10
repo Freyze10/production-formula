@@ -641,6 +641,384 @@ class FormulationManagementPage(QWidget):
 
         return tab
 
+    def master_entry_tab(self):
+        """Create the formulation entry/edit tab optimized for 1280x720."""
+        tab = QWidget()
+        main_layout = QVBoxLayout(tab)
+        main_layout.setContentsMargins(10, 10, 10, 5)
+        main_layout.setSpacing(5)
+
+        # Scroll area for the form
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
+
+        scroll_widget = QWidget()
+        scroll_layout = QHBoxLayout(scroll_widget)
+        scroll_layout.setSpacing(12)
+
+        # Left Column
+        left_column = QVBoxLayout()
+        left_column.setSpacing(8)
+
+        # Customer and Primary ID Info Card
+        customer_card = QGroupBox("Customer and Primary ID Info")
+        customer_card.setSizePolicy(customer_card.sizePolicy().horizontalPolicy(),
+                                    customer_card.sizePolicy().Expanding)
+        customer_layout = QFormLayout(customer_card)
+        customer_layout.setSpacing(6)
+        customer_layout.setContentsMargins(10, 0, 10, 4)
+
+        # Formulation ID
+        self.formulation_id_input = QLineEdit()
+        self.formulation_id_input.setPlaceholderText("Auto-generated")
+        self.formulation_id_input.setStyleSheet("background-color: #fff9c4;")
+        customer_layout.addRow("Formulation ID:", self.formulation_id_input)
+        self.formulation_id_input.setReadOnly(True)
+
+        # Customer Name
+        self.customer_input = QLineEdit()
+        self.customer_input.setPlaceholderText("Enter customer name")
+        self.customer_input.setStyleSheet("background-color: #fff9c4;")
+        customer_layout.addRow("Customer:", self.customer_input)
+
+        left_column.addWidget(customer_card)
+
+        # Formulation Info Card
+        formula_card = QGroupBox("Formulation Info")
+        formula_card.setSizePolicy(formula_card.sizePolicy().horizontalPolicy(),
+                                   formula_card.sizePolicy().Expanding)
+        formula_layout = QFormLayout(formula_card)
+        formula_layout.setSpacing(6)
+        formula_layout.setContentsMargins(10, 0, 10, 4)
+
+        # Index Ref No
+        self.index_ref_input = QLineEdit()
+        self.index_ref_input.setPlaceholderText("-")
+        formula_layout.addRow("Index Ref. No.:", self.index_ref_input)
+
+        # Product Code and Color (side by side)
+        product_layout = QHBoxLayout()
+        product_layout.setSpacing(8)
+        self.product_code_input = QLineEdit()
+        self.product_code_input.setPlaceholderText("Product code")
+        self.product_code_input.setStyleSheet("background-color: #fff9c4;")
+        self.product_color_input = QLineEdit()
+        self.product_color_input.setPlaceholderText("Product color")
+        self.product_color_input.setStyleSheet("background-color: #fff9c4;")
+        product_layout.addWidget(QLabel("Code:"))
+        product_layout.addWidget(self.product_code_input)
+        product_layout.addWidget(QLabel("Color:"))
+        product_layout.addWidget(self.product_color_input)
+        formula_layout.addRow("Product:", product_layout)
+
+        # Sum of Concentration
+        self.sum_conc_input = QLineEdit()
+        self.sum_conc_input.setStyleSheet("background-color: #fff9c4;")
+        self.sum_conc_input.focusOutEvent = lambda event: format_to_float(self, event, self.sum_conc_input)
+        formula_layout.addRow("Sum of Concentration:", self.sum_conc_input)
+
+        # Dosage
+        self.dosage_input = QLineEdit()
+        self.dosage_input.setStyleSheet("background-color: #fff9c4;")
+        self.dosage_input.focusOutEvent = lambda event: format_to_float(self, event, self.dosage_input)
+        formula_layout.addRow("Dosage:", self.dosage_input)
+
+        # Mixing Time
+        self.mixing_time_input = QLineEdit("5 MIN.")
+        self.mixing_time_input.focusOutEvent = lambda event: formula_mixing_time(event, self.mixing_time_input)
+        formula_layout.addRow("Mixing Time:", self.mixing_time_input)
+
+        # Resin Used
+        self.resin_used_input = QLineEdit()
+        self.resin_used_input.setPlaceholderText("Enter resin type")
+        formula_layout.addRow("Resin Used:", self.resin_used_input)
+
+        # Application No
+        self.application_no_input = QLineEdit()
+        self.application_no_input.setPlaceholderText("Application number")
+        formula_layout.addRow("Application No.:", self.application_no_input)
+
+        # Matching No
+        self.matching_no_input = QLineEdit()
+        self.matching_no_input.setPlaceholderText("Matching number")
+        formula_layout.addRow("Matching No.:", self.matching_no_input)
+
+        # Date Matched
+        self.date_matched_input = QDateEdit()
+        self.date_matched_input.setCalendarPopup(True)
+        self.date_matched_input.setStyleSheet(calendar_design.STYLESHEET)
+        self.date_matched_input.setDisplayFormat("MM/dd/yyyy")
+        formula_layout.addRow("Date Matched:", self.date_matched_input)
+
+        # Notes
+        self.notes_input = QTextEdit()
+        self.notes_input.setMaximumHeight(50)
+        self.notes_input.setPlaceholderText("Enter any additional notes...")
+        formula_layout.addRow("Notes:", self.notes_input)
+
+        # MB or DC
+        self.mb_dc_combo = QComboBox()
+        self.mb_dc_combo.addItems(["MB", "DC"])
+
+        left_column.addWidget(formula_card, stretch=1)
+
+        scroll_layout.addLayout(left_column, stretch=1)
+
+        # Right Column
+        right_column = QVBoxLayout()
+        right_column.setSpacing(8)
+
+        # Material Composition Card
+        material_card = QGroupBox("Material Composition")
+        material_layout = QVBoxLayout(material_card)
+        material_layout.setContentsMargins(10, 0, 10, 4)
+        material_layout.setSpacing(8)
+
+        # Matched By and Material
+        matched_by_layout = QHBoxLayout()
+        matched_by_label = QLabel("Matched by:")
+        matched_by_layout.addWidget(matched_by_label)
+
+        self.matched_by_items = ["ANNA", "ERNIE", "JINKY", "ESA"]
+        self.matched_by_input = QComboBox()
+        self.matched_by_input.addItems(self.matched_by_items)
+        self.matched_by_input.setEditable(True)
+        self.matched_by_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.matched_by_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+        matched_by_model = self.matched_by_items
+        matched_by_completer = QCompleter(matched_by_model, self.matched_by_input)
+        matched_by_completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+        matched_by_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.matched_by_input.setCompleter(matched_by_completer)
+
+        self.matched_by_input.editTextChanged.connect(lambda: None)
+        self.matched_by_input.lineEdit().editingFinished.connect(self.validate_matched_by)
+
+        matched_by_layout.addWidget(self.matched_by_input, stretch=2)
+
+        # Material Code
+        material_label = QLabel("Material Code:")
+        matched_by_layout.addWidget(material_label)
+
+        self.material_code_input = QComboBox()
+        self.material_code_input.setEditable(True)
+        self.material_code_input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.material_code_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+        self.material_code_input.lineEdit().editingFinished.connect(self.validate_rm_code)
+        # Move to next tab when Enter is pressed
+        def enter_like_tab():
+            # 1. If dropdown is open and item highlighted → select it
+            view = self.material_code_input.view()
+            if view.isVisible():
+                idx = view.currentIndex()
+                if idx.isValid():
+                    self.material_code_input.setCurrentIndex(idx.row())
+                view.close()
+
+            # 2. Simulate real Tab key
+            tab_event = QKeyEvent(QKeyEvent.Type.KeyPress, Qt.Key.Key_Tab, Qt.KeyboardModifier.NoModifier)
+            QApplication.postEvent(self.material_code_input, tab_event)
+
+        self.material_code_input.lineEdit().returnPressed.connect(enter_like_tab)
+        matched_by_layout.addWidget(self.material_code_input)
+
+        def add_dropdown_arrow(combo: QComboBox):
+            combo.setStyleSheet("""
+                QComboBox {
+                    padding-right: 22px;
+                    min-height: 20px;
+                }
+                QComboBox::drop-down {
+                    subcontrol-origin: padding;
+                    subcontrol-position: top right;
+                    width: 20px;
+                    border-left: 1px solid #ccc;
+                }
+                QComboBox::down-arrow {
+                    width: 0; height: 0;
+                    border-left: 5px solid white;
+                    border-right: 5px solid white;
+                    border-top: 7px solid #555;
+                }
+            """)
+
+        add_dropdown_arrow(self.matched_by_input)
+        add_dropdown_arrow(self.material_code_input)
+
+        # Sync Button
+        self.rm_code_sync_button = QPushButton("Sync RM Code", objectName="SecondaryButton")
+        self.rm_code_sync_button.clicked.connect(self.run_rm_warehouse_sync)
+        self.rm_code_sync_button.setFocusPolicy(Qt.NoFocus)
+        matched_by_layout.addWidget(self.rm_code_sync_button)
+
+        material_layout.addLayout(matched_by_layout)
+
+        # Concentration Input
+        conc_input_layout = QHBoxLayout()
+        conc_input_layout.addWidget(QLabel("Concentration:"))
+        self.concentration_input = QLineEdit()
+        self.concentration_input.setPlaceholderText("0.000000")
+        self.concentration_input.returnPressed.connect(self.add_material_row)
+        conc_input_layout.addWidget(self.concentration_input)
+        material_layout.addLayout(conc_input_layout)
+
+        # Encoded By
+        encoded_layout = QHBoxLayout()
+        encoded_layout.addWidget(QLabel("Encoded by:"))
+        self.encoded_by_display = QLineEdit()
+        self.encoded_by_display.setReadOnly(True)
+        self.encoded_by_display.setText(self.work_station['u'])
+        self.encoded_by_display.setStyleSheet("background-color: #e9ecef;")
+        encoded_layout.addWidget(self.encoded_by_display)
+        material_layout.addLayout(encoded_layout)
+
+        # Action Buttons
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+
+        self.add_material_btn = QPushButton("Add", objectName="SuccessButton")
+        self.add_material_btn.setIcon(fa.icon('fa5s.plus', color='white'))
+        self.add_material_btn.clicked.connect(self.add_material_row)
+        btn_layout.addWidget(self.add_material_btn)
+
+        self.remove_material_btn = QPushButton("Remove", objectName="DangerButton")
+        self.remove_material_btn.setIcon(fa.icon('fa5s.minus', color='white'))
+        self.remove_material_btn.clicked.connect(self.remove_material_row)
+        btn_layout.addWidget(self.remove_material_btn)
+
+        self.clear_materials_btn = QPushButton("Clear", objectName="InfoButton")
+        self.clear_materials_btn.setIcon(fa.icon('fa5s.trash', color='white'))
+        self.clear_materials_btn.clicked.connect(self.clear_materials)
+        btn_layout.addWidget(self.clear_materials_btn)
+
+        material_layout.addLayout(btn_layout)
+
+        # Materials Table
+        self.materials_table = QTableWidget()
+        self.materials_table.setColumnCount(2)
+        self.materials_table.setHorizontalHeaderLabels(["Material Code", "Concentration"])
+        self.materials_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.materials_table.verticalHeader().setVisible(False)
+        self.materials_table.setAlternatingRowColors(True)
+        self.materials_table.setMinimumHeight(120)
+        material_layout.addWidget(self.materials_table)
+
+        # Total concentration display
+        total_layout = QHBoxLayout()
+
+        # Date Entry
+        date_entry_label = QLabel("Date Entry:")
+        date_entry_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
+        total_layout.addWidget(date_entry_label)
+
+        self.date_entry_display = QLineEdit()
+        self.date_entry_display.setReadOnly(True)
+        self.date_entry_display.setText(datetime.now().strftime("%m/%d/%Y"))
+        self.date_entry_display.setStyleSheet("background-color: #e9ecef;")
+        self.date_entry_display.setMaximumWidth(120)
+        total_layout.addWidget(self.date_entry_display)
+
+        total_layout.addStretch()
+
+        self.total_concentration_label = QLabel("Total Concentration: 0.000000")
+        self.total_concentration_label.setFont(QFont("Segoe UI", 9, QFont.Weight.Bold))
+        self.total_concentration_label.setStyleSheet("color: #0078d4;")
+        total_layout.addWidget(self.total_concentration_label)
+        material_layout.addLayout(total_layout)
+
+        right_column.addWidget(material_card)
+
+        # Color Information Card
+        color_card = QGroupBox("Information")
+        color_layout = QFormLayout(color_card)
+        color_layout.setSpacing(6)
+        color_layout.setContentsMargins(10, 0, 10, 4)
+
+        # HTML Color Code (hidden but functional)
+        self.html_input = QLineEdit()
+        self.html_input.setPlaceholderText("#FFFFFF")
+        self.html_input.setStyleSheet("background-color: #fff9c4;")
+        self.html_input.setVisible(False)
+
+        # CMYK Values in Grid (hidden but functional)
+        cmyk_widget = QWidget()
+        cmyk_layout = QGridLayout(cmyk_widget)
+        cmyk_layout.setSpacing(6)
+        cmyk_layout.setContentsMargins(0, 0, 0, 0)
+
+        cmyk_layout.addWidget(QLabel("C:"), 0, 0)
+        self.cyan_input = QLineEdit()
+        self.cyan_input.setStyleSheet("background-color: #fff9c4;")
+        self.cyan_input.setText("")
+
+        cmyk_layout.addWidget(QLabel("M:"), 0, 2)
+        self.magenta_input = QLineEdit()
+        self.magenta_input.setStyleSheet("background-color: #fff9c4;")
+        self.magenta_input.setText("")
+
+        cmyk_layout.addWidget(QLabel("Y:"), 1, 0)
+        self.yellow_input = QLineEdit()
+        self.yellow_input.setStyleSheet("background-color: #fff9c4;")
+        self.yellow_input.setText("")
+
+        cmyk_layout.addWidget(QLabel("K:"), 1, 2)
+        self.key_black_input = QLineEdit()
+        self.key_black_input.setStyleSheet("background-color: #fff9c4;")
+        self.key_black_input.setText("")
+
+        cmyk_widget.setVisible(False)
+
+        # Updated By and Date/Time
+        self.updated_by_display = QLineEdit()
+        self.updated_by_display.setReadOnly(True)
+        self.updated_by_display.setText(self.work_station['u'])
+        self.updated_by_display.setStyleSheet("background-color: #e9ecef;")
+        color_layout.addRow("Updated By:", self.updated_by_display)
+
+        self.date_time_display = QLineEdit()
+        self.date_time_display.setReadOnly(True)
+        self.date_time_display.setText(datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
+        self.date_time_display.setStyleSheet("background-color: #e9ecef;")
+        color_layout.addRow("Date and Time:", self.date_time_display)
+
+        right_column.addWidget(color_card)
+
+        scroll_layout.addLayout(right_column, stretch=1)
+
+        scroll.setWidget(scroll_widget)
+        main_layout.addWidget(scroll)
+
+        # Bottom Action Buttons
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+
+        preview_btn = QPushButton("Preview", objectName="InfoButton")
+        preview_btn.setIcon(fa.icon('fa5s.eye', color='white'))
+        preview_btn.clicked.connect(self.preview_formulation)
+        # button_layout.addWidget(preview_btn)
+
+        pdf_btn = QPushButton("Generate PDF", objectName="SecondaryButton")
+        pdf_btn.setIcon(fa.icon('fa5s.file-pdf', color='white'))
+        pdf_btn.clicked.connect(self.generate_pdf)
+        # button_layout.addWidget(pdf_btn)
+
+        new_btn = QPushButton("New", objectName="PrimaryButton")
+        new_btn.setIcon(fa.icon('fa5s.file', color='white'))
+        new_btn.clicked.connect(lambda: self.sync_for_entry(1))
+        button_layout.addWidget(new_btn)
+
+        self.save_btn = QPushButton("Save", objectName="SuccessButton")
+        self.save_btn.setIcon(fa.icon('fa5s.save', color='white'))
+        self.save_btn.clicked.connect(self.save_formulation)
+        button_layout.addWidget(self.save_btn)
+
+        main_layout.addLayout(button_layout)
+
+        return tab
+
     def setup_rm_code_completer(self):
         """Setup the completer for RM codes using cached data."""
         self.material_code_input.clear()
